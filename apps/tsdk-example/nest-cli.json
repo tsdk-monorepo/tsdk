@@ -1,0 +1,37 @@
+{
+  "collection": "@nestjs/schematics",
+  "monorepo": true,
+  "root": "./",
+  "sourceRoot": "src",
+  "entryFile": "main",
+  "compilerOptions": {
+    "webpack": false,
+    "tsConfigPath": "tsconfig.json"
+  },
+  "projects": {
+    "nestjs-todo": {
+      "type": "application",
+      "root": "src/modules/nestjs-todo",
+      "sourceRoot": "src/modules/nestjs-todo",
+      "entryFile": "modules/nestjs-todo/main"
+    },
+    "fastify-todo": {
+      "type": "application",
+      "root": "src/modules/fastify-todo",
+      "sourceRoot": "src/modules/fastify-todo",
+      "entryFile": "modules/fastify-todo/main"
+    },
+    "express-todo": {
+      "type": "application",
+      "root": "src/modules/express-todo",
+      "sourceRoot": "src/modules/express-todo",
+      "entryFile": "modules/express-todo/main"
+    },
+    "ws-todo": {
+      "type": "application",
+      "root": "src/modules/ws-todo",
+      "sourceRoot": "src/modules/ws-todo",
+      "entryFile": "modules/ws-todo/main"
+    }
+  }
+}

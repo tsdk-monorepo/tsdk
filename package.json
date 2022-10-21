@@ -1,0 +1,36 @@
+{
+  "private": true,
+  "name": "tsdk-monorepo",
+  "packageManager": "pnpm@7.13.2",
+  "scripts": {
+    "lint": "turbo lint",
+    "test": "turbo test",
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "start-prepare": "chmod +x ./node_modules/.bin/husky && husky install"
+  },
+  "devDependencies": {
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "turbo": "^1.5.6",
+    "typescript": "^4.8.3"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "@babel/*",
+        "expo-modules-*",
+        "typescript"
+      ]
+    }
+  },
+  "prettier": {
+    "printWidth": 100,
+    "tabWidth": 2,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,css,md}": "prettier --write"
+  }
+}

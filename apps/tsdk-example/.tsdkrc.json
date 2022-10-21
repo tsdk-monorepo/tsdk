@@ -1,0 +1,11 @@
+{
+  "packageDir": "packages/",
+  "packageName": "@suhaotian/fe-sdk-example",
+  "baseDir": "./src",
+  "entityLibName": "typeorm",
+  "entityExt": "entity",
+  "apiconfExt": "apiconf",
+  "sharedDirs": ["./src/shared", "./src/i18n"],
+  "sdkWhiteList": [""]
+}
+

@@ -1,0 +1,25 @@
+{
+  "name": "@suhaotian/fe-sdk-example",
+  "publishConfig": {
+    "@suhaotian:registry": "https://npm.pkg.github.com"
+  },
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc --project tsconfig.json",
+    "build:doc": "echo todo"
+  },
+  "dependencies": {
+    "zod": "^3.19.1",
+    "axios": "^0.27.2",
+    "socket.io-client": "^4.5.3",
+    "change-case": "^4.1.2"
+  },
+  "devDependencies": {
+    "typedoc": "^0.23.15",
+    "typescript": "4.8.4"
+  },
+  "files": [
+    "lib"
+  ]
+}

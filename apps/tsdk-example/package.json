@@ -1,0 +1,52 @@
+{
+  "private": "true",
+  "name": "tsdk-example",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "node ../lib/cli --nest build all",
+    "example": "node dist-projects/dist-nestjs-todo/main && npm run test",
+    "start": "nest start",
+    "start:dev": "nest start --watch",
+    "start:debug": "nest start --debug --watch",
+    "start:prod": "node dist/main",
+    "sync-sdk": "npx tsdk --sync",
+    "test": "cross-env NODE_ENV=test TS_CONFIG_PATHS=true ts-mocha -p tsconfig.json src/**/*.test.ts"
+  },
+  "dependencies": {
+    "@nestjs/common": "^9.1.4",
+    "@nestjs/core": "^9.1.4",
+    "@nestjs/platform-express": "^9.1.4",
+    "axios": "^0.27.2",
+    "better-sqlite3": "^7.6.2",
+    "bufferutil": "^4.0.6",
+    "change-case": "^4.1.2",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "eventemitter3": "^4.0.7",
+    "express": "^4.18.2",
+    "fastify": "^4.8.1",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^7.5.7",
+    "socket.io": "^4.5.3",
+    "socket.io-client": "^4.5.3",
+    "typeorm": "^0.3.10",
+    "typeorm-cursor-pagination": "^0.9.1",
+    "utf-8-validate": "^5.0.9",
+    "ws": "^8.9.0",
+    "zod": "^3.19.1"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^9.1.4",
+    "@types/eventemitter3": "^2.0.2",
+    "@types/expect": "^24.3.0",
+    "@types/express": "^4.17.14",
+    "@types/mocha": "^10.0.0",
+    "@types/node": "^18.11.0",
+    "@types/ws": "^8.5.3",
+    "mocha": "^10.0.0",
+    "ts-mocha": "^10.0.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.8.4"
+  },
+  "license": "MIT"
+}
