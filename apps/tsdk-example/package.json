@@ -4,18 +4,16 @@
   "version": "1.0.0",
   "scripts": {
     "build": "cross-env MONOREPO_ROOT=../../ node ./node_modules/tsdk/bin/tsdk.js --nest build all",
-    "example": "node dist-projects/dist-nestjs-todo/main && npm run test",
+    "example": "cross-env IS_TEST=true node dist-projects/dist-express-todo/main && npm run test",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "sync-sdk": "npx tsdk --sync",
+    "sync": "node ./node_modules/tsdk/bin/tsdk.js --sync",
     "test": "cross-env NODE_ENV=test TS_CONFIG_PATHS=true ts-mocha -p tsconfig.json src/**/*.test.ts"
   },
   "dependencies": {
-    "@nestjs/common": "^9.1.4",
-    "@nestjs/core": "^9.1.4",
-    "@nestjs/platform-express": "^9.1.4",
     "axios": "^0.27.2",
     "better-sqlite3": "^7.6.2",
     "bufferutil": "^4.0.6",

@@ -93,5 +93,9 @@ const port = 3012;
 
   server.listen(port, () => {
     console.log(`express serve listening at ${port}`);
+
+    if (process.env.IS_TEST) {
+      server.close();
+    }
   });
 })();

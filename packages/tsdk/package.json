@@ -5,7 +5,7 @@
     "tsdk": "bin/tsdk.js"
   },
   "scripts": {
-    "start": "npm run build-tsdk && cd example && npm install && node ../lib/cli --sync && npm run build && npm run example",
+    "start": "npm run build-tsdk && npx pnpm --filter tsdk-example sync && npx pnpm --filter tsdk-example build && npx pnpm --filter tsdk-example example",
     "start-publish": "npm run build-tsdk && npm publish --registry=https://registry.npmjs.org",
     "build-tsdk": "rm -rf lib && tsc --project tsconfig.json",
     "start-website": "cd website && yarn && npm run start",
