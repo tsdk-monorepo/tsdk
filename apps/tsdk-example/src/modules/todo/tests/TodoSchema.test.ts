@@ -1,210 +1,206 @@
-import expect from "expect";
-import { IDSchema } from "/src/shared/utils";
-import {
-  addTodoSchema,
-  updateTodoSchema,
-  deleteTodoSchema,
-} from "../apiconf/TodoSchema.apiconf";
-import { TodoStatus } from "../Todo.entity";
+import { expect } from 'chai';
+import { IDSchema } from '/src/shared/utils';
+import { addTodoSchema, updateTodoSchema, deleteTodoSchema } from '../apiconf/TodoSchema.apiconf';
+import { TodoStatus } from '../Todo.entity';
 
-describe("TodoSchema tests", () => {
-  describe("IDSchema tests", () => {
-    it("`IDSchema.parse(1)` should be ok", () => {
+describe('TodoSchema tests', () => {
+  describe('IDSchema tests', () => {
+    it('`IDSchema.parse(1)` should be ok', () => {
       const id = IDSchema.parse(1);
-      expect(id).toBe(1);
+      expect(id).to.equal(1);
     });
 
-    it("`IDSchema.parse(0)` should throwError", () => {
-      expect(() => IDSchema.parse(0)).toThrowError();
+    it('`IDSchema.parse(0)` should throwError', () => {
+      expect(() => IDSchema.parse(0)).to.throw();
     });
 
-    it("`IDSchema.parse(-99)` should throwError", () => {
-      expect(() => IDSchema.parse(-99)).toThrowError();
+    it('`IDSchema.parse(-99)` should throwError', () => {
+      expect(() => IDSchema.parse(-99)).to.throw();
     });
   });
 
-  describe("addTodoSchema tests", () => {
-    it("addTodoSchema parse correct data should ok", () => {
+  describe('addTodoSchema tests', () => {
+    it('addTodoSchema parse correct data should ok', () => {
       const result = addTodoSchema.parse({
-        title: "todo",
+        title: 'todo',
         status: TodoStatus.todo,
-        remark: "hi",
+        remark: 'hi',
       });
 
-      expect(result.title).toBe("todo");
-      expect(result.status).toBe(TodoStatus.todo);
-      expect(result.remark).toBe("hi");
+      expect(result.title).to.equal('todo');
+      expect(result.status).to.equal(TodoStatus.todo);
+      expect(result.remark).to.equal('hi');
     });
 
-    it("addTodoSchema parse without remark should ok", () => {
+    it('addTodoSchema parse without remark should ok', () => {
       const result = addTodoSchema.parse({
-        title: "todo",
+        title: 'todo',
         status: TodoStatus.todo,
       });
 
-      expect(result.title).toBe("todo");
-      expect(result.status).toBe(TodoStatus.todo);
-      expect(result.remark).toBeUndefined();
+      expect(result.title).to.equal('todo');
+      expect(result.status).to.equal(TodoStatus.todo);
+      expect(result.remark).to.equal(undefined);
     });
 
-    it("addTodoSchema parse should throwError with title/remark is number", () => {
+    it('addTodoSchema parse should throwError with title/remark is number', () => {
       expect(() =>
         addTodoSchema.parse({
           title: 1,
           status: TodoStatus.todo,
-          remark: "hi",
+          remark: 'hi',
         })
-      ).toThrowError();
+      ).to.Throw();
     });
 
-    it("addTodoSchema should throwError without status", () => {
+    it('addTodoSchema should throwError without status', () => {
       expect(() =>
         addTodoSchema.parse({
-          title: "todo",
-          remark: "hi",
+          title: 'todo',
+          remark: 'hi',
         })
-      ).toThrowError();
+      ).to.Throw();
     });
   });
 
-  describe("updateTodoSchema tests", () => {
-    it("updateTodoSchema parse correct full data should ok", () => {
+  describe('updateTodoSchema tests', () => {
+    it('updateTodoSchema parse correct full data should ok', () => {
       const result = updateTodoSchema.parse({
         id: 1,
-        title: "todo",
+        title: 'todo',
         status: TodoStatus.todo,
-        remark: "hi",
+        remark: 'hi',
       });
 
-      expect(result.id).toBe(1);
-      expect(result.title).toBe("todo");
-      expect(result.status).toBe(TodoStatus.todo);
-      expect(result.remark).toBe("hi");
+      expect(result.id).to.equal(1);
+      expect(result.title).to.equal('todo');
+      expect(result.status).to.equal(TodoStatus.todo);
+      expect(result.remark).to.equal('hi');
     });
 
-    it("updateTodoSchema parse correct `title` data should ok", () => {
+    it('updateTodoSchema parse correct `title` data should ok', () => {
       const result = updateTodoSchema.parse({
         id: 1,
-        title: "todo",
+        title: 'todo',
       });
 
-      expect(result.id).toBe(1);
-      expect(result.title).toBe("todo");
+      expect(result.id).to.equal(1);
+      expect(result.title).to.equal('todo');
     });
 
-    it("updateTodoSchema parse correct `remark` data should ok", () => {
+    it('updateTodoSchema parse correct `remark` data should ok', () => {
       const result = updateTodoSchema.parse({
         id: 1,
         status: TodoStatus.todo,
       });
 
-      expect(result.id).toBe(1);
-      expect(result.status).toBe(TodoStatus.todo);
+      expect(result.id).to.equal(1);
+      expect(result.status).to.equal(TodoStatus.todo);
 
       const result2 = updateTodoSchema.parse({
         id: 1,
-        remark: "hi",
+        remark: 'hi',
       });
 
-      expect(result2.id).toBe(1);
-      expect(result2.remark).toBe("hi");
+      expect(result2.id).to.equal(1);
+      expect(result2.remark).to.equal('hi');
 
       const result3 = updateTodoSchema.parse({
-        id: "1",
-        remark: "hi",
+        id: '1',
+        remark: 'hi',
       });
 
-      expect(result3.id).toBe(1);
-      expect(result3.remark).toBe("hi");
+      expect(result3.id).to.equal(1);
+      expect(result3.remark).to.equal('hi');
     });
 
-    it("updateTodoSchema parse without `id` should throwError", () => {
+    it('updateTodoSchema parse without `id` should throwError', () => {
       expect(() =>
         updateTodoSchema.parse({
-          title: "todo",
+          title: 'todo',
         })
-      ).toThrowError();
+      ).to.Throw();
     });
 
-    it("updateTodoSchema parse with negative `id` should throwError", () => {
+    it('updateTodoSchema parse with negative `id` should throwError', () => {
       expect(() =>
         updateTodoSchema.parse({
           id: 0,
-          title: "todo",
+          title: 'todo',
         })
-      ).toThrowError();
+      ).to.Throw();
     });
   });
 
-  describe("deleteTodoSchema tests", () => {
-    it("deleteTodoSchema parse correct data should ok", () => {
+  describe('deleteTodoSchema tests', () => {
+    it('deleteTodoSchema parse correct data should ok', () => {
       const result = deleteTodoSchema.parse({
         id: 1,
       });
 
       // @todo fix zod wrong type
-      expect((result as { id: number }).id).toBe(1);
+      expect((result as { id: number }).id).to.equal(1);
 
       expect(
         (
           deleteTodoSchema.parse({
-            id: "1",
+            id: '1',
           }) as { id: number }
         ).id
-      ).toBe(1);
+      ).to.equal(1);
 
       const result2 = deleteTodoSchema.parse({
         IDs: [1, 2, 3],
       });
 
-      expect((result2 as { IDs: number[] }).IDs.length).toBe(3);
+      expect((result2 as { IDs: number[] }).IDs.length).to.equal(3);
 
       const result3 = deleteTodoSchema.parse({
-        IDs: ["1", "2", "3"],
+        IDs: ['1', '2', '3'],
       });
 
-      expect((result3 as { IDs: number[] }).IDs.length).toBe(3);
-      expect((result3 as { IDs: number[] }).IDs[0]).toBe(1);
-      expect((result3 as { IDs: number[] }).IDs[1]).toBe(2);
-      expect((result3 as { IDs: number[] }).IDs[2]).toBe(3);
+      expect((result3 as { IDs: number[] }).IDs.length).to.equal(3);
+      expect((result3 as { IDs: number[] }).IDs[0]).to.equal(1);
+      expect((result3 as { IDs: number[] }).IDs[1]).to.equal(2);
+      expect((result3 as { IDs: number[] }).IDs[2]).to.equal(3);
     });
 
-    it("deleteTodoSchema parse should throwError with negative value", () => {
+    it('deleteTodoSchema parse should throwError with negative value', () => {
       expect(() =>
         deleteTodoSchema.parse({
           id: 0,
         })
-      ).toThrowError();
+      ).to.Throw();
 
       expect(() =>
         deleteTodoSchema.parse({
           id: -1,
         })
-      ).toThrowError();
+      ).to.Throw();
 
       expect(() =>
         deleteTodoSchema.parse({
-          id: "-1",
+          id: '-1',
         })
-      ).toThrowError();
+      ).to.Throw();
 
       expect(() =>
         deleteTodoSchema.parse({
           IDs: [0],
         })
-      ).toThrowError();
+      ).to.Throw();
 
       expect(() =>
         deleteTodoSchema.parse({
           IDs: [-1],
         })
-      ).toThrowError();
+      ).to.Throw();
 
       expect(() =>
         deleteTodoSchema.parse({
-          IDs: ["-1"],
+          IDs: ['-1'],
         })
-      ).toThrowError();
+      ).to.Throw();
     });
   });
 });

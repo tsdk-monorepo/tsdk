@@ -1,8 +1,8 @@
-import * as assert from "assert";
-import expect from "expect";
-import { sum } from "/src/shared/utils";
+import * as assert from 'assert';
+import { expect } from 'chai';
+import { sum } from '/src/shared/utils';
 
-describe("hooks", function () {
+describe('hooks', function () {
   before(function () {
     // runs once before the first test in this block
   });
@@ -21,15 +21,15 @@ describe("hooks", function () {
   // test cases
 });
 
-before("before", function before() {
-  console.log("process.env.NODE_ENV", process.env.NODE_ENV);
+before('before', function before() {
+  console.log('process.env.NODE_ENV', process.env.NODE_ENV);
 });
 
-describe("Running TypeScript tests in ts-node runtime without compilation", () => {
-  describe("baseline app module", function () {
-    it("should return the same value that was passed", () => {
+describe('Running TypeScript tests in ts-node runtime without compilation', () => {
+  describe('baseline app module', function () {
+    it('should return the same value that was passed', () => {
       assert.equal(sum(1, 2), 3);
-      expect(sum(1, 1)).toBe(2);
+      expect(sum(1, 1)).to.equal(2);
     });
   });
 });

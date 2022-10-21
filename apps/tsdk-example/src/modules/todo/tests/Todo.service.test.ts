@@ -1,7 +1,7 @@
-import expect from "expect";
-import { appDataSource } from "/src/db";
-import { todoService } from "../Todo.service";
-import { TodoStatus } from "../Todo.entity";
+import { expect } from 'chai';
+import { appDataSource } from '/src/db';
+import { todoService } from '../Todo.service';
+import { TodoStatus } from '../Todo.entity';
 
 before(() => {
   return appDataSource.initialize();
@@ -11,17 +11,17 @@ after(() => {
   return appDataSource.destroy();
 });
 
-describe("appDataSource setup", () => {
-  it("`appDataSource.isInitialized` should be true", () => {
-    expect(appDataSource.isInitialized).toBe(true);
+describe('appDataSource setup', () => {
+  it('`appDataSource.isInitialized` should be true', () => {
+    expect(appDataSource.isInitialized).to.equal(true);
   });
 });
 
-describe("Todo.service test", () => {
-  before("create 100 todos", () => {
+describe('Todo.service test', () => {
+  before('create 100 todos', () => {
     return Promise.all(
       Array(100)
-        .fill("todo")
+        .fill('todo')
         .map((i, idx) =>
           todoService.createTodo({
             title: `${i}-${idx}`,
@@ -30,29 +30,29 @@ describe("Todo.service test", () => {
         )
     );
   });
-  after("delete todos", async () => {
+  after('delete todos', async () => {
     const { data } = await todoService.queryTodo({});
     return Promise.all(data.map((i) => todoService.deleteTodo({ id: i.id } as any)));
   });
 
-  describe("todoService.createTodo and todoService.deleteTo", () => {
-    it("todoService.queryTodo should success", async () => {
-      expect((await todoService.queryTodo({})).data.length).toBe(100);
+  describe('todoService.createTodo and todoService.deleteTo', () => {
+    it('todoService.queryTodo should success', async () => {
+      expect((await todoService.queryTodo({})).data.length).to.equal(100);
     });
 
-    it("todoService.deleteTodo with `id` param should success", async () => {
+    it('todoService.deleteTodo with `id` param should success', async () => {
       await todoService.deleteTodo({ id: 1 } as any);
-      expect((await todoService.queryTodo({})).data.length).toBe(99);
+      expect((await todoService.queryTodo({})).data.length).to.equal(99);
     });
 
-    it("todoService.deleteTodo with `IDs` param should success", async () => {
+    it('todoService.deleteTodo with `IDs` param should success', async () => {
       await todoService.deleteTodo({ IDs: [2, 3] } as any);
-      expect((await todoService.queryTodo({})).data.length).toBe(97);
+      expect((await todoService.queryTodo({})).data.length).to.equal(97);
     });
   });
 
-  describe("todoService.queryTodo", () => {
-    it("queryTodo paginate should success", async () => {
+  describe('todoService.queryTodo', () => {
+    it('queryTodo paginate should success', async () => {
       expect(
         (
           await todoService.queryTodo({
@@ -60,84 +60,84 @@ describe("Todo.service test", () => {
             page: 1,
           })
         ).data.length
-      ).toBe(20);
+      ).to.equal(20);
     });
 
-    it("queryTodo with keyword `todo` should success", async () => {
+    it('queryTodo with keyword `todo` should success', async () => {
       expect(
         (
           await todoService.queryTodo({
-            keyword: "todo",
+            keyword: 'todo',
           })
         ).data.length
-      ).toBe(97);
+      ).to.equal(97);
     });
 
-    it("queryTodo with keyword `11` should success", async () => {
+    it('queryTodo with keyword `11` should success', async () => {
       expect(
         (
           await todoService.queryTodo({
-            keyword: "11",
+            keyword: '11',
           })
         ).data.length
-      ).toBe(1);
+      ).to.equal(1);
     });
   });
 
-  describe("todoService.queryTodoByCursor", () => {
-    it("queryTodoByCursor with keyword `todo` should success", async () => {
+  describe('todoService.queryTodoByCursor', () => {
+    it('queryTodoByCursor with keyword `todo` should success', async () => {
       const result = await todoService.queryTodoByCursor({
-        keyword: "todo",
+        keyword: 'todo',
       });
-      expect(result.data.length).toBe(97);
+      expect(result.data.length).to.equal(97);
     });
 
-    it("queryTodoByCursor with keyword `11` should success", async () => {
+    it('queryTodoByCursor with keyword `11` should success', async () => {
       expect(
         (
           await todoService.queryTodoByCursor({
-            keyword: "99",
+            keyword: '99',
           })
         ).data.length
-      ).toBe(1);
+      ).to.equal(1);
     });
 
-    it("queryTodoByCursor `perPage` 20 paginate should success", async () => {
+    it('queryTodoByCursor `perPage` 20 paginate should success', async () => {
       expect(
         (
           await todoService.queryTodoByCursor({
             perPage: 20,
           })
         ).data.length
-      ).toBe(20);
+      ).to.equal(20);
     });
 
-    it("queryTodoByCursor paginate `perPage` 10 should success", async () => {
+    it('queryTodoByCursor paginate `perPage` 10 should success', async () => {
       expect(
         (
           await todoService.queryTodoByCursor({
             perPage: 10,
           })
         ).data.length
-      ).toBe(10);
+      ).to.equal(10);
     });
 
-    it("queryTodoByCursor paginate `beforeCursor` and `afterCursor`", async () => {
+    it('queryTodoByCursor paginate `beforeCursor` and `afterCursor`', async () => {
       const result = await todoService.queryTodoByCursor({
         perPage: 1,
       });
 
-      expect(result.beforeCursor).toBeNull();
-      expect(typeof result.afterCursor).toBe("string");
-      expect(result.data.length).toBe(1);
+      expect(result.beforeCursor).to.equal(null);
+      expect(typeof result.afterCursor).to.equal('string');
+      expect(result.data.length).to.equal(1);
 
       const result2 = await todoService.queryTodoByCursor({
         perPage: 2,
         afterCursor: result.afterCursor,
       });
 
-      expect(result2.data.length).toBe(2);
-      expect(result2.beforeCursor).not.toBe(result.afterCursor);
+      expect(result2.data.length).to.equal(2);
+      expect(result2.beforeCursor).not.to.equal(result.afterCursor);
 
       const result3 = await todoService.queryTodoByCursor({
         beforeCursor: result2.afterCursor,
@@ -152,9 +152,9 @@ describe("Todo.service test", () => {
         result3.afterCursor
       );
 
-      expect(result3.beforeCursor).toBeNull();
+      expect(result3.beforeCursor).to.equal(null);
 
-      expect(result3.data.length).toBe(3 - 1);
+      expect(result3.data.length).to.equal(3 - 1);
     });
   });
 });
