@@ -7,7 +7,7 @@
     "test": "turbo test",
     "build": "turbo build",
     "dev": "turbo dev",
-    "start-prepare": "chmod +x ./node_modules/.bin/husky && husky install"
+    "start-prepare": "chmod +x ./node_modules/.bin/husky && chmod +x ./node_modules/.bin/cross-env && husky install"
   },
   "devDependencies": {
     "husky": "^8.0.1",
