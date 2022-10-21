@@ -3,7 +3,7 @@
   "name": "tsdk-example",
   "version": "1.0.0",
   "scripts": {
-    "build": "node ../lib/cli --nest build all",
+    "build": "cross-env MONOREPO_ROOT=../../ node ./node_modules/tsdk/bin/tsdk.js --nest build all",
     "example": "node dist-projects/dist-nestjs-todo/main && npm run test",
     "start": "nest start",
     "start:dev": "nest start --watch",
@@ -46,7 +46,8 @@
     "mocha": "^10.0.0",
     "ts-mocha": "^10.0.0",
     "ts-node": "^10.9.1",
-    "typescript": "^4.8.4"
+    "typescript": "^4.8.4",
+    "tsdk": "*"
   },
   "license": "MIT"
 }

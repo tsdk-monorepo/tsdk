@@ -9,12 +9,6 @@
     "tsConfigPath": "tsconfig.json"
   },
   "projects": {
-    "nestjs-todo": {
-      "type": "application",
-      "root": "src/modules/nestjs-todo",
-      "sourceRoot": "src/modules/nestjs-todo",
-      "entryFile": "modules/nestjs-todo/main"
-    },
     "fastify-todo": {
       "type": "application",
       "root": "src/modules/fastify-todo",

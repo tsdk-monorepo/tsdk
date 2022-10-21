@@ -175,7 +175,11 @@ type NestProjectsConfig = {
 };
 
 async function getNestProjectsConfig() {
-  const nestjsFilepath = path.resolve(process.cwd(), 'node_modules/@nestjs/cli/package.json');
+  const nestjsFilepath = path.resolve(
+    process.cwd(),
+    process.env.MONOREPO_ROOT || './',
+    'node_modules/@nestjs/cli/package.json'
+  );
   const nestjsFilepathExists = await fsExtra.pathExists(nestjsFilepath);
   if (!nestjsFilepathExists) {
     throw new Error(`install \`@nestjs/cli\` first`);
