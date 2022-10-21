@@ -83,7 +83,7 @@ const defaultPackagePrefix = `${defaultPackageScope}:registry`;
 
 async function reconfigPkg() {
   // rename package name
-  const pkgPath = path.join(process.cwd(), config.packageDir, packageFolder, 'package.json');
+  const pkgPath = path.resolve(process.cwd(), config.packageDir, packageFolder, 'package.json');
   const content = await fsExtra.readFile(pkgPath, 'utf-8');
   const pkgContent = JSON.parse(content);
   pkgContent.name = config.packageName;
@@ -127,14 +127,14 @@ export async function copySDK() {
     await copyTsdkrc();
   }
 
-  const existPath = path.join(process.cwd(), config.packageDir, packageFolder, `package.json`);
+  const existPath = path.resolve(process.cwd(), config.packageDir, packageFolder, `package.json`);
   const isExist = await fsExtra.pathExists(existPath);
 
   if (isExist) {
     await reconfigPkg();
     console.log(
       symbols.info,
-      `skip init sdk: \`${path.join(
+      `skip init sdk: \`${path.resolve(
         process.cwd(),
         config.packageDir,
         packageFolder
@@ -147,7 +147,7 @@ export async function copySDK() {
   console.log(symbols.success, `mkdir -p ${ensureDir}`);
   await fsExtra.copy(
     path.join(__dirname, '../fe-sdk-template'),
-    path.join(process.cwd(), config.packageDir, packageFolder),
+    path.resolve(process.cwd(), config.packageDir, packageFolder),
     { overwrite: false }
   );
 
