@@ -1,0 +1,12 @@
+node_modules
+lib
+# packages
+dist
+yarn.lock
+.DS_Store
+fe-sdk-example
+dist
+build
+package-lock.json
+dist-*
+build-*

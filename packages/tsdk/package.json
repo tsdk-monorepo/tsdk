@@ -1,0 +1,50 @@
+{
+  "name": "tsdk",
+  "version": "0.0.19-alpha.6",
+  "bin": {
+    "tsdk": "bin/tsdk.js"
+  },
+  "scripts": {
+    "start": "npm run build-tsdk && cd example && npm install && node ../lib/cli --sync && npm run build && npm run example",
+    "start-publish": "npm run build-tsdk && npm publish --registry=https://registry.npmjs.org",
+    "build-tsdk": "rm -rf lib && tsc --project tsconfig.json",
+    "start-website": "cd website && yarn && npm run start",
+    "build-website": "cd website && yarn && npm run build",
+    "test": "echo tests"
+  },
+  "files": [
+    "bin/*",
+    "lib/*",
+    "fe-sdk-template/*",
+    "README.md"
+  ],
+  "keywords": [
+    "TypeScript",
+    "typing",
+    "code",
+    "share",
+    "APIs",
+    "typeorm",
+    "zod",
+    "express",
+    "fastify",
+    "nest",
+    "openAPI",
+    "doc",
+    "@nestjs/cli"
+  ],
+  "dependencies": {
+    "chalk": "4.1.2",
+    "fast-glob": "^3.2.12",
+    "fs-extra": "^10.1.0"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^9.0.13",
+    "@types/node": "^18.7.16",
+    "@types/webpack-node-externals": "^2.5.3",
+    "typescript": "4.8.4",
+    "webpack": "^5.74.0",
+    "webpack-node-externals": "^3.0.0"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,44 @@
+{
+  "apiconfig import": {
+    "scope": "typescript",
+    "prefix": "apii",
+    "body": [
+      "import { z } from 'zod';",
+      "import { transformPath, APIConfig, ObjectLiteral } from '/src/shared/tsdk-helper';"
+    ],
+    "description": "api config import snippet"
+  },
+  "apiconf": {
+    "scope": "typescript",
+    "prefix": "apic",
+    "body": [
+      "",
+      "/**",
+      " * ${1:description} ({@link APIConfig})",
+      " * @category ${3:Category}",
+      " */",
+      "export const ${2:ApiName}Config: APIConfig = {",
+      "  type: '${4:user}',",
+      "  name: '${2:ApiName}',",
+      "  method: '${5|get,post,delete,put,patch,head,options|}',",
+      "  path: transformPath('${2:ApiName}'),",
+      "  description: '${1:description}',",
+      "  category: '${3:Category}'",
+      "};",
+      "/**",
+      " *",
+      " * @category ${3:Category}",
+      " */",
+      "export type ${2:ApiName}Req = ${8:{\\}};",
+      "",
+      "/**",
+      " *",
+      " * @category ${3:Category}",
+      " */",
+      "export type ${2:ApiName}Res = ${9:{\\}};",
+      "// --------- ${2:ApiName} END ---------",
+      ""
+    ],
+    "description": "apic onfig snippet"
+  }
+}

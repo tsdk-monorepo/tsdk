@@ -1,0 +1,11 @@
+{
+  "packageDir": "packages/",
+  "packageName": "@SCOPE-NAME/fe-sdk",
+  "baseDir": "./src",
+  "entityLibName": "typeorm",
+  "entityExt": "entity",
+  "apiconfExt": "apiconf",
+  "swr": true,
+  "sharedDirs": ["./src/shared"],
+  "sdkWhiteList": [""]
+}
