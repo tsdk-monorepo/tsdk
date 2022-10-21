@@ -1,29 +1,27 @@
-import * as chalk from "chalk";
+import chalk from 'chalk';
 /* c8 ignore next 4 */
 const isSupported =
-  process.platform !== "win32" ||
-  process.env.CI ||
-  process.env.TERM === "xterm-256color";
+  process.platform !== 'win32' || process.env.CI || process.env.TERM === 'xterm-256color';
 
-const folder = "└─";
-const space = " ";
+const folder = '└─';
+const space = ' ';
 
 const main = {
-  info: chalk.blue("ℹ"),
-  success: chalk.green("✔"),
-  warning: chalk.yellow("⚠"),
-  error: chalk.red("✖"),
-  bullet: "●",
+  info: chalk.blue('ℹ'),
+  success: chalk.green('✔'),
+  warning: chalk.yellow('⚠'),
+  error: chalk.red('✖'),
+  bullet: '●',
   folder,
   space,
 };
 
 const fallbacks = {
-  info: chalk.blue("i"),
-  success: chalk.green("√"),
-  warning: chalk.yellow("‼"),
-  error: chalk.red("×"),
-  bullet: "*",
+  info: chalk.blue('i'),
+  success: chalk.green('√'),
+  warning: chalk.yellow('‼'),
+  error: chalk.red('×'),
+  bullet: '*',
   folder,
   space,
 };

@@ -1,5 +1,5 @@
-import * as path from 'path';
-import * as fsExtra from 'fs-extra';
+import path from 'path';
+import fsExtra from 'fs-extra';
 import { execSync } from 'child_process';
 import symbols from './symbols';
 
@@ -10,16 +10,10 @@ export async function runNestCommand() {
   // if (command === 'start' || command === 'build') {
   if (command === 'build') {
     // copy `tsdk/lib/nest-webpack.js` to `process.cwd()+/node_modules/nest-webpack.js`
-    const webpackDistFile = path.resolve(
-      process.cwd(),
-      'node_modules',
-      'nest-webpack.js'
-    );
-    await fsExtra.copy(
-      path.resolve(__dirname, '../lib/nest-webpack.js'),
-      webpackDistFile,
-      { overwrite: true }
-    );
+    const webpackDistFile = path.resolve(process.cwd(), 'node_modules', 'nest-webpack.js');
+    await fsExtra.copy(path.resolve(__dirname, '../lib/nest-webpack.js'), webpackDistFile, {
+      overwrite: true,
+    });
 
     const names = process.argv.filter((i, index) => index > idx + 1);
 
@@ -27,9 +21,6 @@ export async function runNestCommand() {
       stdio: 'inherit',
     });
   } else {
-    console.log(
-      symbols.warning,
-      `\`tsdk --nest\` currently only support \`build\` command.`
-    );
+    console.log(symbols.warning, `\`tsdk --nest\` currently only support \`build\` command.`);
   }
 }

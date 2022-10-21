@@ -1,5 +1,5 @@
-import * as path from 'path';
-import * as fsExtra from 'fs-extra';
+import path from 'path';
+import fsExtra from 'fs-extra';
 import { aliasToRelativePath } from './alias';
 import { transformTypeormEntity } from './transform-typeorm-entity';
 import { config, ensureDir, getDeps, tsconfig } from './config';
@@ -12,9 +12,7 @@ export function processImportPath(_importString: string, _filePath: string) {
   const filename = arr.pop();
   const filePath = arr.join('/');
   const isDoubleSemicolon = importString.indexOf('from "') > -1;
-  const matched = importString.match(
-    isDoubleSemicolon ? /from "(.*)";/ : /from '(.*)';/
-  );
+  const matched = importString.match(isDoubleSemicolon ? /from "(.*)";/ : /from '(.*)';/);
   if (matched) {
     // path alias check and replace path
     let fromPath = aliasToRelativePath({
@@ -71,10 +69,7 @@ export function processImportPath(_importString: string, _filePath: string) {
 }
 
 /** parse import alias path and transform */
-export async function transformImportPath(
-  filePath: string,
-  isEntity?: boolean
-) {
+export async function transformImportPath(filePath: string, isEntity?: boolean) {
   let res = await fsExtra.readFile(filePath, 'utf-8');
 
   if (isEntity) {

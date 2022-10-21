@@ -1,13 +1,10 @@
-import * as fsExtra from 'fs-extra';
-import * as path from 'path';
+import fsExtra from 'fs-extra';
+import path from 'path';
 import { config, ensureDir } from './config';
 import { formatTS } from './format';
 import symbols from './symbols';
 
-const baseDir = path.join(
-  path.relative(path.dirname(__filename), process.cwd()),
-  ensureDir
-);
+const baseDir = path.join(path.relative(path.dirname(__filename), process.cwd()), ensureDir);
 
 export async function syncAPI() {
   console.log(symbols.bullet, 'generating APIs');
@@ -15,9 +12,7 @@ export async function syncAPI() {
   const pkgJSON = require(path.join(baseDir, 'package.json'));
   const apiconfs = require(path.join(baseDir, `lib/${config.apiconfExt}-refs`));
 
-  const types = [
-    ...new Set(Object.keys(apiconfs).map((k) => apiconfs[k].type)),
-  ].filter((i) => !!i);
+  const types = [...new Set(Object.keys(apiconfs).map((k) => apiconfs[k].type))].filter((i) => !!i);
 
   if (!types.includes('common')) {
     types.push('common');
@@ -44,19 +39,11 @@ export async function syncAPI() {
       return (item.type === 'common' || !item.type) && item.name;
     });
 
-    let exportStr =
-      apiType === 'common' || !hasCommon
-        ? ``
-        : `\nexport * from './common-api';\n`;
+    let exportStr = apiType === 'common' || !hasCommon ? `` : `\nexport * from './common-api';\n`;
 
     let hasContentCount = 0;
     Object.keys(apiconfs).forEach((k, idx) => {
-      const {
-        name,
-        description,
-        type: _type,
-        category = 'others',
-      } = apiconfs[k];
+      const { name, description, type: _type, category = 'others' } = apiconfs[k];
       const type = _type === 'common' || !_type ? 'common' : _type;
       if (type === apiType && name) {
         importStr += `
@@ -90,10 +77,7 @@ export async function syncAPI() {
       ${bodyStr}
     `;
 
-      fsExtra.writeFileSync(
-        path.join(ensureDir, `src/${apiType}-api.ts`),
-        formatTS(content)
-      );
+      fsExtra.writeFileSync(path.join(ensureDir, `src/${apiType}-api.ts`), formatTS(content));
     }
   });
 

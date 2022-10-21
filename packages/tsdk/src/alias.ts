@@ -1,4 +1,4 @@
-import * as path from "path";
+import path from 'path';
 
 export interface AliasToRelativePathOptions {
   filePath: string;
@@ -20,8 +20,8 @@ export function aliasToRelativePath({
     // );
   }
 
-  if (config.baseUrl === undefined || config.baseUrl === ".") {
-    config.baseUrl = "./";
+  if (config.baseUrl === undefined || config.baseUrl === '.') {
+    config.baseUrl = './';
   }
 
   const { baseUrl, paths } = config;
@@ -31,8 +31,8 @@ export function aliasToRelativePath({
     /* istanbul ignore else  */
     if (paths.hasOwnProperty(alias)) {
       let resolved = alias;
-      if (alias.endsWith("/*")) {
-        resolved = alias.replace("/*", "/");
+      if (alias.endsWith('/*')) {
+        resolved = alias.replace('/*', '/');
       }
 
       aliases[resolved] = paths[alias];
@@ -43,7 +43,7 @@ export function aliasToRelativePath({
   let idx = -1;
   for (const line of imports) {
     idx++;
-    let resolved = "";
+    let resolved = '';
     for (const alias in aliases) {
       /* istanbul ignore else  */
       if (aliases.hasOwnProperty(alias) && line.startsWith(alias)) {
@@ -51,8 +51,8 @@ export function aliasToRelativePath({
 
         if (choices !== undefined) {
           resolved = choices[0];
-          if (resolved.endsWith("/*")) {
-            resolved = resolved.replace("/*", "/");
+          if (resolved.endsWith('/*')) {
+            resolved = resolved.replace('/*', '/');
           }
 
           resolved = line.replace(alias, resolved);
@@ -69,20 +69,17 @@ export function aliasToRelativePath({
       continue;
     }
 
-    const base = path.join(
-      cwd as string,
-      path.relative(cwd as string, baseUrl || "./")
-    );
+    const base = path.join(cwd as string, path.relative(cwd as string, baseUrl || './'));
 
     const current = path.relative(base, path.dirname(filePath));
 
     const target = path.relative(base, resolved);
 
-    const relative = path.relative(current, target).replace(/\\/g, "/");
+    const relative = path.relative(current, target).replace(/\\/g, '/');
 
     lines[idx] = line.replace(line, relative);
-    if (lines[idx].indexOf("/") < 0) {
-      lines[idx] = "./" + lines[idx];
+    if (lines[idx].indexOf('/') < 0) {
+      lines[idx] = './' + lines[idx];
     }
   }
 

@@ -1,16 +1,11 @@
-import * as http from 'http';
-import * as express from 'express';
+import http from 'http';
+import express from 'express';
 import { Server } from 'socket.io';
-import {
-  checkMethodHasBody,
-  ObjectLiteral,
-  PROTOCOLs,
-  TYPE,
-} from '/src/shared/tsdk-helper';
+import { checkMethodHasBody, ObjectLiteral, PROTOCOLs, TYPE } from '/src/shared/tsdk-helper';
 import { initializeDataSources } from '/src/db';
 import { routeBus } from '../todo/gen-route';
 import { setupRoutes } from '../ws-todo/setup-routes';
-import * as cors from 'cors';
+import cors from 'cors';
 
 const port = 3012;
 

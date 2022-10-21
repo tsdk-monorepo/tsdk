@@ -1,35 +1,33 @@
-import * as webpack from "webpack";
-import * as nodeExternals from "webpack-node-externals";
-import * as path from "path";
-import * as fsExtra from "fs-extra";
-import * as ts from "typescript";
-import { execSync } from "child_process";
+import webpack from 'webpack';
+import nodeExternals from 'webpack-node-externals';
+import path from 'path';
+import fsExtra from 'fs-extra';
+import ts from 'typescript';
+import { execSync } from 'child_process';
 
-const defaultMainName = "default";
-const distProjects = "dist-projects";
+const defaultMainName = 'default';
+const distProjects = 'dist-projects';
 
 // npx tsdk --nest build
 // npx tsdk --nest build [name] [name]
 // npx tsdk --nest build all
 
 async function run() {
-  const idx = process.argv.findIndex((i) => i === "--names");
+  const idx = process.argv.findIndex((i) => i === '--names');
   const command = process.argv[idx - 1];
   const _names = process.argv.filter((item, index) => index > idx);
 
   const { projects } = await getNestProjectsConfig();
 
-  const names = _names.find((i) => i === "all")
-    ? Object.keys(projects)
-    : _names;
+  const names = _names.find((i) => i === 'all') ? Object.keys(projects) : _names;
 
   if (names.length === 0) {
     names.push(defaultMainName);
   }
 
-  if (command === "build") {
+  if (command === 'build') {
     const tsconfig = ts.readConfigFile(
-      path.resolve(process.cwd(), "tsconfig.json"),
+      path.resolve(process.cwd(), 'tsconfig.json'),
       ts.sys.readFile
     ).config;
     const outDir = path.normalize(tsconfig.compilerOptions.outDir);
@@ -42,7 +40,7 @@ async function run() {
       fsExtra.remove(path.resolve(process.cwd(), outDir)),
     ]);
 
-    console.log(`\n[${command}]: ${names.join(", ")}`);
+    console.log(`\n[${command}]: ${names.join(', ')}`);
 
     await copyProdPackageJSON(path.join(process.cwd(), distProjects));
 
@@ -56,20 +54,15 @@ async function run() {
 
         return new Promise((resolve, reject) => {
           setTimeout(async () => {
-            console.log(
-              `\n[${command} ${name}] Run: \`npx nest ${command} ${name}\`\n`
-            );
+            console.log(`\n[${command} ${name}] Run: \`npx nest ${command} ${name}\`\n`);
             try {
-              execSync(`npx nest ${command} ${name}`, { stdio: "inherit" });
+              execSync(`npx nest ${command} ${name}`, { stdio: 'inherit' });
               console.log(
                 `[${command} ${name}] Success: \`npx nest ${command} ${name}\` and start webpack build`
               );
             } catch (e) {
-              console.log(
-                `[${command} ${name}] Run: \`npx nest ${command} ${name}\` error: `,
-                e
-              );
-              console.log("\n");
+              console.log(`[${command} ${name}] Run: \`npx nest ${command} ${name}\` error: `, e);
+              console.log('\n');
               reject(e);
               return;
             }
@@ -79,10 +72,7 @@ async function run() {
             try {
               const output = {
                 ...nestProjectConfig.output,
-                filename:
-                  path
-                    .basename(nestProjectConfig.entryFile)
-                    .replace(".ts", "") + ".js",
+                filename: path.basename(nestProjectConfig.entryFile).replace('.ts', '') + '.js',
                 path: path.resolve(process.cwd(), distProjects, `dist-${name}`),
               };
 
@@ -96,34 +86,34 @@ async function run() {
               let entry = path.resolve(
                 process.cwd(),
                 outDir,
-                nestProjectConfig.entryFile.replace(".ts", ".js")
+                nestProjectConfig.entryFile.replace('.ts', '.js')
               );
 
               const entryExists = await fsExtra.pathExists(
-                entry.indexOf(".js") > -1 ? entry : entry + ".js"
+                entry.indexOf('.js') > -1 ? entry : entry + '.js'
               );
               if (!entryExists) {
                 const errorMsg = `[${command} ${name}] Entry not found: \`${entry}\``;
                 console.log(`\n${errorMsg}`);
                 const tmpEntry =
-                  entry.indexOf("src") > -1
+                  entry.indexOf('src') > -1
                     ? path.normalize(
                         path
                           .resolve(
                             process.cwd(),
                             outDir,
-                            nestProjectConfig.entryFile.replace(".ts", ".js")
+                            nestProjectConfig.entryFile.replace('.ts', '.js')
                           )
-                          .replace("src", "")
+                          .replace('src', '')
                       )
                     : path.resolve(
                         process.cwd(),
                         outDir,
-                        "src",
-                        nestProjectConfig.entryFile.replace(".ts", ".js")
+                        'src',
+                        nestProjectConfig.entryFile.replace('.ts', '.js')
                       );
                 const tmpEntryExists = await fsExtra.pathExists(
-                  tmpEntry.indexOf(".js") > -1 ? tmpEntry : tmpEntry + ".js"
+                  tmpEntry.indexOf('.js') > -1 ? tmpEntry : tmpEntry + '.js'
                 );
                 if (tmpEntryExists) {
                   entry = tmpEntry;
@@ -136,13 +126,11 @@ async function run() {
               await webpackBuild({
                 name,
                 entry,
-                mode: nestProjectConfig.mode || "production",
-                target: nestProjectConfig.target || "node",
-                ...(nestProjectConfig.externals
-                  ? { externals: nestProjectConfig.externals }
-                  : {}),
+                mode: nestProjectConfig.mode || 'production',
+                target: nestProjectConfig.target || 'node',
+                ...(nestProjectConfig.externals ? { externals: nestProjectConfig.externals } : {}),
                 nodeExternalsParams,
-                devtool: sourceMap ? "source-map" : nestProjectConfig.devtool, // nestProjectConfig.devtool, 'source-map'
+                devtool: sourceMap ? 'source-map' : nestProjectConfig.devtool, // nestProjectConfig.devtool, 'source-map'
                 output,
               });
               console.log(
@@ -187,31 +175,28 @@ type NestProjectsConfig = {
 };
 
 async function getNestProjectsConfig() {
-  const nestjsFilepath = path.resolve(
-    process.cwd(),
-    "node_modules/@nestjs/cli/package.json"
-  );
+  const nestjsFilepath = path.resolve(process.cwd(), 'node_modules/@nestjs/cli/package.json');
   const nestjsFilepathExists = await fsExtra.pathExists(nestjsFilepath);
   if (!nestjsFilepathExists) {
     throw new Error(`install \`@nestjs/cli\` first`);
   }
 
-  const nestConfigFilepath = path.resolve(process.cwd(), "./nest-cli.json");
+  const nestConfigFilepath = path.resolve(process.cwd(), './nest-cli.json');
   const exists = await fsExtra.pathExists(nestConfigFilepath);
   if (!exists) {
     // throw new Error(`nest-cli.json doesn't exists: ${nestConfigFilepath}`);
   }
 
-  const content = await fsExtra.readFile(nestConfigFilepath, "utf8");
+  const content = await fsExtra.readFile(nestConfigFilepath, 'utf8');
   const nestConfig = exists ? JSON.parse(content) : {};
   const defaultMainConfig = {
-    type: "application",
-    root: "./",
-    sourceRoot: "src",
-    entryFile: "main",
+    type: 'application',
+    root: './',
+    sourceRoot: 'src',
+    entryFile: 'main',
     compilerOptions: {
       webpack: false,
-      tsConfigPath: "tsconfig.json",
+      tsConfigPath: 'tsconfig.json',
       ...nestConfig.compilerOptions,
     },
     ...nestConfig,
@@ -263,13 +248,11 @@ export function webpackBuild({
       },
       (err, stats) => {
         if (err || stats?.hasErrors()) {
-          const error = stats?.compilation.errors
-            ? stats?.compilation.errors
-            : err;
+          const error = stats?.compilation.errors ? stats?.compilation.errors : err;
           console.log(`${webpackConfig.name} build error: `, error);
           reject(error);
         } else {
-          resolve("done");
+          resolve('done');
         }
       }
     );
@@ -279,22 +262,17 @@ export function webpackBuild({
 let pkgContent: any = {};
 async function copyProdPackageJSON(dir?: string, content?: string) {
   if (!Object.keys(pkgContent).length) {
-    const fileContent = await fsExtra.readFile(
-      path.resolve(process.cwd(), "package.json"),
-      "utf8"
-    );
+    const fileContent = await fsExtra.readFile(path.resolve(process.cwd(), 'package.json'), 'utf8');
     const pkgJson = JSON.parse(fileContent);
-    ["devDependencies", "license", "author", "keywords", "files"].forEach(
-      (k) => {
-        delete pkgJson[k];
-      }
-    );
+    ['devDependencies', 'license', 'author', 'keywords', 'files'].forEach((k) => {
+      delete pkgJson[k];
+    });
     pkgContent = pkgJson;
   }
   if (dir) {
     await fsExtra.ensureDir(dir);
     await fsExtra.writeFile(
-      path.resolve(dir, "package.json"),
+      path.resolve(dir, 'package.json'),
       content || JSON.stringify(pkgContent, null, 2)
     );
   }

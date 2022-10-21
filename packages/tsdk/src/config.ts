@@ -1,5 +1,5 @@
-import * as path from 'path';
-import * as fsExtra from 'fs-extra';
+import path from 'path';
+import fsExtra from 'fs-extra';
 import symbols from './symbols';
 
 export interface TSDKConfig {
@@ -36,14 +36,9 @@ export const isCurrentConfigExist = fsExtra.existsSync(currentConfigFilePath);
 
 export const config: TSDKConfig = {
   ...JSON.parse(
-    fsExtra.readFileSync(
-      path.join(__dirname, '../fe-sdk-template/config/.tsdkrc.json'),
-      'utf-8'
-    )
+    fsExtra.readFileSync(path.join(__dirname, '../fe-sdk-template/config/.tsdkrc.json'), 'utf-8')
   ),
-  ...(isCurrentConfigExist
-    ? JSON.parse(fsExtra.readFileSync(currentConfigFilePath, 'utf-8'))
-    : {}),
+  ...(isCurrentConfigExist ? JSON.parse(fsExtra.readFileSync(currentConfigFilePath, 'utf-8')) : {}),
 };
 
 if (!config.entityLibName) {
@@ -76,12 +71,7 @@ export const tsconfigExists = fsExtra.pathExistsSync(tsconfigPath);
 try {
   tsconfigExists && JSON.parse(fsExtra.readFileSync(tsconfigPath, 'utf-8'));
 } catch {
-  console.log(
-    '\n',
-    symbols.error,
-    '`tsconfig.json` must be a valid JSON file.',
-    '\n'
-  );
+  console.log('\n', symbols.error, '`tsconfig.json` must be a valid JSON file.', '\n');
 }
 
 export const tsconfig = tsconfigExists
@@ -93,19 +83,13 @@ let deps: { [key: string]: string } = {};
 export const pkg: { [key: string]: string } = {};
 
 export async function parsePkg() {
-  const content = await fsExtra.readFile(
-    path.join(__dirname, '..', 'package.json'),
-    'utf-8'
-  );
+  const content = await fsExtra.readFile(path.join(__dirname, '..', 'package.json'), 'utf-8');
   Object.assign(pkg, JSON.parse(content));
   return pkg;
 }
 
 export async function parseDeps() {
-  const content = await fsExtra.readFile(
-    path.join(ensureDir, 'package.json'),
-    'utf-8'
-  );
+  const content = await fsExtra.readFile(path.join(ensureDir, 'package.json'), 'utf-8');
   const pkgJSON = JSON.parse(content);
   Object.assign(pkg, pkgJSON);
   deps = {

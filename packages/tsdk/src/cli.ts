@@ -1,6 +1,6 @@
 import { addDepsIfNone, copyTsdkrc, syncFiles } from './sync-files';
 import { copyPermissionsJSON, syncAPI } from './sync-api';
-import { buildSDK } from './build-sdk';
+import { buildSDK } from './compile-tsdk';
 import symbols from './symbols';
 import { tsconfigExists, parsePkg, pkg } from './config';
 import { runNestCommand } from './run-nest-command';
@@ -53,10 +53,7 @@ Examples
   } else if (params[0] === `--init`) {
     await copyTsdkrc();
     console.log(symbols.success, '`.tsdkrc` copied!');
-    console.log(
-      symbols.info,
-      'You can edit and generate the SDK package with `npx tsdk --sync`'
-    );
+    console.log(symbols.info, 'You can edit and generate the SDK package with `npx tsdk --sync`');
     await addDepsIfNone();
   } else if (params[0] === `--sync`) {
     await addDepsIfNone();

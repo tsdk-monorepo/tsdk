@@ -1,13 +1,8 @@
-import { TypeORMError, EntityNotFoundError } from "typeorm";
-import { ZodError } from "zod";
-import * as EventEmitter from "eventemitter3";
-import {
-  APIConfig,
-  ObjectLiteral,
-  PROTOCOL_VALUEs,
-  TYPE,
-} from "/src/shared/tsdk-helper";
-import { RequestInfo } from "../todo/types";
+import { TypeORMError, EntityNotFoundError } from 'typeorm';
+import { ZodError } from 'zod';
+import EventEmitter from 'eventemitter3';
+import { APIConfig, ObjectLiteral, PROTOCOL_VALUEs, TYPE } from '/src/shared/tsdk-helper';
+import { RequestInfo } from '../todo/types';
 
 type Socket = {
   send: Function;
@@ -15,7 +10,7 @@ type Socket = {
     send: (msg: string | ObjectLiteral) => void;
   };
   /** socket.io */
-  emit?: EventEmitter["emit"];
+  emit?: EventEmitter['emit'];
   /** socket.io */
   connected?: boolean;
   /** websocket
@@ -49,11 +44,7 @@ function send(socket: Socket, result: ObjectLiteral, status?: number) {
 
 export default function genRoute<ReqData, ResData>(
   apiConfig: APIConfig,
-  cb: (
-    reqInfo: Readonly<RequestInfo>,
-    socket: Socket,
-    data: ReqData
-  ) => Promise<ResData>
+  cb: (reqInfo: Readonly<RequestInfo>, socket: Socket, data: ReqData) => Promise<ResData>
 ) {
   const routeName = `${apiConfig.method}:${apiConfig.path}`;
 
