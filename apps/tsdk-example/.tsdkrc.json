@@ -6,5 +6,6 @@
   "entityExt": "entity",
   "apiconfExt": "apiconf",
   "sharedDirs": ["./src/shared", "./src/i18n"],
-  "sdkWhiteList": [""]
+  "sdkWhiteList": [""],
+  "monorepoRoot": "../../"
 }

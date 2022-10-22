@@ -16,6 +16,7 @@ export interface TSDKConfig {
    * no need delete files in `fe-sdk/src`
    */
   sdkWhiteList: string[];
+  monorepoRoot?: string;
 }
 
 export const comment = `

@@ -65,7 +65,7 @@ export async function addDepsIfNone() {
 export async function copySnippet() {
   await fsExtra.copy(
     path.join(__dirname, '../fe-sdk-template', './config/.vscode'),
-    path.join(process.cwd(), '.vscode/'),
+    path.resolve(process.cwd(), config.monorepoRoot || './', '.vscode'),
     { overwrite: false }
   );
 }
