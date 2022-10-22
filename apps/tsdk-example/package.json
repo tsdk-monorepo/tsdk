@@ -5,6 +5,7 @@
   "scripts": {
     "build": "cross-env MONOREPO_ROOT=../../ node ./node_modules/tsdk/bin/tsdk.js --nest build all",
     "example": "cross-env IS_TEST=true node dist-projects/dist-express-todo/main && npm run test",
+    "dev": "nest start express-todo --watch",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",

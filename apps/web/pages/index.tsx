@@ -1,10 +1,11 @@
-import { HomeScreen, HomeIcon } from '@acme/feature-home';
-import { setAxiosInstance, axiosHandler } from '@suhaotian/fe-sdk-example/lib/axios';
-import { io as SocketIO } from 'socket.io-client';
+// import { HomeScreen, HomeIcon } from '@acme/feature-home';
 import { setHandler, setSocketIOInstance, socketIOHandler } from '@suhaotian/fe-sdk-example';
+import { setAxiosInstance, axiosHandler } from '@suhaotian/fe-sdk-example/lib/axios';
 import { QueryTodo } from '@suhaotian/fe-sdk-example/lib/user-api';
 import axios from 'axios';
 import Head from 'next/head';
+// eslint-disable-next-line import/namespace
+import { io as SocketIO } from 'socket.io-client';
 
 import styles from '../styles/Home.module.css';
 
@@ -40,8 +41,8 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <HomeIcon style={{ fontSize: 64 }} />
-        <HomeScreen style={{ fontSize: 24, margin: 12 }} />
+        {/* <HomeIcon style={{ fontSize: 64 }} /> */}
+        {/* <HomeScreen style={{ fontSize: 24, margin: 12 }} /> */}
       </main>
     </div>
   );
