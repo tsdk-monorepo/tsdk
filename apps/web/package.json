@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@acme/feature-home": "*",
-    "@suhaotian/fe-sdk-example": "*",
+    "@suhaotian/fe-sdk-demo": "*",
     "next": "12.3.0",
     "react": "18.0.0",
     "react-dom": "18.0.0",

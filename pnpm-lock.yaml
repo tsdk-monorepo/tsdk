@@ -141,6 +141,23 @@ importers:
       tsdk: link:../../packages/tsdk
       typescript: 4.8.4
 
+  apps/tsdk-example/packages/fe-sdk-demo:
+    specifiers:
+      axios: ^0.27.2
+      change-case: ^4.1.2
+      socket.io-client: ^4.5.3
+      typedoc: ^0.23.15
+      typescript: 4.8.4
+      zod: ^3.19.1
+    dependencies:
+      axios: 0.27.2
+      change-case: 4.1.2
+      socket.io-client: 4.5.3
+      zod: 3.19.1
+    devDependencies:
+      typedoc: 0.23.17_typescript@4.8.4
+      typescript: 4.8.4
+
   apps/tsdk-website:
     specifiers:
       '@docusaurus/core': 2.1.0
@@ -170,7 +187,7 @@ importers:
     specifiers:
       '@acme/eslint-config': '*'
       '@acme/feature-home': '*'
-      '@suhaotian/fe-sdk-example': '*'
+      '@suhaotian/fe-sdk-demo': '*'
       babel-plugin-react-native-web: ^0.18.9
       eslint: 7.32.0
       eslint-config-next: 12.3.0
@@ -180,7 +197,7 @@ importers:
       react-native-web: ~0.18.9
     dependencies:
       '@acme/feature-home': link:../../packages/feature-home
-      '@suhaotian/fe-sdk-example': link:../../packages/fe-sdk-example
+      '@suhaotian/fe-sdk-demo': link:../tsdk-example/packages/fe-sdk-demo
       next: 12.3.0_zpnidt7m3osuk7shl3s4oenomq
       react: 18.0.0
       react-dom: 18.0.0_react@18.0.0
@@ -204,23 +221,6 @@ importers:
       eslint: 7.32.0
       eslint-config-universe: 8.0.0_fqyzhpusvewbsl54pqqbxqaegm
       prettier: 2.7.1
-
-  packages/fe-sdk-example:
-    specifiers:
-      axios: ^0.27.2
-      change-case: ^4.1.2
-      socket.io-client: ^4.5.3
-      typedoc: ^0.23.15
-      typescript: 4.8.4
-      zod: ^3.19.1
-    dependencies:
-      axios: 0.27.2
-      change-case: 4.1.2
-      socket.io-client: 4.5.3
-      zod: 3.19.1
-    devDependencies:
-      typedoc: 0.23.17_typescript@4.8.4
-      typescript: 4.8.4
 
   packages/feature-home:
     specifiers:

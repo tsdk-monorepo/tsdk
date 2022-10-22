@@ -4,7 +4,6 @@ lib
 dist
 yarn.lock
 .DS_Store
-fe-sdk-example
 dist
 build
 package-lock.json

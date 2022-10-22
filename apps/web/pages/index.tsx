@@ -5,8 +5,8 @@ import {
   socketIOHandler,
   setAxiosInstance,
   axiosHandler,
-} from '@suhaotian/fe-sdk-example';
-import { QueryTodo } from '@suhaotian/fe-sdk-example/lib/user-api';
+} from '@suhaotian/fe-sdk-demo';
+import { QueryTodo } from '@suhaotian/fe-sdk-demo/lib/user-api';
 import axios from 'axios';
 import Head from 'next/head';
 // eslint-disable-next-line import/namespace

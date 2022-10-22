@@ -6,7 +6,7 @@
   "version": "1.0.0",
   "main": "lib/index.js",
   "scripts": {
-    "tsc:build": "tsc --project tsconfig.json",
+    "build": "tsc --project tsconfig.json",
     "doc:build": "echo todo"
   },
   "dependencies": {

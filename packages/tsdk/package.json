@@ -1,6 +1,6 @@
 {
   "name": "tsdk",
-  "version": "0.0.19-alpha.7",
+  "version": "0.0.19-alpha.8",
   "bin": {
     "tsdk": "bin/tsdk.js"
   },

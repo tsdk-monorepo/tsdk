@@ -38,6 +38,26 @@
       }
     }
   },
+  "QueryTodoConfig": {
+    "path": "/query-todo",
+    "method": "get",
+    "name": "QueryTodo",
+    "description": "query todo",
+    "category": "todo",
+    "type": "user",
+    "schema": {
+      "_def": {
+        "unknownKeys": "strip",
+        "catchall": {
+          "_def": {
+            "typeName": "ZodNever"
+          }
+        },
+        "typeName": "ZodObject"
+      },
+      "_cached": null
+    }
+  },
   "AddTodoConfig": {
     "path": "/add-todo",
     "method": "post",
@@ -157,45 +177,6 @@
       "typeName": "ZodUnion"
     }
   },
-  "QueryTodoByCursorConfig": {
-    "type": "user",
-    "name": "QueryTodoByCursor",
-    "method": "get",
-    "path": "/query-todo-by-cursor",
-    "schema": {
-      "_def": {
-        "unknownKeys": "strip",
-        "catchall": {
-          "_def": {
-            "typeName": "ZodNever"
-          }
-        },
-        "typeName": "ZodObject"
-      },
-      "_cached": null
-    },
-    "description": "query todo list by cursor"
-  },
-  "QueryTodoConfig": {
-    "path": "/query-todo",
-    "method": "get",
-    "name": "QueryTodo",
-    "description": "query todo",
-    "category": "todo",
-    "type": "user",
-    "schema": {
-      "_def": {
-        "unknownKeys": "strip",
-        "catchall": {
-          "_def": {
-            "typeName": "ZodNever"
-          }
-        },
-        "typeName": "ZodObject"
-      },
-      "_cached": null
-    }
-  },
   "UpdateTodoConfig": {
     "path": "/update-todo",
     "method": "post",
@@ -223,5 +204,24 @@
         }
       }
     }
+  },
+  "QueryTodoByCursorConfig": {
+    "type": "user",
+    "name": "QueryTodoByCursor",
+    "method": "get",
+    "path": "/query-todo-by-cursor",
+    "schema": {
+      "_def": {
+        "unknownKeys": "strip",
+        "catchall": {
+          "_def": {
+            "typeName": "ZodNever"
+          }
+        },
+        "typeName": "ZodObject"
+      },
+      "_cached": null
+    },
+    "description": "query todo list by cursor"
   }
 }
