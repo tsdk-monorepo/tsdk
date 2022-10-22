@@ -1,6 +1,11 @@
 // import { HomeScreen, HomeIcon } from '@acme/feature-home';
-import { setHandler, setSocketIOInstance, socketIOHandler } from '@suhaotian/fe-sdk-example';
-import { setAxiosInstance, axiosHandler } from '@suhaotian/fe-sdk-example/lib/axios';
+import {
+  setHandler,
+  setSocketIOInstance,
+  socketIOHandler,
+  setAxiosInstance,
+  axiosHandler,
+} from '@suhaotian/fe-sdk-example';
 import { QueryTodo } from '@suhaotian/fe-sdk-example/lib/user-api';
 import axios from 'axios';
 import Head from 'next/head';
