@@ -6,8 +6,7 @@
   "version": "1.0.0",
   "main": "lib/index.js",
   "scripts": {
-    "build": "tsc --project tsconfig.json",
-    "build:doc": "echo todo"
+    "doc:build": "echo todo"
   },
   "dependencies": {
     "zod": "^3.19.1",

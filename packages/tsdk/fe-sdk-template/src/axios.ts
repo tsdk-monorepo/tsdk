@@ -1,9 +1,5 @@
-import { AxiosRequestConfig, AxiosInstance, AxiosResponse } from 'axios';
-import {
-  APIConfig,
-  checkMethodHasBody,
-  trimAndRemoveUndefined,
-} from './shared/tsdk-helper';
+import { AxiosRequestConfig, AxiosInstance } from 'axios';
+import { APIConfig, checkMethodHasBody, trimAndRemoveUndefined } from './shared/tsdk-helper';
 
 let axiosInstance: AxiosInstance;
 
@@ -66,9 +62,7 @@ export async function axiosHandler(
         payload.params = requestConfig.params;
       }
     } else {
-      payload.params = requestConfig?.params
-        ? { ...requestConfig.params, ...data }
-        : data;
+      payload.params = requestConfig?.params ? { ...requestConfig.params, ...data } : data;
     }
   }
 

@@ -1,36 +1,36 @@
 /**
  *
  * api-user.ts
- * @suhaotian/fe-sdk-example@1.0.0
+ * @suhaotian/fe-sdk-demo@1.0.0
  *
  **/
 
 import genApi from './gen-api';
 
 import {
-  DeleteTodoConfig,
-  DeleteTodoReq,
-  DeleteTodoRes,
-  AddTodoConfig,
-  AddTodoReq,
-  AddTodoRes,
-  QueryTodoByCursorConfig,
-  QueryTodoByCursorReq,
-  QueryTodoByCursorRes,
   QueryTodoConfig,
   QueryTodoReq,
   QueryTodoRes,
+  AddTodoConfig,
+  AddTodoReq,
+  AddTodoRes,
+  DeleteTodoConfig,
+  DeleteTodoReq,
+  DeleteTodoRes,
+  QueryTodoByCursorConfig,
+  QueryTodoByCursorReq,
+  QueryTodoByCursorRes,
   UpdateTodoConfig,
   UpdateTodoReq,
   UpdateTodoRes,
 } from './apiconf-refs';
 
 /**
- * delete todo
+ * query todo
  *
  * @category todo
  */
-export const DeleteTodo = genApi<DeleteTodoReq, DeleteTodoRes>(DeleteTodoConfig);
+export const QueryTodo = genApi<QueryTodoReq, QueryTodoRes>(QueryTodoConfig);
 
 /**
  * add todo
@@ -40,6 +40,13 @@ export const DeleteTodo = genApi<DeleteTodoReq, DeleteTodoRes>(DeleteTodoConfig)
 export const AddTodo = genApi<AddTodoReq, AddTodoRes>(AddTodoConfig);
 
 /**
+ * delete todo
+ *
+ * @category todo
+ */
+export const DeleteTodo = genApi<DeleteTodoReq, DeleteTodoRes>(DeleteTodoConfig);
+
+/**
  * query todo list by cursor
  *
  * @category others
@@ -47,13 +54,6 @@ export const AddTodo = genApi<AddTodoReq, AddTodoRes>(AddTodoConfig);
 export const QueryTodoByCursor = genApi<QueryTodoByCursorReq, QueryTodoByCursorRes>(
   QueryTodoByCursorConfig
 );
-
-/**
- * query todo
- *
- * @category todo
- */
-export const QueryTodo = genApi<QueryTodoReq, QueryTodoRes>(QueryTodoConfig);
 
 /**
  * update todo

@@ -13,19 +13,28 @@
       "type": "application",
       "root": "src/modules/fastify-todo",
       "sourceRoot": "src/modules/fastify-todo",
-      "entryFile": "modules/fastify-todo/main"
+      "entryFile": "modules/fastify-todo/main",
+      "nodeExternalsParams": {
+        "additionalModuleDirs": ["../../node_modules"]
+      }
     },
     "express-todo": {
       "type": "application",
       "root": "src/modules/express-todo",
       "sourceRoot": "src/modules/express-todo",
-      "entryFile": "modules/express-todo/main"
+      "entryFile": "modules/express-todo/main",
+      "nodeExternalsParams": {
+        "additionalModuleDirs": ["../../node_modules"]
+      }
     },
     "ws-todo": {
       "type": "application",
       "root": "src/modules/ws-todo",
       "sourceRoot": "src/modules/ws-todo",
-      "entryFile": "modules/ws-todo/main"
+      "entryFile": "modules/ws-todo/main",
+      "nodeExternalsParams": {
+        "additionalModuleDirs": ["../../node_modules"]
+      }
     }
   }
 }

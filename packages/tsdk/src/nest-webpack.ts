@@ -42,7 +42,7 @@ async function run() {
 
     console.log(`\n[${command}]: ${names.join(', ')}`);
 
-    await copyProdPackageJSON(path.join(process.cwd(), distProjects));
+    await copyProdPackageJSON(path.resolve(process.cwd(), distProjects), undefined, 'default-root');
 
     await Promise.all(
       names.map((name) => {
@@ -142,7 +142,18 @@ async function run() {
               );
               await copyProdPackageJSON(
                 path.join(process.cwd(), distProjects, `dist-${name}`),
-                JSON.stringify(pkgContent, null, 2)
+                JSON.stringify(
+                  {
+                    ...pkgContent,
+                    name: pkgContent.name + '-' + name,
+                    scripts: {
+                      start: 'node ./main',
+                    },
+                  },
+                  null,
+                  2
+                ),
+                name
               );
               resolve(nestProjectConfig);
             } catch (e) {
@@ -264,20 +275,31 @@ export function webpackBuild({
 }
 
 let pkgContent: any = {};
-async function copyProdPackageJSON(dir?: string, content?: string) {
+async function copyProdPackageJSON(dir?: string, content?: string, name?: string) {
   if (!Object.keys(pkgContent).length) {
     const fileContent = await fsExtra.readFile(path.resolve(process.cwd(), 'package.json'), 'utf8');
     const pkgJson = JSON.parse(fileContent);
     ['devDependencies', 'license', 'author', 'keywords', 'files'].forEach((k) => {
       delete pkgJson[k];
     });
-    pkgContent = pkgJson;
+    pkgContent = {
+      ...pkgJson,
+    };
   }
   if (dir) {
     await fsExtra.ensureDir(dir);
     await fsExtra.writeFile(
       path.resolve(dir, 'package.json'),
-      content || JSON.stringify(pkgContent, null, 2)
+      content ||
+        JSON.stringify(
+          {
+            ...pkgContent,
+            name: pkgContent.name + '-' + name,
+            scripts: {},
+          },
+          null,
+          2
+        )
     );
   }
 }

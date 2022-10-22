@@ -1,5 +1,5 @@
 {
-  "private": "true",
+  "private": true,
   "name": "tsdk-example",
   "version": "1.0.0",
   "scripts": {

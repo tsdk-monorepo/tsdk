@@ -1,6 +1,6 @@
 {
   "packageDir": "packages/",
-  "packageName": "@suhaotian/fe-sdk-example",
+  "packageName": "@suhaotian/fe-sdk-demo",
   "baseDir": "./src",
   "entityLibName": "typeorm",
   "entityExt": "entity",

@@ -1,6 +1,7 @@
 {
   "private": true,
-  "name": "@acme/my-nextron-app",
+  "name": "@acme/desktop-app",
+  "productName": "My Desktop App",
   "description": "My application description",
   "version": "1.0.0",
   "author": "Yoshihide Shiono <shiono.yoshihide@gmail.com>",

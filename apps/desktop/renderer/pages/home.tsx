@@ -1,4 +1,4 @@
-import { HomeScreen } from '@acme/feature-home';
+// import { HomeScreen } from '@acme/feature-home';
 import Head from 'next/head';
 import Link from 'next/link';
 import React from 'react';
@@ -22,7 +22,7 @@ function Home() {
         <img src="/images/logo.png" />
       </div>
 
-      <HomeScreen style={{ fontSize: 24, margin: 12 }} />
+      {/* <HomeScreen style={{ fontSize: 24, margin: 12 }} /> */}
     </React.Fragment>
   );
 }
