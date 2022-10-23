@@ -1,4 +1,4 @@
-export  interface  RequestInfo {
+export interface RequestInfo {
   lang: string;
   /** username */
   uname: string;

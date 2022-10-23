@@ -13,8 +13,7 @@ export const sum = (a: number, b: number) => a + b;
  * @param ms number
  * @returns Promise<any>
  */
-export const sleep = (ms: number) =>
-  new Promise((resolve) => setTimeout(resolve, ms));
+export const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const PositiveNumberSchema = z.preprocess((val) => {
   if (typeof val === 'string') {

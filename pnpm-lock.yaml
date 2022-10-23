@@ -47,7 +47,7 @@ importers:
       '@types/react-native': 0.69.9
       babel-preset-expo: 9.2.0_@babel+core@7.19.1
 
-  apps/tsdk-example:
+  apps/tsdk-server-example:
     specifiers:
       '@nestjs/cli': ^9.1.4
       '@types/chai': ^4.3.3
@@ -112,7 +112,7 @@ importers:
       tsdk: 0.0.19-alpha.9
       typescript: 4.8.4
 
-  apps/tsdk-example/packages/fe-sdk-demo:
+  apps/tsdk-server-example/packages/fe-sdk-demo:
     specifiers:
       axios: ^0.27.2
       change-case: ^4.1.2
@@ -166,7 +166,7 @@ importers:
       react-dom: 18.0.0
       react-native-web: ~0.18.9
     dependencies:
-      '@suhaotian/fe-sdk-demo': link:../tsdk-example/packages/fe-sdk-demo
+      '@suhaotian/fe-sdk-demo': link:../tsdk-server-example/packages/fe-sdk-demo
       next: 12.3.0_zpnidt7m3osuk7shl3s4oenomq
       react: 18.0.0
       react-dom: 18.0.0_react@18.0.0
@@ -221,9 +221,6 @@ importers:
     specifiers: {}
 
   packages/tsdk-socket.io-adapter:
-    specifiers: {}
-
-  packages/tsdk-ws-adapter:
     specifiers: {}
 
   packages/tsdk/fe-sdk-template:

@@ -1,17 +1,14 @@
-import { Like } from "typeorm";
-import { buildPaginator } from "typeorm-cursor-pagination";
+import { Like } from 'typeorm';
+import { buildPaginator } from 'typeorm-cursor-pagination';
 
-import { appDataSource } from "/src/db";
-import { Todo } from "./Todo.entity";
-import { DeleteTodoReq, DeleteTodoRes } from "./apiconf/DeleteTodo.apiconf";
-import { UpdateTodoReq, UpdateTodoRes } from "./apiconf/UpdateTodo.apiconf";
-import { AddTodoReq, AddTodoRes } from "./apiconf/AddTodo.apiconf";
-import { QueryTodoReq, QueryTodoRes } from "./apiconf/QueryTodo.apiconf";
-import {
-  QueryTodoByCursorReq,
-  QueryTodoByCursorRes,
-} from "./apiconf/QueryTodoByCursor.apiconf";
-import { RequestInfo } from "./types";
+import { appDataSource } from '/src/db';
+import { Todo } from './Todo.entity';
+import { DeleteTodoReq, DeleteTodoRes } from './apiconf/DeleteTodo.apiconf';
+import { UpdateTodoReq, UpdateTodoRes } from './apiconf/UpdateTodo.apiconf';
+import { AddTodoReq, AddTodoRes } from './apiconf/AddTodo.apiconf';
+import { QueryTodoReq, QueryTodoRes } from './apiconf/QueryTodo.apiconf';
+import { QueryTodoByCursorReq, QueryTodoByCursorRes } from './apiconf/QueryTodoByCursor.apiconf';
+import { RequestInfo } from './types';
 
 export default class TodoService {
   get todoRepo() {
@@ -34,7 +31,7 @@ export default class TodoService {
       skip,
       take,
       order: {
-        createdAt: "DESC",
+        createdAt: 'DESC',
       },
       where: keyword && [
         {
@@ -54,9 +51,7 @@ export default class TodoService {
     };
   }
 
-  async queryTodoByCursor(
-    payload: QueryTodoByCursorReq
-  ): Promise<QueryTodoByCursorRes> {
+  async queryTodoByCursor(payload: QueryTodoByCursorReq): Promise<QueryTodoByCursorRes> {
     const { perPage, keyword, beforeCursor, afterCursor } = payload;
 
     let queryBuilder = this.todoRepo.createQueryBuilder(Todo.entityName);
@@ -74,11 +69,11 @@ export default class TodoService {
       entity: Todo,
       // @todo: error cursor search maybe only because of sqlite? or `createdAt` same
       // paginationKeys: ['createdAt', 'id'],
-      paginationKeys: ["id"],
+      paginationKeys: ['id'],
       alias: Todo.entityName,
       query: {
         limit: perPage,
-        order: "DESC",
+        order: 'DESC',
         beforeCursor,
         afterCursor,
       },

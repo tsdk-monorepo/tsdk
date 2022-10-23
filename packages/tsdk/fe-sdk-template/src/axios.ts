@@ -34,7 +34,7 @@ export async function axiosHandler(
 ) {
   const axiosInstance = getAxiosInstance();
   if (!axiosInstance) {
-    const msg = `Please call \`setAxiosInstance\` first or pass \`axiosInstance\` argument`;
+    const msg = `Please call \`setAxiosInstance\` first`;
     throw msg;
   }
   /** axios */

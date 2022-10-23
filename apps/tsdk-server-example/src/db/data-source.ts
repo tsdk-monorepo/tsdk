@@ -3,8 +3,7 @@ import { DataSource } from 'typeorm';
 import './entities-ref';
 import { getEntites } from './register-entities';
 
-const IS_TEST_ENV =
-  process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase() === 'test';
+const IS_TEST_ENV = process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase() === 'test';
 
 export const appDataSource = new DataSource(
   IS_TEST_ENV

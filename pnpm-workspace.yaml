@@ -1,4 +1,4 @@
 packages:
   - 'apps/*'
-  - 'apps/tsdk-example/packages/*'
+  - 'apps/tsdk-server-example/packages/*'
   - 'packages/**'

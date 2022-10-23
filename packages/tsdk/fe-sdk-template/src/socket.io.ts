@@ -50,7 +50,7 @@ export function socketIOHandler(
 ): Promise<any> {
   const ioInstance = getSocketIOInstance();
   if (!ioInstance) {
-    const msg = `Please call \`setSocketIOInstance\` first or pass \`socket.io-client instance\` argument`;
+    const msg = `Please call \`setSocketIOInstance\` first`;
     throw msg;
   }
   return new Promise((resolve, reject) => {

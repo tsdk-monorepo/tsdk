@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "tsdk-example",
+  "name": "tsdk-server-example",
   "version": "1.0.0",
   "scripts": {
     "build": "cross-env MONOREPO_ROOT=../../ node ./node_modules/tsdk/bin/tsdk.js --nest build all",
