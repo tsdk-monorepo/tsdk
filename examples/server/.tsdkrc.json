@@ -1,0 +1,11 @@
+{
+  "packageDir": "packages/",
+  "packageName": "fe-sdk-demo",
+  "baseDir": "./src",
+  "entityLibName": "typeorm",
+  "entityExt": "entity",
+  "apiconfExt": "apiconf",
+  "sharedDirs": ["./src/shared", "./src/i18n"],
+  "sdkWhiteList": [""],
+  "monorepoRoot": "../../"
+}
