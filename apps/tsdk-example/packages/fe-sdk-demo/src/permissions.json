@@ -1,11 +1,9 @@
 {
-  "AddTodoConfig": {
-    "path": "/add-todo",
-    "method": "post",
-    "name": "AddTodo",
-    "description": "add todo",
-    "category": "todo",
+  "QueryTodoByCursorConfig": {
     "type": "user",
+    "name": "QueryTodoByCursor",
+    "method": "get",
+    "path": "/query-todo-by-cursor",
     "schema": {
       "_def": {
         "unknownKeys": "strip",
@@ -17,13 +15,14 @@
         "typeName": "ZodObject"
       },
       "_cached": null
-    }
+    },
+    "description": "query todo list by cursor"
   },
-  "QueryTodoConfig": {
-    "path": "/query-todo",
-    "method": "get",
-    "name": "QueryTodo",
-    "description": "query todo",
+  "AddTodoConfig": {
+    "path": "/add-todo",
+    "method": "post",
+    "name": "AddTodo",
+    "description": "add todo",
     "category": "todo",
     "type": "user",
     "schema": {
@@ -138,25 +137,6 @@
       "typeName": "ZodUnion"
     }
   },
-  "QueryTodoByCursorConfig": {
-    "type": "user",
-    "name": "QueryTodoByCursor",
-    "method": "get",
-    "path": "/query-todo-by-cursor",
-    "schema": {
-      "_def": {
-        "unknownKeys": "strip",
-        "catchall": {
-          "_def": {
-            "typeName": "ZodNever"
-          }
-        },
-        "typeName": "ZodObject"
-      },
-      "_cached": null
-    },
-    "description": "query todo list by cursor"
-  },
   "UpdateTodoConfig": {
     "path": "/update-todo",
     "method": "post",
@@ -183,6 +163,26 @@
           "type": "refinement"
         }
       }
+    }
+  },
+  "QueryTodoConfig": {
+    "path": "/query-todo",
+    "method": "get",
+    "name": "QueryTodo",
+    "description": "query todo",
+    "category": "todo",
+    "type": "user",
+    "schema": {
+      "_def": {
+        "unknownKeys": "strip",
+        "catchall": {
+          "_def": {
+            "typeName": "ZodNever"
+          }
+        },
+        "typeName": "ZodObject"
+      },
+      "_cached": null
     }
   },
   "DeleteTodoConfig": {
