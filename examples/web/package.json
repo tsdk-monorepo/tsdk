@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "example-web",
+  "name": "web-example",
   "description": "Use `fe-sdk-demo` package with next.js",
   "version": "1.0.0",
   "scripts": {
