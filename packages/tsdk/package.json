@@ -46,5 +46,13 @@
     "webpack": "^5.74.0",
     "webpack-node-externals": "^3.0.0"
   },
+  "peerDependencies": {
+    "socket.io-client": "^4.5.3"
+  },
+  "peerDependenciesMeta": {
+    "socket.io-client": {
+      "optional": true
+    }
+  },
   "license": "MIT"
 }

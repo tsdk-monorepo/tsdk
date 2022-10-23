@@ -45,10 +45,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        {/* <HomeIcon style={{ fontSize: 64 }} /> */}
-        {/* <HomeScreen style={{ fontSize: 24, margin: 12 }} /> */}
-      </main>
+      <main className={styles.main}>hello</main>
     </div>
   );
 }

@@ -1,10 +1,6 @@
-import { Socket } from 'socket.io-client';
-import {
-  APIConfig,
-  ObjectLiteral,
-  TYPE,
-  trimAndRemoveUndefined,
-} from './shared/tsdk-helper';
+/** @ts-ignore */
+import type { Socket } from 'socket.io-client';
+import { APIConfig, ObjectLiteral, TYPE, trimAndRemoveUndefined } from './shared/tsdk-helper';
 
 let socketIOInstance: Socket;
 
@@ -17,17 +13,14 @@ export const setSocketIOInstance = (instance: Socket): void => {
   socketIOInstance = instance;
 
   socketIOInstance.off(TYPE.response);
-  socketIOInstance.on(
-    TYPE.response,
-    ({ _id: msgId, ...data }: ObjectLiteral) => {
-      if (msgId && QUEUEs[msgId]) {
-        !data.status || data.status === 200
-          ? QUEUEs[msgId].resolve(data)
-          : QUEUEs[msgId].reject(data);
-        delete QUEUEs[msgId];
-      }
+  socketIOInstance.on(TYPE.response, ({ _id: msgId, ...data }: ObjectLiteral) => {
+    if (msgId && QUEUEs[msgId]) {
+      !data.status || data.status === 200
+        ? QUEUEs[msgId].resolve(data)
+        : QUEUEs[msgId].reject(data);
+      delete QUEUEs[msgId];
     }
-  );
+  });
 };
 
 // const socket = io('https://server-domain.com', {
@@ -36,9 +29,9 @@ export const setSocketIOInstance = (instance: Socket): void => {
 // setSocketIOInstance(socket);
 
 /**
- * Get the io
+ * Get socket.io-client instance
  *
- * @param instance - io
+ * @param instance - socekt.io-client instance
  * @returns The io
  */
 export const getSocketIOInstance = () => {
@@ -65,9 +58,7 @@ export function socketIOHandler(
       return reject('No Connection');
     }
 
-    const msgId = `${apiConfig.method === 'get' ? '' : ''}:${
-      apiConfig.path
-    }:${++ID}${
+    const msgId = `${apiConfig.method === 'get' ? '' : ''}:${apiConfig.path}:${++ID}${
       Date.now().toString(36).slice(-4) + Math.random().toString(36).slice(-4)
     }`;
 
