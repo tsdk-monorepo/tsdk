@@ -9,7 +9,6 @@
     "start": "next start -p 3060"
   },
   "dependencies": {
-    "@acme/feature-home": "*",
     "@suhaotian/fe-sdk-demo": "*",
     "next": "12.3.0",
     "react": "18.0.0",
