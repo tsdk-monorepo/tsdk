@@ -1,6 +1,6 @@
 [![NPM version](https://badge.fury.io/js/tsdk-server-adapters.svg)](https://www.npmjs.com/package/tsdk-server-adapters)
 [![install size](https://packagephobia.com/badge?p=tsdk-server-adapters)](https://packagephobia.com/result?p=tsdk-server-adapters)
-![Downloads](https://img.shields.io/npm/dm/tsdk.svg?style=flat)
+![Downloads](https://img.shields.io/npm/dm/tsdk-server-adapters.svg?style=flat)
 
 # Adapters for tsdk APIs development
 
