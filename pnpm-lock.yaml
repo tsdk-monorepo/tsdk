@@ -64,7 +64,6 @@ importers:
       change-case: ^4.1.2
       cors: ^2.8.5
       cross-env: ^7.0.3
-      eventemitter3: ^4.0.7
       express: ^4.18.2
       mocha: ^10.0.0
       reflect-metadata: ^0.1.13
@@ -88,7 +87,6 @@ importers:
       change-case: 4.1.2
       cors: 2.8.5
       cross-env: 7.0.3
-      eventemitter3: 4.0.7
       express: 4.18.2
       reflect-metadata: 0.1.13
       rxjs: 7.5.7

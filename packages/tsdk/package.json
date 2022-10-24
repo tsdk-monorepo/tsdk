@@ -1,6 +1,7 @@
 {
   "name": "tsdk",
-  "version": "0.0.19-alpha.10",
+  "version": "0.0.19-alpha.12",
+  "main": "lib/index.js",
   "bin": {
     "tsdk": "bin/tsdk.js"
   },

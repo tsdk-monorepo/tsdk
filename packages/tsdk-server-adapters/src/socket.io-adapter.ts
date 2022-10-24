@@ -1,5 +1,6 @@
+/** @ts-ignore */
 import type { Socket } from 'socket.io';
-import { ObjectLiteral, Type, getRouteEventName, genRouteFactory } from './gen-route-factory';
+import { genRouteFactory, getRouteEventName, Type, ObjectLiteral } from './gen-route-factory';
 
 export function socketIOAdapterFactory<ReqInfo>({
   routeBus,

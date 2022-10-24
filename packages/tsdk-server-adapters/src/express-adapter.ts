@@ -1,5 +1,6 @@
+/** @ts-ignore */
 import type { Request, Response, NextFunction } from 'express';
-import { ObjectLiteral, getRouteEventName, genRouteFactory } from './gen-route-factory';
+import { genRouteFactory, getRouteEventName, ObjectLiteral } from './gen-route-factory';
 
 export function expressAdapterFactory<ReqInfo>({
   routeBus,

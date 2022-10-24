@@ -8,6 +8,7 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "start": "pnpm --filter tsdk start",
+    "start-publish": "pnpm --filter tsdk --filter tsdk-server-adapters start-publish",
     "start-prepare": "chmod +x ./node_modules/.bin/husky && husky install && chmod +x ./node_modules/.bin/cross-env && chmod +x ./node_modules/.bin/nest"
   },
   "devDependencies": {
