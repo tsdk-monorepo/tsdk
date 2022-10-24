@@ -8,7 +8,7 @@ export const withDataMethods: { [key: string]: boolean | undefined } = {
 };
 
 export function checkMethodHasBody(method: string) {
-  return withDataMethods[method];
+  return withDataMethods[method.toLowerCase()];
 }
 
 export function transformPath(path: string) {
@@ -20,11 +20,3 @@ export const TYPE = {
   response: 'RES:',
   set: 'SET:',
 };
-
-export const PROTOCOLs = {
-  http: 'http',
-  ws: 'ws',
-  'socket.io': 'io',
-};
-
-export const PROTOCOL_VALUEs = Object.values(PROTOCOLs);

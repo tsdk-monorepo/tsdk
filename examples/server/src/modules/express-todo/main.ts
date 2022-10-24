@@ -1,11 +1,14 @@
 import http from 'http';
 import express from 'express';
 import { Server } from 'socket.io';
-import { checkMethodHasBody, ObjectLiteral, PROTOCOLs, TYPE } from '/src/shared/tsdk-helper';
+import cors from 'cors';
+import { checkMethodHasBody, ObjectLiteral, TYPE } from '/src/shared/tsdk-helper';
 import { initializeDataSources } from '/src/db';
 import { routeBus } from '../todo/gen-route';
 import { setupRoutes } from '../ws-todo/setup-routes';
-import cors from 'cors';
+import { expressAdapterFactory } from '../todo/express-adapter';
+import { RequestInfo } from '../todo/types';
+import { socketIOAdapterFactory } from '../todo/socket.io-adapter';
 
 const port = 3012;
 
@@ -28,23 +31,23 @@ const port = 3012;
     res.end('hi, from express.');
   });
 
-  app.use('/api', (req, res, next) => {
-    const method = req.method.toLowerCase();
-    const eventName = `${PROTOCOLs.http}:${method || 'get'}:${req.path}`;
-
-    if ((routeBus as ObjectLiteral)._events[eventName]) {
-      const reqInfo = {
-        uid: 1, // req._authInfo.uid
-        uname: '', // req._authInfo.username
-        lang: 'zh-CN', // req.lang
-        ip: '',
-      };
-      const body = checkMethodHasBody(method) ? req.body : req.query;
-      routeBus.emit(eventName, reqInfo, res, body);
-    } else {
-      next();
-    }
-  });
+  app.use(
+    '/api',
+    expressAdapterFactory<RequestInfo>({
+      routeBus,
+      getReqInfo(req) {
+        return {
+          uid: 1, // req._authInfo.uid
+          uname: '', // req._authInfo.username
+          lang: 'zh-CN', // req.lang?
+          ip: req.ip,
+        };
+      },
+      getData(req) {
+        return checkMethodHasBody(req.method) ? req.body : req.query;
+      },
+    })
+  );
 
   // support socket.io protocol
   const io = new Server(server);
@@ -67,28 +70,13 @@ const port = 3012;
 
     // sockets.length
 
-    socket.on(TYPE.request, (body) => {
-      if (!socket.connected) return;
-      try {
-        if (body._id) {
-          const [method, path] = body._id.split(':');
-          routeBus.emit(
-            `${PROTOCOLs['socket.io']}:${method || 'get'}:${path}`,
-            reqInfo,
-            socket,
-            body
-          );
-        }
-      } catch (e) {
-        // not valid payload
-      }
-    });
-
-    socket.on(TYPE.set, (data) => {
-      if (data.key === 'lang') {
-        reqInfo.lang = data.value;
-      }
-    });
+    socketIOAdapterFactory<RequestInfo>({
+      routeBus,
+      getReqInfo() {
+        return reqInfo;
+      },
+      type: TYPE,
+    })(socket);
   });
 
   server.listen(port, () => {

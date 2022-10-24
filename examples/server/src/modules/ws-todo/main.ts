@@ -1,11 +1,11 @@
 import { createServer } from 'http';
 import { WebSocketServer } from 'ws';
 import { parse } from 'url';
-import { decode } from 'querystring';
 import { initializeDataSources } from '/src/db';
-import { routeBus } from '../todo/gen-route';
+import { TYPE } from '/src/shared/tsdk-helper';
 import { setupRoutes } from './setup-routes';
-import { TYPE, PROTOCOLs } from '/src/shared/tsdk-helper';
+import { routeBus } from '../todo/gen-route';
+import { getRouteEventName } from '../todo/gen-route-factory';
 
 function heartbeat() {
   this.isAlive = true;
@@ -61,7 +61,11 @@ function heartbeat() {
           if (socket.readyState === 1) {
             if (body.path) {
               routeBus.emit(
-                `${PROTOCOLs.ws}:${body.method || 'get'}:${body.path}`,
+                getRouteEventName({
+                  protocol: 'ws',
+                  method: body.method,
+                  path: body.path,
+                }),
                 reqInfo,
                 socket,
                 body

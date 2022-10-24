@@ -1,90 +1,74 @@
 import { TypeORMError, EntityNotFoundError } from 'typeorm';
 import { ZodError } from 'zod';
-import EventEmitter from 'eventemitter3';
-import { APIConfig, ObjectLiteral, PROTOCOL_VALUEs, TYPE } from '/src/shared/tsdk-helper';
-import { RequestInfo } from '../todo/types';
+import { TYPE } from '/src/shared/tsdk-helper';
+import { APIConfig } from '/src/shared/tsdk-types';
+import { genRouteFactory, getRouteEventName } from './gen-route-factory';
+import { RequestInfo } from './types';
 
-type Socket = {
-  send: Function;
-  status?: (statusCode: number) => {
-    send: (msg: string | ObjectLiteral) => void;
-  };
-  /** socket.io */
-  emit?: EventEmitter['emit'];
-  /** socket.io */
-  connected?: boolean;
-  /** websocket
-   * 0	CONNECTING	Socket has been created. The connection is not yet open.
-   * 1	OPEN	The connection is open and ready to communicate.
-   * 2	CLOSING	The connection is in the process of closing.
-   * 3	CLOSED	The connection is closed or couldn't be opened.
-   */
-  readyState?: 0 | 1 | 2 | 3;
-};
-
-export const routeBus = new EventEmitter();
-
-const routesMap: ObjectLiteral = Object.create(null);
-
-function send(socket: Socket, result: ObjectLiteral, status?: number) {
-  if (socket.status) {
-    // http
-    const { status, ...rest } = result;
-    socket.status(status || 200).send(rest);
-  } else if (socket.emit) {
-    // socket.io
-    if (socket.connected) {
-      socket.emit(TYPE.response, result);
-    }
-  } else if (socket.readyState === 1) {
-    // websocket
-    socket.send(TYPE.response + JSON.stringify(result));
-  }
-}
-
-export default function genRoute<ReqData, ResData>(
-  apiConfig: APIConfig,
-  cb: (reqInfo: Readonly<RequestInfo>, socket: Socket, data: ReqData) => Promise<ResData>
-) {
-  const routeName = `${apiConfig.method}:${apiConfig.path}`;
-
-  async function onEvent(
-    reqInfo: Readonly<RequestInfo>,
-    socket: Socket,
-    { _id: msgId, ...body }: ReqData & { _id: string }
-  ) {
-    try {
-      const data = apiConfig.schema ? apiConfig.schema.parse(body) : body;
-      const result = await cb(reqInfo, socket, data);
-      send(socket, { _id: msgId, ...result });
-    } catch (e) {
-      if (e instanceof ZodError) {
-        return send(socket, { _id: msgId, status: 400, msg: e.issues });
-      }
-
-      let status = 500,
-        msg = e.message;
-
-      if (e instanceof TypeORMError) {
-        if (e.name === TypeORMError.name) {
-          status = 400;
-        } else if (e instanceof EntityNotFoundError) {
-          status = 404;
-        }
-      }
-      return send(socket, { _id: msgId, status, msg });
-    }
+function onErrorHandler(e: Error, socket, msgId, send) {
+  if (e instanceof ZodError) {
+    return send(socket, { _id: msgId, status: 400, msg: e.issues });
   }
 
-  PROTOCOL_VALUEs.forEach((i) => {
-    const name = `${i}:${routeName}`;
+  let status = 500,
+    msg = e.message;
 
-    if (routesMap[name]) {
-      throw new Error(`\`${i}:${apiConfig.path}\` already used.`);
-    } else {
-      routesMap[name] = 1;
+  if (e instanceof TypeORMError) {
+    if (e.name === TypeORMError.name) {
+      status = 400;
+    } else if (e instanceof EntityNotFoundError) {
+      status = 404;
     }
-
-    routeBus.on(name, onEvent);
-  });
+  }
+  return send(socket, { _id: msgId, status, msg });
 }
+
+class AuthError extends Error {
+  //
+}
+
+async function langMiddleware(apiConfig: APIConfig, reqInfo: RequestInfo) {
+  // parse lang in adapter or here
+  // @todo
+  // reqInfo.lang = 'zh-CN';
+  // if correct, next
+  return Promise.resolve();
+}
+
+async function authMiddleware(apiConfig: APIConfig, reqInfo: RequestInfo) {
+  if (!apiConfig.needAuth) {
+    return Promise.resolve();
+  }
+  if (!reqInfo.token) {
+    return Promise.reject(new AuthError());
+  }
+
+  // validate the token now
+  // reqInfo.userId = 1;
+  // reqInfo.username = 'hi';
+  // reqInfo.lang = 'zh-CN';
+
+  // if correct, next
+  return Promise.resolve();
+}
+
+// reate limit middleware
+function rateLimitMiddleware(apiConfig: APIConfig, reqInfo: RequestInfo) {
+  // @todo
+  return Promise.resolve();
+}
+
+const middlewares = [langMiddleware, authMiddleware, rateLimitMiddleware];
+export const genRouteObj = genRouteFactory<APIConfig, RequestInfo>(
+  onErrorHandler,
+  TYPE,
+  middlewares
+);
+
+export const routeBus = genRouteObj.routeBus;
+
+const genRoute = genRouteObj.genRoute;
+
+export { getRouteEventName };
+
+export default genRoute;
