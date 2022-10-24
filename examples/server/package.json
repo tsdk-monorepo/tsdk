@@ -16,6 +16,7 @@
     "test": "cross-env NODE_ENV=test TS_CONFIG_PATHS=true ts-mocha -p tsconfig.json src/**/*.test.ts"
   },
   "dependencies": {
+    "tsdk-server-adapters": "*",
     "axios": "^0.27.2",
     "better-sqlite3": "^7.6.2",
     "bufferutil": "^4.0.6",

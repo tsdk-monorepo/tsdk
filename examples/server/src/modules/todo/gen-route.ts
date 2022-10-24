@@ -1,8 +1,8 @@
 import { TypeORMError, EntityNotFoundError } from 'typeorm';
 import { ZodError } from 'zod';
+import { genRouteFactory, getRouteEventName } from 'tsdk-server-adapters';
 import { TYPE } from '/src/shared/tsdk-helper';
 import { APIConfig } from '/src/shared/tsdk-types';
-import { genRouteFactory, getRouteEventName } from './gen-route-factory';
 import { RequestInfo } from './types';
 
 function onErrorHandler(e: Error, socket, msgId, send) {

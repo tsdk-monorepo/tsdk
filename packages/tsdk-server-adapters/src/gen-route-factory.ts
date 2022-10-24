@@ -69,7 +69,7 @@ function send(socket: Socket, result: ObjectLiteral, type: Type, status?: number
 export function genRouteFactory<APIConfig, RequestInfo>(
   onErrorHandler: (e: unknown, socket: Socket, msgId: string, _send: typeof send) => void,
   type: Type,
-  middlewares?: ((apiConfig: APIConfig & BasicAPIConfig, reqInfo) => Promise<any>)[]
+  middlewares?: ((apiConfig: APIConfig & BasicAPIConfig, reqInfo: RequestInfo) => Promise<any>)[]
 ) {
   const routeBus = new EventEmitter();
   const routesMap: ObjectLiteral = Object.create(null);
@@ -86,7 +86,7 @@ export function genRouteFactory<APIConfig, RequestInfo>(
       try {
         // middlewares
         // will throw error if one of middlewares throw error
-        if (middlewares?.length > 0) {
+        if (middlewares && middlewares?.length > 0) {
           await middlewares.reduce((previousPromise, nextMiddleware) => {
             return previousPromise.then(() => nextMiddleware(apiConfig, reqInfo));
           }, Promise.resolve());

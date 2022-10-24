@@ -74,6 +74,7 @@ importers:
       ts-mocha: ^10.0.0
       ts-node: ^10.9.1
       tsdk: '*'
+      tsdk-server-adapters: '*'
       typeorm: ^0.3.10
       typeorm-cursor-pagination: ^0.9.1
       typescript: ^4.8.4
@@ -93,6 +94,7 @@ importers:
       rxjs: 7.5.7
       socket.io: 4.5.3_3cxu5zja4e2r5wmvge7mdcljwq
       socket.io-client: 4.5.3_3cxu5zja4e2r5wmvge7mdcljwq
+      tsdk-server-adapters: link:../../packages/tsdk-server-adapters
       typeorm: 0.3.10_avr4674aj2tjfelmahfcr7qpvi
       typeorm-cursor-pagination: 0.9.1_typeorm@0.3.10
       utf-8-validate: 5.0.10
@@ -194,11 +196,18 @@ importers:
   packages/tsdk-boilerplate:
     specifiers: {}
 
-  packages/tsdk-express-adapter:
-    specifiers: {}
-
-  packages/tsdk-socket.io-adapter:
-    specifiers: {}
+  packages/tsdk-server-adapters:
+    specifiers:
+      '@types/express': ^4.17.14
+      '@types/node': ^18.7.16
+      eventemitter3: ^4.0.7
+      typescript: 4.8.4
+    dependencies:
+      eventemitter3: 4.0.7
+    devDependencies:
+      '@types/express': 4.17.14
+      '@types/node': 18.11.3
+      typescript: 4.8.4
 
   website:
     specifiers:

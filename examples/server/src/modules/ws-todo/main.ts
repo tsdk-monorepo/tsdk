@@ -4,8 +4,7 @@ import { parse } from 'url';
 import { initializeDataSources } from '/src/db';
 import { TYPE } from '/src/shared/tsdk-helper';
 import { setupRoutes } from './setup-routes';
-import { routeBus } from '../todo/gen-route';
-import { getRouteEventName } from '../todo/gen-route-factory';
+import { getRouteEventName, routeBus } from '../todo/gen-route';
 
 function heartbeat() {
   this.isAlive = true;

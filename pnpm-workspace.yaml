@@ -2,8 +2,7 @@ packages:
   # pacakges
   - 'packages/eslint-config'
   - 'packages/tsdk'
-  - 'packages/tsdk-express-adapter'
-  - 'packages/tsdk-socket.io-adapter'
+  - 'packages/tsdk-server-adapters'
   - 'packages/tsdk-boilerplate'
 
   # website

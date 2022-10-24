@@ -2,13 +2,13 @@ import http from 'http';
 import express from 'express';
 import { Server } from 'socket.io';
 import cors from 'cors';
-import { checkMethodHasBody, ObjectLiteral, TYPE } from '/src/shared/tsdk-helper';
+import { socketIOAdapterFactory } from 'tsdk-server-adapters/lib/socket.io-adapter';
+import { expressAdapterFactory } from 'tsdk-server-adapters/lib/express-adapter';
+import { checkMethodHasBody, TYPE } from '/src/shared/tsdk-helper';
 import { initializeDataSources } from '/src/db';
 import { routeBus } from '../todo/gen-route';
 import { setupRoutes } from '../ws-todo/setup-routes';
-import { expressAdapterFactory } from '../todo/express-adapter';
 import { RequestInfo } from '../todo/types';
-import { socketIOAdapterFactory } from '../todo/socket.io-adapter';
 
 const port = 3012;
 
