@@ -9,15 +9,6 @@
     "tsConfigPath": "tsconfig.json"
   },
   "projects": {
-    "fastify-todo": {
-      "type": "application",
-      "root": "src/modules/fastify-todo",
-      "sourceRoot": "src/modules/fastify-todo",
-      "entryFile": "modules/fastify-todo/main",
-      "nodeExternalsParams": {
-        "additionalModuleDirs": ["../../node_modules"]
-      }
-    },
     "express-todo": {
       "type": "application",
       "root": "src/modules/express-todo",
