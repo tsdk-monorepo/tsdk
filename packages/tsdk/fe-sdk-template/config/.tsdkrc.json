@@ -6,7 +6,6 @@
   "entityExt": "entity",
   "apiconfExt": "apiconf",
   "shareExt": "shared",
-  "swr": true,
   "sharedDirs": ["./src/shared"],
   "sdkWhiteList": [""],
   "monorepoRoot": "./"

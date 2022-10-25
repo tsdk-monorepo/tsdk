@@ -11,8 +11,6 @@ export interface TSDKConfig {
   apiconfExt: string;
   shareExt?: string;
   sharedDirs: string[];
-  /** @todo generate `swr` helpers. default: true */
-  swr: boolean;
   /**
    * no need delete files in `fe-sdk/src`
    */

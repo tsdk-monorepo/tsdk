@@ -31,7 +31,7 @@ npx tsdk --init
   "entityLibName": "typeorm",
   "entityExt": "entity",
   "apiconfExt": "apiconf",
-  "swr": true,
+  "shareExt": "shared",
   "sharedDirs": ["./src/shared"],
   "sdkWhiteList": [""]
 }
