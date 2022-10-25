@@ -1,5 +1,10 @@
 import { Socket } from 'socket.io-client';
-import { APIConfig, ObjectLiteral, TYPE, trimAndRemoveUndefined } from './shared/tsdk-helper';
+import {
+  APIConfig,
+  ObjectLiteral,
+  ProtocolTypes,
+  trimAndRemoveUndefined,
+} from './shared/tsdk-helper';
 
 let socketIOInstance: Socket;
 
@@ -11,8 +16,8 @@ let socketIOInstance: Socket;
 export const setSocketIOInstance = (instance: Socket): void => {
   socketIOInstance = instance;
 
-  socketIOInstance.off(TYPE.response);
-  socketIOInstance.on(TYPE.response, ({ _id: msgId, ...data }: ObjectLiteral) => {
+  socketIOInstance.off(ProtocolTypes.response);
+  socketIOInstance.on(ProtocolTypes.response, ({ _id: msgId, ...data }: ObjectLiteral) => {
     if (msgId && QUEUEs[msgId]) {
       !data.status || data.status === 200
         ? QUEUEs[msgId].resolve(data)
@@ -61,7 +66,7 @@ export function socketIOHandler(
       Date.now().toString(36).slice(-4) + Math.random().toString(36).slice(-4)
     }`;
 
-    ioInstance.emit(TYPE.request, {
+    ioInstance.emit(ProtocolTypes.request, {
       ...(needTrim && data ? trimAndRemoveUndefined(data) : {}),
       _id: msgId,
     });

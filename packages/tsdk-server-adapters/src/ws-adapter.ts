@@ -7,6 +7,9 @@ import {
   ObjectLiteral,
 } from './gen-route-factory';
 
+/**
+ * @deprecated Not ready for production, Please use Socket.IO
+ */
 export function wsAdapterFactory<ReqInfo>({
   routeBus,
   getReqInfo,

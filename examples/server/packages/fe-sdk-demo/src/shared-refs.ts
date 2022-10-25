@@ -4,6 +4,6 @@
  */
 
 export * from './shared/paging';
-export * from './shared/tsdk-helper';
 export * from './shared/utils';
 export * from './shared/tsdk-types';
+export * from './shared/tsdk-helper';
