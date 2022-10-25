@@ -1,14 +1,14 @@
-import genRoute from '../todo/gen-route';
-import { todoService } from '../todo/Todo.service';
-import { AddTodoConfig, AddTodoReq, AddTodoRes } from '../todo/apiconf/AddTodo.apiconf';
-import { UpdateTodoConfig, UpdateTodoReq, UpdateTodoRes } from '../todo/apiconf/UpdateTodo.apiconf';
-import { DeleteTodoConfig, DeleteTodoReq, DeleteTodoRes } from '../todo/apiconf/DeleteTodo.apiconf';
-import { QueryTodoConfig, QueryTodoReq, QueryTodoRes } from '../todo/apiconf/QueryTodo.apiconf';
+import genRoute from './gen-route';
+import { todoService } from './Todo.service';
+import { AddTodoConfig, AddTodoReq, AddTodoRes } from './apiconf/AddTodo.apiconf';
+import { UpdateTodoConfig, UpdateTodoReq, UpdateTodoRes } from './apiconf/UpdateTodo.apiconf';
+import { DeleteTodoConfig, DeleteTodoReq, DeleteTodoRes } from './apiconf/DeleteTodo.apiconf';
+import { QueryTodoConfig, QueryTodoReq, QueryTodoRes } from './apiconf/QueryTodo.apiconf';
 import {
   QueryTodoByCursorConfig,
   QueryTodoByCursorReq,
   QueryTodoByCursorRes,
-} from '../todo/apiconf/QueryTodoByCursor.apiconf';
+} from './apiconf/QueryTodoByCursor.apiconf';
 
 export function setupTodoRoute() {
   genRoute<QueryTodoReq, QueryTodoRes>(QueryTodoConfig, async (reqInfo, res, data) => {
