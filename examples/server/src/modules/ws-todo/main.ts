@@ -1,10 +1,12 @@
 import { createServer } from 'http';
 import { WebSocketServer } from 'ws';
 import { parse } from 'url';
+import { wsAdapterFactory } from 'tsdk-server-adapters/lib/ws-adapter';
 import { initializeDataSources } from '/src/db';
 import { ProtocolTypes } from '/src/shared/tsdk-helper';
-import { setupRoutes } from './setup-routes';
-import { getRouteEventName, routeBus } from '../todo/gen-route';
+import { setupRoutes } from '../setup-routes';
+import { routeBus } from '../todo/gen-route';
+import { RequestInfo } from '../todo/types';
 
 function heartbeat() {
   this.isAlive = true;
@@ -49,50 +51,13 @@ function heartbeat() {
     (socket as unknown as ExtWebSocket).isAlive = true;
     socket.on('pong', heartbeat);
 
-    socket.on('message', (payload, isBinary) => {
-      // @todo maybe decrypt payload first
-
-      const data = payload.toString();
-      const type = data.toString().substring(0, ProtocolTypes.request.length);
-      if (type === ProtocolTypes.request) {
-        try {
-          const body = JSON.parse(data.toString().substring(ProtocolTypes.request.length));
-          if (socket.readyState === 1) {
-            if (body.path) {
-              routeBus.emit(
-                getRouteEventName({
-                  protocol: 'ws',
-                  method: body.method,
-                  path: body.path,
-                }),
-                reqInfo,
-                socket,
-                body
-              );
-            }
-          }
-        } catch (e) {
-          // not valid payload
-        }
-      } else if (type === ProtocolTypes.response) {
-        console.log('client should not send response');
-      } else if (type === ProtocolTypes.set) {
-        try {
-          const payload = JSON.parse(data.toString().substring(ProtocolTypes.set.length));
-          if (payload.key === 'lang') {
-            reqInfo.lang = payload.value;
-          }
-        } catch (e) {
-          // not valid payload
-        }
-      }
-
-      // ws.clients.forEach(function each(client) {
-      //   if (client !== socket && client.readyState === WebSocket.OPEN) {
-      //     client.send(data, { binary: isBinary });
-      //   }
-      // });
-    });
+    wsAdapterFactory<RequestInfo>({
+      routeBus,
+      getReqInfo() {
+        return reqInfo;
+      },
+      protocolType: ProtocolTypes,
+    })(socket);
 
     socket.on('close', function () {
       console.log('client socket close');

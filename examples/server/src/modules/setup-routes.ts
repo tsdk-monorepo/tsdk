@@ -1,4 +1,4 @@
-import { setupTodoRoute } from './Todo.api';
+import { setupTodoRoute } from './todo/Todo.api';
 
 export function setupRoutes() {
   setupTodoRoute();
