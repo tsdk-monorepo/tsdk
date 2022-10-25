@@ -80,7 +80,7 @@ importers:
       typeorm-cursor-pagination: ^0.9.1
       typescript: ^4.8.4
       utf-8-validate: ^5.0.9
-      ws: ^8.9.0
+      ws: ^8.10.0
       zod: ^3.19.1
     dependencies:
       axios: 0.27.2
@@ -97,7 +97,7 @@ importers:
       typeorm: 0.3.10_avr4674aj2tjfelmahfcr7qpvi
       typeorm-cursor-pagination: 0.9.1_typeorm@0.3.10
       utf-8-validate: 5.0.10
-      ws: 8.9.0_3cxu5zja4e2r5wmvge7mdcljwq
+      ws: 8.10.0_3cxu5zja4e2r5wmvge7mdcljwq
       zod: 3.19.1
     devDependencies:
       '@nestjs/cli': 9.1.4
@@ -15132,7 +15132,7 @@ packages:
       spdy: 4.0.2
       webpack: 5.74.0
       webpack-dev-middleware: 5.3.3_webpack@5.74.0
-      ws: 8.9.0
+      ws: 8.10.0
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -15368,6 +15368,35 @@ packages:
         optional: true
     dev: false
 
+  /ws/8.10.0:
+    resolution: {integrity: sha512-+s49uSmZpvtAsd2h37vIPy1RBusaLawVe8of+GyEPsaJTCMpj/2v8NpeK1SHXjBlQ95lQTmQofOJnFiLoaN3yw==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: ^5.0.2
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+    dev: false
+
+  /ws/8.10.0_3cxu5zja4e2r5wmvge7mdcljwq:
+    resolution: {integrity: sha512-+s49uSmZpvtAsd2h37vIPy1RBusaLawVe8of+GyEPsaJTCMpj/2v8NpeK1SHXjBlQ95lQTmQofOJnFiLoaN3yw==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: ^5.0.2
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+    dependencies:
+      bufferutil: 4.0.7
+      utf-8-validate: 5.0.10
+    dev: false
+
   /ws/8.2.3:
     resolution: {integrity: sha512-wBuoj1BDpC6ZQ1B7DWQBYVLphPWkm8i9Y0/3YdHjHKHiohOJ1ws+3OccDWtH+PoC9DZD5WOTrJvNbWvjS6JWaA==}
     engines: {node: '>=10.0.0'}
@@ -15394,35 +15423,6 @@ packages:
     dependencies:
       bufferutil: 4.0.7
       utf-8-validate: 5.0.10
-
-  /ws/8.9.0:
-    resolution: {integrity: sha512-Ja7nszREasGaYUYCI2k4lCKIRTt+y7XuqVoHR44YpI49TtryyqbqvDMn5eqfW7e6HzTukDRIsXqzVHScqRcafg==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: ^5.0.2
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
-    dev: false
-
-  /ws/8.9.0_3cxu5zja4e2r5wmvge7mdcljwq:
-    resolution: {integrity: sha512-Ja7nszREasGaYUYCI2k4lCKIRTt+y7XuqVoHR44YpI49TtryyqbqvDMn5eqfW7e6HzTukDRIsXqzVHScqRcafg==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: ^5.0.2
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
-    dependencies:
-      bufferutil: 4.0.7
-      utf-8-validate: 5.0.10
-    dev: false
 
   /xcode/3.0.1:
     resolution: {integrity: sha512-kCz5k7J7XbJtjABOvkc5lJmkiDh8VhjVCGNiqdKCscmVpdVUpEAyXv1xmCLkQJ5dsHqx3IPO4XW+NTDhU/fatA==}

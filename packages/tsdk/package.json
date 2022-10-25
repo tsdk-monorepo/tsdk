@@ -1,6 +1,6 @@
 {
   "name": "tsdk",
-  "version": "0.0.19-alpha.13",
+  "version": "0.0.19-alpha.14",
   "main": "lib/index.js",
   "bin": {
     "tsdk": "bin/tsdk.js"
@@ -21,18 +21,18 @@
   ],
   "keywords": [
     "TypeScript",
-    "typing",
-    "code",
-    "share",
+    "Share Code",
     "APIs",
     "typeorm",
     "zod",
     "express",
-    "fastify",
-    "nest",
     "openAPI",
-    "doc",
-    "@nestjs/cli"
+    "@nestjs/cli",
+    "tsdk",
+    "http",
+    "express",
+    "ws",
+    "Socket.IO"
   ],
   "dependencies": {
     "chalk": "4.1.2",
