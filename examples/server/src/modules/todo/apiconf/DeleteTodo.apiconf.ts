@@ -6,7 +6,7 @@ import {
   transformPath,
 } from '/src/shared/tsdk-helper';
 import { Todo } from '../Todo.entity';
-import { deleteTodoSchema } from './TodoSchema.apiconf';
+import { deleteTodoSchema } from './TodoSchema.shared';
 
 export const DeleteTodoConfig: APIConfig = {
   path: transformPath('DeleteTodo'),

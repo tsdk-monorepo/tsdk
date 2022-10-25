@@ -9,6 +9,7 @@ export interface TSDKConfig {
   baseDir: string;
   entityExt: string;
   apiconfExt: string;
+  shareExt?: string;
   sharedDirs: string[];
   /** @todo generate `swr` helpers. default: true */
   swr: boolean;

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { IDSchema } from '/src/shared/utils';
-import { addTodoSchema, updateTodoSchema, deleteTodoSchema } from '../apiconf/TodoSchema.apiconf';
+import { addTodoSchema, updateTodoSchema, deleteTodoSchema } from '../apiconf/TodoSchema.shared';
 import { TodoStatus } from '../Todo.entity';
 
 describe('TodoSchema tests', () => {

@@ -18,6 +18,7 @@ export async function syncFiles() {
   await copySDK();
   await parseDeps();
   await deleteFilesBeforeSync();
+  await syncAddtionShareFiles();
   await syncAPIConf();
   await syncEntityFiles();
   await syncSharedFiles();
@@ -199,6 +200,11 @@ export async function syncEntityFiles() {
 /** sync apiconf files */
 export async function syncAPIConf() {
   return syncExtFiles(config.apiconfExt);
+}
+
+/** sync apiconf files */
+export async function syncAddtionShareFiles() {
+  return syncExtFiles(config.shareExt || 'shared');
 }
 
 /** sync shared files */

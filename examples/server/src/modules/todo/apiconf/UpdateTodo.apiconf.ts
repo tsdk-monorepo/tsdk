@@ -1,5 +1,5 @@
 import { Todo } from '../Todo.entity';
-import { updateTodoSchema } from './TodoSchema.apiconf';
+import { updateTodoSchema } from './TodoSchema.shared';
 import {
   APIConfig,
   ObjectLiteral,
