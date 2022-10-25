@@ -1,20 +1,25 @@
 /** @ts-ignore */
 import type { Socket } from 'socket.io';
-import { genRouteFactory, getRouteEventName, Type, ObjectLiteral } from './gen-route-factory';
+import {
+  genRouteFactory,
+  getRouteEventName,
+  ProtocolType,
+  ObjectLiteral,
+} from './gen-route-factory';
 
 export function socketIOAdapterFactory<ReqInfo>({
   routeBus,
   getReqInfo,
-  type,
+  protocolType,
 }: {
   routeBus: ReturnType<typeof genRouteFactory>['routeBus'];
   getReqInfo: (socket: Socket) => ReqInfo;
-  type: Type;
+  protocolType: ProtocolType;
 }) {
   return function socketIOAdapter(socket: Socket) {
     const reqInfo = getReqInfo(socket);
 
-    socket.on(type.request, (body) => {
+    socket.on(protocolType.request, (body) => {
       if (!socket.connected) return;
 
       if (body._id) {
@@ -27,7 +32,7 @@ export function socketIOAdapterFactory<ReqInfo>({
       }
     });
 
-    socket.on(type.set, (data) => {
+    socket.on(protocolType.set, (data) => {
       if (data.key === 'lang') {
         (reqInfo as ObjectLiteral).lang = data.value;
       }

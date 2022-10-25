@@ -10,7 +10,7 @@ export const PROTOCOLs = {
 
 export const PROTOCOL_KEYs = Object.keys(PROTOCOLs);
 
-type Socket = {
+type RequestOrSocket = {
   send: Function;
   status?: (statusCode: number) => {
     send: (msg: string | object) => void;
@@ -20,7 +20,7 @@ type Socket = {
   /** socket.io */
   connected?: boolean;
   /** websocket
-   * 0	CONNECTING	Socket has been created. The connection is not yet open.
+   * 0	CONNECTING	So-cket has been created. The connection is not yet open.
    * 1	OPEN	The connection is open and ready to communicate.
    * 2	CLOSING	The connection is in the process of closing.
    * 3	CLOSED	The connection is closed or couldn't be opened.
@@ -38,7 +38,7 @@ export interface ObjectLiteral {
   [key: string]: any;
 }
 
-export interface Type {
+export interface ProtocolType {
   request: string;
   response: string;
   set: string;
@@ -50,32 +50,33 @@ export function getRouteEventName(
   return `${PROTOCOLs[config.protocol]}:${config.method || 'get'}:${config.path}`;
 }
 
-function send(socket: Socket, result: ObjectLiteral, type: Type, status?: number) {
-  if (socket.status) {
-    // http
-    const { status, ...rest } = result;
-    socket.status(status || 200).send(rest);
-  } else if (socket.emit) {
-    // socket.io
-    if (socket.connected) {
-      socket.emit(type.response, result);
+function sendFactory(reqSocket: RequestOrSocket, protocolType: ProtocolType) {
+  return function send(result: ObjectLiteral) {
+    if (reqSocket.status) {
+      // for http request
+      const { status, ...rest } = result;
+      reqSocket.status(status || 200).send(rest);
+    } else if (reqSocket.emit) {
+      // for socket.io
+      if (reqSocket.connected) {
+        reqSocket.emit(protocolType.response, result);
+      }
+    } else if (reqSocket.readyState === 1) {
+      // for websocket
+      reqSocket.send(protocolType.response + JSON.stringify(result));
     }
-  } else if (socket.readyState === 1) {
-    // websocket
-    socket.send(type.response + JSON.stringify(result));
-  }
+  };
 }
 
 export function genRouteFactory<APIConfig, RequestInfo>(
   onErrorHandler: (
-    e: unknown,
+    error: unknown,
     params: {
-      socket: Socket;
       msgId: string;
-      send: typeof send;
+      send: ReturnType<typeof sendFactory>;
     }
   ) => void,
-  type: Type,
+  protocolType: ProtocolType,
   middlewares?: ((apiConfig: APIConfig & BasicAPIConfig, reqInfo: RequestInfo) => Promise<any>)[]
 ) {
   const routeBus = new EventEmitter();
@@ -83,13 +84,19 @@ export function genRouteFactory<APIConfig, RequestInfo>(
 
   function genRoute<ReqData, ResData>(
     apiConfig: APIConfig & BasicAPIConfig,
-    cb: (reqInfo: Readonly<RequestInfo>, socket: Socket, data: ReqData) => Promise<ResData>
+    cb: (
+      reqInfo: Readonly<RequestInfo>,
+      reqSocket: RequestOrSocket,
+      data: ReqData
+    ) => Promise<ResData>
   ) {
     async function onEvent(
       reqInfo: Readonly<RequestInfo>,
-      socket: Socket,
+      reqSocket: RequestOrSocket,
       { _id: msgId, ...body }: ReqData & { _id: string }
     ) {
+      const send = sendFactory(reqSocket, protocolType);
+
       try {
         // middlewares
         // will throw error if one of middlewares throw error
@@ -99,11 +106,10 @@ export function genRouteFactory<APIConfig, RequestInfo>(
           }, Promise.resolve());
         }
         const data = apiConfig.schema ? apiConfig.schema.parse(body) : body;
-        const result = await cb(reqInfo, socket, data);
-        send(socket, { _id: msgId, ...result }, type);
+        const result = await cb(reqInfo, reqSocket, data);
+        send({ _id: msgId, ...result });
       } catch (e) {
         onErrorHandler(e, {
-          socket,
           msgId,
           send,
         });

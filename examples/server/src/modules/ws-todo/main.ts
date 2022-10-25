@@ -2,7 +2,7 @@ import { createServer } from 'http';
 import { WebSocketServer } from 'ws';
 import { parse } from 'url';
 import { initializeDataSources } from '/src/db';
-import { TYPE } from '/src/shared/tsdk-helper';
+import { ProtocolTypes } from '/src/shared/tsdk-helper';
 import { setupRoutes } from './setup-routes';
 import { getRouteEventName, routeBus } from '../todo/gen-route';
 
@@ -53,10 +53,10 @@ function heartbeat() {
       // @todo maybe decrypt payload first
 
       const data = payload.toString();
-      const type = data.toString().substring(0, TYPE.request.length);
-      if (type === TYPE.request) {
+      const type = data.toString().substring(0, ProtocolTypes.request.length);
+      if (type === ProtocolTypes.request) {
         try {
-          const body = JSON.parse(data.toString().substring(TYPE.request.length));
+          const body = JSON.parse(data.toString().substring(ProtocolTypes.request.length));
           if (socket.readyState === 1) {
             if (body.path) {
               routeBus.emit(
@@ -74,11 +74,11 @@ function heartbeat() {
         } catch (e) {
           // not valid payload
         }
-      } else if (type === TYPE.response) {
+      } else if (type === ProtocolTypes.response) {
         console.log('client should not send response');
-      } else if (type === TYPE.set) {
+      } else if (type === ProtocolTypes.set) {
         try {
-          const payload = JSON.parse(data.toString().substring(TYPE.set.length));
+          const payload = JSON.parse(data.toString().substring(ProtocolTypes.set.length));
           if (payload.key === 'lang') {
             reqInfo.lang = payload.value;
           }

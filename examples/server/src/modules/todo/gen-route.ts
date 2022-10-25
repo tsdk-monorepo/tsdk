@@ -1,16 +1,16 @@
 import { genRouteFactory, getRouteEventName } from 'tsdk-server-adapters';
 import { TypeORMError, EntityNotFoundError } from 'typeorm';
 import { ZodError } from 'zod';
-import { TYPE } from '/src/shared/tsdk-helper';
+import { ProtocolTypes } from '/src/shared/tsdk-helper';
 import { APIConfig } from '/src/shared/tsdk-types';
 import { RequestInfo } from './types';
 
 function onErrorHandler(
   e: Error,
-  { socket, send, msgId }: Parameters<Parameters<typeof genRouteFactory>[0]>[1]
+  { send, msgId }: Parameters<Parameters<typeof genRouteFactory>[0]>[1]
 ) {
   if (e instanceof ZodError) {
-    return send(socket, { _id: msgId, status: 400, msg: e.issues }, TYPE);
+    return send({ _id: msgId, status: 400, msg: e.issues });
   }
 
   let status = 500,
@@ -25,7 +25,7 @@ function onErrorHandler(
       status = 404;
     }
   }
-  return send(socket, { _id: msgId, status, msg }, TYPE);
+  return send({ _id: msgId, status, msg });
 }
 
 class AuthError extends Error {
@@ -66,7 +66,7 @@ function rateLimitMiddleware(apiConfig: APIConfig, reqInfo: RequestInfo) {
 const middlewares = [langMiddleware, authMiddleware, rateLimitMiddleware];
 export const genRouteObj = genRouteFactory<APIConfig, RequestInfo>(
   onErrorHandler,
-  TYPE,
+  ProtocolTypes,
   middlewares
 );
 

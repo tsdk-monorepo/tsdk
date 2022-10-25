@@ -16,7 +16,7 @@ export function transformPath(path: string) {
   return `/${paramCase(path)}`;
 }
 
-export const TYPE = {
+export const ProtocolTypes = {
   request: 'REQ:',
   response: 'RES:',
   set: 'SET:',

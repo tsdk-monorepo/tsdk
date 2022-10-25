@@ -4,7 +4,7 @@ import { Server } from 'socket.io';
 import cors from 'cors';
 import { socketIOAdapterFactory } from 'tsdk-server-adapters/lib/socket.io-adapter';
 import { expressAdapterFactory } from 'tsdk-server-adapters/lib/express-adapter';
-import { checkMethodHasBody, TYPE } from '/src/shared/tsdk-helper';
+import { checkMethodHasBody, ProtocolTypes } from '/src/shared/tsdk-helper';
 import { initializeDataSources } from '/src/db';
 import { routeBus } from '../todo/gen-route';
 import { setupRoutes } from '../ws-todo/setup-routes';
@@ -75,7 +75,7 @@ const port = 3012;
       getReqInfo() {
         return reqInfo;
       },
-      type: TYPE,
+      protocolType: ProtocolTypes,
     })(socket);
   });
 
