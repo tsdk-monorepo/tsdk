@@ -31,6 +31,7 @@ importers:
       react-dom: 18.0.0
       react-native: ~0.69.6
       react-native-web: ~0.18.9
+      socket.io-client: ^4.5.3
     dependencies:
       expo: 46.0.16_@babel+core@7.19.1
       expo-dev-client: 1.3.1_expo@46.0.16
@@ -41,6 +42,7 @@ importers:
       react-dom: 18.0.0_react@18.0.0
       react-native: 0.69.6_2v4hfeslgq4hk22r264lx5s6gm
       react-native-web: 0.18.9_zpnidt7m3osuk7shl3s4oenomq
+      socket.io-client: 4.5.3
     devDependencies:
       '@acme/eslint-config': link:../../packages/eslint-config
       '@babel/core': 7.19.1
@@ -91,7 +93,6 @@ importers:
       reflect-metadata: 0.1.13
       rxjs: 7.5.7
       socket.io: 4.5.3_3cxu5zja4e2r5wmvge7mdcljwq
-      socket.io-client: 4.5.3_3cxu5zja4e2r5wmvge7mdcljwq
       tsdk-server-adapters: link:../../packages/tsdk-server-adapters
       typeorm: 0.3.10_avr4674aj2tjfelmahfcr7qpvi
       typeorm-cursor-pagination: 0.9.1_typeorm@0.3.10
@@ -107,6 +108,7 @@ importers:
       '@types/ws': 8.5.3
       chai: 4.3.6
       mocha: 10.1.0
+      socket.io-client: 4.5.3_3cxu5zja4e2r5wmvge7mdcljwq
       ts-mocha: 10.0.0_mocha@10.1.0
       ts-node: 10.9.1_lw7q66ikwuedwcorwkk4v6trsa
       tsdk: link:../../packages/tsdk
@@ -123,9 +125,9 @@ importers:
     dependencies:
       axios: 0.27.2
       change-case: 4.1.2
-      socket.io-client: 4.5.3
       zod: 3.19.1
     devDependencies:
+      socket.io-client: 4.5.3
       typedoc: 0.23.17_typescript@4.8.4
       typescript: 4.8.4
 
@@ -140,12 +142,14 @@ importers:
       react: 18.0.0
       react-dom: 18.0.0
       react-native-web: ~0.18.9
+      socket.io-client: ^4.5.3
     dependencies:
       fe-sdk-demo: link:../server/packages/fe-sdk-demo
       next: 12.3.0_zpnidt7m3osuk7shl3s4oenomq
       react: 18.0.0
       react-dom: 18.0.0_react@18.0.0
       react-native-web: 0.18.9_zpnidt7m3osuk7shl3s4oenomq
+      socket.io-client: 4.5.3
     devDependencies:
       '@acme/eslint-config': link:../../packages/eslint-config
       babel-plugin-react-native-web: 0.18.9
@@ -4024,7 +4028,6 @@ packages:
 
   /@socket.io/component-emitter/3.1.0:
     resolution: {integrity: sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==}
-    dev: false
 
   /@sqltools/formatter/1.2.5:
     resolution: {integrity: sha512-Uy0+khmZqUrUGm5dmMqVlnvufZRSK0FbYzVgp0UMstm+F5+W2/jnEEQyc9vo1ZR/E5ZI/B1WjjoTqBqwJL6Krw==}
@@ -5727,7 +5730,6 @@ packages:
     requiresBuild: true
     dependencies:
       node-gyp-build: 4.5.0
-    dev: false
 
   /builtins/1.0.3:
     resolution: {integrity: sha512-uYBjakWipfaO/bXI7E8rq6kpwHRZK5cNYrUv2OzZSI/FvmdMyXJ2tG9dKcjEC5YHmHpUAwsargWIZNWdxb/bnQ==}
@@ -7127,7 +7129,6 @@ packages:
       - bufferutil
       - supports-color
       - utf-8-validate
-    dev: false
 
   /engine.io-client/6.2.3_3cxu5zja4e2r5wmvge7mdcljwq:
     resolution: {integrity: sha512-aXPtgF1JS3RuuKcpSrBtimSjYvrbhKW9froICH4s0F3XQWLxsKNxqzG39nnvQZQnva4CMvUK63T7shevxRyYHw==}
@@ -7141,12 +7142,11 @@ packages:
       - bufferutil
       - supports-color
       - utf-8-validate
-    dev: false
+    dev: true
 
   /engine.io-parser/5.0.4:
     resolution: {integrity: sha512-+nVFp+5z1E3HcToEnO7ZIj3g+3k9389DvWtvJZz0T6/eOCPIyyxehFcedoYrZQrp0LgQbD9pPXhpMBKMd5QURg==}
     engines: {node: '>=10.0.0'}
-    dev: false
 
   /engine.io/6.2.0_3cxu5zja4e2r5wmvge7mdcljwq:
     resolution: {integrity: sha512-4KzwW3F3bk+KlzSOY57fj/Jx6LyRQ1nbcyIadehl+AnXjKT7gDO0ORdRi/84ixvMKTym6ZKuxvbzN62HDDU1Lg==}
@@ -11136,7 +11136,6 @@ packages:
   /node-gyp-build/4.5.0:
     resolution: {integrity: sha512-2iGbaQBV+ITgCz76ZEjmhUKAKVf7xfY1sRl4UiKQspfZMH2h06SyhNsnSVy50cwkFQDGLyif6m/6uFXHkOZ6rg==}
     hasBin: true
-    dev: false
 
   /node-int64/0.4.0:
     resolution: {integrity: sha512-O5lz91xSOeoXP6DulyHfllpq+Eg00MWitZIbtPfoSEvqIHdl5gfcY6hYzDWnj0qD5tz52PI08u9qUvSVeUBeHw==}
@@ -13549,7 +13548,6 @@ packages:
       - bufferutil
       - supports-color
       - utf-8-validate
-    dev: false
 
   /socket.io-client/4.5.3_3cxu5zja4e2r5wmvge7mdcljwq:
     resolution: {integrity: sha512-I/hqDYpQ6JKwtJOf5ikM+Qz+YujZPMEl6qBLhxiP0nX+TfXKhW4KZZG8lamrD6Y5ngjmYHreESVasVCgi5Kl3A==}
@@ -13563,7 +13561,7 @@ packages:
       - bufferutil
       - supports-color
       - utf-8-validate
-    dev: false
+    dev: true
 
   /socket.io-parser/4.2.1:
     resolution: {integrity: sha512-V4GrkLy+HeF1F/en3SpUaM+7XxYXpuMUWLGde1kSSh5nQMN4hLrbPIkD+otwh6q9R6NOQBN4AMaOZ2zVjui82g==}
@@ -13573,7 +13571,6 @@ packages:
       debug: 4.3.4
     transitivePeerDependencies:
       - supports-color
-    dev: false
 
   /socket.io/4.5.3_3cxu5zja4e2r5wmvge7mdcljwq:
     resolution: {integrity: sha512-zdpnnKU+H6mOp7nYRXH4GNv1ux6HL6+lHL8g7Ds7Lj8CkdK1jJK/dlwsKDculbyOHifcJ0Pr/yeXnZQ5GeFrcg==}
@@ -14926,7 +14923,6 @@ packages:
     requiresBuild: true
     dependencies:
       node-gyp-build: 4.5.0
-    dev: false
 
   /util-deprecate/1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
@@ -15383,7 +15379,6 @@ packages:
         optional: true
       utf-8-validate:
         optional: true
-    dev: false
 
   /ws/8.2.3_3cxu5zja4e2r5wmvge7mdcljwq:
     resolution: {integrity: sha512-wBuoj1BDpC6ZQ1B7DWQBYVLphPWkm8i9Y0/3YdHjHKHiohOJ1ws+3OccDWtH+PoC9DZD5WOTrJvNbWvjS6JWaA==}
@@ -15399,7 +15394,6 @@ packages:
     dependencies:
       bufferutil: 4.0.7
       utf-8-validate: 5.0.10
-    dev: false
 
   /ws/8.9.0:
     resolution: {integrity: sha512-Ja7nszREasGaYUYCI2k4lCKIRTt+y7XuqVoHR44YpI49TtryyqbqvDMn5eqfW7e6HzTukDRIsXqzVHScqRcafg==}
@@ -15476,7 +15470,6 @@ packages:
   /xmlhttprequest-ssl/2.0.0:
     resolution: {integrity: sha512-QKxVRxiRACQcVuQEYFsI1hhkrMlrXHPegbbd1yn9UHOmRxY+si12nQYzri3vbzt8VdTTRviqcKxcyllFas5z2A==}
     engines: {node: '>=0.4.0'}
-    dev: false
 
   /xtend/4.0.2:
     resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}

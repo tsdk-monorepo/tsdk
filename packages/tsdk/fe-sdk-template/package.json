@@ -1,8 +1,5 @@
 {
   "name": "@SCOPE-NAME/fe-sdk",
-  "publishConfig": {
-    "@SCOPE-NAME:registry": "https://npm.pkg.github.com"
-  },
   "version": "1.0.0",
   "main": "lib/index.js",
   "scripts": {
@@ -12,12 +9,19 @@
   "dependencies": {
     "zod": "^3.19.1",
     "axios": "^0.27.2",
-    "socket.io-client": "^4.5.3",
     "change-case": "^4.1.2"
   },
   "devDependencies": {
     "typedoc": "^0.23.15",
     "typescript": "4.8.4"
+  },
+  "peerDependencies": {
+    "socket.io-client": "^4.5.3"
+  },
+  "peerDependenciesMeta": {
+    "socket.io-client": {
+      "optional": true
+    }
   },
   "files": [
     "lib"
