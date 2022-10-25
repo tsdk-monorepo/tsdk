@@ -1,5 +1,11 @@
-/** @ts-ignore */
+// @ts-ignore
 import type { ZodTypeAny } from 'zod';
+// @ts-ignore
+import type { Response } from 'express';
+// @ts-ignore
+import type { Socket } from 'socket.io';
+// @ts-ignore
+import type { WebSocket } from 'ws';
 import EventEmitter from 'eventemitter3';
 
 export const PROTOCOLs = {
@@ -8,25 +14,11 @@ export const PROTOCOLs = {
   'socket.io': 'io',
 };
 
+export type Protocol = keyof typeof PROTOCOLs;
+
 export const PROTOCOL_KEYs = Object.keys(PROTOCOLs);
 
-type RequestOrSocket = {
-  send: Function;
-  status?: (statusCode: number) => {
-    send: (msg: string | object) => void;
-  };
-  /** socket.io */
-  emit?: EventEmitter['emit'];
-  /** socket.io */
-  connected?: boolean;
-  /** websocket
-   * 0	CONNECTING	So-cket has been created. The connection is not yet open.
-   * 1	OPEN	The connection is open and ready to communicate.
-   * 2	CLOSING	The connection is in the process of closing.
-   * 3	CLOSED	The connection is closed or couldn't be opened.
-   */
-  readyState?: 0 | 1 | 2 | 3;
-};
+type ResponseSocket = Response | Socket | WebSocket;
 
 interface BasicAPIConfig {
   method: string;
@@ -45,25 +37,25 @@ export interface ProtocolType {
 }
 
 export function getRouteEventName(
-  config: Pick<BasicAPIConfig, 'method' | 'path'> & { protocol: keyof typeof PROTOCOLs }
+  config: Pick<BasicAPIConfig, 'method' | 'path'> & { protocol: Protocol }
 ) {
   return `${PROTOCOLs[config.protocol]}:${config.method || 'get'}:${config.path}`;
 }
 
-function sendFactory(reqSocket: RequestOrSocket, protocolType: ProtocolType) {
+function sendFactory(protocol: Protocol, response: ResponseSocket, protocolType: ProtocolType) {
   return function send(result: ObjectLiteral) {
-    if (reqSocket.status) {
+    if (protocol === 'http') {
       // for http request
       const { status, ...rest } = result;
-      reqSocket.status(status || 200).send(rest);
-    } else if (reqSocket.emit) {
+      (response as Response).status(status || 200).send(rest);
+    } else if (protocol === 'socket.io') {
       // for socket.io
-      if (reqSocket.connected) {
-        reqSocket.emit(protocolType.response, result);
+      if ((response as Socket).connected) {
+        (response as Socket).emit(protocolType.response, result);
       }
-    } else if (reqSocket.readyState === 1) {
+    } else if (protocol === 'ws') {
       // for websocket
-      reqSocket.send(protocolType.response + JSON.stringify(result));
+      (response as WebSocket).send(protocolType.response + JSON.stringify(result));
     }
   };
 }
@@ -72,12 +64,17 @@ export function genRouteFactory<APIConfig, RequestInfo>(
   onErrorHandler: (
     error: unknown,
     params: {
+      protocol: Protocol;
       msgId: string;
       send: ReturnType<typeof sendFactory>;
     }
   ) => void,
   protocolType: ProtocolType,
-  middlewares?: ((apiConfig: APIConfig & BasicAPIConfig, reqInfo: RequestInfo) => Promise<any>)[]
+  middlewares?: ((
+    protocol: Protocol,
+    apiConfig: APIConfig & BasicAPIConfig,
+    reqInfo: RequestInfo
+  ) => Promise<any>)[]
 ) {
   const routeBus = new EventEmitter();
   const routesMap: ObjectLiteral = Object.create(null);
@@ -86,30 +83,32 @@ export function genRouteFactory<APIConfig, RequestInfo>(
     apiConfig: APIConfig & BasicAPIConfig,
     cb: (
       reqInfo: Readonly<RequestInfo>,
-      reqSocket: RequestOrSocket,
+      resOrSocket: ResponseSocket,
       data: ReqData
     ) => Promise<ResData>
   ) {
     async function onEvent(
+      protocol: Protocol,
       reqInfo: Readonly<RequestInfo>,
-      reqSocket: RequestOrSocket,
+      response: ResponseSocket,
       { _id: msgId, ...body }: ReqData & { _id: string }
     ) {
-      const send = sendFactory(reqSocket, protocolType);
+      const send = sendFactory(protocol, response, protocolType);
 
       try {
         // middlewares
         // will throw error if one of middlewares throw error
         if (middlewares && middlewares?.length > 0) {
           await middlewares.reduce((previousPromise, nextMiddleware) => {
-            return previousPromise.then(() => nextMiddleware(apiConfig, reqInfo));
+            return previousPromise.then(() => nextMiddleware(protocol, apiConfig, reqInfo));
           }, Promise.resolve());
         }
         const data = apiConfig.schema ? apiConfig.schema.parse(body) : body;
-        const result = await cb(reqInfo, reqSocket, data);
+        const result = await cb(reqInfo, response, data);
         send({ _id: msgId, ...result });
       } catch (e) {
         onErrorHandler(e, {
+          protocol,
           msgId,
           send,
         });
@@ -129,7 +128,16 @@ export function genRouteFactory<APIConfig, RequestInfo>(
         routesMap[routeEventName] = 1;
       }
 
-      routeBus.on(routeEventName, onEvent);
+      routeBus.on(
+        routeEventName,
+        (
+          reqInfo: Readonly<RequestInfo>,
+          resOrSocket: ResponseSocket,
+          body: ReqData & { _id: string }
+        ) => {
+          onEvent(i as Protocol, reqInfo, resOrSocket, body);
+        }
+      );
     });
   }
 

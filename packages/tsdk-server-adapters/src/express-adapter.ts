@@ -1,4 +1,4 @@
-/** @ts-ignore */
+// @ts-ignore
 import type { Request, Response, NextFunction } from 'express';
 import { genRouteFactory, getRouteEventName, ObjectLiteral } from './gen-route-factory';
 

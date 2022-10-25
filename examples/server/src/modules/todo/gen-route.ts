@@ -1,4 +1,4 @@
-import { genRouteFactory, getRouteEventName } from 'tsdk-server-adapters';
+import { genRouteFactory, getRouteEventName, Protocol } from 'tsdk-server-adapters';
 import { TypeORMError, EntityNotFoundError } from 'typeorm';
 import { ZodError } from 'zod';
 import { ProtocolTypes } from '/src/shared/tsdk-helper';
@@ -7,7 +7,7 @@ import { RequestInfo } from './types';
 
 function onErrorHandler(
   e: Error,
-  { send, msgId }: Parameters<Parameters<typeof genRouteFactory>[0]>[1]
+  { protocol, send, msgId }: Parameters<Parameters<typeof genRouteFactory>[0]>[1]
 ) {
   if (e instanceof ZodError) {
     return send({ _id: msgId, status: 400, msg: e.issues });
@@ -32,7 +32,7 @@ class AuthError extends Error {
   //
 }
 
-async function langMiddleware(apiConfig: APIConfig, reqInfo: RequestInfo) {
+async function langMiddleware(protocol: Protocol, apiConfig: APIConfig, reqInfo: RequestInfo) {
   // parse lang in adapter or here
   // @todo
   // reqInfo.lang = 'zh-CN';
@@ -40,7 +40,7 @@ async function langMiddleware(apiConfig: APIConfig, reqInfo: RequestInfo) {
   return Promise.resolve();
 }
 
-async function authMiddleware(apiConfig: APIConfig, reqInfo: RequestInfo) {
+async function authMiddleware(protocol: Protocol, apiConfig: APIConfig, reqInfo: RequestInfo) {
   if (!apiConfig.needAuth) {
     return Promise.resolve();
   }
@@ -58,7 +58,7 @@ async function authMiddleware(apiConfig: APIConfig, reqInfo: RequestInfo) {
 }
 
 // reate limit middleware
-function rateLimitMiddleware(apiConfig: APIConfig, reqInfo: RequestInfo) {
+function rateLimitMiddleware(protocol: Protocol, apiConfig: APIConfig, reqInfo: RequestInfo) {
   // @todo
   return Promise.resolve();
 }
