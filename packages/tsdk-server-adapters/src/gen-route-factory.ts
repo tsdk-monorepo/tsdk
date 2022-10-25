@@ -67,7 +67,14 @@ function send(socket: Socket, result: ObjectLiteral, type: Type, status?: number
 }
 
 export function genRouteFactory<APIConfig, RequestInfo>(
-  onErrorHandler: (e: unknown, socket: Socket, msgId: string, _send: typeof send) => void,
+  onErrorHandler: (
+    e: unknown,
+    params: {
+      socket: Socket;
+      msgId: string;
+      send: typeof send;
+    }
+  ) => void,
   type: Type,
   middlewares?: ((apiConfig: APIConfig & BasicAPIConfig, reqInfo: RequestInfo) => Promise<any>)[]
 ) {
@@ -95,7 +102,11 @@ export function genRouteFactory<APIConfig, RequestInfo>(
         const result = await cb(reqInfo, socket, data);
         send(socket, { _id: msgId, ...result }, type);
       } catch (e) {
-        onErrorHandler(e, socket, msgId, send);
+        onErrorHandler(e, {
+          socket,
+          msgId,
+          send,
+        });
       }
     }
 

@@ -1,26 +1,31 @@
+import { genRouteFactory, getRouteEventName } from 'tsdk-server-adapters';
 import { TypeORMError, EntityNotFoundError } from 'typeorm';
 import { ZodError } from 'zod';
-import { genRouteFactory, getRouteEventName } from 'tsdk-server-adapters';
 import { TYPE } from '/src/shared/tsdk-helper';
 import { APIConfig } from '/src/shared/tsdk-types';
 import { RequestInfo } from './types';
 
-function onErrorHandler(e: Error, socket, msgId, send) {
+function onErrorHandler(
+  e: Error,
+  { socket, send, msgId }: Parameters<Parameters<typeof genRouteFactory>[0]>[1]
+) {
   if (e instanceof ZodError) {
-    return send(socket, { _id: msgId, status: 400, msg: e.issues });
+    return send(socket, { _id: msgId, status: 400, msg: e.issues }, TYPE);
   }
 
   let status = 500,
     msg = e.message;
 
-  if (e instanceof TypeORMError) {
+  if (e instanceof AuthError) {
+    status = 401;
+  } else if (e instanceof TypeORMError) {
     if (e.name === TypeORMError.name) {
       status = 400;
     } else if (e instanceof EntityNotFoundError) {
       status = 404;
     }
   }
-  return send(socket, { _id: msgId, status, msg });
+  return send(socket, { _id: msgId, status, msg }, TYPE);
 }
 
 class AuthError extends Error {
