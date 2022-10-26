@@ -18,14 +18,15 @@ import { io as SocketIO } from 'socket.io-client';
 import styles from '../styles/Home.module.css';
 
 const baseURL =
-  process.env.NODE_ENV === 'production'
-    ? '' //  @todo 使用环境变量打包
-    : (() => {
-        if (typeof window === 'undefined') return;
-        return (
-          window?.location.protocol + '//' + window?.location.host.split(':')[0] + ':' + 3012 + '/'
-        );
-      })();
+  // process.env.NODE_ENV === 'production'
+  //   ? process.env.BASE_URL //  @todo 使用环境变量打包
+  //   :
+  (() => {
+    if (typeof window === 'undefined') return;
+    return (
+      window?.location.protocol + '//' + window?.location.host.split(':')[0] + ':' + 3012 + '/'
+    );
+  })();
 const socketURL = baseURL;
 const apiURL = baseURL + 'api';
 

@@ -17,19 +17,20 @@ import { io as SocketIO } from 'socket.io-client';
 
 const { manifest } = Constants;
 const baseURL =
-  process.env.NODE_ENV === 'production'
-    ? '' //  @todo 使用环境变量打包
-    : (() => {
-        // TODO - put a "prod" api server somewhere
-        // Android / IOS - no CORS issue.
-        if (manifest && manifest.debuggerHost) {
-          const debuggerHost = manifest.debuggerHost.split(':').shift();
-          return 'http://' + debuggerHost + ':3012/';
-        } else {
-          // Expo Web client, making use of webpack.config.js (see original question) for devServer proxy.
-          return '/';
-        }
-      })();
+  // process.env.NODE_ENV === 'production'
+  //   ? '' //  @todo 使用环境变量打包
+  //   :
+  (() => {
+    // TODO - put a "prod" api server somewhere
+    // Android / IOS - no CORS issue.
+    if (manifest && manifest.debuggerHost) {
+      const debuggerHost = manifest.debuggerHost.split(':').shift();
+      return 'http://' + debuggerHost + ':3012/';
+    } else {
+      // Expo Web client, making use of webpack.config.js (see original question) for devServer proxy.
+      return '/';
+    }
+  })();
 const socketURL = baseURL;
 const apiURL = baseURL + 'api';
 

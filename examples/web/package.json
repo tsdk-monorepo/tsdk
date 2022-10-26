@@ -6,7 +6,8 @@
   "scripts": {
     "lint": "next lint",
     "dev": "next dev -p 3060",
-    "build": "next build",
+    "build": "next build && next export",
+    "serve": "serve out",
     "start": "next start -p 3060"
   },
   "dependencies": {
