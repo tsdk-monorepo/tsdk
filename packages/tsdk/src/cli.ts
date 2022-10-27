@@ -4,6 +4,7 @@ import { buildSDK } from './compile-tsdk';
 import symbols from './symbols';
 import { tsconfigExists, parsePkg, pkg } from './config';
 import { runNestCommand } from './run-nest-command';
+import { removeFields } from './remove-fields';
 
 export async function run() {
   const params = process.argv.filter((i) => i.startsWith('--'));
@@ -66,6 +67,7 @@ Examples
     buildSDK();
     console.log(symbols.success, 'build files\n');
     await copyPermissionsJSON();
+    await removeFields();
   } else if (params[0] === `--nest`) {
     runNestCommand();
   }

@@ -16,6 +16,18 @@ export interface TSDKConfig {
    */
   sdkWhiteList: string[];
   monorepoRoot?: string;
+  /** 
+   * remove unnecessary filelds after build in *.apiconf.js 
+   * @default
+   *  [
+      'needAuth',
+      'category',
+      'name',
+      'description',
+      'type',
+    ]
+   */
+  removeFields?: string[];
 }
 
 export const comment = `
