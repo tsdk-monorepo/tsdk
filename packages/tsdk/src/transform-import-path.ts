@@ -42,7 +42,8 @@ export function processImportPath(_importString: string, _filePath: string) {
     const finalPath = path.join(filePath, fromPath);
     const isEntityOrApiconf =
       importString.indexOf(`.${config.entityExt}`) > -1 ||
-      importString.indexOf(`.${config.apiconfExt}`) > -1;
+      importString.indexOf(`.${config.apiconfExt}`) > -1 ||
+      importString.indexOf(`.${config.shareExt}`) > -1;
 
     // if (isEntityOrApiconf) {
     //   console.log(_importString);
