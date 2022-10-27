@@ -15,7 +15,7 @@
     "http",
     "express",
     "ws",
-    "Socket.IO"
+    "socket.io"
   ],
   "dependencies": {
     "eventemitter3": "^4.0.7"

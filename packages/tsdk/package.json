@@ -26,13 +26,12 @@
     "typeorm",
     "zod",
     "express",
-    "openAPI",
     "@nestjs/cli",
     "tsdk",
     "http",
     "express",
     "ws",
-    "Socket.IO"
+    "socket.io"
   ],
   "dependencies": {
     "chalk": "4.1.2",
