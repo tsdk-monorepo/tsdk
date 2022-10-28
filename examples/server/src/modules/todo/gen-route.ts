@@ -41,6 +41,9 @@ async function langMiddleware(protocol: Protocol, apiConfig: APIConfig, reqInfo:
 }
 
 async function authMiddleware(protocol: Protocol, apiConfig: APIConfig, reqInfo: RequestInfo) {
+  if (protocol === 'socket.io' || protocol === 'ws') {
+    // only parse once for socket
+  }
   if (!apiConfig.needAuth) {
     return Promise.resolve();
   }

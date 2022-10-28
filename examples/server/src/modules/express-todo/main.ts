@@ -40,10 +40,9 @@ const port = 3012;
       routeBus,
       getReqInfo(req) {
         return {
-          uid: 1, // req._authInfo.uid
-          uname: '', // req._authInfo.username
-          lang: 'zh-CN', // req.lang?
           ip: req.ip,
+          lang: 'zh-CN',
+          token: req.headers.authorization,
         };
       },
       getData(req) {
@@ -55,14 +54,13 @@ const port = 3012;
   // support socket.io protocol
   const io = new Server(server);
   io.on('connection', (socket) => {
-    const { address } = socket.handshake;
+    const { address, query } = socket.handshake;
     console.log('New connection from ' + address);
 
     const reqInfo = {
-      uid: 1, // req._authInfo.uid
-      uname: '', // req._authInfo.username
-      lang: 'zh-CN', // req.lang
       ip: address,
+      lang: 'zh-CN', // req.lang
+      token: query.token as string,
     };
 
     // @todo need confirm behaind proxy

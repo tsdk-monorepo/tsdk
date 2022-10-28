@@ -1,9 +1,9 @@
 export interface RequestInfo {
+  ip: string;
   lang: string;
   /** username */
-  uname: string;
+  userName?: string;
   /** userId */
-  uid: number;
-  ip: string;
+  userId?: number;
   token?: string;
 }

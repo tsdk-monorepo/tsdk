@@ -6,6 +6,87 @@
 
 Example Code:
 
+Use adapters in `app.ts`:
+
+```ts
+import http from 'http';
+import express from 'express';
+import cors from 'cors';
+import { Server } from 'socket.io';
+
+import { expressAdapterFactory } from 'tsdk-server-adapters/lib/express-adapter';
+import { socketIOAdapterFactory } from 'tsdk-server-adapters/lib/socket.io-adapter';
+
+import { checkMethodHasBody, ProtocolTypes } from '/src/shared/tsdk-helper';
+import { routeBus, RequestInfo } from './gen-route';
+
+const port = 3012;
+
+(async () => {
+  const app = express();
+  const server = http.createServer(app);
+
+  app.use(cors());
+  app.use(express.json()); // for parsing application/json
+  app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+
+  app.use((req, res, next) => {
+    res.setHeader('X-Powered-By', 'tsdk');
+    next();
+  });
+
+  app.get('/', (req, res) => {
+    res.end('hi, from express.');
+  });
+
+  app.use(
+    '/api',
+    expressAdapterFactory<RequestInfo>({
+      routeBus,
+      getReqInfo(req) {
+        return {
+          lang: 'zh-CN', // req.lang?
+          ip: req.ip,
+        };
+      },
+      getData(req) {
+        return checkMethodHasBody(req.method) ? req.body : req.query;
+      },
+    })
+  );
+
+  // support socket.io protocol
+  const io = new Server(server);
+  io.on('connection', (socket) => {
+    const { address } = socket.handshake;
+    console.log('New connection from ' + address);
+
+    const reqInfo = {
+      uid: 1, // req._authInfo.uid
+      uname: '', // req._authInfo.username
+      lang: 'zh-CN', // req.lang
+      ip: address,
+    };
+
+    socketIOAdapterFactory<RequestInfo>({
+      routeBus,
+      getReqInfo() {
+        return reqInfo;
+      },
+      protocolType: ProtocolTypes,
+    })(socket);
+  });
+
+  server.listen(port, () => {
+    console.log(`express serve listening at ${port}`);
+
+    if (process.env.IS_TEST) {
+      server.close();
+    }
+  });
+})();
+```
+
 `gen-route.ts`:
 
 ```ts
@@ -97,84 +178,4 @@ const genRoute = genRouteObj.genRoute;
 export { getRouteEventName };
 
 export default genRoute;
-```
-
-`app.ts` use adapters in you Node.JS code:
-
-```ts
-import http from 'http';
-import express from 'express';
-import cors from 'cors';
-import { Server } from 'socket.io';
-import { expressAdapterFactory } from 'tsdk-server-adapters/lib/express-adapter';
-import { socketIOAdapterFactory } from 'tsdk-server-adapters/lib/socket.io-adapter';
-
-import { checkMethodHasBody, ProtocolTypes } from '/src/shared/tsdk-helper';
-import { routeBus, RequestInfo } from './gen-route';
-
-const port = 3012;
-
-(async () => {
-  const app = express();
-  const server = http.createServer(app);
-
-  app.use(cors());
-
-  app.use((req, res, next) => {
-    res.setHeader('X-Powered-By', 'tsdk');
-    next();
-  });
-
-  app.get('/', (req, res) => {
-    res.end('hi, from express.');
-  });
-
-  app.use(
-    '/api',
-    expressAdapterFactory<RequestInfo>({
-      routeBus,
-      getReqInfo(req) {
-        return {
-          uid: 1, // req._authInfo.uid
-          uname: '', // req._authInfo.username
-          lang: 'zh-CN', // req.lang?
-          ip: req.ip,
-        };
-      },
-      getData(req) {
-        return checkMethodHasBody(req.method) ? req.body : req.query;
-      },
-    })
-  );
-
-  // support socket.io protocol
-  const io = new Server(server);
-  io.on('connection', (socket) => {
-    const { address } = socket.handshake;
-    console.log('New connection from ' + address);
-
-    const reqInfo = {
-      uid: 1, // req._authInfo.uid
-      uname: '', // req._authInfo.username
-      lang: 'zh-CN', // req.lang
-      ip: address,
-    };
-
-    socketIOAdapterFactory<RequestInfo>({
-      routeBus,
-      getReqInfo() {
-        return reqInfo;
-      },
-      protocolType: ProtocolTypes,
-    })(socket);
-  });
-
-  server.listen(port, () => {
-    console.log(`express serve listening at ${port}`);
-
-    if (process.env.IS_TEST) {
-      server.close();
-    }
-  });
-})();
 ```
