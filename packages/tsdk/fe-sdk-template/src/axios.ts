@@ -42,7 +42,7 @@ export async function axiosHandler(
   const method = apiConfig.method.toLowerCase();
 
   const payload: AxiosRequestConfig = {
-    method,
+    method: method === 'patch' ? method.toUpperCase() : method,
     url: path,
     ...requestConfig,
   };
