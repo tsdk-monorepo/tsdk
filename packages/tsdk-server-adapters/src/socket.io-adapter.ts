@@ -31,11 +31,5 @@ export function socketIOAdapterFactory<ReqInfo>({
         }
       }
     });
-
-    socket.on(protocolType.set, (data) => {
-      if (data.key === 'lang') {
-        (reqInfo as ObjectLiteral).lang = data.value;
-      }
-    });
   };
 }

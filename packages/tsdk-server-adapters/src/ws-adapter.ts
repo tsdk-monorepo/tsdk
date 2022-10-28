@@ -45,15 +45,6 @@ export function wsAdapterFactory<ReqInfo>({
         } catch (e) {
           // not valid payload
         }
-      } else if (type === protocolType.set) {
-        try {
-          const payload = JSON.parse(data.toString().substring(protocolType.set.length));
-          if (payload.key === 'lang') {
-            (reqInfo as ObjectLiteral).lang = payload.value;
-          }
-        } catch (e) {
-          // not valid payload
-        }
       }
     });
   };

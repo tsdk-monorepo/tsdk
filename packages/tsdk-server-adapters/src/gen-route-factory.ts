@@ -33,7 +33,6 @@ export interface ObjectLiteral {
 export interface ProtocolType {
   request: string;
   response: string;
-  set: string;
 }
 
 export function getRouteEventName(
