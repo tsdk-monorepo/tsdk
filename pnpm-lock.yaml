@@ -196,7 +196,19 @@ importers:
       webpack-node-externals: 3.0.0
 
   packages/tsdk-boilerplate:
-    specifiers: {}
+    specifiers:
+      '@types/express': ^4.17.14
+      '@types/node': ^18.7.16
+      fs-extra: ^10.1.0
+      tsdk: '*'
+      typescript: 4.8.4
+    dependencies:
+      fs-extra: 10.1.0
+      tsdk: link:../tsdk
+    devDependencies:
+      '@types/express': 4.17.14
+      '@types/node': 18.11.3
+      typescript: 4.8.4
 
   packages/tsdk-server-adapters:
     specifiers:
