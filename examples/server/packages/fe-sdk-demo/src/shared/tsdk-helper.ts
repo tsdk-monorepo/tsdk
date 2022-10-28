@@ -1,7 +1,7 @@
 import { paramCase } from 'change-case';
 export * from './tsdk-types';
 
-export const withDataMethods: { [key: string]: boolean | undefined } = {
+export const hasBodyMethods: { [key: string]: boolean | undefined } = {
   post: true,
   put: true,
   patch: true,
@@ -10,7 +10,7 @@ export const withDataMethods: { [key: string]: boolean | undefined } = {
 };
 
 export function checkMethodHasBody(method: string) {
-  return withDataMethods[method.toLowerCase()];
+  return hasBodyMethods[method.toLowerCase()];
 }
 
 export function transformPath(path: string) {
