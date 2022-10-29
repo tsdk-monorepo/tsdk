@@ -9,7 +9,7 @@ npx tsdk --gen entity=Todo
 # npx tsdk --gen entity=Todo category=true
 # npx tsdk --gen entity=Todo user=true
 
-# npx tsdk --gen check-needAuth-tests=true
+# npx tsdk --gen needAuth-tests=true
 
 # npx tsdk --gen swr=true
 # npx tsdk --gen react-query=true
