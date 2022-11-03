@@ -10,10 +10,12 @@ import {
 export function socketIOAdapterFactory<ReqInfo>({
   routeBus,
   getReqInfo,
+  getData,
   protocolType,
 }: {
   routeBus: ReturnType<typeof genRouteFactory>['routeBus'];
   getReqInfo: (socket: Socket) => ReqInfo;
+  getData?: (req: ObjectLiteral) => ObjectLiteral;
   protocolType: ProtocolType;
 }) {
   return function socketIOAdapter(socket: Socket) {
@@ -27,7 +29,7 @@ export function socketIOAdapterFactory<ReqInfo>({
         const eventName = getRouteEventName({ protocol: 'socket.io', method, path });
 
         if ((routeBus as ObjectLiteral)._events[eventName]) {
-          routeBus.emit(eventName, reqInfo, socket, body);
+          routeBus.emit(eventName, reqInfo, socket, getData ? getData(body) : body);
         }
       }
     });
