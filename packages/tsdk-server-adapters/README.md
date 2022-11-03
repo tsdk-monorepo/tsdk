@@ -50,7 +50,9 @@ const port = 3012;
         };
       },
       getData(req) {
-        return checkMethodHasBody(req.method) ? req.body : req.query;
+        // maybe decode here?(e.g.: decryption)
+        const data = checkMethodHasBody(req.method) ? req.body : req.query;
+        return data;
       },
     })
   );
@@ -72,6 +74,10 @@ const port = 3012;
       routeBus,
       getReqInfo() {
         return reqInfo;
+      },
+      getData(data) {
+        // maybe decode here?(e.g.: decryption)
+        return data;
       },
       protocolType: ProtocolTypes,
     })(socket);

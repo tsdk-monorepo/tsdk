@@ -77,9 +77,9 @@ const port = 3012;
       getReqInfo() {
         return reqInfo;
       },
-      getData(body) {
+      getData(data) {
         // maybe decode here?(e.g.: decryption)
-        return body;
+        return data;
       },
       protocolType: ProtocolTypes,
     })(socket);
