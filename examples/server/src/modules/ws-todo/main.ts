@@ -37,6 +37,7 @@ function heartbeat() {
   ws.on('connection', (socket, req) => {
     const ip = req.socket.remoteAddress;
     const reqInfo = {
+      type: '',
       uid: 1, // req._authInfo.uid
       uname: '', // req._authInfo.username
       lang: 'zh-CN', // req.lang

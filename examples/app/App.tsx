@@ -31,15 +31,20 @@ const baseURL =
       return '/';
     }
   })();
+const apiType = 'user';
 const socketURL = baseURL;
-const apiURL = baseURL + 'api';
+const apiURL = baseURL + `api/${apiType}`;
 
 export default function App() {
   const [handlerName, setHanlderName] = useState('');
   const [result, setResult] = useState<QueryTodoRes>();
+
   useEffect(() => {
     const io = SocketIO(socketURL, {
       transports: ['websocket'],
+      query: {
+        type: apiType,
+      },
     });
     setSocketIOInstance(io);
     setHandler(socketIOHandler);

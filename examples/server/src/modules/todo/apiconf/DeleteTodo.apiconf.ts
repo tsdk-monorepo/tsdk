@@ -9,12 +9,12 @@ import { Todo } from '../Todo.entity';
 import { deleteTodoSchema } from './TodoSchema.shared';
 
 export const DeleteTodoConfig: APIConfig = {
+  type: 'user',
   path: transformPath('DeleteTodo'),
   method: 'post',
   name: 'DeleteTodo',
   description: 'delete todo',
   category: 'todo',
-  type: 'user',
   schema: deleteTodoSchema,
 };
 

@@ -40,14 +40,18 @@ const port = 3012;
   });
 
   app.use(
-    '/api',
+    '/api/:type',
     expressAdapterFactory<RequestInfo>({
       routeBus,
       getReqInfo(req) {
         return {
+          type: req.params.type,
           lang: 'zh-CN', // req.lang?
           ip: req.ip,
         };
+      },
+      getType(reqInfo) {
+        return reqInfo.type;
       },
       getData(req) {
         // maybe decode here?(e.g.: decryption)
@@ -60,10 +64,11 @@ const port = 3012;
   // support socket.io protocol
   const io = new Server(server);
   io.on('connection', (socket) => {
-    const { address } = socket.handshake;
+    const { address, query } = socket.handshake;
     console.log('New connection from ' + address);
 
     const reqInfo = {
+      type: query.type,
       uid: 1, // req._authInfo.uid
       uname: '', // req._authInfo.username
       lang: 'zh-CN', // req.lang
@@ -74,6 +79,9 @@ const port = 3012;
       routeBus,
       getReqInfo() {
         return reqInfo;
+      },
+      getType(reqInfo) {
+        return reqInfo.type;
       },
       getData(data) {
         // maybe decode here?(e.g.: decryption)

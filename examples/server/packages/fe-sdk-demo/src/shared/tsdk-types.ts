@@ -1,7 +1,7 @@
 import { z } from 'zod';
 export interface APIConfig {
   /** The API type. Like: user side or admin side, default is common. */
-  type?: string;
+  type: string;
   /** The API name */
   name: string;
   /** The API path */

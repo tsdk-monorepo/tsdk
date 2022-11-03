@@ -2,7 +2,8 @@ export interface RequestInfo {
   ip: string;
   lang: string;
   /** username */
-  userName?: string;
+  username?: string;
+  type: string;
   /** userId */
   userId?: number;
   token?: string;

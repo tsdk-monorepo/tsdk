@@ -33,6 +33,7 @@ export function wsAdapterFactory<ReqInfo>({
               routeBus.emit(
                 getRouteEventName({
                   protocol: 'ws',
+                  type: '',
                   method: body.method,
                   path: body.path,
                 }),

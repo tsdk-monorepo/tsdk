@@ -27,8 +27,10 @@ const baseURL =
       window?.location.protocol + '//' + window?.location.host.split(':')[0] + ':' + 3012 + '/'
     );
   })();
+
+const apiType = 'user';
 const socketURL = baseURL;
-const apiURL = baseURL + 'api';
+const apiURL = baseURL + `api/${apiType}`;
 
 export default function Home() {
   const [handlerName, setHanlderName] = useState('');
@@ -37,6 +39,9 @@ export default function Home() {
   useEffect(() => {
     const io = SocketIO(socketURL, {
       transports: ['websocket'],
+      query: {
+        type: apiType,
+      },
     });
     setSocketIOInstance(io);
     setHandler(socketIOHandler);

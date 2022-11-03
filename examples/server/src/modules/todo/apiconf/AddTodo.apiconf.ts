@@ -3,12 +3,12 @@ import { addTodoSchema } from './TodoSchema.shared';
 import { APIConfig, InsertResult, ObjectLiteral, transformPath } from '/src/shared/tsdk-helper';
 
 export const AddTodoConfig: APIConfig = {
+  type: 'user',
   path: transformPath('AddTodo'),
   method: 'post',
   name: 'AddTodo',
   description: 'add todo',
   category: 'todo',
-  type: 'user',
   schema: addTodoSchema,
 };
 

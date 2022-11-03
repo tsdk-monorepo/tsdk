@@ -23,6 +23,7 @@ type ResponseSocket = Response | Socket | WebSocket;
 interface BasicAPIConfig {
   method: string;
   path: string;
+  type: string;
   schema?: ZodTypeAny;
 }
 
@@ -36,9 +37,9 @@ export interface ProtocolType {
 }
 
 export function getRouteEventName(
-  config: Pick<BasicAPIConfig, 'method' | 'path'> & { protocol: Protocol }
+  config: Pick<BasicAPIConfig, 'type' | 'method' | 'path'> & { protocol: Protocol }
 ) {
-  return `${PROTOCOLs[config.protocol]}:${config.method || 'get'}:${config.path}`;
+  return `${PROTOCOLs[config.protocol]}:${config.type}:${config.method || 'get'}:${config.path}`;
 }
 
 function sendFactory(protocol: Protocol, response: ResponseSocket, protocolType: ProtocolType) {
@@ -117,6 +118,7 @@ export function genRouteFactory<APIConfig, RequestInfo>(
     PROTOCOL_KEYs.forEach((i) => {
       const routeEventName = getRouteEventName({
         protocol: i as keyof typeof PROTOCOLs,
+        type: apiConfig.type,
         method: apiConfig.method.toLowerCase(),
         path: apiConfig.path,
       });

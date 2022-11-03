@@ -35,15 +35,19 @@ const port = 3012;
   });
 
   app.use(
-    '/api',
+    '/api/:type',
     expressAdapterFactory<RequestInfo>({
       routeBus,
       getReqInfo(req) {
         return {
           ip: req.ip,
           lang: 'zh-CN',
+          type: req.params.type,
           token: req.headers.authorization,
         };
+      },
+      getType(reqInfo) {
+        return reqInfo.type;
       },
       getData(req) {
         // maybe decode here?(e.g.: decryption)
@@ -60,8 +64,9 @@ const port = 3012;
 
     const reqInfo = {
       ip: address,
-      lang: 'zh-CN', // req.lang
+      lang: 'zh-CN', // query.lang
       token: query.token as string,
+      type: query.type as string,
     };
 
     // @todo need confirm behaind proxy
@@ -76,6 +81,9 @@ const port = 3012;
       routeBus,
       getReqInfo() {
         return reqInfo;
+      },
+      getType(reqInfo) {
+        return reqInfo.type;
       },
       getData(data) {
         // maybe decode here?(e.g.: decryption)
