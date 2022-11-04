@@ -1,9 +1,9 @@
 {
-  "AddTodoConfig": {
-    "path": "/add-todo",
-    "method": "post",
-    "name": "AddTodo",
-    "description": "add todo",
+  "QueryTodoConfig": {
+    "path": "/query-todo",
+    "method": "get",
+    "name": "QueryTodo",
+    "description": "query todo",
     "category": "todo",
     "type": "user",
     "schema": {
@@ -20,12 +20,12 @@
     }
   },
   "DeleteTodoConfig": {
+    "type": "user",
     "path": "/delete-todo",
     "method": "post",
     "name": "DeleteTodo",
     "description": "delete todo",
     "category": "todo",
-    "type": "user",
     "schema": {
       "_def": {
         "options": [
@@ -58,6 +58,26 @@
       }
     }
   },
+  "AddTodoConfig": {
+    "type": "user",
+    "path": "/add-todo",
+    "method": "post",
+    "name": "AddTodo",
+    "description": "add todo",
+    "category": "todo",
+    "schema": {
+      "_def": {
+        "unknownKeys": "strip",
+        "catchall": {
+          "_def": {
+            "typeName": "ZodNever"
+          }
+        },
+        "typeName": "ZodObject"
+      },
+      "_cached": null
+    }
+  },
   "QueryTodoByCursorConfig": {
     "type": "user",
     "name": "QueryTodoByCursor",
@@ -78,12 +98,12 @@
     "description": "query todo list by cursor"
   },
   "UpdateTodoConfig": {
+    "type": "user",
     "path": "/update-todo",
     "method": "post",
     "name": "UpdateTodo",
     "description": "update todo",
     "category": "todo",
-    "type": "user",
     "schema": {
       "_def": {
         "schema": {
@@ -103,26 +123,6 @@
           "type": "refinement"
         }
       }
-    }
-  },
-  "QueryTodoConfig": {
-    "path": "/query-todo",
-    "method": "get",
-    "name": "QueryTodo",
-    "description": "query todo",
-    "category": "todo",
-    "type": "user",
-    "schema": {
-      "_def": {
-        "unknownKeys": "strip",
-        "catchall": {
-          "_def": {
-            "typeName": "ZodNever"
-          }
-        },
-        "typeName": "ZodObject"
-      },
-      "_cached": null
     }
   }
 }
