@@ -14,9 +14,9 @@ export function socketIOAdapterFactory<ReqInfo>({
   protocolType,
   getType,
 }: {
-  getType: (reqInfo: ReqInfo) => string;
   routeBus: ReturnType<typeof genRouteFactory>['routeBus'];
   getReqInfo: (socket: Socket) => ReqInfo;
+  getType: (reqInfo: ReqInfo, socket: Socket) => string;
   getData?: (req: ObjectLiteral) => ObjectLiteral;
   protocolType: ProtocolType;
 }) {
@@ -27,7 +27,7 @@ export function socketIOAdapterFactory<ReqInfo>({
       if (!socket.connected) return;
 
       if (body._id) {
-        const type = getType(reqInfo);
+        const type = getType(reqInfo, socket);
 
         const [method, path] = body._id.split(':');
         const eventName = getRouteEventName({ protocol: 'socket.io', type, method, path });

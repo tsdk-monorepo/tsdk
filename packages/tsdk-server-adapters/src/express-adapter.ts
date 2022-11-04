@@ -11,12 +11,12 @@ export function expressAdapterFactory<ReqInfo>({
   routeBus: ReturnType<typeof genRouteFactory>['routeBus'];
   getReqInfo: (req: Request) => ReqInfo;
   getData: (req: Request) => ObjectLiteral;
-  getType: (reqInfo: ReqInfo) => string;
+  getType: (reqInfo: ReqInfo, req: Request) => string;
 }) {
   return function expressAdapter(req: Request, res: Response, next: NextFunction) {
     const method = req.method.toLowerCase();
     const reqInfo = getReqInfo(req);
-    const type = getType(reqInfo);
+    const type = getType(reqInfo, req);
     const eventName = getRouteEventName({
       protocol: 'http',
       type,
