@@ -10,6 +10,7 @@ import { initializeDataSources } from '/src/db';
 import { routeBus } from '../todo/gen-route';
 import { setupRoutes } from '../setup-routes';
 import { RequestInfo } from '../todo/types';
+import { sleep } from '/src/shared/utils';
 
 const port = 3012;
 
@@ -59,8 +60,14 @@ const port = 3012;
   // support socket.io protocol
   const io = new Server(server);
   io.on('connection', (socket) => {
-    const { address, query } = socket.handshake;
+    const { address, query, headers } = socket.handshake;
     console.log('New connection from ' + address);
+
+    console.log(address);
+    console.log(query);
+    console.log('headers: ');
+    console.log(headers);
+    console.log(headers.language);
 
     const reqInfo = {
       ip: address,
