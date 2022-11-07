@@ -15,13 +15,13 @@ export function socketIOAdapterFactory<ReqInfo>({
   getType,
 }: {
   routeBus: ReturnType<typeof genRouteFactory>['routeBus'];
-  getReqInfo: (socket: Socket) => ReqInfo;
+  getReqInfo: (socket: Socket) => ReqInfo | Promise<ReqInfo>;
   getType: (reqInfo: ReqInfo, socket: Socket) => string;
   getData?: (req: ObjectLiteral) => ObjectLiteral;
   protocolType: ProtocolType;
 }) {
-  return function socketIOAdapter(socket: Socket) {
-    const reqInfo = getReqInfo(socket);
+  return async function socketIOAdapter(socket: Socket) {
+    const reqInfo = await getReqInfo(socket);
 
     socket.on(protocolType.request, (body) => {
       if (!socket.connected) return;

@@ -9,13 +9,13 @@ export function expressAdapterFactory<ReqInfo>({
   getData,
 }: {
   routeBus: ReturnType<typeof genRouteFactory>['routeBus'];
-  getReqInfo: (req: Request) => ReqInfo;
+  getReqInfo: (req: Request) => ReqInfo | Promise<ReqInfo>;
   getData: (req: Request) => ObjectLiteral;
   getType: (reqInfo: ReqInfo, req: Request) => string;
 }) {
-  return function expressAdapter(req: Request, res: Response, next: NextFunction) {
+  return async function expressAdapter(req: Request, res: Response, next: NextFunction) {
     const method = req.method.toLowerCase();
-    const reqInfo = getReqInfo(req);
+    const reqInfo = await getReqInfo(req);
     const type = getType(reqInfo, req);
     const eventName = getRouteEventName({
       protocol: 'http',
