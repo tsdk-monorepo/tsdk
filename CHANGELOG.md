@@ -11,3 +11,7 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 ### 🐛 Bug fixes
 
 ### 💡 Others
+
+2022/11/07
+
+- `tsdk-server-adapters`'s `getReqInfo` support Promise function
