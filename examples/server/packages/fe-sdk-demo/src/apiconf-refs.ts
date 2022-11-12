@@ -4,7 +4,7 @@
  */
 
 export * from './modules/todo/apiconf/AddTodo.apiconf';
-export * from './modules/todo/apiconf/QueryTodoByCursor.apiconf';
 export * from './modules/todo/apiconf/DeleteTodo.apiconf';
 export * from './modules/todo/apiconf/QueryTodo.apiconf';
+export * from './modules/todo/apiconf/QueryTodoByCursor.apiconf';
 export * from './modules/todo/apiconf/UpdateTodo.apiconf';

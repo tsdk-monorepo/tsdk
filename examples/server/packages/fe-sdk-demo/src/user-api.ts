@@ -11,15 +11,15 @@ import {
   AddTodoConfig,
   AddTodoReq,
   AddTodoRes,
-  QueryTodoByCursorConfig,
-  QueryTodoByCursorReq,
-  QueryTodoByCursorRes,
   DeleteTodoConfig,
   DeleteTodoReq,
   DeleteTodoRes,
   QueryTodoConfig,
   QueryTodoReq,
   QueryTodoRes,
+  QueryTodoByCursorConfig,
+  QueryTodoByCursorReq,
+  QueryTodoByCursorRes,
   UpdateTodoConfig,
   UpdateTodoReq,
   UpdateTodoRes,
@@ -31,15 +31,6 @@ import {
  * @category todo
  */
 export const AddTodo = genApi<AddTodoReq, AddTodoRes>(AddTodoConfig);
-
-/**
- * query todo list by cursor
- *
- * @category others
- */
-export const QueryTodoByCursor = genApi<QueryTodoByCursorReq, QueryTodoByCursorRes>(
-  QueryTodoByCursorConfig
-);
 
 /**
  * delete todo
@@ -54,6 +45,15 @@ export const DeleteTodo = genApi<DeleteTodoReq, DeleteTodoRes>(DeleteTodoConfig)
  * @category todo
  */
 export const QueryTodo = genApi<QueryTodoReq, QueryTodoRes>(QueryTodoConfig);
+
+/**
+ * query todo list by cursor
+ *
+ * @category others
+ */
+export const QueryTodoByCursor = genApi<QueryTodoByCursorReq, QueryTodoByCursorRes>(
+  QueryTodoByCursorConfig
+);
 
 /**
  * update todo

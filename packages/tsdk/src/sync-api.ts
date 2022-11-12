@@ -83,9 +83,24 @@ export async function syncAPI() {
 
   console.log(symbols.success, 'generated APIs');
 
+  const exportPermissions: {
+    [key: string]: any[];
+  } = {};
+
+  Object.keys(apiconfs).forEach((k) => {
+    const item = apiconfs[k];
+    if (!exportPermissions[item.type]) {
+      exportPermissions[item.type] = [];
+    }
+    if (item.schema) {
+      item.schema = {};
+    }
+    exportPermissions[item.type].push(item);
+  });
+
   await fsExtra.writeFile(
     path.join(ensureDir, `src/permissions.json`),
-    JSON.stringify(apiconfs, null, 2)
+    JSON.stringify(exportPermissions, null, 2)
   );
 }
 
