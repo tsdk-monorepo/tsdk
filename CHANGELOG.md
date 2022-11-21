@@ -21,3 +21,7 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 2022/11/12
 
 - `tsdk` export `permissions.json` with organize structure
+
+2022/11/22
+
+- `tsdk` support APIs SDK Docs export
