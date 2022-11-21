@@ -1,4 +1,4 @@
-# tsdk-boilerplate
+# tsdk-boilerplate (warning: STILL WORKING!)
 
 Boilerplate code generateor for `tsdk`.
 
