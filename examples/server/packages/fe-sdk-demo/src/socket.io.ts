@@ -1,4 +1,5 @@
-import { Socket } from 'socket.io-client';
+// @ts-ignore
+import type { Socket } from 'socket.io-client';
 import {
   APIConfig,
   ObjectLiteral,
@@ -33,9 +34,9 @@ export const setSocketIOInstance = (instance: Socket): void => {
 // setSocketIOInstance(socket);
 
 /**
- * Get the io
+ * Get socket.io-client instance
  *
- * @param instance - io
+ * @param instance - socekt.io-client instance
  * @returns The io
  */
 export const getSocketIOInstance = () => {
@@ -54,7 +55,7 @@ export function socketIOHandler(
 ): Promise<any> {
   const ioInstance = getSocketIOInstance();
   if (!ioInstance) {
-    const msg = `Please call \`setSocketIOInstance\` first or pass \`socket.io-client instance\` argument`;
+    const msg = `Please call \`setSocketIOInstance\` first`;
     throw msg;
   }
   return new Promise((resolve, reject) => {

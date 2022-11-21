@@ -34,7 +34,7 @@ export async function axiosHandler(
 ) {
   const axiosInstance = getAxiosInstance();
   if (!axiosInstance) {
-    const msg = `Please call \`setAxiosInstance\` first or pass \`axiosInstance\` argument`;
+    const msg = `Please call \`setAxiosInstance\` first`;
     throw msg;
   }
   /** axios */
@@ -42,7 +42,7 @@ export async function axiosHandler(
   const method = apiConfig.method.toLowerCase();
 
   const payload: AxiosRequestConfig = {
-    method,
+    method: method === 'patch' ? method.toUpperCase() : method,
     url: path,
     ...requestConfig,
   };

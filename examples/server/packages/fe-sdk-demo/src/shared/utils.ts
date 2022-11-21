@@ -10,7 +10,7 @@ export const sum = (a: number, b: number) => a + b;
 /**
  * promisify `setTimeout`
  * @param ms number
- * @returns Promise<any>
+ * @returns Promise any
  */
 export const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 

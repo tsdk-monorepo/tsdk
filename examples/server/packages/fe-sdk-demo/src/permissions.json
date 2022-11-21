@@ -2,6 +2,15 @@
   "user": [
     {
       "type": "user",
+      "path": "/delete-todo",
+      "method": "post",
+      "name": "DeleteTodo",
+      "description": "delete todo",
+      "category": "todo",
+      "schema": {}
+    },
+    {
+      "type": "user",
       "path": "/add-todo",
       "method": "post",
       "name": "AddTodo",
@@ -11,20 +20,11 @@
     },
     {
       "type": "user",
-      "path": "/delete-todo",
+      "path": "/update-todo",
       "method": "post",
-      "name": "DeleteTodo",
-      "description": "delete todo",
+      "name": "UpdateTodo",
+      "description": "update todo",
       "category": "todo",
-      "schema": {}
-    },
-    {
-      "path": "/query-todo",
-      "method": "get",
-      "name": "QueryTodo",
-      "description": "query todo",
-      "category": "todo",
-      "type": "user",
       "schema": {}
     },
     {
@@ -36,12 +36,12 @@
       "description": "query todo list by cursor"
     },
     {
-      "type": "user",
-      "path": "/update-todo",
-      "method": "post",
-      "name": "UpdateTodo",
-      "description": "update todo",
+      "path": "/query-todo",
+      "method": "get",
+      "name": "QueryTodo",
+      "description": "query todo",
       "category": "todo",
+      "type": "user",
       "schema": {}
     }
   ]

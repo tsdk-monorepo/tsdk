@@ -122,7 +122,7 @@ export async function syncAPI() {
       })`
     );
   });
-  links.push('- [All Reference](/docs/api/modules)');
+  links.push('- [all reference](/docs/api/modules)');
   const projectName = `%PROJECT NAME%`;
   let getStartedContent = await fsExtra.readFile(
     path.join(__dirname, '..', 'fe-sdk-template/website/docs/get-started.md'),

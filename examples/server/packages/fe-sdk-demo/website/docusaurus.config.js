@@ -6,7 +6,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: '%PROJECT NAME%',
+  title: 'fe-sdk-demo',
   tagline: '',
   url: 'HTTPS://PROJECTSITE.COM',
   baseUrl: '/',
@@ -17,7 +17,7 @@ const config = {
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'YOUR NAME', // Usually your GitHub org/user name.
-  projectName: '%PROJECT NAME%', // Usually your repo name.
+  projectName: 'fe-sdk-demo', // Usually your repo name.
 
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
@@ -72,9 +72,9 @@ const config = {
     ({
       // image: 'img/og-image.png',
       navbar: {
-        title: '%PROJECT NAME% Docs'.toUpperCase(),
+        title: 'fe-sdk-demo Docs'.toUpperCase(),
         logo: {
-          alt: '%PROJECT NAME% logo',
+          alt: 'fe-sdk-demo logo',
           srcDark: 'img/logo.svg',
           src: 'img/logo.svg',
           href: '/docs',
@@ -96,7 +96,7 @@ const config = {
         style: 'dark',
         links: [
           {
-            title: `Copyright © ${new Date().getFullYear()} %PROJECT NAME%.`,
+            title: `Copyright © ${new Date().getFullYear()} fe-sdk-demo.`,
           },
         ],
       },
