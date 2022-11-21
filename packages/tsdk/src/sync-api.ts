@@ -1,5 +1,6 @@
 import fsExtra from 'fs-extra';
 import path from 'path';
+import glob from 'fast-glob';
 import { config, ensureDir } from './config';
 import { formatTS } from './format';
 import symbols from './symbols';
@@ -102,6 +103,49 @@ export async function syncAPI() {
     path.join(ensureDir, `src/permissions.json`),
     JSON.stringify(exportPermissions, null, 2)
   );
+
+  console.log(symbols.bullet, 'Docs config');
+  // sync APIs docs
+  const links: string[] = [];
+  types.forEach((apiType) => {
+    if (apiType === 'common') return;
+    links.push(`- [${apiType} APIs](/docs/api/modules/${apiType}_api)`);
+  });
+
+  const files = await glob(config.sharedDirs.map((i) => path.join(i, `**/*.ts`)));
+  files.forEach((i) => {
+    const arr = i.split('/');
+    arr.shift();
+    links.push(
+      `- [${arr.join('/').replace('.ts', '')}](${
+        '/docs/api/modules/' + arr.join('_').replace('.ts', '').replace(/-/g, '_')
+      })`
+    );
+  });
+  links.push('- [All Reference](/docs/api/modules)');
+  const projectName = `%PROJECT NAME%`;
+  let getStartedContent = await fsExtra.readFile(
+    path.join(__dirname, '..', 'fe-sdk-template/website/docs/get-started.md'),
+    'utf-8'
+  );
+  getStartedContent = getStartedContent
+    .replace(new RegExp(projectName, 'g'), config.packageName)
+    .replace('%API_REFERENCE%', links.join('\n'));
+  await fsExtra.writeFile(path.join(ensureDir, 'website/docs/get-started.md'), getStartedContent);
+
+  let docusaurusConfigContent = await fsExtra.readFile(
+    path.join(ensureDir, 'website/docusaurus.config.js'),
+    'utf-8'
+  );
+  docusaurusConfigContent = docusaurusConfigContent.replace(
+    new RegExp(projectName, 'g'),
+    config.packageName
+  );
+  await fsExtra.writeFile(
+    path.join(ensureDir, 'website/docusaurus.config.js'),
+    docusaurusConfigContent
+  );
+  console.log(symbols.success, 'Docs config');
 }
 
 export function copyPermissionsJSON() {

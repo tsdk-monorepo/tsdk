@@ -1,15 +1,10 @@
 {
   "name": "fe-sdk-demo",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com",
-    "fe-sdk-demo:registry": "https://npm.pkg.github.com"
-  },
   "version": "1.0.0",
   "main": "lib/index.js",
   "scripts": {
     "tsc:build": "tsc --project tsconfig.json",
-    "build": "tsc --project tsconfig.json",
-    "doc:build": "echo todo"
+    "doc:build": "cd website && npm i && npm run build"
   },
   "dependencies": {
     "zod": "^3.19.1",
@@ -18,8 +13,7 @@
   },
   "devDependencies": {
     "typedoc": "^0.23.15",
-    "typescript": "4.8.4",
-    "socket.io-client": "^4.5.3"
+    "typescript": "4.8.4"
   },
   "peerDependencies": {
     "socket.io-client": "^4.5.3"

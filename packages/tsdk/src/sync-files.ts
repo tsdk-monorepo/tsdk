@@ -102,11 +102,12 @@ async function reconfigPkg() {
     pkgContent.publishConfig[`${scope}:registry`] = pkgContent.publishConfig[defaultPackagePrefix];
 
     delete pkgContent.publishConfig[defaultPackagePrefix];
-  } else if (!pkgContent.publishConfig) {
-    console.log(symbols.warning, `\`package.json\` should have \`publishConfig\``);
-  } else {
-    pkgContent.publishConfig[`${scope}:registry`] = 'https://npm.pkg.github.com';
   }
+  // else if (!pkgContent.publishConfig) {
+  //   console.log(symbols.warning, `\`package.json\` should have \`publishConfig\``);
+  // } else {
+  //   pkgContent.publishConfig[`${scope}:registry`] = 'https://npm.pkg.github.com';
+  // }
 
   await fsExtra.writeFile(pkgPath, JSON.stringify(pkgContent, null, 2));
 

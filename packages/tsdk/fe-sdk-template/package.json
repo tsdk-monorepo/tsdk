@@ -4,7 +4,7 @@
   "main": "lib/index.js",
   "scripts": {
     "tsc:build": "tsc --project tsconfig.json",
-    "doc:build": "echo todo"
+    "doc:build": "cd website && npm i && npm run build"
   },
   "dependencies": {
     "zod": "^3.19.1",
