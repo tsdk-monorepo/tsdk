@@ -13,7 +13,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/TodoSchema.shared.ts:5](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/TodoSchema.shared.ts#L5)
+[examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/TodoSchema.shared.ts:5](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/TodoSchema.shared.ts#L5)
 
 ---
 
@@ -23,7 +23,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/TodoSchema.shared.ts:18](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/TodoSchema.shared.ts#L18)
+[examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/TodoSchema.shared.ts:18](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/TodoSchema.shared.ts#L18)
 
 ---
 
@@ -33,7 +33,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/TodoSchema.shared.ts:34](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/TodoSchema.shared.ts#L34)
+[examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/TodoSchema.shared.ts:34](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/TodoSchema.shared.ts#L34)
 
 ---
 
@@ -43,7 +43,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/TodoSchema.shared.ts:16](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/TodoSchema.shared.ts#L16)
+[examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/TodoSchema.shared.ts:16](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/TodoSchema.shared.ts#L16)
 
 ---
 
@@ -53,7 +53,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/TodoSchema.shared.ts:12](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/TodoSchema.shared.ts#L12)
+[examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/TodoSchema.shared.ts:12](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/TodoSchema.shared.ts#L12)
 
 ---
 
@@ -63,4 +63,4 @@ custom_edit_url: null
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/TodoSchema.shared.ts:24](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/TodoSchema.shared.ts#L24)
+[examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/TodoSchema.shared.ts:24](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/TodoSchema.shared.ts#L24)

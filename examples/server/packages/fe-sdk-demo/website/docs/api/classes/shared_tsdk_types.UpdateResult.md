@@ -24,7 +24,7 @@ Not all drivers support this
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:76](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L76)
+[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:76](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L76)
 
 ---
 
@@ -37,7 +37,7 @@ Has entity-like structure (not just column database name and values).
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:85](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L85)
+[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:85](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L85)
 
 ---
 
@@ -49,4 +49,4 @@ Raw SQL result returned by executed query.
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:71](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L71)
+[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:71](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L71)

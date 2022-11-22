@@ -17,7 +17,7 @@ The API category
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:19](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L19)
+[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:19](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L19)
 
 ---
 
@@ -29,7 +29,7 @@ The API description
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:17](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L17)
+[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:17](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L17)
 
 ---
 
@@ -41,7 +41,7 @@ The API disabled? Default is false
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:15](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L15)
+[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:15](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L15)
 
 ---
 
@@ -57,7 +57,7 @@ custom headers for client
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:22](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L22)
+[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:22](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L22)
 
 ---
 
@@ -67,7 +67,7 @@ custom headers for client
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:9](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L9)
+[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:9](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L9)
 
 ---
 
@@ -79,7 +79,7 @@ The API name
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:6](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L6)
+[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:6](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L6)
 
 ---
 
@@ -91,7 +91,7 @@ The API need auth? Default is false
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:13](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L13)
+[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:13](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L13)
 
 ---
 
@@ -103,7 +103,7 @@ The API path
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:8](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L8)
+[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:8](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L8)
 
 ---
 
@@ -115,7 +115,7 @@ Request data validate scheme
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:11](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L11)
+[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:11](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L11)
 
 ---
 
@@ -127,4 +127,4 @@ The API type. Like: user side or admin side, required.
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:4](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L4)
+[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:4](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L4)

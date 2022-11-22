@@ -37,7 +37,7 @@ createdAt
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/db/entity/CreatedUpdated.entity.ts:16](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/db/entity/CreatedUpdated.entity.ts#L16)
+[examples/server/packages/fe-sdk-demo/src/db/entity/CreatedUpdated.entity.ts:13](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/db/entity/CreatedUpdated.entity.ts#L13)
 
 ---
 
@@ -47,7 +47,7 @@ createdAt
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts:16](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts#L16)
+[examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts:16](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts#L16)
 
 ---
 
@@ -59,7 +59,7 @@ remark
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts:25](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts#L25)
+[examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts:25](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts#L25)
 
 ---
 
@@ -71,7 +71,7 @@ status
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts:22](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts#L22)
+[examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts:22](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts#L22)
 
 ---
 
@@ -83,7 +83,7 @@ title
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts:19](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts#L19)
+[examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts:19](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts#L19)
 
 ---
 
@@ -99,7 +99,7 @@ updatedAt
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/db/entity/CreatedUpdated.entity.ts:11](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/db/entity/CreatedUpdated.entity.ts#L11)
+[examples/server/packages/fe-sdk-demo/src/db/entity/CreatedUpdated.entity.ts:8](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/db/entity/CreatedUpdated.entity.ts#L8)
 
 ---
 
@@ -109,4 +109,4 @@ updatedAt
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts:14](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts#L14)
+[examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts:14](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts#L14)

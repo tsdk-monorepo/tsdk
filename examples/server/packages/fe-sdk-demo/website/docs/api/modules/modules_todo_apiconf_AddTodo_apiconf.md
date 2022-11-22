@@ -13,7 +13,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/AddTodo.apiconf.ts:14](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/AddTodo.apiconf.ts#L14)
+[examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/AddTodo.apiconf.ts:14](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/AddTodo.apiconf.ts#L14)
 
 ---
 
@@ -23,7 +23,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/AddTodo.apiconf.ts:16](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/AddTodo.apiconf.ts#L16)
+[examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/AddTodo.apiconf.ts:16](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/AddTodo.apiconf.ts#L16)
 
 ## Variables
 
@@ -33,4 +33,4 @@ custom_edit_url: null
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/AddTodo.apiconf.ts:4](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/AddTodo.apiconf.ts#L4)
+[examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/AddTodo.apiconf.ts:4](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/AddTodo.apiconf.ts#L4)

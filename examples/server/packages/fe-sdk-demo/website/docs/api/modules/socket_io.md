@@ -21,7 +21,7 @@ The io
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/socket.io.ts:42](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/socket.io.ts#L42)
+[examples/server/packages/fe-sdk-demo/src/socket.io.ts:42](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/socket.io.ts#L42)
 
 ---
 
@@ -43,7 +43,7 @@ Set the io
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/socket.io.ts:17](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/socket.io.ts#L17)
+[examples/server/packages/fe-sdk-demo/src/socket.io.ts:17](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/socket.io.ts#L17)
 
 ---
 
@@ -66,4 +66,4 @@ Set the io
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/socket.io.ts:50](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/socket.io.ts#L50)
+[examples/server/packages/fe-sdk-demo/src/socket.io.ts:50](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/socket.io.ts#L50)

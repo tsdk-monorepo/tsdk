@@ -15,7 +15,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts:5](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts#L5)
+[examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts:5](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts#L5)
 
 ---
 
@@ -25,7 +25,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts:6](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts#L6)
+[examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts:6](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts#L6)
 
 ---
 
@@ -35,7 +35,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts:4](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts#L4)
+[examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts:4](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts#L4)
 
 ---
 
@@ -45,4 +45,4 @@ custom_edit_url: null
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts:3](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts#L3)
+[examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts:3](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts#L3)

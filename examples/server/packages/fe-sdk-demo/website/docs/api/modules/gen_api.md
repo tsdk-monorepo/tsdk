@@ -57,7 +57,7 @@ const apiDemo = genApi<ApiDemoReqPayload, ApiDemoResData>(ApiDemoConfig);
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/gen-api.ts:40](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/gen-api.ts#L40)
+[examples/server/packages/fe-sdk-demo/src/gen-api.ts:40](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/gen-api.ts#L40)
 
 ---
 
@@ -86,7 +86,7 @@ const apiDemo = genApi<ApiDemoReqPayload, ApiDemoResData>(ApiDemoConfig);
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/gen-api.ts:19](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/gen-api.ts#L19)
+[examples/server/packages/fe-sdk-demo/src/gen-api.ts:19](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/gen-api.ts#L19)
 
 ---
 
@@ -106,4 +106,4 @@ const apiDemo = genApi<ApiDemoReqPayload, ApiDemoResData>(ApiDemoConfig);
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/gen-api.ts:15](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/gen-api.ts#L15)
+[examples/server/packages/fe-sdk-demo/src/gen-api.ts:15](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/gen-api.ts#L15)

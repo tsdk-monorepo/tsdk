@@ -14,7 +14,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/shared/utils.ts:24](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/shared/utils.ts#L24)
+[examples/server/packages/fe-sdk-demo/src/shared/utils.ts:24](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/shared/utils.ts#L24)
 
 ---
 
@@ -24,7 +24,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/shared/utils.ts:17](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/shared/utils.ts#L17)
+[examples/server/packages/fe-sdk-demo/src/shared/utils.ts:17](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/shared/utils.ts#L17)
 
 ## Functions
 
@@ -48,7 +48,7 @@ Promise any
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/shared/utils.ts:15](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/shared/utils.ts#L15)
+[examples/server/packages/fe-sdk-demo/src/shared/utils.ts:15](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/shared/utils.ts#L15)
 
 ---
 
@@ -73,4 +73,4 @@ number
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/shared/utils.ts:8](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/shared/utils.ts#L8)
+[examples/server/packages/fe-sdk-demo/src/shared/utils.ts:8](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/shared/utils.ts#L8)

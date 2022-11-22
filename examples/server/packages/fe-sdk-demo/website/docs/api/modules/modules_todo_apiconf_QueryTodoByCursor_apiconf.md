@@ -13,7 +13,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/QueryTodoByCursor.apiconf.ts:22](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/QueryTodoByCursor.apiconf.ts#L22)
+[examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/QueryTodoByCursor.apiconf.ts:22](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/QueryTodoByCursor.apiconf.ts#L22)
 
 ---
 
@@ -23,7 +23,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/QueryTodoByCursor.apiconf.ts:30](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/QueryTodoByCursor.apiconf.ts#L30)
+[examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/QueryTodoByCursor.apiconf.ts:30](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/QueryTodoByCursor.apiconf.ts#L30)
 
 ## QueryTodoByCursor Variables
 
@@ -35,4 +35,4 @@ query todo list by cursor (APIConfig)
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/QueryTodoByCursor.apiconf.ts:10](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/QueryTodoByCursor.apiconf.ts#L10)
+[examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/QueryTodoByCursor.apiconf.ts:10](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/modules/todo/apiconf/QueryTodoByCursor.apiconf.ts#L10)

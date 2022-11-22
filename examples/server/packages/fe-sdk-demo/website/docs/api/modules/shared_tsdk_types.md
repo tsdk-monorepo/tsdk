@@ -31,7 +31,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:103](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L103)
+[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:103](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L103)
 
 ---
 
@@ -48,7 +48,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:107](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L107)
+[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:107](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L107)
 
 ## Functions
 
@@ -70,4 +70,4 @@ remove undefined field or trim string value
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:30](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L30)
+[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:30](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L30)

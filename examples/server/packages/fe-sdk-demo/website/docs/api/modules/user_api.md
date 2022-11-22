@@ -28,7 +28,7 @@ query todo list by cursor
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/gen-api.ts:43](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/gen-api.ts#L43)
+[examples/server/packages/fe-sdk-demo/src/gen-api.ts:43](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/gen-api.ts#L43)
 
 ---
 
@@ -54,7 +54,7 @@ add todo
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/gen-api.ts:43](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/gen-api.ts#L43)
+[examples/server/packages/fe-sdk-demo/src/gen-api.ts:43](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/gen-api.ts#L43)
 
 ---
 
@@ -78,7 +78,7 @@ delete todo
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/gen-api.ts:43](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/gen-api.ts#L43)
+[examples/server/packages/fe-sdk-demo/src/gen-api.ts:43](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/gen-api.ts#L43)
 
 ---
 
@@ -102,7 +102,7 @@ query todo
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/gen-api.ts:43](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/gen-api.ts#L43)
+[examples/server/packages/fe-sdk-demo/src/gen-api.ts:43](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/gen-api.ts#L43)
 
 ---
 
@@ -126,4 +126,4 @@ update todo
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/gen-api.ts:43](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/gen-api.ts#L43)
+[examples/server/packages/fe-sdk-demo/src/gen-api.ts:43](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/gen-api.ts#L43)

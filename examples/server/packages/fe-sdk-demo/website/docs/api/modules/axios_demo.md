@@ -55,4 +55,4 @@ node_modules/axios/index.d.ts:237
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/axios-demo.ts:6](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/axios-demo.ts#L6)
+[examples/server/packages/fe-sdk-demo/src/axios-demo.ts:6](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/axios-demo.ts#L6)

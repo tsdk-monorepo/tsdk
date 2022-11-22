@@ -20,7 +20,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/axios.ts:25](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/axios.ts#L25)
+[examples/server/packages/fe-sdk-demo/src/axios.ts:25](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/axios.ts#L25)
 
 ## Functions
 
@@ -43,7 +43,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/axios.ts:29](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/axios.ts#L29)
+[examples/server/packages/fe-sdk-demo/src/axios.ts:29](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/axios.ts#L29)
 
 ---
 
@@ -61,7 +61,7 @@ The AxiosInstance
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/axios.ts:21](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/axios.ts#L21)
+[examples/server/packages/fe-sdk-demo/src/axios.ts:21](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/axios.ts#L21)
 
 ---
 
@@ -83,4 +83,4 @@ Set the AxiosInstance
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/axios.ts:11](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/axios.ts#L11)
+[examples/server/packages/fe-sdk-demo/src/axios.ts:11](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/axios.ts#L11)

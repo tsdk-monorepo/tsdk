@@ -70,7 +70,7 @@ Re-exports [trimAndRemoveUndefined](shared_tsdk_types.md#trimandremoveundefined)
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/shared/tsdk-helper.ts:18](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/shared/tsdk-helper.ts#L18)
+[examples/server/packages/fe-sdk-demo/src/shared/tsdk-helper.ts:18](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/shared/tsdk-helper.ts#L18)
 
 ---
 
@@ -84,7 +84,7 @@ Re-exports [trimAndRemoveUndefined](shared_tsdk_types.md#trimandremoveundefined)
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/shared/tsdk-helper.ts:4](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/shared/tsdk-helper.ts#L4)
+[examples/server/packages/fe-sdk-demo/src/shared/tsdk-helper.ts:4](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/shared/tsdk-helper.ts#L4)
 
 ## Functions
 
@@ -104,7 +104,7 @@ Re-exports [trimAndRemoveUndefined](shared_tsdk_types.md#trimandremoveundefined)
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/shared/tsdk-helper.ts:10](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/shared/tsdk-helper.ts#L10)
+[examples/server/packages/fe-sdk-demo/src/shared/tsdk-helper.ts:10](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/shared/tsdk-helper.ts#L10)
 
 ---
 
@@ -124,4 +124,4 @@ Re-exports [trimAndRemoveUndefined](shared_tsdk_types.md#trimandremoveundefined)
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/shared/tsdk-helper.ts:14](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/shared/tsdk-helper.ts#L14)
+[examples/server/packages/fe-sdk-demo/src/shared/tsdk-helper.ts:14](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/shared/tsdk-helper.ts#L14)

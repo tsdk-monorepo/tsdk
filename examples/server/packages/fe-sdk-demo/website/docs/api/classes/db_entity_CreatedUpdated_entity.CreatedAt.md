@@ -23,4 +23,4 @@ createdAt
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/db/entity/CreatedUpdated.entity.ts:6](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/db/entity/CreatedUpdated.entity.ts#L6)
+[examples/server/packages/fe-sdk-demo/src/db/entity/CreatedUpdated.entity.ts:3](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/db/entity/CreatedUpdated.entity.ts#L3)

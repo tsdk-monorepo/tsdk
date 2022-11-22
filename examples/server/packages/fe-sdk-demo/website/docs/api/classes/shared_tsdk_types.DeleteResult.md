@@ -26,7 +26,7 @@ Not all drivers support this
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:100](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L100)
+[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:100](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L100)
 
 ---
 
@@ -38,4 +38,4 @@ Raw SQL result returned by executed query.
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:95](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L95)
+[examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts:95](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/shared/tsdk-types.ts#L95)

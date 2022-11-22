@@ -21,4 +21,4 @@ custom_edit_url: null
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts:9](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts#L9)
+[examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts:9](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/modules/todo/Todo.entity.ts#L9)

@@ -29,4 +29,4 @@ updatedAt
 
 #### Defined in
 
-[examples/server/packages/fe-sdk-demo/src/db/entity/CreatedUpdated.entity.ts:11](https://github.com/jiouiuw/tsdk-monorepo/blob/4c9ec73/examples/server/packages/fe-sdk-demo/src/db/entity/CreatedUpdated.entity.ts#L11)
+[examples/server/packages/fe-sdk-demo/src/db/entity/CreatedUpdated.entity.ts:8](https://github.com/jiouiuw/tsdk-monorepo/blob/f48ea35/examples/server/packages/fe-sdk-demo/src/db/entity/CreatedUpdated.entity.ts#L8)
