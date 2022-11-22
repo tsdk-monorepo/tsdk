@@ -37,6 +37,15 @@ Run the `examples/mobile` and `examples/web`
 pnpm dev:app-web-example
 ```
 
+Example docs:
+
+```bash
+# start docs
+pnpm dev:docs
+# build docs
+pnpm build:docs
+```
+
 ## 📁 Structure
 
 - [`examples`](./examples) - Examples that only use packages and aren't aware of other apps.
@@ -51,5 +60,6 @@ pnpm dev:app-web-example
 ### Examples
 
 - [`examples/server`](./examples/server) - Node.js server using `packages/tsdk` and `packages/tsdk-server-adapters`packages.
+- [`examples/server/packages/fe-sdk-demo`](./examples/server/packages/fe-sdk-demo) - fe-sdk
 - [`examples/app`](./examples/app) - Expo app using `eslint-config` and `examples/server/packages/fe-sdk-demo` packages.
 - [`examples/web`](./examples/web) - Next.js app using `eslint-config` and `examples/server/packages/fe-sdk-demo` packages.
