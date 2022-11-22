@@ -124,28 +124,34 @@ export async function syncAPI() {
   });
   links.push('- [all reference](/docs/api/modules)');
   const projectName = `%PROJECT NAME%`;
-  let getStartedContent = await fsExtra.readFile(
-    path.join(__dirname, '..', 'fe-sdk-template/website/docs/get-started.md'),
-    'utf-8'
-  );
-  getStartedContent = getStartedContent
-    .replace(new RegExp(projectName, 'g'), config.packageName)
-    .replace('%API_REFERENCE%', links.join('\n'));
-  await fsExtra.writeFile(path.join(ensureDir, 'website/docs/get-started.md'), getStartedContent);
+  try {
+    let getStartedContent = await fsExtra.readFile(
+      path.join(__dirname, '..', 'fe-sdk-template/website/docs/get-started.md'),
+      'utf-8'
+    );
+    getStartedContent = getStartedContent
+      .replace(new RegExp(projectName, 'g'), config.packageName)
+      .replace('%API_REFERENCE%', links.join('\n'));
+    await fsExtra.writeFile(path.join(ensureDir, 'website/docs/get-started.md'), getStartedContent);
 
-  let docusaurusConfigContent = await fsExtra.readFile(
-    path.join(ensureDir, 'website/docusaurus.config.js'),
-    'utf-8'
-  );
-  docusaurusConfigContent = docusaurusConfigContent.replace(
-    new RegExp(projectName, 'g'),
-    config.packageName
-  );
-  await fsExtra.writeFile(
-    path.join(ensureDir, 'website/docusaurus.config.js'),
-    docusaurusConfigContent
-  );
-  console.log(symbols.success, 'Docs config');
+    let docusaurusConfigContent = await fsExtra.readFile(
+      path.join(ensureDir, 'website/docusaurus.config.js'),
+      'utf-8'
+    );
+    docusaurusConfigContent = docusaurusConfigContent.replace(
+      new RegExp(projectName, 'g'),
+      config.packageName
+    );
+    await fsExtra.writeFile(
+      path.join(ensureDir, 'website/docusaurus.config.js'),
+      docusaurusConfigContent
+    );
+    console.log(symbols.success, 'Docs config');
+  } catch (e: unknown) {
+    if (e instanceof Error) {
+      console.log(symbols.error, 'Docs config error', e.message);
+    }
+  }
 }
 
 export function copyPermissionsJSON() {

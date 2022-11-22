@@ -12,11 +12,13 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 
 ### 💡 Others
 
-### 0.0.19-beta.5
+### 0.0.19-beta.4
 
 2022/11/07
 
 - `tsdk-server-adapters`'s `getReqInfo` support Promise function
+
+### 0.0.19-beta.5
 
 2022/11/12
 
@@ -25,3 +27,9 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 2022/11/22
 
 - `tsdk` support APIs SDK Docs export
+
+### 0.0.19-beta.6
+
+2022/11/23
+
+- fix broken for old `tsdk` project
