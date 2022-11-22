@@ -1,4 +1,4 @@
-# fe-sdk pacakge
+# fe-sdk package
 
 `./website` docs for fe-sdk, commands:
 

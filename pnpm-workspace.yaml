@@ -1,5 +1,5 @@
 packages:
-  # pacakges
+  # packages
   - 'packages/eslint-config'
   - 'packages/tsdk'
   - 'packages/tsdk-server-adapters'

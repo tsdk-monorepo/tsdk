@@ -8,7 +8,7 @@ Publish `tsdk`/`tsdk-boilerplate` / `tsdk-server-adapters`packages:
 pnpm start-publish
 ```
 
-Build pacakges
+Build packages
 
 ```bash
 pnpm build
