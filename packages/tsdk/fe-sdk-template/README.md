@@ -1,3 +1,8 @@
-Publish a github package with permissions control:
+# fe-sdk pacakge
 
-https://docs.github.com/en/packages
+`./website` docs for fe-sdk, commands:
+
+```bash
+cd website && npm run start
+cd website && npm run build
+```
