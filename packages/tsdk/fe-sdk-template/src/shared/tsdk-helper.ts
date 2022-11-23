@@ -1,4 +1,5 @@
 import { paramCase } from 'change-case';
+import { ObjectLiteral } from './tsdk-types';
 
 export * from './tsdk-types';
 
@@ -17,6 +18,24 @@ export function checkMethodHasBody(method: string) {
 export function transformPath(path: string) {
   return `/${paramCase(path)}`;
 }
+
+/**
+ * remove undefined field or trim string value
+ *
+ * @param data - the object data
+ */
+export const trimAndRemoveUndefined = (data: ObjectLiteral): ObjectLiteral => {
+  const newData: ObjectLiteral = {};
+  Object.keys(data).forEach((k: string) => {
+    const valueType = typeof data[k];
+    if (valueType === 'string') {
+      newData[k] = data[k].trim();
+    } else if (valueType !== 'undefined') {
+      newData[k] = data[k];
+    }
+  });
+  return newData;
+};
 
 export const ProtocolTypes = {
   request: 'REQ:',
