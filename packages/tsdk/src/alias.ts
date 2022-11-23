@@ -13,6 +13,9 @@ export function aliasToRelativePath({
   config,
   cwd,
 }: AliasToRelativePathOptions) {
+  if (!config) {
+    config = {};
+  }
   if (!config.paths) {
     config.paths = {};
     // throw new Error(
