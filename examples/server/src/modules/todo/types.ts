@@ -1,10 +1,12 @@
-export interface RequestInfo {
+export interface GeneralParams {
   ip: string;
   lang: string;
+}
+
+export interface RequestInfo extends GeneralParams {
+  /** user or admin? */
   type: string;
-  /** username */
   username?: string;
-  /** userId */
   userId?: number;
   token?: string;
 }

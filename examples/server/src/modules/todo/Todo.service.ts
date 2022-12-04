@@ -17,11 +17,11 @@ export default class TodoService {
 
   // crud
 
-  createTodo(payload: AddTodoReq): Promise<AddTodoRes> {
+  createTodo(payload: AddTodoReq, reqInfo: RequestInfo): Promise<AddTodoRes> {
     return this.todoRepo.insert(payload);
   }
 
-  async queryTodo(payload: QueryTodoReq): Promise<QueryTodoRes> {
+  async queryTodo(payload: QueryTodoReq, reqInfo: RequestInfo): Promise<QueryTodoRes> {
     const { page, perPage, keyword } = payload;
 
     const skip = page && (page - 1) * (perPage || 100);
@@ -51,7 +51,10 @@ export default class TodoService {
     };
   }
 
-  async queryTodoByCursor(payload: QueryTodoByCursorReq): Promise<QueryTodoByCursorRes> {
+  async queryTodoByCursor(
+    payload: QueryTodoByCursorReq,
+    reqInfo: RequestInfo
+  ): Promise<QueryTodoByCursorRes> {
     const { perPage, keyword, beforeCursor, afterCursor } = payload;
 
     let queryBuilder = this.todoRepo.createQueryBuilder(Todo.entityName);
@@ -89,11 +92,11 @@ export default class TodoService {
     };
   }
 
-  updateTodo({ id, ...data }: UpdateTodoReq): Promise<UpdateTodoRes> {
+  updateTodo({ id, ...data }: UpdateTodoReq, reqInfo: RequestInfo): Promise<UpdateTodoRes> {
     return this.todoRepo.update(id, data);
   }
 
-  deleteTodo({ id, IDs }: DeleteTodoReq & RequestInfo): Promise<DeleteTodoRes> {
+  deleteTodo({ id, IDs }: DeleteTodoReq, reqInfo: RequestInfo): Promise<DeleteTodoRes> {
     return this.todoRepo.delete(id ? id : IDs);
   }
 }

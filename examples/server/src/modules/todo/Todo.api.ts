@@ -12,28 +12,25 @@ import {
 
 export function setupTodoRoute() {
   genRoute<QueryTodoReq, QueryTodoRes>(QueryTodoConfig, async (reqInfo, res, data) => {
-    return todoService.queryTodo(data);
+    return todoService.queryTodo(data, reqInfo);
   });
 
   genRoute<QueryTodoByCursorReq, QueryTodoByCursorRes>(
     QueryTodoByCursorConfig,
     async (reqInfo, res, data) => {
-      return todoService.queryTodoByCursor(data);
+      return todoService.queryTodoByCursor(data, reqInfo);
     }
   );
 
   genRoute<AddTodoReq, AddTodoRes>(AddTodoConfig, async (reqInfo, res, data) => {
-    return todoService.createTodo(data);
+    return todoService.createTodo(data, reqInfo);
   });
 
   genRoute<UpdateTodoReq, UpdateTodoRes>(UpdateTodoConfig, async (reqInfo, res, data) => {
-    return todoService.updateTodo(data);
+    return todoService.updateTodo(data, reqInfo);
   });
 
   genRoute<DeleteTodoReq, DeleteTodoRes>(DeleteTodoConfig, async (reqInfo, res, data) => {
-    return todoService.deleteTodo({
-      ...data,
-      ...reqInfo,
-    });
+    return todoService.deleteTodo(data, reqInfo);
   });
 }
