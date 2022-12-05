@@ -8,7 +8,7 @@ import { UpdateTodoReq, UpdateTodoRes } from './apiconf/UpdateTodo.apiconf';
 import { AddTodoReq, AddTodoRes } from './apiconf/AddTodo.apiconf';
 import { QueryTodoReq, QueryTodoRes } from './apiconf/QueryTodo.apiconf';
 import { QueryTodoByCursorReq, QueryTodoByCursorRes } from './apiconf/QueryTodoByCursor.apiconf';
-import { RequestInfo } from './types';
+import { ReadonlyRequestInfo } from './types';
 
 export default class TodoService {
   get todoRepo() {
@@ -17,11 +17,11 @@ export default class TodoService {
 
   // crud
 
-  createTodo(payload: AddTodoReq, reqInfo: RequestInfo): Promise<AddTodoRes> {
+  createTodo(payload: AddTodoReq, reqInfo: ReadonlyRequestInfo): Promise<AddTodoRes> {
     return this.todoRepo.insert(payload);
   }
 
-  async queryTodo(payload: QueryTodoReq, reqInfo: RequestInfo): Promise<QueryTodoRes> {
+  async queryTodo(payload: QueryTodoReq, reqInfo: ReadonlyRequestInfo): Promise<QueryTodoRes> {
     const { page, perPage, keyword } = payload;
 
     const skip = page && (page - 1) * (perPage || 100);
@@ -53,7 +53,7 @@ export default class TodoService {
 
   async queryTodoByCursor(
     payload: QueryTodoByCursorReq,
-    reqInfo: RequestInfo
+    reqInfo: ReadonlyRequestInfo
   ): Promise<QueryTodoByCursorRes> {
     const { perPage, keyword, beforeCursor, afterCursor } = payload;
 
@@ -92,11 +92,11 @@ export default class TodoService {
     };
   }
 
-  updateTodo({ id, ...data }: UpdateTodoReq, reqInfo: RequestInfo): Promise<UpdateTodoRes> {
+  updateTodo({ id, ...data }: UpdateTodoReq, reqInfo: ReadonlyRequestInfo): Promise<UpdateTodoRes> {
     return this.todoRepo.update(id, data);
   }
 
-  deleteTodo({ id, IDs }: DeleteTodoReq, reqInfo: RequestInfo): Promise<DeleteTodoRes> {
+  deleteTodo({ id, IDs }: DeleteTodoReq, reqInfo: ReadonlyRequestInfo): Promise<DeleteTodoRes> {
     return this.todoRepo.delete(id ? id : IDs);
   }
 }

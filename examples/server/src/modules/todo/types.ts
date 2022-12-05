@@ -10,3 +10,5 @@ export interface RequestInfo extends GeneralParams {
   userId?: number;
   token?: string;
 }
+
+export type ReadonlyRequestInfo = Readonly<RequestInfo>;
