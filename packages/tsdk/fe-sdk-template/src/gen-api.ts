@@ -1,5 +1,5 @@
-import { APIConfig, ObjectLiteral } from './shared/tsdk-helper';
 import type { RequestConfig } from './axios';
+import { APIConfig, ObjectLiteral } from './shared/tsdk-helper';
 
 let handler = (
   apiConfig: APIConfig,

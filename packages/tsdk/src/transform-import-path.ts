@@ -1,9 +1,10 @@
-import path from 'path';
 import fsExtra from 'fs-extra';
+import path from 'path';
+
 import { aliasToRelativePath } from './alias';
-import { transformTypeormEntity } from './transform-typeorm-entity';
 import { config, ensureDir, getDeps, tsconfig } from './config';
 import symbols from './symbols';
+import { transformTypeormEntity } from './transform-typeorm-entity';
 
 /** 处理引用路径 */
 export function processImportPath(_importString: string, _filePath: string) {
@@ -15,7 +16,7 @@ export function processImportPath(_importString: string, _filePath: string) {
   const matched = importString.match(isDoubleSemicolon ? /from "(.*)";/ : /from '(.*)';/);
   if (matched) {
     // path alias check and replace path
-    let fromPath = aliasToRelativePath({
+    const fromPath = aliasToRelativePath({
       cwd: './',
       config: tsconfig,
       imports: [matched[1]],

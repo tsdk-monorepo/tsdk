@@ -1,7 +1,7 @@
-import path from 'path';
 import glob = require('fast-glob');
 import fsExtra from 'fs-extra';
-import symbols from './symbols';
+import path from 'path';
+
 import {
   isCurrentConfigExist,
   comment,
@@ -11,8 +11,9 @@ import {
   parseDeps,
   packageFolder,
 } from './config';
-import { transformImportPath } from './transform-import-path';
 import { deleteFilesBeforeSync } from './delete-files';
+import symbols from './symbols';
+import { transformImportPath } from './transform-import-path';
 
 export async function syncFiles() {
   await copySDK();
@@ -85,9 +86,22 @@ const defaultPackagePrefix = `${defaultPackageScope}:registry`;
 async function reconfigPkg() {
   // rename package name
   const pkgPath = path.resolve(process.cwd(), config.packageDir, packageFolder, 'package.json');
-  const content = await fsExtra.readFile(pkgPath, 'utf-8');
+  const docPkgPath = path.resolve(
+    process.cwd(),
+    config.packageDir,
+    packageFolder,
+    'website',
+    'package.json'
+  );
+  const [content, docContent] = await Promise.all([
+    fsExtra.readFile(pkgPath, 'utf-8'),
+    fsExtra.readFile(docPkgPath, 'utf-8'),
+  ]);
   const pkgContent = JSON.parse(content);
+  const docPkgContent = JSON.parse(docContent);
+
   pkgContent.name = config.packageName;
+  docPkgContent.name = `${config.packageName}-docs`;
   const scope = config.packageName.split('/')[0];
 
   if (!scope[0].startsWith('@') || scope.length <= 1) {
@@ -103,13 +117,11 @@ async function reconfigPkg() {
 
     delete pkgContent.publishConfig[defaultPackagePrefix];
   }
-  // else if (!pkgContent.publishConfig) {
-  //   console.log(symbols.warning, `\`package.json\` should have \`publishConfig\``);
-  // } else {
-  //   pkgContent.publishConfig[`${scope}:registry`] = 'https://npm.pkg.github.com';
-  // }
 
-  await fsExtra.writeFile(pkgPath, JSON.stringify(pkgContent, null, 2));
+  await Promise.all([
+    fsExtra.writeFile(pkgPath, JSON.stringify(pkgContent, null, 2)),
+    fsExtra.writeFile(docPkgPath, JSON.stringify(docPkgContent, null, 2)),
+  ]);
 
   await Promise.all([copyShared(), copySnippet()]);
 
@@ -178,7 +190,7 @@ export async function syncExtFiles(ext: string, isEntity = false) {
         indexContent = '';
       }
       const filePath = path.join(ensureDir, file.replace(`${config.baseDir}/`, 'src/'));
-      const content = await transformImportPath(file, isEntity);
+      const content: string = await transformImportPath(file, isEntity);
 
       await fsExtra.ensureDir(path.dirname(filePath));
 
@@ -224,7 +236,9 @@ export async function syncSharedFiles() {
       let fromPath = path.relative(`${ensureDir}/src/`, filePath.replace('.ts', ''));
       fromPath = path.normalize(fromPath);
       fromPath = fromPath.startsWith('.') ? fromPath : './' + fromPath;
-      indexContent += `export * from '${fromPath}';\n`;
+      if (fromPath.indexOf('tsdk-types') < 0) {
+        indexContent += `export * from '${fromPath}';\n`;
+      }
       return fsExtra.writeFile(filePath, content);
     })
   );

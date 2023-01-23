@@ -1,4 +1,5 @@
 import { registerEntites } from '/src/db/register-entities';
+
 import { Todo } from './Todo.entity';
 
 registerEntites([Todo]);

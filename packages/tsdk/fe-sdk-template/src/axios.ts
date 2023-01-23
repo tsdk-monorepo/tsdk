@@ -1,4 +1,5 @@
 import { AxiosRequestConfig, AxiosInstance } from 'axios';
+
 import { APIConfig, checkMethodHasBody, trimAndRemoveUndefined } from './shared/tsdk-helper';
 
 let axiosInstance: AxiosInstance;

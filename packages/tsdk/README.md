@@ -15,7 +15,6 @@
 - Support `@nestjs/cli` bundle into one single file.
 - Built-in docs.
 
-
 **Note: `@nestjs/cli` bundle into one single file, but not include `node_modules/*`**
 
 ### Install

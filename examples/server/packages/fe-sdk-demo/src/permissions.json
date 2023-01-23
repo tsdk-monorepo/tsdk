@@ -10,6 +10,15 @@
       "schema": {}
     },
     {
+      "path": "/query-todo",
+      "method": "get",
+      "name": "QueryTodo",
+      "description": "query todo",
+      "category": "todo",
+      "type": "user",
+      "schema": {}
+    },
+    {
       "type": "user",
       "path": "/add-todo",
       "method": "post",
@@ -34,15 +43,6 @@
       "path": "/query-todo-by-cursor",
       "schema": {},
       "description": "query todo list by cursor"
-    },
-    {
-      "path": "/query-todo",
-      "method": "get",
-      "name": "QueryTodo",
-      "description": "query todo",
-      "category": "todo",
-      "type": "user",
-      "schema": {}
     }
   ]
 }

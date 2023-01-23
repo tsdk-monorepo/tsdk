@@ -11,7 +11,7 @@ This is the `fe-sdk-demo` documentation.
 
 ### API Reference
 
-- [USER APIs](/docs/api/modules/user_api)
+- [user APIs](/docs/api/modules/user_api)
 - [shared/paging](/docs/api/modules/shared_paging)
 - [shared/tsdk-helper](/docs/api/modules/shared_tsdk_helper)
 - [shared/tsdk-types](/docs/api/modules/shared_tsdk_types)

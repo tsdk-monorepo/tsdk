@@ -1,5 +1,5 @@
 module.exports = {
-  extends: 'eslint-config-universe',
+  extends: 'universe/web',
   // do some additional things with it
   rules: {
     'prettier/prettier': ['warn', { endOfLine: 'auto' }],

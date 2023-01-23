@@ -1,6 +1,6 @@
 {
   "name": "tsdk",
-  "version": "0.0.19-beta.6",
+  "version": "0.0.19-beta.7",
   "main": "lib/index.js",
   "bin": {
     "tsdk": "bin/tsdk.js"
@@ -11,7 +11,8 @@
     "build": "rm -rf lib && tsc --project tsconfig.json",
     "start-website": "cd website && yarn && npm run start",
     "build-website": "cd website && yarn && npm run build",
-    "test": "echo tests"
+    "test": "echo tests",
+    "lint": "eslint . --ext .ts,.tsx --fix"
   },
   "files": [
     "bin/*",
@@ -39,12 +40,21 @@
     "fs-extra": "^10.1.0"
   },
   "devDependencies": {
+    "@acme/eslint-config": "*",
     "@types/fs-extra": "^9.0.13",
     "@types/node": "^18.7.16",
     "@types/webpack-node-externals": "^2.5.3",
-    "typescript": "4.8.4",
+    "typescript": "4.9.4",
     "webpack": "^5.74.0",
     "webpack-node-externals": "^3.0.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "@acme/eslint-config/node"
+    ],
+    "ignorePatterns": [
+      "node_modules"
+    ]
   },
   "license": "MIT"
 }

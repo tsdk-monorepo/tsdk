@@ -7,18 +7,21 @@
   "license": "MIT",
   "main": "index.js",
   "files": [
-    "index.js"
+    "index.js",
+    "native.js",
+    "web.js",
+    "node.js"
   ],
   "scripts": {
     "lint": "eslint --ext js,ts,tsx ."
   },
   "dependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.1.0",
-    "@typescript-eslint/parser": "^5.1.0",
-    "eslint": "7.32.0",
-    "eslint-config-universe": "^8.0.0",
-    "prettier": "^2.4.1",
-    "@tsconfig/recommended": "^1.0.1"
+    "@typescript-eslint/eslint-plugin": "^5.48.2",
+    "@typescript-eslint/parser": "^5.48.2",
+    "eslint": "^8.32.0",
+    "eslint-config-universe": "^11.1.1",
+    "prettier": "^2.8.3",
+    "@tsconfig/recommended": "^1.0.2"
   },
   "eslintConfig": {
     "extends": "."

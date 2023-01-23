@@ -1,6 +1,7 @@
-import path from 'path';
-import fsExtra from 'fs-extra';
 import { execSync } from 'child_process';
+import fsExtra from 'fs-extra';
+import path from 'path';
+
 import symbols from './symbols';
 
 export async function runNestCommand() {

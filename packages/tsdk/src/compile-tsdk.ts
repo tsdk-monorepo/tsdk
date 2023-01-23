@@ -1,4 +1,5 @@
 import { execSync } from 'child_process';
+
 import { ensureDir } from './config';
 
 export function buildSDK() {

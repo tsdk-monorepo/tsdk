@@ -11,6 +11,9 @@ import {
   DeleteTodoConfig,
   DeleteTodoReq,
   DeleteTodoRes,
+  QueryTodoConfig,
+  QueryTodoReq,
+  QueryTodoRes,
   AddTodoConfig,
   AddTodoReq,
   AddTodoRes,
@@ -20,9 +23,6 @@ import {
   QueryTodoByCursorConfig,
   QueryTodoByCursorReq,
   QueryTodoByCursorRes,
-  QueryTodoConfig,
-  QueryTodoReq,
-  QueryTodoRes,
 } from './apiconf-refs';
 
 /**
@@ -31,6 +31,13 @@ import {
  * @category todo
  */
 export const DeleteTodo = genApi<DeleteTodoReq, DeleteTodoRes>(DeleteTodoConfig);
+
+/**
+ * query todo
+ *
+ * @category todo
+ */
+export const QueryTodo = genApi<QueryTodoReq, QueryTodoRes>(QueryTodoConfig);
 
 /**
  * add todo
@@ -54,10 +61,3 @@ export const UpdateTodo = genApi<UpdateTodoReq, UpdateTodoRes>(UpdateTodoConfig)
 export const QueryTodoByCursor = genApi<QueryTodoByCursorReq, QueryTodoByCursorRes>(
   QueryTodoByCursorConfig
 );
-
-/**
- * query todo
- *
- * @category todo
- */
-export const QueryTodo = genApi<QueryTodoReq, QueryTodoRes>(QueryTodoConfig);

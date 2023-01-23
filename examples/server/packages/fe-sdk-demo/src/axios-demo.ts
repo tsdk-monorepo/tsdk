@@ -1,4 +1,5 @@
 import axios, { AxiosError } from 'axios';
+
 import { setAxiosInstance, getAxiosInstance } from './axios';
 
 export const instance = axios.create({ baseURL: '' });

@@ -1,4 +1,5 @@
 import { paramCase } from 'change-case';
+
 import { ObjectLiteral } from './tsdk-types';
 
 export * from './tsdk-types';

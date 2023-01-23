@@ -1,5 +1,6 @@
 import z from 'zod';
 import { PositiveNumberSchema } from './utils';
+
 export const pageSchema = z.object({
   page: PositiveNumberSchema.optional(),
   perPage: PositiveNumberSchema.optional(),

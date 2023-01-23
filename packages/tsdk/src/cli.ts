@@ -1,10 +1,10 @@
-import { addDepsIfNone, copyTsdkrc, syncFiles } from './sync-files';
-import { copyPermissionsJSON, syncAPI } from './sync-api';
 import { buildSDK } from './compile-tsdk';
-import symbols from './symbols';
 import { tsconfigExists, parsePkg, pkg } from './config';
-import { runNestCommand } from './run-nest-command';
 import { removeFields } from './remove-fields';
+import { runNestCommand } from './run-nest-command';
+import symbols from './symbols';
+import { copyPermissionsJSON, syncAPI } from './sync-api';
+import { addDepsIfNone, copyTsdkrc, syncFiles } from './sync-files';
 
 export async function run() {
   const params = process.argv.filter((i) => i.startsWith('--'));

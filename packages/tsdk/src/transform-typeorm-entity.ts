@@ -1,13 +1,10 @@
-import { formatTS } from "./format";
+import { formatTS } from './format';
 
-export function transformTypeormEntity(
-  _fileContent: string,
-  entityLibName: string
-) {
+export function transformTypeormEntity(_fileContent: string, entityLibName: string) {
   let fileContent = formatTS(_fileContent);
 
   // remove import entityLibName(like `typeorm`) and remove entityLibName(like `typeorm`) decorators @xxx() / @xxx({.*}) / @xxx({ \n\n })
-  const result = fileContent.split("\n");
+  const result = fileContent.split('\n');
   const imports: string[] = [];
   const otherContent: string[] = [];
   let importArr: string[] = [];
@@ -15,12 +12,10 @@ export function transformTypeormEntity(
   let decoratorArr: string[] = [];
 
   result.forEach((i) => {
-    const hasImport = i.indexOf("import ") > -1;
-    const hasFrom = i.indexOf(" from") > -1;
+    const hasImport = i.indexOf('import ') > -1;
+    const hasFrom = i.indexOf(' from') > -1;
     const hasTypeormFrom =
-      hasFrom &&
-      (i.indexOf(` '${entityLibName}`) > -1 ||
-        i.indexOf(` "${entityLibName}`) > -1);
+      hasFrom && (i.indexOf(` '${entityLibName}`) > -1 || i.indexOf(` "${entityLibName}`) > -1);
 
     const decoratorMatch = i.match(/@.*\(.*/);
     const matched = decoratorMatch && decoratorMatch[0];
@@ -28,16 +23,13 @@ export function transformTypeormEntity(
 
     // for `@ManyToOne(() => Book, { nullable: true })`
     // replace ) =>
-    const _i = i.replace(") =>", "");
+    const _i = i.replace(') =>', '');
 
-    const hasDecoratorStart =
-      hasDecorator && (_i.indexOf("({") > -1 || _i.indexOf("(") > -1);
-    const hasDecoratorEnd =
-      hasDecorator && (_i.indexOf("})") > -1 || _i.indexOf(")") > -1);
+    const hasDecoratorStart = hasDecorator && (_i.indexOf('({') > -1 || _i.indexOf('(') > -1);
+    const hasDecoratorEnd = hasDecorator && (_i.indexOf('})') > -1 || _i.indexOf(')') > -1);
 
     const hasDecoratorEnd2 =
-      decoratorArr.length > 0 &&
-      (_i.indexOf("})") > -1 || _i.indexOf(")") > -1);
+      decoratorArr.length > 0 && (_i.indexOf('})') > -1 || _i.indexOf(')') > -1);
 
     if (hasImport && hasTypeormFrom) {
       // ignore entityLibName(like `typeorm`)
@@ -50,7 +42,7 @@ export function transformTypeormEntity(
       importArr = [];
     } else if (hasFrom) {
       importArr.push(i);
-      imports.push(importArr.join("\n"));
+      imports.push(importArr.join('\n'));
       importArr = [];
     } else if (importArr.length > 0) {
       importArr.push(i);
@@ -66,7 +58,7 @@ export function transformTypeormEntity(
       otherContent.push(i);
     }
   });
-  fileContent = `${imports.join("\n")}\n${otherContent.join("\n")}`;
+  fileContent = `${imports.join('\n')}\n${otherContent.join('\n')}`;
   // remove entityLibName(like `typeorm`) end
 
   return formatTS(fileContent);

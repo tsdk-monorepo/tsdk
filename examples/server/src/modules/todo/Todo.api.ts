@@ -1,7 +1,5 @@
-import genRoute from './gen-route';
 import { todoService } from './Todo.service';
 import { AddTodoConfig, AddTodoReq, AddTodoRes } from './apiconf/AddTodo.apiconf';
-import { UpdateTodoConfig, UpdateTodoReq, UpdateTodoRes } from './apiconf/UpdateTodo.apiconf';
 import { DeleteTodoConfig, DeleteTodoReq, DeleteTodoRes } from './apiconf/DeleteTodo.apiconf';
 import { QueryTodoConfig, QueryTodoReq, QueryTodoRes } from './apiconf/QueryTodo.apiconf';
 import {
@@ -9,6 +7,8 @@ import {
   QueryTodoByCursorReq,
   QueryTodoByCursorRes,
 } from './apiconf/QueryTodoByCursor.apiconf';
+import { UpdateTodoConfig, UpdateTodoReq, UpdateTodoRes } from './apiconf/UpdateTodo.apiconf';
+import genRoute from './gen-route';
 
 export function setupTodoRoute() {
   genRoute<QueryTodoReq, QueryTodoRes>(QueryTodoConfig, async (reqInfo, res, data) => {

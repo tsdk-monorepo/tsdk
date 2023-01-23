@@ -1,6 +1,7 @@
-import fsExtra from 'fs-extra';
 import glob = require('fast-glob');
+import fsExtra from 'fs-extra';
 import path from 'path';
+
 import { config, ensureDir } from './config';
 
 export async function removeFields() {

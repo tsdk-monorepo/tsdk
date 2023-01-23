@@ -2,6 +2,7 @@ import z from 'zod';
 import { IDSchema } from '../../../shared/utils';
 import { TodoStatus } from '../Todo.entity';
 import { pageSchema } from '../../../shared/paging';
+
 export const TodoSchema = z.object({
   id: IDSchema,
   title: z.string().min(1),

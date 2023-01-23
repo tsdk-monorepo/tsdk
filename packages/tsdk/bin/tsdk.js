@@ -1,3 +1,3 @@
 #!/usr/bin/env node
 
-void require("../lib/cli");
+require('../lib/cli');

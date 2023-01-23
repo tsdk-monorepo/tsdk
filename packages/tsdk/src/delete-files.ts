@@ -1,8 +1,9 @@
-import path from 'path';
 import glob = require('fast-glob');
 import fsExtra from 'fs-extra';
-import symbols from './symbols';
+import path from 'path';
+
 import { config, ensureDir } from './config';
+import symbols from './symbols';
 
 export async function deleteFilesBeforeSync() {
   const preWhiteList = await glob(path.join(__dirname, '../fe-sdk-template/src/**'));

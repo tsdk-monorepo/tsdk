@@ -1,7 +1,8 @@
-import axios, { AxiosError } from "axios";
-import { setAxiosInstance, getAxiosInstance } from "./axios";
+import axios, { AxiosError } from 'axios';
 
-export const instance = axios.create({ baseURL: "" });
+import { setAxiosInstance, getAxiosInstance } from './axios';
+
+export const instance = axios.create({ baseURL: '' });
 
 export function setupExample() {
   setAxiosInstance(instance);
@@ -23,7 +24,7 @@ export function setupExample() {
           console.log(error.request);
         } else {
           // Something happened in setting up the request that triggered an Error
-          console.log("Error", error.message);
+          console.log('Error', error.message);
         }
         console.log(error.config);
       }
@@ -32,7 +33,7 @@ export function setupExample() {
 
   function handleRequestAuthInterceptor() {
     getAxiosInstance().interceptors.request.use((config) => {
-      const token = "";
+      const token = '';
       if (token && config?.headers) {
         config.headers.Authorization = `Bearer ${token}`;
       }

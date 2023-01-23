@@ -2,12 +2,13 @@ import { Like } from 'typeorm';
 import { buildPaginator } from 'typeorm-cursor-pagination';
 
 import { appDataSource } from '/src/db';
+
 import { Todo } from './Todo.entity';
-import { DeleteTodoReq, DeleteTodoRes } from './apiconf/DeleteTodo.apiconf';
-import { UpdateTodoReq, UpdateTodoRes } from './apiconf/UpdateTodo.apiconf';
 import { AddTodoReq, AddTodoRes } from './apiconf/AddTodo.apiconf';
+import { DeleteTodoReq, DeleteTodoRes } from './apiconf/DeleteTodo.apiconf';
 import { QueryTodoReq, QueryTodoRes } from './apiconf/QueryTodo.apiconf';
 import { QueryTodoByCursorReq, QueryTodoByCursorRes } from './apiconf/QueryTodoByCursor.apiconf';
+import { UpdateTodoReq, UpdateTodoRes } from './apiconf/UpdateTodo.apiconf';
 import { ReadonlyRequestInfo } from './types';
 
 export default class TodoService {

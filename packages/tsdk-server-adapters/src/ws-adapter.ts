@@ -1,11 +1,7 @@
 // @ts-ignore
 import { WebSocket } from 'ws';
-import {
-  genRouteFactory,
-  getRouteEventName,
-  ProtocolType,
-  ObjectLiteral,
-} from './gen-route-factory';
+
+import { genRouteFactory, getRouteEventName, ProtocolType } from './gen-route-factory';
 
 /**
  * @deprecated Not ready for production, Please use Socket.IO

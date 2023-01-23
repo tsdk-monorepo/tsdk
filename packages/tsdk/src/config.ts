@@ -1,5 +1,6 @@
-import path from 'path';
 import fsExtra from 'fs-extra';
+import path from 'path';
+
 import symbols from './symbols';
 
 export interface TSDKConfig {

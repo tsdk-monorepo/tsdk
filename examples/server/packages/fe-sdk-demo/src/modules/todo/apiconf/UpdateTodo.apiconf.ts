@@ -7,6 +7,7 @@ import {
   transformPath,
   UpdateResult,
 } from '../../../shared/tsdk-helper';
+
 export const UpdateTodoConfig: APIConfig = {
   type: 'user',
   path: transformPath('UpdateTodo'),

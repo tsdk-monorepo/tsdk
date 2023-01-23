@@ -1,5 +1,6 @@
 import assert from 'assert';
 import { expect } from 'chai';
+
 import { sum } from '/src/shared/utils';
 
 describe('hooks', function () {

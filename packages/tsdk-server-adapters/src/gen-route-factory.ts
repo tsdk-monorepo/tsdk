@@ -1,12 +1,12 @@
 // @ts-ignore
-import type { ZodTypeAny } from 'zod';
-// @ts-ignore
+import EventEmitter from 'eventemitter3';
 import type { Response } from 'express';
+// @ts-ignore
 // @ts-ignore
 import type { Socket } from 'socket.io';
 // @ts-ignore
 import type { WebSocket } from 'ws';
-import EventEmitter from 'eventemitter3';
+import type { ZodTypeAny } from 'zod';
 
 export const PROTOCOLs = {
   http: 'http',

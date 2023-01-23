@@ -1,6 +1,7 @@
+import glob from 'fast-glob';
 import fsExtra from 'fs-extra';
 import path from 'path';
-import glob from 'fast-glob';
+
 import { config, ensureDir } from './config';
 import { formatTS } from './format';
 import symbols from './symbols';
@@ -40,7 +41,7 @@ export async function syncAPI() {
       return (item.type === 'common' || !item.type) && item.name;
     });
 
-    let exportStr = apiType === 'common' || !hasCommon ? `` : `\nexport * from './common-api';\n`;
+    const exportStr = apiType === 'common' || !hasCommon ? `` : `\nexport * from './common-api';\n`;
 
     let hasContentCount = 0;
     Object.keys(apiconfs).forEach((k, idx) => {

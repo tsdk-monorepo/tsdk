@@ -1,9 +1,9 @@
+import { execSync } from 'child_process';
+import fsExtra from 'fs-extra';
+import path from 'path';
+import ts from 'typescript';
 import webpack from 'webpack';
 import nodeExternals from 'webpack-node-externals';
-import path from 'path';
-import fsExtra from 'fs-extra';
-import ts from 'typescript';
-import { execSync } from 'child_process';
 
 const defaultMainName = 'default';
 const distProjects = 'dist-projects';

@@ -33,3 +33,10 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 2022/11/23
 
 - fix broken for old `tsdk` project
+
+### 0.0.19-beta.7
+
+2023/1/23
+
+- Generate and change `fe-sdk docs` name, fix confilict in dev.
+- Skip `tsdk-types.ts` import in shared index, fix type dulicaped error.

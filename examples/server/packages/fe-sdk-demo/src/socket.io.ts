@@ -1,5 +1,6 @@
 // @ts-ignore
 import type { Socket } from 'socket.io-client';
+
 import {
   APIConfig,
   ObjectLiteral,

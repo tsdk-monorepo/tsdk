@@ -1,9 +1,11 @@
 import { createServer } from 'http';
-import { WebSocketServer } from 'ws';
-import { parse } from 'url';
 import { wsAdapterFactory } from 'tsdk-server-adapters/lib/ws-adapter';
+import { parse } from 'url';
+import { WebSocketServer } from 'ws';
+
 import { initializeDataSources } from '/src/db';
 import { ProtocolTypes } from '/src/shared/tsdk-helper';
+
 import { setupRoutes } from '../setup-routes';
 import { routeBus } from '../todo/gen-route';
 import { RequestInfo } from '../todo/types';
