@@ -35,10 +35,9 @@ export async function axiosHandler(
 ) {
   const axiosInstance = getAxiosInstance();
   if (!axiosInstance) {
-    const msg = `Please call \`setAxiosInstance\` first`;
+    const msg = new Error(`Call \`setAxiosInstance\` first`);
     throw msg;
   }
-  /** axios */
   const { path, headers } = apiConfig;
   const method = apiConfig.method.toLowerCase();
 

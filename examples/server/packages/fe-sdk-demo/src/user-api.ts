@@ -5,8 +5,6 @@
  *
  **/
 
-import genApi from './gen-api';
-
 import {
   DeleteTodoConfig,
   DeleteTodoReq,
@@ -24,6 +22,7 @@ import {
   QueryTodoByCursorReq,
   QueryTodoByCursorRes,
 } from './apiconf-refs';
+import genApi from './gen-api';
 
 /**
  * delete todo

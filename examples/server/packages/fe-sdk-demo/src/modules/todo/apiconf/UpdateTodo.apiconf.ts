@@ -1,5 +1,3 @@
-import { Todo } from '../Todo.entity';
-import { updateTodoSchema } from './TodoSchema.shared';
 import {
   APIConfig,
   ObjectLiteral,
@@ -7,6 +5,8 @@ import {
   transformPath,
   UpdateResult,
 } from '../../../shared/tsdk-helper';
+import { Todo } from '../Todo.entity';
+import { updateTodoSchema } from './TodoSchema.shared';
 
 export const UpdateTodoConfig: APIConfig = {
   type: 'user',

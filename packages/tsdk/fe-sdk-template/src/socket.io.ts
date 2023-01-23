@@ -11,7 +11,15 @@ import {
 let socketIOInstance: Socket;
 
 /**
- * Set the io
+ * Set the io instance
+ * 
+ * @example
+ * ```ts
+  const socket = io('https://server-domain.com', {
+    transports: ['websocket'],
+  });
+  setSocketIOInstance(socket);
+  ```
  *
  * @param instance - io
  */
@@ -21,18 +29,15 @@ export const setSocketIOInstance = (instance: Socket): void => {
   socketIOInstance.off(ProtocolTypes.response);
   socketIOInstance.on(ProtocolTypes.response, ({ _id: msgId, ...data }: ObjectLiteral) => {
     if (msgId && QUEUEs[msgId]) {
-      !data.status || data.status === 200
-        ? QUEUEs[msgId].resolve(data)
-        : QUEUEs[msgId].reject(data);
+      if (!data.status || data.status === 200) {
+        QUEUEs[msgId].resolve(data);
+      } else {
+        QUEUEs[msgId].reject(data);
+      }
       delete QUEUEs[msgId];
     }
   });
 };
-
-// const socket = io('https://server-domain.com', {
-//   transports: ['websocket'],
-// });
-// setSocketIOInstance(socket);
 
 /**
  * Get socket.io-client instance
@@ -56,12 +61,12 @@ export function socketIOHandler(
 ): Promise<any> {
   const ioInstance = getSocketIOInstance();
   if (!ioInstance) {
-    const msg = `Please call \`setSocketIOInstance\` first`;
+    const msg = new Error(`Call \`setSocketIOInstance\` first`);
     throw msg;
   }
   return new Promise((resolve, reject) => {
     if (!ioInstance.connected) {
-      return reject('No Connection');
+      return reject(new Error('No Connection'));
     }
 
     const msgId = `${apiConfig.method === 'get' ? '' : ''}:${apiConfig.path}:${++ID}${
@@ -76,7 +81,7 @@ export function socketIOHandler(
     const timer = requestConfig?.timeout
       ? setTimeout(() => {
           delete QUEUEs[msgId];
-          reject('Request Timeout');
+          reject(Error('Request Timeout'));
         }, requestConfig.timeout)
       : -1;
 

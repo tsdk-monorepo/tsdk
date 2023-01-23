@@ -7,11 +7,20 @@ let handler = (
   requestConfig?: RequestConfig<any> | ObjectLiteral,
   needTrim?: boolean
 ): Promise<any> => {
-  return Promise.reject({
-    msg: `Please call \`setHandler\` first`,
-  });
+  return Promise.reject(new Error(`Call \`setHandler\` first`));
 };
 
+/**
+ * @example
+ * ```ts
+ *  setAxiosInstance(axios.create())
+    setSocketIOInstance(io());
+
+    setHandler(axiosHandler);
+    setHandler(socketIOHandler);
+ * ```
+ * @param _handler
+ */
 export function setHandler(_handler: typeof handler) {
   handler = _handler;
 }
@@ -19,13 +28,6 @@ export function setHandler(_handler: typeof handler) {
 export function getHandler() {
   return handler;
 }
-
-// example
-// setAxiosInstance(axios.create())
-// setSocketIOInstance(io());
-
-// setHandler(axiosHandler);
-// setHandler(socketIOHandler);
 
 /**
  * Generate API
