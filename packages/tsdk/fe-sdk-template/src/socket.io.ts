@@ -1,6 +1,7 @@
 // @ts-ignore
 import type { Socket } from 'socket.io-client';
 
+import { NoConnectionError, NoHandlerError, TimeoutError } from './error';
 import {
   APIConfig,
   ObjectLiteral,
@@ -61,12 +62,11 @@ export function socketIOHandler(
 ): Promise<any> {
   const ioInstance = getSocketIOInstance();
   if (!ioInstance) {
-    const msg = new Error(`Call \`setSocketIOInstance\` first`);
-    throw msg;
+    throw new NoHandlerError(`Call \`setSocketIOInstance\` first`);
   }
   return new Promise((resolve, reject) => {
     if (!ioInstance.connected) {
-      return reject(new Error('No Connection'));
+      return reject(new NoConnectionError('No Connection'));
     }
 
     const msgId = `${apiConfig.method === 'get' ? '' : ''}:${apiConfig.path}:${++ID}${
@@ -81,7 +81,7 @@ export function socketIOHandler(
     const timer = requestConfig?.timeout
       ? setTimeout(() => {
           delete QUEUEs[msgId];
-          reject(Error('Request Timeout'));
+          reject(new TimeoutError('Request Timeout'));
         }, requestConfig.timeout)
       : -1;
 

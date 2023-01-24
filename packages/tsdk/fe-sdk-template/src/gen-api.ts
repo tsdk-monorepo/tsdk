@@ -1,4 +1,5 @@
 import type { RequestConfig } from './axios';
+import { NoHandlerError } from './error';
 import { APIConfig, ObjectLiteral } from './shared/tsdk-helper';
 
 let handler = (
@@ -7,7 +8,7 @@ let handler = (
   requestConfig?: RequestConfig<any> | ObjectLiteral,
   needTrim?: boolean
 ): Promise<any> => {
-  return Promise.reject(new Error(`Call \`setHandler\` first`));
+  return Promise.reject(new NoHandlerError(`Call \`setHandler\` first`));
 };
 
 /**

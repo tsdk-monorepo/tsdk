@@ -40,3 +40,9 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 
 - Generate and change `fe-sdk docs` name, fix confilict in dev.
 - Skip `tsdk-types.ts` import in shared index, fix type dulicaped error.
+
+### 0.0.19-beta.8
+
+2023/1/23
+
+- `fe-sdk` throw custom error
