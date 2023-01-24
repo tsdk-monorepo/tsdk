@@ -1,6 +1,6 @@
 {
   "name": "tsdk-server-adapters",
-  "version": "0.0.19-beta.7",
+  "version": "0.0.19-beta.8",
   "main": "lib/index.js",
   "scripts": {
     "start-publish": "npm run build && npm publish --registry=https://registry.npmjs.org",
