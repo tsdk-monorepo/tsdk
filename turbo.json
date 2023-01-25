@@ -5,7 +5,7 @@
       "outputs": []
     },
     "test": {
-      "dependsOn": ["build"],
+      "dependsOn": ["lint", "build"],
       "inputs": ["**/*.{ts,tsx,js,jsx}"]
     },
     "build": {
