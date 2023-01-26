@@ -70,6 +70,7 @@ importers:
       cors: ^2.8.5
       cross-env: ^7.0.3
       express: ^4.18.2
+      kysely: ^0.23.4
       mocha: ^10.0.0
       reflect-metadata: ^0.1.13
       socket.io: ^4.5.4
@@ -92,6 +93,7 @@ importers:
       cors: 2.8.5
       cross-env: 7.0.3
       express: 4.18.2
+      kysely: 0.23.4
       reflect-metadata: 0.1.13
       socket.io: 4.5.4_b534fhs3xgzvdbz5qzlfkrhjjm
       tsdk-server-adapters: link:../../packages/tsdk-server-adapters
@@ -9973,6 +9975,11 @@ packages:
   /klona/2.0.5:
     resolution: {integrity: sha512-pJiBpiXMbt7dkzXe8Ghj/u4FfXOOa98fPW+bihOJ4SjnoijweJrNThJfd3ifXpXhREjpoF2mZVH1GfS9LV3kHQ==}
     engines: {node: '>= 8'}
+    dev: false
+
+  /kysely/0.23.4:
+    resolution: {integrity: sha512-3icLnj1fahUtZsP9zzOvF4DcdhekGsLX4ZaoBaIz0ZeHegyRDdbwpJD7zezAJ+KwQZNDeKchel6MikFNLsSZIA==}
+    engines: {node: '>=14.0.0'}
     dev: false
 
   /language-subtag-registry/0.3.22:
