@@ -1,6 +1,7 @@
 packages:
   # packages
   - 'packages/eslint-config'
+  - 'packages/ts-config'
   - 'packages/tsdk'
   - 'packages/tsdk-server-adapters'
   - 'packages/tsdk-boilerplate'

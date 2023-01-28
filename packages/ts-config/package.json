@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "name": "@acme/ts-config",
+  "version": "1.0.0",
+  "description": "Acme ts configuration",
+  "license": "MIT",
+  "main": "index.js",
+  "files": [
+    "tsconfig.json"
+  ],
+  "dependencies": {
+    "typescript": "^5.0.0-beta"
+  }
+}

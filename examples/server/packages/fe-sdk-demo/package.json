@@ -12,7 +12,7 @@
     "change-case": "^4.1.2"
   },
   "devDependencies": {
-    "typescript": "^4.9.4"
+    "typescript": "^5.0.0-beta"
   },
   "peerDependencies": {
     "socket.io-client": "^4.5.4"
