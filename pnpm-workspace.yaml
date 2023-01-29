@@ -1,17 +1,13 @@
 packages:
   # packages
-  - 'packages/eslint-config'
-  - 'packages/ts-config'
-  - 'packages/tsdk'
-  - 'packages/tsdk-server-adapters'
-  - 'packages/tsdk-boilerplate'
+  - 'packages/*'
+  # exclude template
+  - '!packages/tsdk/fe-sdk-template/**'
 
   # website
   - 'website'
 
   # examples
-  - 'examples/server'
-  - 'examples/server/packages/fe-sdk-demo'
-  - 'examples/server/packages/fe-sdk-demo/website'
-  - 'examples/web'
-  - 'examples/app'
+  - 'examples/**'
+  # exclude dist projects
+  - '!**/dist**'
