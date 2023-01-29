@@ -2,7 +2,6 @@ packages:
   # packages
   - 'packages/*'
   # exclude template
-  - '!packages/tsdk/fe-sdk-template/**'
 
   # website
   - 'website'
