@@ -94,7 +94,7 @@ importers:
       kysely: 0.23.4
       reflect-metadata: 0.1.13
       socket.io: 4.5.4_b534fhs3xgzvdbz5qzlfkrhjjm
-      tsdk-server-adapters: 0.0.19-beta.9_izktbuajgphf4odcenosxrg55i
+      tsdk-server-adapters: link:../../packages/tsdk-server-adapters
       typeorm: 0.3.11_skgwhxz5lu3ylnn45pr2urqnki
       typeorm-cursor-pagination: 0.10.0_typeorm@0.3.11
       utf-8-validate: 6.0.0
@@ -114,7 +114,7 @@ importers:
       socket.io-client: 4.5.4_b534fhs3xgzvdbz5qzlfkrhjjm
       ts-mocha: 10.0.0_mocha@10.1.0
       ts-node: 10.9.1_@types+node@18.11.3
-      tsdk: 0.0.19-beta.9
+      tsdk: link:../../packages/tsdk
 
   examples/server/packages/fe-sdk-demo:
     specifiers:
@@ -244,7 +244,7 @@ importers:
       tsdk: '*'
     dependencies:
       fs-extra: 10.1.0
-      tsdk: 0.0.19-beta.9
+      tsdk: link:../tsdk
     devDependencies:
       '@acme/eslint-config': link:../eslint-config
       '@acme/ts-config': link:../ts-config
@@ -15118,36 +15118,6 @@ packages:
       minimist: 1.2.6
       strip-bom: 3.0.0
     dev: true
-
-  /tsdk-server-adapters/0.0.19-beta.9_izktbuajgphf4odcenosxrg55i:
-    resolution: {integrity: sha512-nwro8T3lh0bbHj6+/LZHUrL+nJsgp2odoPJEpP9Yn0T9o9maRjaMuuaShodG1QGMFH8k5jenShEe2zioHVAsUg==}
-    peerDependencies:
-      express: ^4.18.2
-      socket.io: ^4.5.4
-      ws: ^8.10.0
-      zod: ^3.20.2
-    peerDependenciesMeta:
-      express:
-        optional: true
-      socket.io:
-        optional: true
-      ws:
-        optional: true
-    dependencies:
-      eventemitter3: 4.0.7
-      express: 4.18.2
-      socket.io: 4.5.4_b534fhs3xgzvdbz5qzlfkrhjjm
-      ws: 8.10.0_b534fhs3xgzvdbz5qzlfkrhjjm
-      zod: 3.20.2
-    dev: false
-
-  /tsdk/0.0.19-beta.9:
-    resolution: {integrity: sha512-Exkay+PKzRWT36Bs11KKFpugDo4ZcyTPcrHauPqpXFyOeq8tXYw4GymSHdrnfF+oFv75u61obTuj4T9OMKjcuw==}
-    hasBin: true
-    dependencies:
-      chalk: 4.1.2
-      fast-glob: 3.2.12
-      fs-extra: 10.1.0
 
   /tslib/1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
