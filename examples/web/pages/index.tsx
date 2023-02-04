@@ -67,6 +67,7 @@ export default function Home() {
         setResult(httpRes);
       }, 2500);
     });
+    return () => io.off('connect');
   }, []);
 
   return (

@@ -46,3 +46,10 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 2023/1/23
 
 - `fe-sdk` throw custom error
+
+### 0.0.19-beta.9
+
+2023/2/1
+
+- Support `kysely`
+- Fix some bugs

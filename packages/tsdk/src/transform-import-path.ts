@@ -10,7 +10,7 @@ import { transformTypeormEntity } from './transform-typeorm-entity';
 export function processImportPath(_importString: string, _filePath: string) {
   let importString = _importString;
   const arr = _filePath.split('/');
-  const filename = arr.pop();
+  arr.pop();
   const filePath = arr.join('/');
   const isDoubleSemicolon = importString.indexOf('from "') > -1;
   const matched = importString.match(isDoubleSemicolon ? /from "(.*)";/ : /from '(.*)';/);
@@ -49,20 +49,21 @@ export function processImportPath(_importString: string, _filePath: string) {
     // if (isEntityOrApiconf) {
     //   console.log(_importString);
     // }
-
-    const findDir =
-      isEntityOrApiconf ||
-      config.sharedDirs.find((dir) => {
-        const currentShareDir = path.normalize(dir);
-        return finalPath.indexOf(currentShareDir) === 0;
-      });
-    if (!findDir) {
-      console.log(
-        symbols.space,
-        symbols.error,
-        `Error: Don\'t import file from outside of shared dirs: '${importString}'`,
-        _filePath
-      );
+    if (importString.slice(0, 2) !== '//' || importString.slice(0, 2) !== '/*') {
+      const findDir =
+        isEntityOrApiconf ||
+        config.sharedDirs.find((dir) => {
+          const currentShareDir = path.normalize(dir);
+          return finalPath.indexOf(currentShareDir) === 0;
+        });
+      if (!findDir) {
+        console.log(
+          symbols.space,
+          symbols.error,
+          `Error: Don't import file from outside of shared dirs: '${importString}'`,
+          _filePath
+        );
+      }
     }
   } else {
     console.warn(symbols.space, symbols.warning, `No match: ${importString}`);
@@ -75,7 +76,7 @@ export async function transformImportPath(filePath: string, isEntity?: boolean) 
   let res = await fsExtra.readFile(filePath, 'utf-8');
 
   if (isEntity) {
-    res = transformTypeormEntity(res, config.entityLibName);
+    res = transformTypeormEntity(res, 'typeorm');
     res = transformTypeormEntity(res, '@nestjs');
   }
 

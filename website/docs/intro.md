@@ -28,7 +28,7 @@ npx tsdk --init
   "packageDir": "packages/",
   "packageName": "@SCOPE-NAME/fe-sdk",
   "baseDir": "./src",
-  "entityLibName": "typeorm",
+  "entityLibName": ["typeorm", "kysely"],
   "entityExt": "entity",
   "apiconfExt": "apiconf",
   "shareExt": "shared",
