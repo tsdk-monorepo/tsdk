@@ -9,7 +9,8 @@ import {
   getHandler,
 } from 'fe-sdk-demo';
 import { QueryTodoRes } from 'fe-sdk-demo/lib/apiconf-refs';
-import { QueryTodo } from 'fe-sdk-demo/lib/user-api';
+import { TodoStatus } from 'fe-sdk-demo/lib/modules/todo/Todo.entity';
+import { AddTodo, QueryTodo } from 'fe-sdk-demo/lib/user-api';
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
 // eslint-disable-next-line import/namespace
@@ -49,6 +50,10 @@ export default function Home() {
     setHanlderName(getHandler().name);
 
     io.on('connect', async () => {
+      await AddTodo({
+        status: TodoStatus.todo,
+        title: 'create by socket.io',
+      });
       const wsRes = await QueryTodo({});
 
       console.log(wsRes);
@@ -60,14 +65,19 @@ export default function Home() {
         setHandler(axiosHandler);
 
         setHanlderName(getHandler().name);
-
+        await AddTodo({
+          status: TodoStatus.todo,
+          title: 'create by axios',
+        });
         const httpRes = await QueryTodo({});
         console.log(httpRes);
 
         setResult(httpRes);
       }, 2500);
     });
-    return () => io.off('connect');
+    return () => {
+      io.off('connect');
+    };
   }, []);
 
   return (
