@@ -24,10 +24,10 @@ export function socketIOAdapterFactory<ReqInfo>({
   return async function socketIOAdapter(socket: Socket) {
     const reqInfo = await getReqInfo(socket);
 
-    socket.on(protocolType.request, (body) => {
+    const onRequest = (body: ObjectLiteral) => {
       if (!socket.connected) return;
 
-      if (body._id) {
+      if (body && body._id) {
         const type = getType(reqInfo, socket);
 
         const [method, path] = body._id.split(':');
@@ -37,6 +37,10 @@ export function socketIOAdapterFactory<ReqInfo>({
           routeBus.emit(eventName, reqInfo, socket, getData ? getData(body) : body);
         }
       }
-    });
+    };
+
+    socket.on(protocolType.request, onRequest);
+
+    return () => socket.off(protocolType.request, onRequest);
   };
 }
