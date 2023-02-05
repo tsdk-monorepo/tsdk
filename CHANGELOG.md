@@ -53,3 +53,10 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 
 - Support `kysely`
 - Fix some bugs
+
+### 0.0.19-beta.10
+
+2023/2/5
+
+- Fix socket.io getID wrong method logic
+- Refactor getID logic
