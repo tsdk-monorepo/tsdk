@@ -8,6 +8,7 @@ import {
   ProtocolTypes,
   trimAndRemoveUndefined,
 } from './shared/tsdk-helper';
+import { getID } from './utils';
 
 let socketIOInstance: Socket;
 
@@ -52,8 +53,6 @@ export const getSocketIOInstance = () => {
 
 const QUEUEs: ObjectLiteral = {};
 
-let ID = 0;
-
 export function socketIOHandler(
   apiConfig: APIConfig,
   data: any,
@@ -69,9 +68,7 @@ export function socketIOHandler(
       return reject(new NoConnectionError('No Connection'));
     }
 
-    const msgId = `${apiConfig.method === 'get' ? '' : ''}:${apiConfig.path}:${++ID}${
-      Date.now().toString(36).slice(-4) + Math.random().toString(36).slice(-4)
-    }`;
+    const msgId = getID(apiConfig.method, apiConfig.path);
 
     ioInstance.emit(ProtocolTypes.request, {
       ...(needTrim && data ? trimAndRemoveUndefined(data) : {}),
