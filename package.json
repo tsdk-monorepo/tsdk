@@ -8,7 +8,7 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "start:tsdk": "pnpm build:tsdk && pnpm --filter tsdk start",
-    "build:tsdk": "pnpm --filter tsdk --filter tsdk-server-adapters --filter server-example build",
+    "build:tsdk": "pnpm --filter tsdk-server-adapters build",
     "dev:docs": "pnpm --filter @fe-sdk/docs start",
     "build:docs": "pnpm --filter @fe-sdk/docs build",
     "dev:web-example": "pnpm --filter server-example --filter web-example dev",
