@@ -180,8 +180,10 @@ export async function copySDK() {
 export async function syncExtFiles(ext: string, isEntity = false) {
   console.log(symbols.bullet, `sync *.${ext}.ts files`);
 
-  const pattern = path.join(`${config.baseDir}`, `**/*/*.${ext}.ts`);
+  const pattern = path.join(`${path.join(...config.baseDir.split('/'))}`, `**`, `*`, `*.${ext}.ts`);
   const files = await glob(pattern);
+
+  console.log(symbols.info, `sync *.${ext}.ts count ${files.length}`);
 
   let indexContent = getDefaultContent();
   await Promise.all(

@@ -92,7 +92,10 @@ function getPackageFolder(name: string) {
 }
 
 export const packageFolder = getPackageFolder(config.packageName);
-export const ensureDir = path.join(`${config.packageDir}`, `${packageFolder}`);
+export const ensureDir = path.join(
+  `${path.join(...config.packageDir.split('/'))}`,
+  `${packageFolder}`
+);
 
 const tsconfigPath = path.join(process.cwd(), 'tsconfig.json');
 export const tsconfigExists = fsExtra.pathExistsSync(tsconfigPath);
