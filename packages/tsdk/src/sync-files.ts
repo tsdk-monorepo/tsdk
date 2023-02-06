@@ -207,8 +207,9 @@ export async function syncExtFiles(ext: string, isEntity = false) {
         ${filePath}`
       );
       fromPath = path.normalize(fromPath);
+      console.log(`normalize fromPath ${fromPath}`);
       fromPath = fromPath.startsWith('.') ? fromPath : './' + fromPath;
-      indexContent += `export * from '${fromPath}';\n`;
+      indexContent += `export * from '${fromPath.replace(/\\/g, '/')}';\n`;
       return fsExtra.writeFile(filePath, content);
     })
   );
