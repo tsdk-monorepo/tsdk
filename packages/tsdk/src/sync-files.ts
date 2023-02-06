@@ -246,7 +246,7 @@ export async function syncSharedFiles() {
       fromPath = path.normalize(fromPath);
       fromPath = fromPath.startsWith('.') ? fromPath : './' + fromPath;
       if (fromPath.indexOf('tsdk-types') < 0) {
-        indexContent += `export * from '${fromPath}';\n`;
+        indexContent += `export * from '${fromPath.replace(/\\/g, '/')}';\n`;
       }
       return fsExtra.writeFile(filePath, content);
     })
