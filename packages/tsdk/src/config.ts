@@ -49,7 +49,10 @@ export const isCurrentConfigExist = fsExtra.existsSync(currentConfigFilePath);
 
 export const config: TSDKConfig = {
   ...JSON.parse(
-    fsExtra.readFileSync(path.join(__dirname, '../fe-sdk-template/config/.tsdkrc.json'), 'utf-8')
+    fsExtra.readFileSync(
+      path.join(__dirname, '..', 'fe-sdk-template', 'config', '.tsdkrc.json'),
+      'utf-8'
+    )
   ),
   ...(isCurrentConfigExist ? JSON.parse(fsExtra.readFileSync(currentConfigFilePath, 'utf-8')) : {}),
 };
@@ -91,7 +94,7 @@ function getPackageFolder(name: string) {
 export const packageFolder = getPackageFolder(config.packageName);
 export const ensureDir = path.join(`${config.packageDir}`, `${packageFolder}`);
 
-const tsconfigPath = path.join(process.cwd(), './tsconfig.json');
+const tsconfigPath = path.join(process.cwd(), 'tsconfig.json');
 export const tsconfigExists = fsExtra.pathExistsSync(tsconfigPath);
 
 try {

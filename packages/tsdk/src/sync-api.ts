@@ -12,7 +12,7 @@ export async function syncAPI() {
   console.log(symbols.bullet, 'generating APIs');
 
   const pkgJSON = require(path.join(baseDir, 'package.json'));
-  const apiconfs = require(path.join(baseDir, `lib/${config.apiconfExt}-refs`));
+  const apiconfs = require(path.join(baseDir, 'lib', `${config.apiconfExt}-refs`));
 
   const types = [...new Set(Object.keys(apiconfs).map((k) => apiconfs[k].type))].filter((i) => !!i);
 
@@ -79,7 +79,7 @@ export async function syncAPI() {
       ${bodyStr}
     `;
 
-      fsExtra.writeFileSync(path.join(ensureDir, `src/${apiType}-api.ts`), formatTS(content));
+      fsExtra.writeFileSync(path.join(ensureDir, `src`, `${apiType}-api.ts`), formatTS(content));
     }
   });
 
@@ -101,7 +101,7 @@ export async function syncAPI() {
   });
 
   await fsExtra.writeFile(
-    path.join(ensureDir, `src/permissions.json`),
+    path.join(ensureDir, 'src', `permissions.json`),
     JSON.stringify(exportPermissions, null, 2)
   );
 
@@ -113,7 +113,7 @@ export async function syncAPI() {
     links.push(`- [${apiType} APIs](/docs/api/modules/${apiType}_api)`);
   });
 
-  const files = await glob(config.sharedDirs.map((i) => path.join(i, `**/*.ts`)));
+  const files = await glob(config.sharedDirs.map((i) => path.join(i, '**', `*.ts`)));
   files.forEach((i) => {
     const arr = i.split('/');
     arr.shift();
@@ -127,16 +127,19 @@ export async function syncAPI() {
   const projectName = `%PROJECT NAME%`;
   try {
     let getStartedContent = await fsExtra.readFile(
-      path.join(__dirname, '..', 'fe-sdk-template/website/docs/get-started.md'),
+      path.join(__dirname, '..', 'fe-sdk-template', 'website', 'docs', 'get-started.md'),
       'utf-8'
     );
     getStartedContent = getStartedContent
       .replace(new RegExp(projectName, 'g'), config.packageName)
       .replace('%API_REFERENCE%', links.join('\n'));
-    await fsExtra.writeFile(path.join(ensureDir, 'website/docs/get-started.md'), getStartedContent);
+    await fsExtra.writeFile(
+      path.join(ensureDir, 'website', 'docs', 'get-started.md'),
+      getStartedContent
+    );
 
     let docusaurusConfigContent = await fsExtra.readFile(
-      path.join(ensureDir, 'website/docusaurus.config.js'),
+      path.join(ensureDir, 'website', 'docusaurus.config.js'),
       'utf-8'
     );
     docusaurusConfigContent = docusaurusConfigContent.replace(
@@ -144,7 +147,7 @@ export async function syncAPI() {
       config.packageName
     );
     await fsExtra.writeFile(
-      path.join(ensureDir, 'website/docusaurus.config.js'),
+      path.join(ensureDir, 'website', 'docusaurus.config.js'),
       docusaurusConfigContent
     );
     console.log(symbols.success, 'Docs config');
@@ -156,9 +159,9 @@ export async function syncAPI() {
 }
 
 export function copyPermissionsJSON() {
-  const dist = path.join(ensureDir, `lib/permissions.json`);
+  const dist = path.join(ensureDir, `lib`, `permissions.json`);
   console.log(symbols.info, `copy \`permission.json\` to \`${dist}\``);
-  return fsExtra.copy(path.join(ensureDir, `src/permissions.json`), dist, {
+  return fsExtra.copy(path.join(ensureDir, `src`, `permissions.json`), dist, {
     overwrite: true,
   });
 }
