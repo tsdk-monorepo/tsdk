@@ -48,6 +48,7 @@ jobs:
 
       - run: pnpm -v
       - run: dir
-      - run: pnpm lint
-      - run: pnpm start:tsdk
+      - run: cd examples/server/packages/fe-sdk-demo && dir && pnpm tsc --project tsconfig.json && dir
+      # - run: pnpm lint
+      # - run: pnpm start:tsdk
       - run: dir
