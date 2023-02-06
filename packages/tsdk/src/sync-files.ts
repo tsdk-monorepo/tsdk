@@ -242,16 +242,24 @@ export async function syncSharedFiles() {
   let indexContent = '';
   await Promise.all(
     files.map(async (file) => {
-      const filePath = path.join(
-        ensureDir,
-        path.join(...file.replace(`${config.baseDir}/`, 'src/').split('/'))
-      );
+      const filePath = path.join(ensureDir, file.replace(`${config.baseDir}/`, 'src/'));
       const content = await transformImportPath(file);
 
       await fsExtra.ensureDir(path.dirname(filePath));
 
-      let fromPath = path.relative(`${ensureDir}/src/`, filePath.replace('.ts', ''));
+      let fromPath = path.relative(
+        `${ensureDir}/src/`.replace(/\\/g, '/'),
+        filePath.replace('.ts', '')
+      );
+      console.log(
+        `in shared fromPath ${fromPath} ${`${ensureDir}/src/`} ${`${ensureDir}/src/`.replace(
+          /\\/g,
+          '/'
+        )}
+        ${filePath}`
+      );
       fromPath = path.normalize(fromPath);
+      console.log(`normalize fromPath ${fromPath}`);
       fromPath = fromPath.startsWith('.') ? fromPath : './' + fromPath;
       if (fromPath.indexOf('tsdk-types') < 0) {
         indexContent += `export * from '${fromPath.replace(/\\/g, '/')}';\n`;
