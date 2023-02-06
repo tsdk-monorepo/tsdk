@@ -198,7 +198,14 @@ export async function syncExtFiles(ext: string, isEntity = false) {
 
       await fsExtra.ensureDir(path.dirname(filePath));
 
-      let fromPath = path.relative(`${ensureDir}/src/`, filePath.replace('.ts', ''));
+      let fromPath = path.relative(
+        `${ensureDir}/src/`.replace(/\\/g, '/'),
+        filePath.replace('.ts', '')
+      );
+      console.log(
+        `fromPath ${fromPath} ${`${ensureDir}/src/`} ${`${ensureDir}/src/`.replace(/\\/g, '/')}
+        ${filePath}`
+      );
       fromPath = path.normalize(fromPath);
       fromPath = fromPath.startsWith('.') ? fromPath : './' + fromPath;
       indexContent += `export * from '${fromPath}';\n`;
