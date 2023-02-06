@@ -1,4 +1,4 @@
-name: Linux CI
+name: Windows CI
 
 on:
   push:
@@ -7,8 +7,8 @@ on:
     branches: ['main']
 
 jobs:
-  run-on-linux:
-    runs-on: ubuntu-latest
+  run-on-windows-2019:
+    runs-on: windows-2019
 
     strategy:
       matrix:
