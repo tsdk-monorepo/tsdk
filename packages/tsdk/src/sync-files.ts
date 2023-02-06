@@ -234,7 +234,10 @@ export async function syncSharedFiles() {
   let indexContent = '';
   await Promise.all(
     files.map(async (file) => {
-      const filePath = path.join(ensureDir, file.replace(`${config.baseDir}/`, 'src/'));
+      const filePath = path.join(
+        ensureDir,
+        path.join(...file.replace(`${config.baseDir}/`, 'src/').split('/'))
+      );
       const content = await transformImportPath(file);
 
       await fsExtra.ensureDir(path.dirname(filePath));
@@ -248,7 +251,10 @@ export async function syncSharedFiles() {
       return fsExtra.writeFile(filePath, content);
     })
   );
-  await fsExtra.writeFile(path.join(ensureDir, `src/shared-refs.ts`), `${comment}${indexContent}`);
+  await fsExtra.writeFile(
+    path.join(ensureDir, `src`, `shared-refs.ts`),
+    `${comment}${indexContent}`
+  );
 
   console.log(symbols.success, `sync shared files`);
 }
