@@ -6,7 +6,9 @@ import { config, ensureDir } from './config';
 import symbols from './symbols';
 
 export async function deleteFilesBeforeSync() {
-  const preWhiteList = await glob(path.join(__dirname, '../fe-sdk-template/src/**'));
+  const preWhiteList = await glob(
+    path.join(__dirname, '../fe-sdk-template/src/**').replace(/\\/g, '/')
+  );
   const whiteList = [
     ...preWhiteList.map((i) => i.replace(path.join(__dirname, '../fe-sdk-template'), ensureDir)),
     ...config.sdkWhiteList.map((i) => {
@@ -14,8 +16,8 @@ export async function deleteFilesBeforeSync() {
     }),
   ];
 
-  const whiteFiles = await glob(whiteList);
-  const files = await glob([path.join(ensureDir, 'src/**/*')], {
+  const whiteFiles = await glob(whiteList.map((i) => i.replace(/\\/g, '/')));
+  const files = await glob([path.join(ensureDir, 'src/**/*').replace(/\\/g, '/')], {
     ignore: whiteFiles,
   });
 

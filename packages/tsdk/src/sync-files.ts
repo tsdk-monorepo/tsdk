@@ -180,7 +180,9 @@ export async function copySDK() {
 export async function syncExtFiles(ext: string, isEntity = false) {
   console.log(symbols.bullet, `sync *.${ext}.ts files`);
 
-  const pattern = path.join(`${path.join(...config.baseDir.split('/'))}`, `**`, `*.${ext}.ts`);
+  const pattern = path
+    .join(`${path.join(...config.baseDir.split('/'))}`, `**`, `*.${ext}.ts`)
+    .replace(/\\/g, '/');
   const files = await glob(pattern);
 
   console.log(symbols.info, `sync ${pattern} count ${files.length}`);
@@ -226,7 +228,9 @@ export async function syncAddtionShareFiles() {
 export async function syncSharedFiles() {
   console.log(symbols.bullet, `sync shared files`);
 
-  const files = await glob(config.sharedDirs.map((i) => path.join(i, `**/*.ts`)));
+  const files = await glob(
+    config.sharedDirs.map((i) => path.join(i, `**/*.ts`).replace(/\\/g, '/'))
+  );
   let indexContent = '';
   await Promise.all(
     files.map(async (file) => {

@@ -6,7 +6,7 @@ import { config, ensureDir } from './config';
 
 export async function removeFields() {
   if (config.removeFields?.length === 0) return;
-  const pattern = path.join(ensureDir, `lib/**/*.${config.apiconfExt}.js`);
+  const pattern = path.join(ensureDir, `lib/**/*.${config.apiconfExt}.js`).replace(/\\/g, '/');
 
   const removeFields = config.removeFields || [
     'needAuth',

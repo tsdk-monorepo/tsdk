@@ -113,7 +113,9 @@ export async function syncAPI() {
     links.push(`- [${apiType} APIs](/docs/api/modules/${apiType}_api)`);
   });
 
-  const files = await glob(config.sharedDirs.map((i) => path.join(i, '**', `*.ts`)));
+  const files = await glob(
+    config.sharedDirs.map((i) => path.join(i, '**', `*.ts`).replace(/\\/g, '/'))
+  );
   files.forEach((i) => {
     const arr = i.split('/');
     arr.shift();
