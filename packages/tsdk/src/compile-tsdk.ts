@@ -4,12 +4,11 @@ import path from 'path';
 
 import { ensureDir } from './config';
 
-export function buildSDK() {
+export async function buildSDK() {
   console.log(`buildSDK run: cd ${ensureDir} && npm run tsc:build`);
-  glob([path.join(ensureDir, 'src/**/*.ts').replace(/\\/g, '/')]).then((files) => {
-    console.log(files);
-    execSync(`cd ${ensureDir} && npm run tsc:build`, { stdio: 'inherit' });
-  });
+  const files = await glob([path.join(ensureDir, 'src/**/*.ts').replace(/\\/g, '/')]);
+  console.log(files);
+  execSync(`cd ${ensureDir} && npm run tsc:build`, { stdio: 'inherit' });
 }
 
 export function buildSDKDoc() {

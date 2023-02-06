@@ -60,11 +60,11 @@ Examples
     await addDepsIfNone();
     await syncFiles();
     console.log('\n\n', symbols.bullet, 'build configs for generate APIs');
-    buildSDK();
+    await buildSDK();
     console.log(symbols.success, 'build configs for generate APIs');
     await syncAPI();
     console.log('\n\n', symbols.bullet, 'build files');
-    buildSDK();
+    await buildSDK();
     console.log(symbols.success, 'build files\n');
     await copyPermissionsJSON();
     await removeFields();
