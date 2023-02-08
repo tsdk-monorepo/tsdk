@@ -60,3 +60,10 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 
 - Fix socket.io getID wrong method logic
 - Refactor getID logic
+
+### 0.0.19-beta.11
+
+2023/2/8
+
+- Ignore commented import string warn, because it's commented
+- Fix windows build
