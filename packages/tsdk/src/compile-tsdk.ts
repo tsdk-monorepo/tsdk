@@ -6,8 +6,9 @@ import { ensureDir } from './config';
 
 export async function buildSDK() {
   console.log(`buildSDK run: cd ${ensureDir} && npm run tsc:build`);
-  const files = await glob([path.join(ensureDir, 'src/**/*.ts').replace(/\\/g, '/')]);
-  console.log(files);
+  const pattern = path.join(ensureDir, 'src/**/*.ts').replace(/\\/g, '/');
+  const files = await glob(pattern);
+  console.log(`pattern=(${pattern}) buildSDK files(${files.length}): `, files);
   execSync(`cd ${ensureDir} && npm run tsc:build`, { stdio: 'inherit' });
 }
 
