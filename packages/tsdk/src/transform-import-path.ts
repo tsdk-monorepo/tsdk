@@ -9,6 +9,10 @@ import { transformTypeormEntity } from './transform-typeorm-entity';
 /** 处理引用路径 */
 export function processImportPath(_importString: string, _filePath: string) {
   let importString = _importString;
+
+  const commentString = importString.slice(0, 2);
+  const hasComment = commentString === '//' || commentString === '/*';
+
   const arr = _filePath.split('/');
   arr.pop();
   const filePath = arr.join('/');
@@ -32,11 +36,13 @@ export function processImportPath(_importString: string, _filePath: string) {
       if (isShareLib) {
         return importString;
       } else {
-        console.warn(
-          symbols.space,
-          symbols.warning,
-          `Warn: '${firstLevelPath}' not support. If you confirm '${firstLevelPath}' will use in the both side, please add this lib to the '${ensureDir}/package.json' dependencies`
-        );
+        if (!hasComment) {
+          console.warn(
+            symbols.space,
+            symbols.warning,
+            `Warn: '${firstLevelPath}' not support. If you confirm '${firstLevelPath}' will use in the both side, please add this lib to the '${ensureDir}/package.json' dependencies`
+          );
+        }
       }
     }
 
@@ -49,7 +55,8 @@ export function processImportPath(_importString: string, _filePath: string) {
     // if (isEntityOrApiconf) {
     //   console.log(_importString);
     // }
-    if (importString.slice(0, 2) !== '//' || importString.slice(0, 2) !== '/*') {
+
+    if (!hasComment) {
       const findDir =
         isEntityOrApiconf ||
         config.sharedDirs.find((dir) => {
@@ -87,6 +94,7 @@ export async function transformImportPath(filePath: string, isEntity?: boolean) 
   result.forEach((i) => {
     const hasImport = i.indexOf('import ') > -1;
     const hasFrom = i.indexOf(' from') > -1;
+
     if (hasImport && hasFrom) {
       imports.push(processImportPath(i, filePath));
     } else if (hasImport) {

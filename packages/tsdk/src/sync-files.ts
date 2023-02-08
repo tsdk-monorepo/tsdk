@@ -185,8 +185,6 @@ export async function syncExtFiles(ext: string, isEntity = false) {
     .replace(/\\/g, '/');
   const files = await glob(pattern);
 
-  console.log(symbols.info, `sync ${pattern} count ${files.length}`);
-
   let indexContent = getDefaultContent();
   await Promise.all(
     files.map(async (file, idx) => {
@@ -202,19 +200,13 @@ export async function syncExtFiles(ext: string, isEntity = false) {
         `${ensureDir}/src/`.replace(/\\/g, '/'),
         filePath.replace('.ts', '')
       );
-      console.log(
-        `fromPath ${fromPath} ${`${ensureDir}/src/`} ${`${ensureDir}/src/`.replace(/\\/g, '/')}
-        ${filePath}`
-      );
       fromPath = path.normalize(fromPath);
-      console.log(`normalize fromPath ${fromPath}`);
       fromPath = fromPath.startsWith('.') ? fromPath : './' + fromPath;
       indexContent += `export * from '${fromPath.replace(/\\/g, '/')}';\n`;
       return fsExtra.writeFile(filePath, content);
     })
   );
   await fsExtra.writeFile(path.join(ensureDir, `src/${ext}-refs.ts`), `${comment}${indexContent}`);
-  console.log(symbols.success, `sync *.${ext}.ts files`);
 }
 
 /** sync entity files  */
@@ -251,15 +243,7 @@ export async function syncSharedFiles() {
         `${ensureDir}/src/`.replace(/\\/g, '/'),
         filePath.replace('.ts', '')
       );
-      console.log(
-        `in shared fromPath ${fromPath} ${`${ensureDir}/src/`} ${`${ensureDir}/src/`.replace(
-          /\\/g,
-          '/'
-        )}
-        ${filePath}`
-      );
       fromPath = path.normalize(fromPath);
-      console.log(`normalize fromPath ${fromPath}`);
       fromPath = fromPath.startsWith('.') ? fromPath : './' + fromPath;
       if (fromPath.indexOf('tsdk-types') < 0) {
         indexContent += `export * from '${fromPath.replace(/\\/g, '/')}';\n`;
