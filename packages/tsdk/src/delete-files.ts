@@ -19,18 +19,20 @@ export async function deleteFilesBeforeSync() {
 
   console.log(`deleteFilesBeforeSync whiteList(=%o)`, whiteList);
 
-  const dirname = __dirname.replace(/\\/g, '/');
   const whiteFiles = await glob(
     whiteList.map((i) => {
-      const filePath = i.replace(/\\/g, '/');
-      return path.relative(dirname, filePath);
+      return i.replace(/\\/g, '/');
     })
   );
   console.log(`deleteFilesBeforeSync whiteFiles(=%o)`, whiteFiles);
 
-  const files = await glob([path.join(ensureDir, 'src/**').replace(/\\/g, '/')], {
+  let files = await glob([path.join(ensureDir, 'src/**').replace(/\\/g, '/')], {
     ignore: whiteFiles,
   });
+
+  console.log(`deleteFilesBeforeSync before files(=%o)`, files);
+
+  files = files.filter((i) => whiteFiles.find((j) => i === j));
 
   console.log(`deleteFilesBeforeSync files(=%o)`, files);
 
