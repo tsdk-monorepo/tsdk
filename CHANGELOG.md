@@ -67,3 +67,9 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 
 - Ignore commented import string warn, because it's commented
 - Fix windows build
+
+### 0.0.19-beta.12
+
+2023/2/9
+
+- Sort files before export content to avoid repeat files change
