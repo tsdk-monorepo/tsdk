@@ -19,6 +19,14 @@
       "schema": {}
     },
     {
+      "type": "user",
+      "name": "QueryTodoByCursor",
+      "method": "get",
+      "path": "/query-todo-by-cursor",
+      "schema": {},
+      "description": "query todo list by cursor"
+    },
+    {
       "path": "/query-todo",
       "method": "get",
       "name": "QueryTodo",
@@ -26,14 +34,6 @@
       "category": "todo",
       "type": "user",
       "schema": {}
-    },
-    {
-      "type": "user",
-      "name": "QueryTodoByCursor",
-      "method": "get",
-      "path": "/query-todo-by-cursor",
-      "schema": {},
-      "description": "query todo list by cursor"
     },
     {
       "type": "user",
