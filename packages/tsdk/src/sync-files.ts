@@ -185,12 +185,11 @@ export async function syncExtFiles(ext: string, isEntity = false) {
     .replace(/\\/g, '/');
   const files = await glob(pattern);
 
-  let indexContent = getDefaultContent();
+  files.sort();
+
+  const indexContentMap: { [key: string]: string } = {};
   await Promise.all(
     files.map(async (file, idx) => {
-      if (idx === 0) {
-        indexContent = '';
-      }
       const filePath = path.join(ensureDir, file.replace(`${config.baseDir}/`, 'src/'));
       const content: string = await transformImportPath(file, isEntity);
 
@@ -202,10 +201,13 @@ export async function syncExtFiles(ext: string, isEntity = false) {
       );
       fromPath = path.normalize(fromPath);
       fromPath = fromPath.startsWith('.') ? fromPath : './' + fromPath;
-      indexContent += `export * from '${fromPath.replace(/\\/g, '/')}';\n`;
+      indexContentMap[file] = `export * from '${fromPath.replace(/\\/g, '/')}';\n`;
       return fsExtra.writeFile(filePath, content);
     })
   );
+  const indexContent =
+    files.length > 0 ? files.map((file) => indexContentMap[file]).join('') : getDefaultContent();
+
   await fsExtra.writeFile(path.join(ensureDir, `src/${ext}-refs.ts`), `${comment}${indexContent}`);
 }
 
@@ -231,7 +233,9 @@ export async function syncSharedFiles() {
   const files = await glob(
     config.sharedDirs.map((i) => path.join(i, `**/*.ts`).replace(/\\/g, '/'))
   );
-  let indexContent = '';
+  files.sort();
+
+  const indexContentMap: { [key: string]: string } = {};
   await Promise.all(
     files.map(async (file) => {
       const filePath = path.join(ensureDir, file.replace(`${config.baseDir}/`, 'src/'));
@@ -246,11 +250,12 @@ export async function syncSharedFiles() {
       fromPath = path.normalize(fromPath);
       fromPath = fromPath.startsWith('.') ? fromPath : './' + fromPath;
       if (fromPath.indexOf('tsdk-types') < 0) {
-        indexContent += `export * from '${fromPath.replace(/\\/g, '/')}';\n`;
+        indexContentMap[file] = `export * from '${fromPath.replace(/\\/g, '/')}';\n`;
       }
       return fsExtra.writeFile(filePath, content);
     })
   );
+  const indexContent = files.map((file) => indexContentMap[file]).join('\n');
   await fsExtra.writeFile(
     path.join(ensureDir, `src`, `shared-refs.ts`),
     `${comment}${indexContent}`

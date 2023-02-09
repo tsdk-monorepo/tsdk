@@ -14,11 +14,16 @@ export async function syncAPI() {
   const pkgJSON = require(path.join(baseDir, 'package.json'));
   const apiconfs = require(path.join(baseDir, 'lib', `${config.apiconfExt}-refs`));
 
-  const types = [...new Set(Object.keys(apiconfs).map((k) => apiconfs[k].type))].filter((i) => !!i);
+  const keys = Object.keys(apiconfs);
+  keys.sort();
+
+  const types = [...new Set(keys.map((k) => apiconfs[k].type))].filter((i) => !!i);
 
   if (!types.includes('common')) {
     types.push('common');
   }
+
+  types.sort();
 
   types.forEach((apiType) => {
     const headStr = `
@@ -36,7 +41,7 @@ export async function syncAPI() {
 
     let bodyStr = ``;
 
-    const hasCommon = Object.keys(apiconfs).find((k) => {
+    const hasCommon = keys.find((k) => {
       const item = apiconfs[k];
       return (item.type === 'common' || !item.type) && item.name;
     });
@@ -44,7 +49,7 @@ export async function syncAPI() {
     const exportStr = apiType === 'common' || !hasCommon ? `` : `\nexport * from './common-api';\n`;
 
     let hasContentCount = 0;
-    Object.keys(apiconfs).forEach((k, idx) => {
+    keys.forEach((k, idx) => {
       const { name, description, type: _type, category = 'others' } = apiconfs[k];
       const type = _type === 'common' || !_type ? 'common' : _type;
       if (type === apiType && name) {
@@ -89,7 +94,7 @@ export async function syncAPI() {
     [key: string]: any[];
   } = {};
 
-  Object.keys(apiconfs).forEach((k) => {
+  keys.forEach((k) => {
     const item = apiconfs[k];
     if (!exportPermissions[item.type]) {
       exportPermissions[item.type] = [];
