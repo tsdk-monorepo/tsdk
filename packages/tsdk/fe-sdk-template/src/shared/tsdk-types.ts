@@ -7,7 +7,7 @@ export interface APIConfig {
   name: string;
   /** The API path */
   path: string;
-  method: 'get' | 'post' | 'head' | 'put' | 'delete' | 'options' | 'patch';
+  method: 'get' | 'post' | 'delete' | 'put' | 'patch' | 'head' | 'options';
   /** Request data validate scheme */
   schema?: z.ZodTypeAny;
   /** The API need auth? Default is false */

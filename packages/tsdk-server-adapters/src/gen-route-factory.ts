@@ -39,7 +39,7 @@ export interface ProtocolType {
 export function getRouteEventName(
   config: Pick<BasicAPIConfig, 'type' | 'method' | 'path'> & { protocol: Protocol }
 ) {
-  return `${PROTOCOLs[config.protocol]}:${config.type}:${config.method || 'get'}:${config.path}`;
+  return `${PROTOCOLs[config.protocol]}:${config.type}:${config.method}:${config.path}`;
 }
 
 function sendFactory(protocol: Protocol, response: ResponseSocket, protocolType: ProtocolType) {

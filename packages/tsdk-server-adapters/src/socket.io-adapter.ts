@@ -8,6 +8,16 @@ import {
   ObjectLiteral,
 } from './gen-route-factory';
 
+/**
+ * The `methods` sort order should same with
+ * `packages/tsdk/fe-sdk-template/src/utils.ts`
+ */
+const methods = ['get', 'post', 'delete', 'put', 'patch', 'head', 'options'];
+const methodsMap: { [key: string]: string } = {};
+methods.forEach((i, idx) => {
+  methodsMap[idx] = i;
+});
+
 export function socketIOAdapterFactory<ReqInfo>({
   routeBus,
   getReqInfo,
@@ -30,7 +40,8 @@ export function socketIOAdapterFactory<ReqInfo>({
       if (body && body._id) {
         const type = getType(reqInfo, socket);
 
-        const [method, path] = body._id.split(':');
+        const [methodIdx, path] = body._id.split(':');
+        const method = methodsMap[methodIdx] || methodIdx || 'get';
         const eventName = getRouteEventName({ protocol: 'socket.io', type, method, path });
 
         if ((routeBus as ObjectLiteral)._events[eventName]) {

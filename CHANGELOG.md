@@ -73,3 +73,9 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 2023/2/9
 
 - Sort files before export content to avoid repeat files change
+
+### 0.0.19-beta.13
+
+2023/2/13
+
+- socket.io protocol methods use index to save data transfer
