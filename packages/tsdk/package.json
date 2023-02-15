@@ -11,7 +11,7 @@
     "build": "rm -rf lib && tsc --project tsconfig.json",
     "start-website": "cd website && yarn && npm run start",
     "build-website": "cd website && yarn && npm run build",
-    "test": "echo tests",
+    "test": "cross-env NODE_ENV=test TS_CONFIG_PATHS=true ts-mocha -p tsconfig.json src/**/*.test.ts",
     "lint": "eslint . --ext .ts,.tsx --fix"
   },
   "files": [
@@ -40,10 +40,10 @@
     "fs-extra": "^10.1.0"
   },
   "devDependencies": {
+    "@acme/test-config": "*",
     "@acme/eslint-config": "*",
     "@acme/ts-config": "*",
     "@types/fs-extra": "^9.0.13",
-    "@types/node": "^18.7.16",
     "@types/webpack-node-externals": "^2.5.3",
     "webpack": "^5.74.0",
     "webpack-node-externals": "^3.0.0"

@@ -49,5 +49,6 @@ jobs:
       - run: pnpm -v
       - run: dir
       # - run: pnpm lint
+      - run: pnpm --filter app-example test
       - run: pnpm start:tsdk
       - run: dir

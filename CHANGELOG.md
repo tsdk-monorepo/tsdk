@@ -85,3 +85,4 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 2023/2/15
 
 - Sync overwrite with fe-sdk-template files and you should not change files by generate tsdk, but you can create custom files. You can pass tsdk --sync --no-overwrite keep old behavior(but don't recommend.)
+- Monorepo: seperate `@acme/test-config` as a package could share buy others

@@ -1,0 +1,17 @@
+{
+  "private": true,
+  "name": "@acme/test-config",
+  "description": "test config",
+  "version": "1.0.0",
+  "devDependencies": {
+    "@types/chai": "^4.3.4",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^18.13.0",
+    "ts-node": "^10.9.1",
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0",
+    "ts-mocha": "^10.0.0",
+    "cross-env": "^7.0.3"
+  },
+  "license": "MIT"
+}
