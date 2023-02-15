@@ -79,3 +79,9 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 2023/2/13
 
 - socket.io protocol methods use index to save data transfer
+
+### 0.0.19-beta.14
+
+2023/2/15
+
+- Sync overwrite with fe-sdk-template files and you should not change files by generate tsdk, but you can create custom files. You can pass tsdk --sync --no-overwrite keep old behavior(but don't recommend.)

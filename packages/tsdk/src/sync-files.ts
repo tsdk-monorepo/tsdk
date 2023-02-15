@@ -15,8 +15,8 @@ import { deleteFilesBeforeSync } from './delete-files';
 import symbols from './symbols';
 import { transformImportPath } from './transform-import-path';
 
-export async function syncFiles() {
-  await copySDK();
+export async function syncFiles(noOverwrite = false) {
+  await copySDK(noOverwrite);
   await parseDeps();
   await deleteFilesBeforeSync();
   await syncAddtionShareFiles();
@@ -134,7 +134,7 @@ async function reconfigPkg() {
   await fsExtra.writeFile('./package.json', JSON.stringify(pkgJSON, null, 2));
 }
 
-export async function copySDK() {
+export async function copySDK(noOverwrite: boolean) {
   console.log(symbols.bullet, `init ${ensureDir}`);
 
   if (!isCurrentConfigExist) {
@@ -144,7 +144,7 @@ export async function copySDK() {
   const existPath = path.resolve(process.cwd(), config.packageDir, packageFolder, `package.json`);
   const isExist = await fsExtra.pathExists(existPath);
 
-  if (isExist) {
+  if (isExist && noOverwrite) {
     await reconfigPkg();
     console.log(
       symbols.info,
@@ -162,7 +162,7 @@ export async function copySDK() {
   await fsExtra.copy(
     path.join(__dirname, '../fe-sdk-template'),
     path.resolve(process.cwd(), config.packageDir, packageFolder),
-    { overwrite: false }
+    { overwrite: true }
   );
 
   await reconfigPkg();

@@ -48,9 +48,12 @@
     "bracketSameLine": true
   },
   "lint-staged": {
-    "*.{ts,tsx,mjs,js,mts,css,md}": [
+    "*.{ts,tsx,mjs,js,mts}": [
       "prettier --write",
       "eslint --fix"
+    ],
+    "*.{md,css}": [
+      "prettier --write"
     ]
   }
 }

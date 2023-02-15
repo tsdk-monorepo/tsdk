@@ -18,6 +18,7 @@ Options
   --help help
   --init initialize \`tsdk\` config file
   --sync sync files and generate api
+  --sync --no-overwrite default is overwrite with template files(no overwrite for create custom files)
   --nest run nest command, only support build
   --version the verison info
 
@@ -26,6 +27,7 @@ Examples
   $ tsdk --help
   $ tsdk --init
   $ tsdk --sync
+  $ tsdk --sync --no-overwrite
   $
   $ tsdk --nest build
   $ tsdk --nest build [name] [name]
@@ -58,7 +60,8 @@ Examples
     await addDepsIfNone();
   } else if (params[0] === `--sync`) {
     await addDepsIfNone();
-    await syncFiles();
+    const noOverwrite = params[1] === `--no-overwrite`;
+    await syncFiles(noOverwrite);
     console.log('\n\n', symbols.bullet, 'build configs for generate APIs');
     await buildSDK();
     console.log(symbols.success, 'build configs for generate APIs');
