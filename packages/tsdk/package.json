@@ -37,15 +37,15 @@
   "dependencies": {
     "chalk": "4.1.2",
     "fast-glob": "^3.2.12",
-    "fs-extra": "^10.1.0"
+    "fs-extra": "^11.1.0"
   },
   "devDependencies": {
     "@acme/test-config": "*",
     "@acme/eslint-config": "*",
     "@acme/ts-config": "*",
-    "@types/fs-extra": "^9.0.13",
+    "@types/fs-extra": "^11.0.1",
     "@types/webpack-node-externals": "^2.5.3",
-    "webpack": "^5.74.0",
+    "webpack": "^5.75.0",
     "webpack-node-externals": "^3.0.0"
   },
   "eslintConfig": {

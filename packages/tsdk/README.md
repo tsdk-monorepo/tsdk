@@ -33,6 +33,11 @@ npx tsdk --init
 npx tsdk --sync
 ```
 
+```bash
+# keep the files don't overwrite by sync
+npx tsdk --sync --no-overwrite
+```
+
 Support `@nestjs/cli` bundle project to one single file:
 
 ```bash

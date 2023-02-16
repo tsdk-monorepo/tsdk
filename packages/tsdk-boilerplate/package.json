@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "tsdk": "*",
-    "fs-extra": "^10.1.0"
+    "fs-extra": "^11.1.0"
   },
   "devDependencies": {
     "@acme/ts-config": "*",
