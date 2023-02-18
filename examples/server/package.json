@@ -14,7 +14,7 @@
     "start:prod": "node dist/main",
     "sync-sdk": "npx tsdk --sync",
     "sync": "node ./node_modules/tsdk/bin/tsdk.js --sync",
-    "test": "cross-env NODE_ENV=test TS_CONFIG_PATHS=true ts-mocha -p tsconfig.json src/**/*.test.ts",
+    "test": "cross-env NODE_ENV=test TS_CONFIG_PATHS=true ts-mocha -p tsconfig.json src/**/*.test.ts --parallel --timeout 30000",
     "lint": "eslint . --ext .ts,.tsx --fix"
   },
   "dependencies": {
