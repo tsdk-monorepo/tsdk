@@ -22,7 +22,7 @@
   "devDependencies": {
     "husky": "^8.0.3",
     "lint-staged": "^13.1.2",
-    "turbo": "^1.7.4"
+    "turbo": "^1.8.1"
   },
   "pnpm": {
     "peerDependencyRules": {
