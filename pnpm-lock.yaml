@@ -32,7 +32,7 @@ importers:
       react-dom: 18.1.0
       react-native: 0.70.5
       react-native-web: ~0.18.12
-      socket.io-client: ^4.6.0
+      socket.io-client: ^4.6.1
     dependencies:
       expo: 47.0.13_@babel+core@7.19.1
       expo-dev-client: 2.0.1_expo@47.0.13
@@ -43,7 +43,7 @@ importers:
       react-dom: 18.1.0_react@18.1.0
       react-native: 0.70.5_dqj6yvtpwciwirkzdv43gp7sr4
       react-native-web: 0.18.12_ef5jwxihqo6n7gxfmzogljlgcm
-      socket.io-client: 4.6.0
+      socket.io-client: 4.6.1
     devDependencies:
       '@acme/eslint-config': link:../../packages/eslint-config
       '@acme/test-config': link:../../packages/test-config
@@ -69,8 +69,8 @@ importers:
       express: ^4.18.2
       kysely: ^0.23.4
       reflect-metadata: ^0.1.13
-      socket.io: ^4.6.0
-      socket.io-client: ^4.6.0
+      socket.io: ^4.6.1
+      socket.io-client: ^4.6.1
       tsdk: '*'
       tsdk-server-adapters: '*'
       typeorm: ^0.3.12
@@ -87,7 +87,7 @@ importers:
       express: 4.18.2
       kysely: 0.23.4
       reflect-metadata: 0.1.13
-      socket.io: 4.6.0_7bu325uvas3fiezt5gpuh2av6u
+      socket.io: 4.6.1_7bu325uvas3fiezt5gpuh2av6u
       tsdk-server-adapters: link:../../packages/tsdk-server-adapters
       typeorm: 0.3.12_better-sqlite3@8.0.1
       typeorm-cursor-pagination: 0.10.0_typeorm@0.3.12
@@ -101,7 +101,7 @@ importers:
       '@nestjs/cli': 9.2.0
       '@types/express': 4.17.17
       '@types/ws': 8.5.3
-      socket.io-client: 4.6.0_7bu325uvas3fiezt5gpuh2av6u
+      socket.io-client: 4.6.1_7bu325uvas3fiezt5gpuh2av6u
       tsdk: link:../../packages/tsdk
 
   examples/server/packages/fe-sdk-demo:
@@ -160,14 +160,14 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0
       react-native-web: ~0.18.9
-      socket.io-client: ^4.6.0
+      socket.io-client: ^4.6.1
     dependencies:
       fe-sdk-demo: link:../server/packages/fe-sdk-demo
       next: 13.1.6_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-native-web: 0.18.9_biqbaboplfbrettd7655fr4n2y
-      socket.io-client: 4.6.0
+      socket.io-client: 4.6.1
     devDependencies:
       '@acme/eslint-config': link:../../packages/eslint-config
       babel-plugin-react-native-web: 0.18.9
@@ -7865,8 +7865,8 @@ packages:
     resolution: {integrity: sha512-+nVFp+5z1E3HcToEnO7ZIj3g+3k9389DvWtvJZz0T6/eOCPIyyxehFcedoYrZQrp0LgQbD9pPXhpMBKMd5QURg==}
     engines: {node: '>=10.0.0'}
 
-  /engine.io/6.4.0_7bu325uvas3fiezt5gpuh2av6u:
-    resolution: {integrity: sha512-OgxY1c/RuCSeO/rTr8DIFXx76IzUUft86R7/P7MMbbkuzeqJoTNw2lmeD91IyGz41QYleIIjWeMJGgug043sfQ==}
+  /engine.io/6.4.1_7bu325uvas3fiezt5gpuh2av6u:
+    resolution: {integrity: sha512-JFYQurD/nbsA5BSPmbaOSLa3tSVj8L6o4srSwXXY3NqE+gGUNmmPTbhn8tjzcCtSqhFgIeqef81ngny8JM25hw==}
     engines: {node: '>=10.0.0'}
     dependencies:
       '@types/cookie': 0.4.1
@@ -14478,8 +14478,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /socket.io-client/4.6.0:
-    resolution: {integrity: sha512-2XOp18xnGghUICSd5ziUIS4rB0dhr6S8OvAps8y+HhOjFQlqGcf+FIh6fCIsKKZyWFxJeFPrZRNPGsHDTsz1Ug==}
+  /socket.io-client/4.6.1:
+    resolution: {integrity: sha512-5UswCV6hpaRsNg5kkEHVcbBIXEYoVbMQaHJBXJCyEQ+CiFPV1NIOY0XOFWG4XR4GZcB8Kn6AsRs/9cy9TbqVMQ==}
     engines: {node: '>=10.0.0'}
     dependencies:
       '@socket.io/component-emitter': 3.1.0
@@ -14492,8 +14492,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /socket.io-client/4.6.0_7bu325uvas3fiezt5gpuh2av6u:
-    resolution: {integrity: sha512-2XOp18xnGghUICSd5ziUIS4rB0dhr6S8OvAps8y+HhOjFQlqGcf+FIh6fCIsKKZyWFxJeFPrZRNPGsHDTsz1Ug==}
+  /socket.io-client/4.6.1_7bu325uvas3fiezt5gpuh2av6u:
+    resolution: {integrity: sha512-5UswCV6hpaRsNg5kkEHVcbBIXEYoVbMQaHJBXJCyEQ+CiFPV1NIOY0XOFWG4XR4GZcB8Kn6AsRs/9cy9TbqVMQ==}
     engines: {node: '>=10.0.0'}
     dependencies:
       '@socket.io/component-emitter': 3.1.0
@@ -14515,14 +14515,14 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /socket.io/4.6.0_7bu325uvas3fiezt5gpuh2av6u:
-    resolution: {integrity: sha512-b65bp6INPk/BMMrIgVvX12x3Q+NqlGqSlTuvKQWt0BUJ3Hyy3JangBl7fEoWZTXbOKlCqNPbQ6MbWgok/km28w==}
+  /socket.io/4.6.1_7bu325uvas3fiezt5gpuh2av6u:
+    resolution: {integrity: sha512-KMcaAi4l/8+xEjkRICl6ak8ySoxsYG+gG6/XfRCPJPQ/haCRIJBTL4wIl8YCsmtaBovcAXGLOShyVWQ/FG8GZA==}
     engines: {node: '>=10.0.0'}
     dependencies:
       accepts: 1.3.8
       base64id: 2.0.0
       debug: 4.3.4
-      engine.io: 6.4.0_7bu325uvas3fiezt5gpuh2av6u
+      engine.io: 6.4.1_7bu325uvas3fiezt5gpuh2av6u
       socket.io-adapter: 2.5.2_7bu325uvas3fiezt5gpuh2av6u
       socket.io-parser: 4.2.1
     transitivePeerDependencies:

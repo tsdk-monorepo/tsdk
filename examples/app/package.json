@@ -26,7 +26,7 @@
     "react-dom": "18.1.0",
     "react-native": "0.70.5",
     "react-native-web": "~0.18.12",
-    "socket.io-client": "^4.6.0"
+    "socket.io-client": "^4.6.1"
   },
   "devDependencies": {
     "@acme/test-config": "*",
