@@ -12,23 +12,22 @@
   },
   "dependencies": {
     "fe-sdk-demo": "*",
-    "next": "^13.2.0",
+    "next": "^13.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-native-web": "~0.18.9",
+    "react-native-web": "~0.18.12",
     "socket.io-client": "^4.6.1"
   },
   "devDependencies": {
     "@acme/eslint-config": "*",
-    "babel-plugin-react-native-web": "^0.18.9",
-    "eslint-config-next": "^13.2.0"
+    "babel-plugin-react-native-web": "^0.18.12",
+    "eslint-config-next": "^13.2.1"
   },
   "eslintConfig": {
     "extends": [
       "@acme/eslint-config/node",
       "@acme/eslint-config/web",
-      "@acme/eslint-config/native",
-      "next"
+      "@acme/eslint-config/native"
     ],
     "ignorePatterns": [
       "node_modules",
