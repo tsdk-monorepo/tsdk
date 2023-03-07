@@ -38,6 +38,14 @@
       "uuid": "^3.4.0"
     }
   },
+  "eslintConfig": {
+    "extends": "@configs/eslint-config",
+    "ignorePatterns": [
+      "node_modules",
+      ".next",
+      "public"
+    ]
+  },
   "prettier": {
     "printWidth": 100,
     "tabWidth": 2,
@@ -55,18 +63,6 @@
     ],
     "*.{md,css}": [
       "prettier --write"
-    ]
-  },
-  "eslintConfig": {
-    "extends": [
-      "@configs/eslint-config/node",
-      "@configs/eslint-config/web",
-      "@configs/eslint-config/native"
-    ],
-    "ignorePatterns": [
-      "node_modules",
-      ".next",
-      "public"
     ]
   }
 }
