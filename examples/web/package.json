@@ -23,11 +23,7 @@
     "babel-plugin-react-native-web": "^0.18.12"
   },
   "eslintConfig": {
-    "extends": [
-      "@configs/eslint-config/node",
-      "@configs/eslint-config/web",
-      "@configs/eslint-config/native"
-    ],
+    "extends": "@configs/eslint-config",
     "ignorePatterns": [
       "node_modules",
       ".next",

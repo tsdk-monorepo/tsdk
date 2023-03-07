@@ -2,6 +2,12 @@
 
 ## Commands
 
+Prepare git hooks:
+
+```
+pnpm start-prepare
+```
+
 Publish `tsdk`/`tsdk-boilerplate` / `tsdk-server-adapters`packages:
 
 ```bash

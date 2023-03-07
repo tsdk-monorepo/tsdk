@@ -7,10 +7,12 @@ importers:
 
   .:
     specifiers:
+      '@configs/eslint-config': '*'
       husky: ^8.0.3
       lint-staged: ^13.1.2
       turbo: ^1.8.3
     devDependencies:
+      '@configs/eslint-config': link:configs/eslint-config
       husky: 8.0.3
       lint-staged: 13.1.2
       turbo: 1.8.3
