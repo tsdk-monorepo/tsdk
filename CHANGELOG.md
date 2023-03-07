@@ -86,3 +86,7 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 
 - Sync overwrite with fe-sdk-template files and you should not change files by generate tsdk, but you can create custom files. You can pass tsdk --sync --no-overwrite keep old behavior(but don't recommend.)
 - Monorepo: seperate `@acme/test-config` as a package could share buy others
+
+2023/2/16
+
+- `@acme/ts-config`, `@acme/eslint-config`, `@acme/test-config` move to `configs/` from `/packages` and change the prefix from `@acme/` to `@configs/`

@@ -1,8 +1,8 @@
 {
   "private": true,
-  "name": "@acme/eslint-config",
+  "name": "@configs/eslint-config",
   "version": "1.0.0",
-  "description": "Acme eslint configuration",
+  "description": "eslint configuration",
   "license": "MIT",
   "main": "index.js",
   "files": [

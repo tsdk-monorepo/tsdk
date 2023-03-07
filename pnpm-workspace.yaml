@@ -2,6 +2,9 @@ packages:
   # packages
   - 'packages/*'
 
+  # configs
+  - 'configs/*'
+
   # website
   - 'website'
 

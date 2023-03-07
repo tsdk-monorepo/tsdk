@@ -2,12 +2,12 @@
 
 Usage:
 
-First, add `"@acme/test-config": "*"` to the `package.json` devDependencies:
+First, add `"@configs/test-config": "*"` to the `package.json` devDependencies:
 
 ```json
 {
   "devDependencies": {
-    "@acme/test-config": "*",
+    "@configs/test-config": "*",
     "test": "cross-env NODE_ENV=test TS_CONFIG_PATHS=true ts-mocha -p tsconfig.json ./**/*.test.ts --parallel --timeout 30000"
   }
 }

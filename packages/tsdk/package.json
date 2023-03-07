@@ -40,9 +40,9 @@
     "fs-extra": "^11.1.0"
   },
   "devDependencies": {
-    "@acme/test-config": "*",
-    "@acme/eslint-config": "*",
-    "@acme/ts-config": "*",
+    "@configs/test-config": "*",
+    "@configs/eslint-config": "*",
+    "@configs/ts-config": "*",
     "@types/fs-extra": "^11.0.1",
     "@types/webpack-node-externals": "^2.5.3",
     "webpack": "^5.75.0",
@@ -50,7 +50,7 @@
   },
   "eslintConfig": {
     "extends": [
-      "@acme/eslint-config/node"
+      "@configs/eslint-config/node"
     ],
     "ignorePatterns": [
       "node_modules"

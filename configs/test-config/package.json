@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@acme/test-config",
+  "name": "@configs/test-config",
   "description": "test config",
   "version": "1.0.0",
   "devDependencies": {

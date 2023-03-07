@@ -29,15 +29,15 @@
     "socket.io-client": "^4.6.1"
   },
   "devDependencies": {
-    "@acme/test-config": "*",
-    "@acme/eslint-config": "*",
+    "@configs/test-config": "*",
+    "@configs/eslint-config": "*",
     "@babel/core": "^7.18.6",
     "@types/react": "~18.0.28",
     "@types/react-dom": "~18.0.11",
     "babel-preset-expo": "^9.3.0"
   },
   "eslintConfig": {
-    "extends": "@acme/eslint-config",
+    "extends": "@configs/eslint-config",
     "ignorePatterns": [
       "node_modules",
       "build",
