@@ -13,7 +13,7 @@ export const hasBodyMethods: { [key: string]: boolean | undefined } = {
 };
 
 export function checkMethodHasBody(method: string) {
-  return hasBodyMethods[method];
+  return hasBodyMethods[method.toLowerCase()];
 }
 
 export function transformPath(path: string) {
