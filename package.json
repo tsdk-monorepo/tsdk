@@ -59,7 +59,7 @@
       "eslint --fix"
     ],
     "*.{ts,tsx,mjs,mts}": [
-      "tsc --noEmit"
+      "tsc --noEmit --jsx react"
     ],
     "*.{md,css}": [
       "prettier --write"

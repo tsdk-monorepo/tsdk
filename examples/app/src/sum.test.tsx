@@ -1,4 +1,7 @@
 import { expect } from 'chai';
+import * as React from 'react';
+
+console.log(<div className="233" />);
 
 before(() => {
   console.log('before test');
