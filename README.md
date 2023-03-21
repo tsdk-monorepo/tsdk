@@ -67,7 +67,8 @@ pnpm build:docs
 
 - `configs/ts-config`
 - `configs/eslint-config`
-- `configs/test-config`
+- `configs/test-config` pure typescript testing with `ts-mocha`
+- `configs/vitest-config` vitest testing for react or others
 
 ### Examples
 

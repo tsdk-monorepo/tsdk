@@ -1,18 +1,15 @@
-import { expect } from 'chai';
-import * as React from 'react';
+import { beforeAll, afterAll, expect, describe, test } from 'vitest';
 
-console.log(<div className="233" />);
-
-before(() => {
+beforeAll(() => {
   console.log('before test');
 });
 
-after(() => {
+afterAll(() => {
   console.log('after test');
 });
 
 describe('tests', () => {
-  it('test sum', () => {
+  test('test sum', () => {
     expect(1 + 1).to.equal(2);
   });
 });

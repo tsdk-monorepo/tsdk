@@ -8,7 +8,8 @@
     "dev": "next dev -p 3060",
     "build": "next build && next export",
     "serve": "serve out",
-    "start": "next start -p 3060"
+    "start": "next start -p 3060",
+    "test": "cross-env NODE_ENV=test vitest"
   },
   "dependencies": {
     "fe-sdk-demo": "*",
@@ -19,6 +20,7 @@
     "socket.io-client": "^4.6.1"
   },
   "devDependencies": {
+    "@configs/vitest-config": "*",
     "@configs/eslint-config": "*",
     "babel-plugin-react-native-web": "^0.18.12"
   },

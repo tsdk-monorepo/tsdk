@@ -14,7 +14,7 @@
     "web": "expo start --web",
     "eas-build-pre-install": "npm install --global pnpm@7.x",
     "eas-build-post-install": "pnpm run -w build",
-    "test": "cross-env NODE_ENV=test TS_CONFIG_PATHS=true ts-mocha -p tsconfig.json src/**/*.test.ts src/**/*.test.tsx --parallel --timeout 30000"
+    "test": "cross-env NODE_ENV=test vitest"
   },
   "dependencies": {
     "fe-sdk-demo": "*",
@@ -29,7 +29,7 @@
     "socket.io-client": "^4.6.1"
   },
   "devDependencies": {
-    "@configs/test-config": "*",
+    "@configs/vitest-config": "*",
     "@configs/eslint-config": "*",
     "@babel/core": "^7.18.6",
     "@types/react": "~18.0.28",

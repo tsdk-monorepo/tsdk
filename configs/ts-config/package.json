@@ -8,7 +8,9 @@
   "files": [
     "tsconfig.json"
   ],
-  "dependencies": {
-    "typescript": "^5.0.2"
+  "devDependencies": {
+    "typescript": "^5.0.2",
+    "@types/node": "^18.13.0",
+    "cross-env": "^7.0.3"
   }
 }
