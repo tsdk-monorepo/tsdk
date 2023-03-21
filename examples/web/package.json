@@ -9,7 +9,7 @@
     "build": "next build && next export",
     "serve": "serve out",
     "start": "next start -p 3060",
-    "test": "cross-env NODE_ENV=test vitest"
+    "test": "cross-env NODE_ENV=test vitest run"
   },
   "dependencies": {
     "fe-sdk-demo": "*",
