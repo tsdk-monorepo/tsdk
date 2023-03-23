@@ -90,3 +90,9 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 2023/2/16
 
 - `@acme/ts-config`, `@acme/eslint-config`, `@acme/test-config` move to `configs/` from `/packages` and change the prefix from `@acme/` to `@configs/`
+
+### 0.0.19-beta.15
+
+2023/3/23
+
+- bump webpack version
