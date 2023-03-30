@@ -7,7 +7,7 @@
     "doc:build": "cd website && npm i && npm run build"
   },
   "dependencies": {
-    "zod": "^3.20.6",
+    "zod": "^3.21.4",
     "axios": "^0.27.2",
     "change-case": "^4.1.2"
   },

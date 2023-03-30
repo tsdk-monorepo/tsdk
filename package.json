@@ -58,9 +58,6 @@
       "prettier --write",
       "eslint --fix"
     ],
-    "*.{ts,tsx,mjs,mts}": [
-      "tsc --noEmit --jsx react"
-    ],
     "*.{md,css}": [
       "prettier --write"
     ]

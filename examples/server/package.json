@@ -32,7 +32,7 @@
     "typeorm-cursor-pagination": "^0.10.0",
     "utf-8-validate": "^6.0.3",
     "ws": "^8.10.0",
-    "zod": "^3.20.6"
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@configs/test-config": "*",
