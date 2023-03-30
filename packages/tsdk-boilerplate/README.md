@@ -22,5 +22,4 @@ npx tsdk --gen entity=Todo
 - [ ] Common APIs generate;
 - [ ] NeedAuth APIs check tests code generate;
 - [ ] SWR hooks generate plugin;
-- [ ] React Query hooks generate plugin;
 - [ ] Custom your own plugin!
