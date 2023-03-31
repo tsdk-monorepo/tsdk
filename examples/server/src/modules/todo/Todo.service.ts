@@ -12,6 +12,15 @@ import { UpdateTodoReq, UpdateTodoRes } from './apiconf/UpdateTodo.apiconf';
 import { ReadonlyRequestInfo } from './types';
 
 export default class TodoService {
+  private static instance: TodoService;
+
+  static getInstance() {
+    if (!TodoService.instance) {
+      TodoService.instance = new TodoService();
+    }
+    return TodoService.instance;
+  }
+
   get todoRepo() {
     return appDataSource.getRepository(Todo);
   }
@@ -102,4 +111,4 @@ export default class TodoService {
   }
 }
 
-export const todoService = new TodoService();
+export const todoService = TodoService.getInstance();
