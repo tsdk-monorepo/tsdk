@@ -4,8 +4,8 @@
   "description": "vitest config",
   "version": "1.0.0",
   "devDependencies": {
-    "vitest": "^0.29.7",
-    "@vitest/ui": "^0.29.7",
+    "vitest": "^0.29.8",
+    "@vitest/ui": "^0.29.8",
     "@vitejs/plugin-react": "^3.1.0",
     "@testing-library/react": "^14.0.0",
     "jsdom": "^21.1.1"

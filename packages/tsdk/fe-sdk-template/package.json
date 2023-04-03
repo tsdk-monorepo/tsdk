@@ -12,7 +12,7 @@
     "change-case": "^4.1.2"
   },
   "devDependencies": {
-    "typescript": "^5.0.2",
+    "typescript": "^5.0.3",
     "kysely": "^0.23.4"
   },
   "peerDependencies": {
