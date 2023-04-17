@@ -13,16 +13,16 @@
   },
   "dependencies": {
     "fe-sdk-demo": "*",
-    "next": "^13.2.4",
+    "next": "^13.3.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-native-web": "~0.18.12",
+    "react-native-web": "~0.19.4",
     "socket.io-client": "^4.6.1"
   },
   "devDependencies": {
     "@configs/vitest-config": "*",
     "@configs/eslint-config": "*",
-    "babel-plugin-react-native-web": "^0.18.12"
+    "babel-plugin-react-native-web": "^0.19.4"
   },
   "eslintConfig": {
     "extends": "@configs/eslint-config",
