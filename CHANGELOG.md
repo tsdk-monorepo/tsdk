@@ -80,8 +80,6 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 
 - socket.io protocol methods use index to save data transfer
 
-### 0.0.19-beta.14
-
 2023/2/15
 
 - Sync overwrite with fe-sdk-template files and you should not change files by generate tsdk, but you can create custom files. You can pass tsdk --sync --no-overwrite keep old behavior(but don't recommend.)
@@ -91,8 +89,18 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 
 - `@acme/ts-config`, `@acme/eslint-config`, `@acme/test-config` move to `configs/` from `/packages` and change the prefix from `@acme/` to `@configs/`
 
-### 0.0.19-beta.15
+### 0.0.19-beta.14
 
 2023/3/23
 
 - bump webpack version
+
+2023/4/18
+
+- bump deps
+
+### 0.0.19-beta.15
+
+2023/4/27
+
+- `tsdk --nest build` is useless `./dist` exists,remove this folder

@@ -44,5 +44,15 @@
       "category": "todo",
       "schema": {}
     }
+  ],
+  "common": [
+    {
+      "type": "common",
+      "name": "GetConfigs",
+      "method": "get",
+      "path": "/get-configs",
+      "description": "get server configs for client",
+      "category": "core"
+    }
   ]
 }

@@ -24,6 +24,8 @@ import {
 } from './apiconf-refs';
 import genApi from './gen-api';
 
+export * from './common-api';
+
 /**
  * add todo
  *

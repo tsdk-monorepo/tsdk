@@ -155,6 +155,7 @@ async function run() {
                 ),
                 name
               );
+
               resolve(nestProjectConfig);
             } catch (e) {
               console.log(`[${command} ${name}] Webpack build error: `, e);
@@ -164,6 +165,13 @@ async function run() {
         });
       })
     );
+
+    // remove extra useless dist
+    const uselessDistFolder = path.join(process.cwd(), 'dist');
+    const isExists = await fsExtra.exists(uselessDistFolder);
+    if (isExists) {
+      await fsExtra.remove(uselessDistFolder);
+    }
   }
 }
 
