@@ -100,7 +100,3 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 - bump deps
 
 ### 0.0.19-beta.15
-
-2023/4/27
-
-- `tsdk --nest build` is useless `./dist` exists,remove this folder

@@ -165,13 +165,6 @@ async function run() {
         });
       })
     );
-
-    // remove extra useless dist
-    const uselessDistFolder = path.join(process.cwd(), 'dist');
-    const isExists = await fsExtra.exists(uselessDistFolder);
-    if (isExists) {
-      await fsExtra.remove(uselessDistFolder);
-    }
   }
 }
 
