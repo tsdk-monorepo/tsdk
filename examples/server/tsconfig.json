@@ -10,7 +10,7 @@
     "target": "es2017",
     "sourceMap": true,
     "baseUrl": "./",
-    "outDir": "./dist",
+    "outDir": "./build",
     "paths": {
       "/*": ["./*"]
     },
