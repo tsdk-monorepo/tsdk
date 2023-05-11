@@ -17,6 +17,7 @@ import { useState, useEffect } from 'react';
 import { io as SocketIO } from 'socket.io-client';
 
 import styles from '../styles/Home.module.css';
+import { run } from './axios';
 
 const baseURL =
   // process.env.NODE_ENV === 'production'
@@ -38,6 +39,10 @@ export default function Home() {
   const [result, setResult] = useState<QueryTodoRes>();
 
   useEffect(() => {
+    run().catch((e) => {
+      console.error(e);
+    });
+
     const io = SocketIO(socketURL, {
       transports: ['websocket'],
       query: {
@@ -75,6 +80,7 @@ export default function Home() {
         setResult(httpRes);
       }, 2500);
     });
+
     return () => {
       io.off('connect');
     };
