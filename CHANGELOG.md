@@ -105,3 +105,9 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 
 - fix: `_id` overwrite by data with property `_id`
 - fix: when request params is not object wrong data
+
+### 0.0.19-beta.16
+
+2023/5/16
+
+- fix: `trimAndRemoveUndefined` should only for object (not array and null) data

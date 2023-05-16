@@ -20,16 +20,20 @@ export function transformPath(path: string) {
   return `/${paramCase(path)}`;
 }
 
+export function isObject<T = any>(data: T) {
+  const result = typeof data === 'object' && !Array.isArray(data) && data !== null;
+  return result;
+}
+
 /**
  * remove undefined field or trim string value
  *
  * @param data - the object data
  */
 export const trimAndRemoveUndefined = (data: ObjectLiteral): ObjectLiteral => {
-  const keys = Object.keys(data);
-  if (!keys || keys.length === 0) return data;
+  if (!isObject(data)) return data;
   const newData: ObjectLiteral = {};
-  keys.forEach((k: string) => {
+  Object.keys(data).forEach((k: string) => {
     const valueType = typeof data[k];
     if (valueType === 'string') {
       newData[k] = data[k].trim();
