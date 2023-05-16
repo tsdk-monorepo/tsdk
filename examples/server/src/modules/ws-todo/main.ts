@@ -1,5 +1,4 @@
 import { createServer } from 'http';
-import { wsAdapterFactory } from 'tsdk-server-adapters/lib/ws-adapter';
 import { parse } from 'url';
 import { WebSocketServer } from 'ws';
 
@@ -53,14 +52,6 @@ function heartbeat() {
 
     (socket as unknown as ExtWebSocket).isAlive = true;
     socket.on('pong', heartbeat);
-
-    wsAdapterFactory<RequestInfo>({
-      routeBus,
-      getReqInfo() {
-        return reqInfo;
-      },
-      protocolType: ProtocolTypes,
-    })(socket);
 
     socket.on('close', function () {
       console.log('client socket close');
