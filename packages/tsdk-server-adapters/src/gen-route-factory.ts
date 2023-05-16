@@ -91,7 +91,7 @@ export function genRouteFactory<APIConfig, RequestInfo>(
       protocol: Protocol,
       reqInfo: Readonly<RequestInfo>,
       response: ResponseSocket,
-      { _id: msgId, ...body }: ReqData & { _id: string }
+      { __id__: msgId, ...body }: ReqData & { __id__: string }
     ) {
       const send = sendFactory(protocol, response, protocolType);
 
@@ -105,7 +105,7 @@ export function genRouteFactory<APIConfig, RequestInfo>(
         }
         const data = apiConfig.schema ? apiConfig.schema.parse(body) : body;
         const result = await cb(reqInfo, response, data);
-        send({ _id: msgId, ...result });
+        send({ ...result, __id__: msgId });
       } catch (e) {
         onErrorHandler(e, {
           protocol,
@@ -134,7 +134,7 @@ export function genRouteFactory<APIConfig, RequestInfo>(
         (
           reqInfo: Readonly<RequestInfo>,
           resOrSocket: ResponseSocket,
-          body: ReqData & { _id: string }
+          body: ReqData & { __id__: string }
         ) => {
           onEvent(i as Protocol, reqInfo, resOrSocket, body);
         }

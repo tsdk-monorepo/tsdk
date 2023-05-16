@@ -100,3 +100,7 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 - bump deps
 
 ### 0.0.19-beta.15
+
+2023/5/16
+
+- fix: `_id` overwrite by data, change change to `__id__`

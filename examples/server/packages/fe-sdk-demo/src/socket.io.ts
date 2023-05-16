@@ -29,7 +29,7 @@ export const setSocketIOInstance = (instance: Socket): void => {
   socketIOInstance = instance;
 
   socketIOInstance.off(ProtocolTypes.response);
-  socketIOInstance.on(ProtocolTypes.response, ({ _id: msgId, ...data }: ObjectLiteral) => {
+  socketIOInstance.on(ProtocolTypes.response, ({ __id__: msgId, ...data }: ObjectLiteral) => {
     if (msgId && QUEUEs[msgId]) {
       if (!data.status || data.status === 200) {
         QUEUEs[msgId].resolve(data);
@@ -72,7 +72,7 @@ export function socketIOHandler(
 
     ioInstance.emit(ProtocolTypes.request, {
       ...(needTrim && data ? trimAndRemoveUndefined(data) : {}),
-      _id: msgId,
+      __id__: msgId,
     });
 
     const timer = requestConfig?.timeout
