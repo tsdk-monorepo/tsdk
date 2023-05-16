@@ -34,18 +34,18 @@ export function socketIOAdapterFactory<ReqInfo>({
   return async function socketIOAdapter(socket: Socket) {
     const reqInfo = await getReqInfo(socket);
 
-    const onRequest = (body: ObjectLiteral) => {
+    const onRequest = (data: { _id: string; payload: any }) => {
       if (!socket.connected) return;
 
-      if (body && body._id) {
+      if (data && data._id) {
         const type = getType(reqInfo, socket);
 
-        const [methodIdx, path] = body._id.split(':');
+        const [methodIdx, path] = data._id.split(':');
         const method = methodsMap[methodIdx] || methodIdx || 'get';
         const eventName = getRouteEventName({ protocol: 'socket.io', type, method, path });
 
         if ((routeBus as ObjectLiteral)._events[eventName]) {
-          routeBus.emit(eventName, reqInfo, socket, getData ? getData(body) : body);
+          routeBus.emit(eventName, reqInfo, socket, getData ? getData(data) : data);
         }
       }
     };

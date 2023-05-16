@@ -10,8 +10,9 @@ import type { ZodTypeAny } from 'zod';
 
 export const PROTOCOLs = {
   http: 'http',
-  ws: 'ws',
   'socket.io': 'io',
+  /** @deprecated not recommend */
+  ws: 'ws',
 };
 
 export type Protocol = keyof typeof PROTOCOLs;
@@ -43,19 +44,24 @@ export function getRouteEventName(
 }
 
 function sendFactory(protocol: Protocol, response: ResponseSocket, protocolType: ProtocolType) {
-  return function send(result: ObjectLiteral) {
+  return function send(payload: {
+    _id: string;
+    status?: number;
+    result?: unknown;
+    [key: string]: unknown;
+  }) {
     if (protocol === 'http') {
       // for http request
-      const { status, ...rest } = result;
-      (response as Response).status(status || 200).send(rest);
+      const { status, result } = payload;
+      (response as Response).status(status || 200).send(result);
     } else if (protocol === 'socket.io') {
       // for socket.io
       if ((response as Socket).connected) {
-        (response as Socket).emit(protocolType.response, result);
+        (response as Socket).emit(protocolType.response, payload);
       }
     } else if (protocol === 'ws') {
       // for websocket
-      (response as WebSocket).send(protocolType.response + JSON.stringify(result));
+      (response as WebSocket).send(protocolType.response + JSON.stringify(payload));
     }
   };
 }
@@ -91,7 +97,7 @@ export function genRouteFactory<APIConfig, RequestInfo>(
       protocol: Protocol,
       reqInfo: Readonly<RequestInfo>,
       response: ResponseSocket,
-      { __id__: msgId, ...body }: ReqData & { __id__: string }
+      { _id: msgId, payload }: { _id: string; payload: ReqData }
     ) {
       const send = sendFactory(protocol, response, protocolType);
 
@@ -103,9 +109,9 @@ export function genRouteFactory<APIConfig, RequestInfo>(
             return previousPromise.then(() => nextMiddleware(protocol, apiConfig, reqInfo));
           }, Promise.resolve());
         }
-        const data = apiConfig.schema ? apiConfig.schema.parse(body) : body;
+        const data = apiConfig.schema ? apiConfig.schema.parse(payload) : payload;
         const result = await cb(reqInfo, response, data);
-        send({ ...result, __id__: msgId });
+        send({ result, _id: msgId });
       } catch (e) {
         onErrorHandler(e, {
           protocol,
@@ -134,7 +140,7 @@ export function genRouteFactory<APIConfig, RequestInfo>(
         (
           reqInfo: Readonly<RequestInfo>,
           resOrSocket: ResponseSocket,
-          body: ReqData & { __id__: string }
+          body: { _id: string; payload: ReqData }
         ) => {
           onEvent(i as Protocol, reqInfo, resOrSocket, body);
         }

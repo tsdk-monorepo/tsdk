@@ -103,4 +103,5 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 
 2023/5/16
 
-- fix: `_id` overwrite by data, change change to `__id__`
+- fix: `_id` overwrite by data with property `_id`
+- fix: when request params is not object wrong data

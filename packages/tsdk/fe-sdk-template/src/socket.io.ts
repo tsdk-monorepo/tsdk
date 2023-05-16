@@ -12,6 +12,8 @@ import { getID } from './utils';
 
 let socketIOInstance: Socket;
 
+const QUEUEs: ObjectLiteral = {};
+
 /**
  * Set the io instance
  * 
@@ -29,16 +31,28 @@ export const setSocketIOInstance = (instance: Socket): void => {
   socketIOInstance = instance;
 
   socketIOInstance.off(ProtocolTypes.response);
-  socketIOInstance.on(ProtocolTypes.response, ({ __id__: msgId, ...data }: ObjectLiteral) => {
-    if (msgId && QUEUEs[msgId]) {
-      if (!data.status || data.status === 200) {
-        QUEUEs[msgId].resolve(data);
-      } else {
-        QUEUEs[msgId].reject(data);
+  socketIOInstance.on(
+    ProtocolTypes.response,
+    ({
+      _id: msgId,
+      status,
+      result,
+    }: {
+      _id: string;
+      status?: number;
+      result?: unknown;
+      [key: string]: unknown;
+    }) => {
+      if (msgId && QUEUEs[msgId]) {
+        if (!status || status === 200) {
+          QUEUEs[msgId].resolve(result);
+        } else {
+          QUEUEs[msgId].reject(result);
+        }
+        delete QUEUEs[msgId];
       }
-      delete QUEUEs[msgId];
     }
-  });
+  );
 };
 
 /**
@@ -50,8 +64,6 @@ export const setSocketIOInstance = (instance: Socket): void => {
 export const getSocketIOInstance = () => {
   return socketIOInstance;
 };
-
-const QUEUEs: ObjectLiteral = {};
 
 export function socketIOHandler(
   apiConfig: APIConfig,
@@ -71,8 +83,8 @@ export function socketIOHandler(
     const msgId = getID(apiConfig.method, apiConfig.path);
 
     ioInstance.emit(ProtocolTypes.request, {
-      ...(needTrim && data ? trimAndRemoveUndefined(data) : {}),
-      __id__: msgId,
+      _id: msgId,
+      payload: needTrim && data ? trimAndRemoveUndefined(data) : data,
     });
 
     const timer = requestConfig?.timeout

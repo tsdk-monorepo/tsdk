@@ -26,8 +26,10 @@ export function transformPath(path: string) {
  * @param data - the object data
  */
 export const trimAndRemoveUndefined = (data: ObjectLiteral): ObjectLiteral => {
+  const keys = Object.keys(data);
+  if (!keys || keys.length === 0) return data;
   const newData: ObjectLiteral = {};
-  Object.keys(data).forEach((k: string) => {
+  keys.forEach((k: string) => {
     const valueType = typeof data[k];
     if (valueType === 'string') {
       newData[k] = data[k].trim();
