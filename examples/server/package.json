@@ -38,7 +38,7 @@
     "@configs/test-config": "*",
     "@configs/ts-config": "*",
     "@configs/eslint-config": "*",
-    "@nestjs/cli": "^10.1.8",
+    "@nestjs/cli": "^10.1.9",
     "@types/express": "^4.17.17",
     "@types/ws": "^8.5.5",
     "socket.io-client": "^4.7.1",
