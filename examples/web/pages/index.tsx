@@ -17,7 +17,7 @@ import { useState, useEffect } from 'react';
 import { io as SocketIO } from 'socket.io-client';
 
 import styles from '../styles/Home.module.css';
-import { run } from './axios';
+import { run } from '../utils/axios';
 
 const baseURL =
   // process.env.NODE_ENV === 'production'

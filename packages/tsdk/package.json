@@ -1,6 +1,6 @@
 {
   "name": "tsdk",
-  "version": "0.0.19-beta.16",
+  "version": "0.0.19-beta.17",
   "main": "lib/index.js",
   "bin": {
     "tsdk": "bin/tsdk.js"
@@ -45,8 +45,8 @@
     "@configs/eslint-config": "*",
     "@configs/ts-config": "*",
     "@types/fs-extra": "^11.0.1",
-    "@types/webpack-node-externals": "^2.5.3",
-    "webpack": "^5.81.0",
+    "@types/webpack-node-externals": "^3.0.0",
+    "webpack": "^5.88.1",
     "webpack-node-externals": "^3.0.0"
   },
   "eslintConfig": {

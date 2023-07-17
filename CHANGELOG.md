@@ -111,3 +111,7 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 2023/5/16
 
 - fix: `trimAndRemoveUndefined` should only for object (not array and null) data
+
+2023/7/17
+
+- bump deps

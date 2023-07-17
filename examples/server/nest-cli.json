@@ -17,15 +17,6 @@
       "nodeExternalsParams": {
         "additionalModuleDirs": ["../../node_modules"]
       }
-    },
-    "ws-todo": {
-      "type": "application",
-      "root": "src/modules/ws-todo",
-      "sourceRoot": "src/modules/ws-todo",
-      "entryFile": "modules/ws-todo/main",
-      "nodeExternalsParams": {
-        "additionalModuleDirs": ["../../node_modules"]
-      }
     }
   }
 }

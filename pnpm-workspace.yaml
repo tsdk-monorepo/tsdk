@@ -11,4 +11,4 @@ packages:
   # examples
   - 'examples/**'
   # exclude dist projects
-  - '!**/dist**'
+  - '!**/dist*/**'
