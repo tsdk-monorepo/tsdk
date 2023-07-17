@@ -18,23 +18,23 @@
   },
   "dependencies": {
     "fe-sdk-demo": "*",
-    "expo": "^48.0.11",
-    "expo-dev-client": "~2.2.1",
-    "expo-status-bar": "~1.4.4",
-    "expo-updates": "~0.16.4",
+    "expo": "^49.0.3",
+    "expo-dev-client": "^2.4.6",
+    "expo-status-bar": "^1.6.0",
+    "expo-updates": "^0.18.10",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-native": "0.71.6",
-    "react-native-web": "~0.19.4",
+    "react-native": "^0.72.3",
+    "react-native-web": "^0.19.6",
     "socket.io-client": "^4.7.1"
   },
   "devDependencies": {
     "@configs/vitest-config": "*",
     "@configs/eslint-config": "*",
-    "@babel/core": "^7.21.4",
+    "@babel/core": "^7.22.9",
     "@types/react": "~18.0.32",
     "@types/react-dom": "~18.0.11",
-    "babel-preset-expo": "^9.3.1"
+    "babel-preset-expo": "^9.5.0"
   },
   "eslintConfig": {
     "extends": "@configs/eslint-config",

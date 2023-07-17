@@ -16,7 +16,7 @@
     "next": "^13.4.10",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-native-web": "~0.19.4",
+    "react-native-web": "^0.19.6",
     "socket.io-client": "^4.7.1",
     "axios-enhance-adapter": "^0.1.6",
     "axios": "0.27.2"
@@ -24,7 +24,7 @@
   "devDependencies": {
     "@configs/vitest-config": "*",
     "@configs/eslint-config": "*",
-    "babel-plugin-react-native-web": "^0.19.4"
+    "babel-plugin-react-native-web": "^0.19.6"
   },
   "eslintConfig": {
     "extends": "@configs/eslint-config",
