@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 import { getEnhanceAdapter } from 'axios-enhance-adapter';
 
 const defaultOptions = {
-  shouldRetryOnError: true,
+  shouldRetryOnError: () => true,
   errorRetryInterval: 3000,
   errorRetryCount: 3,
   getKey(config: AxiosRequestConfig) {
@@ -37,7 +37,7 @@ export async function run() {
     [1, 2, 3, 4, 5, 6].map((item) =>
       axiosInstance.get('/test', {
         // default
-        shouldRetryOnError: false,
+        shouldRetryOnError: () => false,
         errorRetryInterval: 3000,
         errorRetryCount: 3,
         getKey(config: AxiosRequestConfig) {

@@ -291,8 +291,8 @@ importers:
         specifier: 0.27.2
         version: 0.27.2
       axios-enhance-adapter:
-        specifier: 0.0.9
-        version: 0.0.9(axios@0.27.2)
+        specifier: ^0.1.6
+        version: 0.1.6(axios@0.27.2)
       fe-sdk-demo:
         specifier: '*'
         version: link:../server/packages/fe-sdk-demo
@@ -5559,8 +5559,8 @@ packages:
     resolution: {integrity: sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==}
     engines: {node: '>= 0.4'}
 
-  /axios-enhance-adapter@0.0.9(axios@0.27.2):
-    resolution: {integrity: sha512-0R+g5mvQJ515OGlv86dPmnv4X+RxjtriEMnd2su3Mnsq41gim+sLv9H+Uq3TgQtLPmPqgKWfRUtMRvOh8F/fdQ==}
+  /axios-enhance-adapter@0.1.6(axios@0.27.2):
+    resolution: {integrity: sha512-uRjgKNGyaIxYsNBSSmxBHf7EUmKf6EsfdiGO1nnLXnQktgbtR2Z5Z+8lf6ZLN7QR64U/WM5InYjasuDEHxs54w==}
     peerDependencies:
       axios: 0.27.2
     dependencies:
