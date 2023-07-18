@@ -49,7 +49,9 @@
     "extends": [
       "@configs/eslint-config/node"
     ],
-    "rules": {},
+    "rules": {
+      "@typescript-eslint/no-useless-constructor": 0
+    },
     "ignorePatterns": [
       "node_modules"
     ]
