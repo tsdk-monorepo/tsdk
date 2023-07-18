@@ -49,6 +49,7 @@
     "extends": [
       "@configs/eslint-config/node"
     ],
+    "rules": {},
     "ignorePatterns": [
       "node_modules"
     ]
