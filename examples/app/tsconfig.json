@@ -3,5 +3,6 @@
   "compilerOptions": {
     "strict": true,
     "jsx": "react"
-  }
+  },
+  "include": ["./", "../../configs/ts-config/reset.d.ts"]
 }

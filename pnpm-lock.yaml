@@ -67,6 +67,9 @@ importers:
 
   configs/ts-config:
     devDependencies:
+      '@total-typescript/ts-reset':
+        specifier: ^0.4.2
+        version: 0.4.2
       '@types/node':
         specifier: ^18.13.0
         version: 18.13.0
@@ -134,15 +137,18 @@ importers:
       '@configs/eslint-config':
         specifier: '*'
         version: link:../../configs/eslint-config
+      '@configs/ts-config':
+        specifier: '*'
+        version: link:../../configs/ts-config
       '@configs/vitest-config':
         specifier: '*'
         version: link:../../configs/vitest-config
       '@types/react':
-        specifier: ~18.0.32
-        version: 18.0.32
+        specifier: ~18.2.15
+        version: 18.2.15
       '@types/react-dom':
-        specifier: ~18.0.11
-        version: 18.0.11
+        specifier: ~18.2.7
+        version: 18.2.7
       babel-preset-expo:
         specifier: ^9.5.0
         version: 9.5.0(@babel/core@7.22.9)
@@ -2982,7 +2988,7 @@ packages:
       '@docusaurus/react-loadable': 5.5.2(react@18.2.0)
       '@docusaurus/types': 2.4.0(react-dom@18.2.0)(react@18.2.0)
       '@types/history': 4.7.11
-      '@types/react': 18.0.32
+      '@types/react': 18.2.15
       '@types/react-router-config': 5.0.6
       '@types/react-router-dom': 5.3.3
       react: 18.2.0
@@ -3004,7 +3010,7 @@ packages:
       '@docusaurus/react-loadable': 5.5.2(react@18.2.0)
       '@docusaurus/types': 2.4.1(react-dom@18.2.0)(react@18.2.0)
       '@types/history': 4.7.11
-      '@types/react': 18.0.32
+      '@types/react': 18.2.15
       '@types/react-router-config': 5.0.6
       '@types/react-router-dom': 5.3.3
       react: 18.2.0
@@ -3678,7 +3684,7 @@ packages:
     peerDependencies:
       react: '*'
     dependencies:
-      '@types/react': 18.0.32
+      '@types/react': 18.2.15
       prop-types: 15.8.1
       react: 18.2.0
 
@@ -3801,7 +3807,7 @@ packages:
       '@docusaurus/utils': 2.4.0(@docusaurus/types@2.4.0)
       '@docusaurus/utils-common': 2.4.0(@docusaurus/types@2.4.0)
       '@types/history': 4.7.11
-      '@types/react': 18.0.32
+      '@types/react': 18.2.15
       '@types/react-router-config': 5.0.6
       clsx: 1.2.1
       parse-numeric-range: 1.3.0
@@ -3845,7 +3851,7 @@ packages:
       '@docusaurus/utils': 2.4.1(@docusaurus/types@2.4.1)
       '@docusaurus/utils-common': 2.4.1(@docusaurus/types@2.4.1)
       '@types/history': 4.7.11
-      '@types/react': 18.0.32
+      '@types/react': 18.2.15
       '@types/react-router-config': 5.0.6
       clsx: 1.2.1
       parse-numeric-range: 1.3.0
@@ -3989,7 +3995,7 @@ packages:
       react-dom: ^16.8.4 || ^17.0.0
     dependencies:
       '@types/history': 4.7.11
-      '@types/react': 18.0.32
+      '@types/react': 18.2.15
       commander: 5.1.0
       joi: 17.6.0
       react: 18.2.0
@@ -4011,7 +4017,7 @@ packages:
       react-dom: ^16.8.4 || ^17.0.0
     dependencies:
       '@types/history': 4.7.11
-      '@types/react': 18.0.32
+      '@types/react': 18.2.15
       commander: 5.1.0
       joi: 17.6.0
       react: 18.2.0
@@ -4942,7 +4948,7 @@ packages:
       react: '>=16'
     dependencies:
       '@types/mdx': 2.0.5
-      '@types/react': 18.0.32
+      '@types/react': 18.2.15
       react: 18.2.0
     dev: false
 
@@ -5649,6 +5655,10 @@ packages:
     engines: {node: '>= 10'}
     dev: true
 
+  /@total-typescript/ts-reset@0.4.2:
+    resolution: {integrity: sha512-vqd7ZUDSrXFVT1n8b2kc3LnklncDQFPvR58yUS1kEP23/nHPAO9l1lMjUfnPrXYYk4Hj54rrLKMW5ipwk7k09A==}
+    dev: true
+
   /@trysound/sax@0.2.0:
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
     engines: {node: '>=10.13.0'}
@@ -5865,31 +5875,37 @@ packages:
   /@types/react-dom@18.0.11:
     resolution: {integrity: sha512-O38bPbI2CWtgw/OoQoY+BRelw7uysmXbWvw3nLWO21H1HSh+GOlqPuXshJfjmpNlKiiSDG9cc1JZAaMmVdcTlw==}
     dependencies:
-      '@types/react': 18.0.32
+      '@types/react': 18.2.15
+    dev: true
+
+  /@types/react-dom@18.2.7:
+    resolution: {integrity: sha512-GRaAEriuT4zp9N4p1i8BDBYmEyfo+xQ3yHjJU4eiK5NDa1RmUZG+unZABUTK4/Ox/M+GaHwb6Ow8rUITrtjszA==}
+    dependencies:
+      '@types/react': 18.2.15
     dev: true
 
   /@types/react-router-config@5.0.6:
     resolution: {integrity: sha512-db1mx37a1EJDf1XeX8jJN7R3PZABmJQXR8r28yUjVMFSjkmnQo6X6pOEEmNl+Tp2gYQOGPdYbFIipBtdElZ3Yg==}
     dependencies:
       '@types/history': 4.7.11
-      '@types/react': 18.0.32
+      '@types/react': 18.2.15
       '@types/react-router': 5.1.19
 
   /@types/react-router-dom@5.3.3:
     resolution: {integrity: sha512-kpqnYK4wcdm5UaWI3fLcELopqLrHgLqNsdpHauzlQktfkHL3npOSwtj1Uz9oKBAzs7lFtVkV8j83voAz2D8fhw==}
     dependencies:
       '@types/history': 4.7.11
-      '@types/react': 18.0.32
+      '@types/react': 18.2.15
       '@types/react-router': 5.1.19
 
   /@types/react-router@5.1.19:
     resolution: {integrity: sha512-Fv/5kb2STAEMT3wHzdKQK2z8xKq38EDIGVrutYLmQVVLe+4orDFquU52hQrULnEHinMKv9FSA6lf9+uNT1ITtA==}
     dependencies:
       '@types/history': 4.7.11
-      '@types/react': 18.0.32
+      '@types/react': 18.2.15
 
-  /@types/react@18.0.32:
-    resolution: {integrity: sha512-gYGXdtPQ9Cj0w2Fwqg5/ak6BcK3Z15YgjSqtyDizWUfx7mQ8drs0NBUzRRsAdoFVTO8kJ8L2TL8Skm7OFPnLUw==}
+  /@types/react@18.2.15:
+    resolution: {integrity: sha512-oEjE7TQt1fFTFSbf8kkNuc798ahTUzn3Le67/PWjE8MAfYAD/qB7O8hSTcromLFqHCt9bcdOg5GXMokzTjJ5SA==}
     dependencies:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.2

@@ -5,6 +5,9 @@
       "cache": false,
       "outputs": []
     },
+    "check:types": {
+      "cache": false
+    },
     "test": {
       "dependsOn": ["lint", "build"],
       "inputs": ["**/*.{ts,tsx,js,jsx}"]

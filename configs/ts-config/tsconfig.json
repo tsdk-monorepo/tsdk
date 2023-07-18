@@ -1,4 +1,5 @@
 {
   "compilerOptions": {},
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "include": ["./reset.d.ts"]
 }

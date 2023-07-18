@@ -17,5 +17,5 @@
     "incremental": true,
     "skipLibCheck": true
   },
-  "include": ["src"]
+  "include": ["src", "../../configs/ts-config/reset.d.ts"]
 }

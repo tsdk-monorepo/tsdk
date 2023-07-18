@@ -11,9 +11,11 @@ import {
 } from 'fe-sdk-demo';
 import { QueryTodoRes } from 'fe-sdk-demo/lib/apiconf-refs';
 import { QueryTodo } from 'fe-sdk-demo/lib/user-api';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { io as SocketIO } from 'socket.io-client';
+
+import '@total-typescript/ts-reset';
 
 const { manifest } = Constants;
 const baseURL =

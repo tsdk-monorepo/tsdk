@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint --ext js,ts,tsx .",
+    "check:types": "tsc --noEmit",
     "dev": "expo start",
     "build": "expo export --output-dir ./build --platform all",
     "start": "expo start",
@@ -31,9 +32,10 @@
   "devDependencies": {
     "@configs/vitest-config": "*",
     "@configs/eslint-config": "*",
+    "@configs/ts-config": "*",
     "@babel/core": "^7.22.9",
-    "@types/react": "~18.0.32",
-    "@types/react-dom": "~18.0.11",
+    "@types/react": "~18.2.15",
+    "@types/react-dom": "~18.2.7",
     "babel-preset-expo": "^9.5.0"
   },
   "eslintConfig": {
