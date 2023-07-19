@@ -24,7 +24,7 @@
     "@configs/eslint-config": "*",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.0",
-    "turbo": "^1.10.7"
+    "turbo": "^1.10.8"
   },
   "pnpm": {
     "peerDependencyRules": {
