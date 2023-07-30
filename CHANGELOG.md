@@ -115,3 +115,10 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 2023/7/17
 
 - bump deps
+
+### 0.0.20-beta.0
+
+2023/7/31
+
+- bump deps
+- add honojs support

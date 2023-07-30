@@ -17,6 +17,15 @@
       "nodeExternalsParams": {
         "additionalModuleDirs": ["../../node_modules"]
       }
+    },
+    "hono-todo": {
+      "type": "application",
+      "root": "src/modules/hono-todo",
+      "sourceRoot": "src/modules/hono-todo",
+      "entryFile": "modules/hono-todo/main",
+      "nodeExternalsParams": {
+        "additionalModuleDirs": ["../../node_modules"]
+      }
     }
   }
 }

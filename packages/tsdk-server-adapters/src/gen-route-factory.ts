@@ -1,7 +1,8 @@
 // @ts-ignore
 import EventEmitter from 'eventemitter3';
-import type { Response } from 'express';
 // @ts-ignore
+import type { Response } from 'express';
+import type { Context } from 'hono';
 // @ts-ignore
 import type { Socket } from 'socket.io';
 // @ts-ignore
@@ -9,7 +10,10 @@ import type { WebSocket } from 'ws';
 import type { ZodTypeAny } from 'zod';
 
 export const PROTOCOLs = {
+  /** express.js */
   http: 'http',
+  /** honojs */
+  honoHttp: 'hono',
   'socket.io': 'io',
   /** @deprecated not recommend */
   ws: 'ws',
@@ -19,7 +23,7 @@ export type Protocol = keyof typeof PROTOCOLs;
 
 export const PROTOCOL_KEYs = Object.keys(PROTOCOLs);
 
-type ResponseSocket = Response | Socket | WebSocket;
+type ResponseSocket = Response | Context | Socket | WebSocket;
 
 interface BasicAPIConfig {
   method: string;
@@ -43,17 +47,31 @@ export function getRouteEventName(
   return `${PROTOCOLs[config.protocol]}:${config.type}:${config.method}:${config.path}`;
 }
 
-function sendFactory(protocol: Protocol, response: ResponseSocket, protocolType: ProtocolType) {
+function sendFactory(
+  protocol: Protocol,
+  response: ResponseSocket,
+  protocolType: ProtocolType,
+  callback?: (result: any) => void
+) {
   return function send(payload: {
     _id: string;
     status?: number;
     result?: unknown;
     [key: string]: unknown;
+    callback?: Function;
   }) {
+    // default http is express.js
     if (protocol === 'http') {
-      // for http request
       const { status, result } = payload;
       (response as Response).status(status || 200).send(result);
+    } else if (protocol === 'honoHttp') {
+      const { status, result } = payload;
+      (response as Context).status(status || 200);
+      if (typeof result === 'string') {
+        callback?.((response as Context).text(result));
+      } else {
+        callback?.((response as Context).json(result));
+      }
     } else if (protocol === 'socket.io') {
       // for socket.io
       if ((response as Socket).connected) {
@@ -97,9 +115,10 @@ export function genRouteFactory<APIConfig, RequestInfo>(
       protocol: Protocol,
       reqInfo: Readonly<RequestInfo>,
       response: ResponseSocket,
-      { _id: msgId, payload }: { _id: string; payload: ReqData }
+      { _id: msgId, payload }: { _id: string; payload: ReqData },
+      callback?: (result: any) => void
     ) {
-      const send = sendFactory(protocol, response, protocolType);
+      const send = sendFactory(protocol, response, protocolType, callback);
 
       try {
         // middlewares

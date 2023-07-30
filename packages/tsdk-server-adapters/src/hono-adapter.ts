@@ -1,0 +1,43 @@
+import type { HonoRequest as Request, Context as HonoContext, Next as NextFunction } from 'hono';
+
+import { genRouteFactory, getRouteEventName, ObjectLiteral } from './gen-route-factory';
+
+export function honoAdapterFactory<ReqInfo>({
+  routeBus,
+  getReqInfo,
+  getType,
+  getData,
+}: {
+  routeBus: ReturnType<typeof genRouteFactory>['routeBus'];
+  getReqInfo: (req: Request) => ReqInfo | Promise<ReqInfo>;
+  getData: (req: Request) => ObjectLiteral;
+  getType: (reqInfo: ReqInfo, req: Request) => string;
+}) {
+  return async function honoAdapter(c: HonoContext, next: NextFunction): Promise<void | Response> {
+    const { req } = c;
+    const method = req.method.toLowerCase();
+    const reqInfo = await getReqInfo(req);
+    const type = getType(reqInfo, req);
+    const eventName = getRouteEventName({
+      protocol: 'http',
+      type,
+      method,
+      path: req.path,
+    });
+
+    if ((routeBus as ObjectLiteral)._events[eventName]) {
+      const payload = getData(req);
+      return new Promise((resolve, reject) => {
+        routeBus.emit(eventName, reqInfo, c, { payload }, (result: Response) => {
+          try {
+            resolve(result);
+          } catch (e) {
+            reject(e);
+          }
+        });
+      });
+    } else {
+      await next();
+    }
+  };
+}

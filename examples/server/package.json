@@ -33,7 +33,9 @@
     "typeorm-cursor-pagination": "^0.10.1",
     "utf-8-validate": "^6.0.3",
     "ws": "^8.13.0",
-    "zod": "^3.21.4"
+    "zod": "^3.21.4",
+    "hono": "^3.3.4",
+    "@hono/node-server": "^1.1.1"
   },
   "devDependencies": {
     "@configs/test-config": "*",
