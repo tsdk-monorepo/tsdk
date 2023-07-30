@@ -18,16 +18,18 @@ export function honoAdapterFactory<ReqInfo>({
     const method = req.method.toLowerCase();
     const reqInfo = await getReqInfo(req);
     const type = getType(reqInfo, req);
+    const paths = req.path.split(`/${type}/`);
+    paths.shift();
+    const path = `/${paths.join('/')}`;
     const eventName = getRouteEventName({
-      protocol: 'http',
+      protocol: 'hono',
       type,
       method,
-      path: req.path,
+      path,
     });
-
     if ((routeBus as ObjectLiteral)._events[eventName]) {
       const payload = getData(req);
-      return new Promise((resolve, reject) => {
+      const response = await new Promise((resolve, reject) => {
         routeBus.emit(eventName, reqInfo, c, { payload }, (result: Response) => {
           try {
             resolve(result);
@@ -36,8 +38,9 @@ export function honoAdapterFactory<ReqInfo>({
           }
         });
       });
+      return response as Response;
     } else {
-      await next();
+      return next();
     }
   };
 }

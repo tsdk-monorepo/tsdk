@@ -1,5 +1,5 @@
 import { serve } from '@hono/node-server';
-import { Hono } from 'hono';
+import { Hono, HonoRequest } from 'hono';
 import { cors } from 'hono/cors';
 import { honoAdapterFactory } from 'tsdk-server-adapters/lib/hono-adapter';
 
@@ -30,24 +30,25 @@ const port = 3013;
     return c.text('hi, from hono.');
   });
 
-  app.use(
-    '/api/:type',
+  app.all(
+    '/api/:type/*',
     honoAdapterFactory<RequestInfo>({
       routeBus,
-      getReqInfo(req) {
-        return {
+      getReqInfo(req: HonoRequest) {
+        const params = {
           ip: '',
           lang: 'zh-CN',
           type: (req.param() as { type: string }).type,
           token: req.headers.get('authorization'),
         };
+        return params;
       },
       getType(reqInfo) {
         return reqInfo.type;
       },
-      getData(req) {
+      getData(req: HonoRequest) {
         // maybe decode here?(e.g.: decryption)
-        return checkMethodHasBody(req.method) ? req.body : req.query;
+        return checkMethodHasBody(req.method) ? req.body : req.query();
       },
     })
   );

@@ -19,7 +19,7 @@ export function expressAdapterFactory<ReqInfo>({
     const reqInfo = await getReqInfo(req);
     const type = getType(reqInfo, req);
     const eventName = getRouteEventName({
-      protocol: 'http',
+      protocol: 'express',
       type,
       method,
       path: req.path,

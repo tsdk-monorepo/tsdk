@@ -11,9 +11,9 @@ import type { ZodTypeAny } from 'zod';
 
 export const PROTOCOLs = {
   /** express.js */
-  http: 'http',
+  express: 'express',
   /** honojs */
-  honoHttp: 'hono',
+  hono: 'hono',
   'socket.io': 'io',
   /** @deprecated not recommend */
   ws: 'ws',
@@ -61,16 +61,16 @@ function sendFactory(
     callback?: Function;
   }) {
     // default http is express.js
-    if (protocol === 'http') {
+    if (protocol === 'express') {
       const { status, result } = payload;
       (response as Response).status(status || 200).send(result);
-    } else if (protocol === 'honoHttp') {
+    } else if (protocol === 'hono') {
       const { status, result } = payload;
       (response as Context).status(status || 200);
       if (typeof result === 'string') {
         callback?.((response as Context).text(result));
       } else {
-        callback?.((response as Context).json(result));
+        callback?.((response as Context).json(result || {}));
       }
     } else if (protocol === 'socket.io') {
       // for socket.io
@@ -130,7 +130,7 @@ export function genRouteFactory<APIConfig, RequestInfo>(
         }
         const data = apiConfig.schema ? apiConfig.schema.parse(payload) : payload;
         const result = await cb(reqInfo, response, data);
-        send({ result, _id: msgId });
+        send({ result, _id: msgId, callback });
       } catch (e) {
         onErrorHandler(e, {
           protocol,
@@ -159,9 +159,10 @@ export function genRouteFactory<APIConfig, RequestInfo>(
         (
           reqInfo: Readonly<RequestInfo>,
           resOrSocket: ResponseSocket,
-          body: { _id: string; payload: ReqData }
+          body: { _id: string; payload: ReqData },
+          callback?: (result: any) => void
         ) => {
-          onEvent(i as Protocol, reqInfo, resOrSocket, body);
+          onEvent(i as Protocol, reqInfo, resOrSocket, body, callback);
         }
       );
     });
