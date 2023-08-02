@@ -6,7 +6,7 @@
     "start-publish": "npm run build && npm publish --registry=https://registry.npmjs.org",
     "build": "rm -rf lib && tsc --project tsconfig.json",
     "lint": "eslint . --ext .ts,.tsx --fix",
-    "check:types": "tsc --noEmit"
+    "checktype": "tsc --noEmit"
   },
   "dependencies": {
     "tsdk": "*",

@@ -5,7 +5,7 @@
       "cache": false,
       "outputs": []
     },
-    "check:types": {
+    "checktype": {
       "cache": false
     },
     "test": {

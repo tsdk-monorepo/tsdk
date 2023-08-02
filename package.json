@@ -4,7 +4,7 @@
   "packageManager": "pnpm@8.1.0",
   "scripts": {
     "lint": "turbo lint",
-    "check:types": "turbo check:types",
+    "checktype": "turbo checktype",
     "test": "turbo test",
     "build": "turbo build",
     "dev": "turbo dev",

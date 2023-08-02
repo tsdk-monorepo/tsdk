@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint --ext js,ts,tsx .",
-    "check:types": "tsc --noEmit",
+    "checktype": "tsc --noEmit",
     "dev": "expo start",
     "build": "expo export --output-dir ./build --platform all",
     "start": "expo start",
