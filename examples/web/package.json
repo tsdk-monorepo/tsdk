@@ -18,7 +18,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native-web": "^0.19.6",
-    "socket.io-client": "^4.7.1",
+    "socket.io-client": "^4.7.2",
     "axios-enhance-adapter": "^0.1.6",
     "axios": "0.27.2"
   },

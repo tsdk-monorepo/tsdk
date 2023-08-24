@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "tsdk": "*",
-    "fs-extra": "^11.1.0"
+    "fs-extra": "^11.1.1"
   },
   "devDependencies": {
     "@configs/ts-config": "*",

@@ -31,10 +31,10 @@
   },
   "peerDependencies": {
     "express": "^4.18.2",
-    "zod": "^3.21.4",
-    "socket.io": "^4.7.1",
+    "zod": "^3.22.2",
+    "socket.io": "^4.7.2",
     "ws": "^8.13.0",
-    "hono": "^3.3.4"
+    "hono": "^3.5.4"
   },
   "peerDependenciesMeta": {
     "express": {

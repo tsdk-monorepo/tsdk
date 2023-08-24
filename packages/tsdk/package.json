@@ -37,8 +37,8 @@
   ],
   "dependencies": {
     "chalk": "4.1.2",
-    "fast-glob": "^3.2.12",
-    "fs-extra": "^11.1.0"
+    "fast-glob": "^3.3.1",
+    "fs-extra": "^11.1.1"
   },
   "devDependencies": {
     "@configs/test-config": "*",
@@ -46,7 +46,7 @@
     "@configs/ts-config": "*",
     "@types/fs-extra": "^11.0.1",
     "@types/webpack-node-externals": "^3.0.0",
-    "webpack": "^5.88.1",
+    "webpack": "^5.88.2",
     "webpack-node-externals": "^3.0.0"
   },
   "eslintConfig": {
