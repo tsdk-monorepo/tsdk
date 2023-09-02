@@ -1,6 +1,6 @@
 {
   "name": "tsdk-boilerplate",
-  "version": "0.0.20-beta.0",
+  "version": "0.0.20-beta.1",
   "main": "lib/index.js",
   "scripts": {
     "start-publish": "npm run build && npm publish --registry=https://registry.npmjs.org",

@@ -12,8 +12,8 @@
     "change-case": "^4.1.2"
   },
   "devDependencies": {
-    "typescript": "^5.1.6",
-    "kysely": "^0.23.4"
+    "typescript": "^5.2.2",
+    "kysely": "^0.26.3"
   },
   "peerDependencies": {
     "socket.io-client": "^4.7.2"
