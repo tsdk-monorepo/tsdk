@@ -132,3 +132,7 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 ### 0.0.20-beta.2
 
 - typedoc don't support typescript@5.2, fix to 5.1.6
+
+### 0.0.20-beta.3
+
+- Fix tsdk docs build error
