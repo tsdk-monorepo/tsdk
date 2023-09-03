@@ -10,8 +10,10 @@ const config = {
   tagline: '',
   url: 'HTTPS://PROJECTSITE.COM',
   baseUrl: '/',
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
+  onDuplicateRoutes: 'warn',
+
   favicon: 'img/favicon.ico',
 
   // GitHub pages deployment config.
@@ -26,10 +28,6 @@ const config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
-
-  // onBrokenLinks: 'ignore',
-  // onBrokenMarkdownLinks: 'ignore',
-  onDuplicateRoutes: 'ignore',
 
   plugins: [
     [

@@ -140,3 +140,7 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 ### 0.0.20-beta.4
 
 - Fix tsdk docs lint error
+
+### 0.0.20-beta.5
+
+- Fix tsdk docs build error

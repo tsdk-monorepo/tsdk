@@ -130,7 +130,7 @@ export async function syncAPI() {
       })`
     );
   });
-  links.push('- [all reference](/docs/api/modules)');
+  links.push('- [all reference](/docs/api/modules/modules/)');
   const projectName = `%PROJECT NAME%`;
   try {
     let getStartedContent = await fsExtra.readFile(
