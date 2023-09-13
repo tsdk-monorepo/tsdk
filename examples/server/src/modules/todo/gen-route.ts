@@ -12,7 +12,13 @@ function onErrorHandler(
   { protocol, send, msgId }: Parameters<Parameters<typeof genRouteFactory>[0]>[1]
 ) {
   if (e instanceof ZodError) {
-    return send({ _id: msgId, status: 400, msg: e.issues });
+    return send({
+      _id: msgId,
+      status: 400,
+      result: {
+        msg: e.issues,
+      },
+    });
   }
 
   let status = 500,
@@ -27,7 +33,7 @@ function onErrorHandler(
       status = 404;
     }
   }
-  return send({ _id: msgId, status, msg });
+  return send({ _id: msgId, status, result: { msg } });
 }
 
 class AuthError extends Error {

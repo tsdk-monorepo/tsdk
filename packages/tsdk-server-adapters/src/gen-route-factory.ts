@@ -57,7 +57,7 @@ function sendFactory(
     _id: string;
     status?: number;
     result?: unknown;
-    [key: string]: unknown;
+    // [key: string]: unknown;
     callback?: Function;
   }) {
     // default http is express.js
