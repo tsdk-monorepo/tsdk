@@ -145,7 +145,11 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 
 - Fix tsdk docs build error
 
-### 0.0.20-beta.8 2023/9/13
+### 0.0.20-beta.9 2023/9/13
 
 - Feat: onErrorHandler add apiConfig for better debug
 - Fix: tsdk onErrorHandler improve send payload type
+
+### 0.0.20-beta.9 2023/9/28 (Wait publish)
+
+- Fix: `isObject` add FormData check

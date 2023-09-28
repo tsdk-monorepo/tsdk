@@ -21,7 +21,12 @@ export function transformPath(path: string) {
 }
 
 export function isObject<T = any>(data: T) {
-  const result = typeof data === 'object' && !Array.isArray(data) && data !== null;
+  const result =
+    typeof data === 'object' &&
+    !Array.isArray(data) &&
+    data !== null &&
+    !(data instanceof FormData) &&
+    Object.keys(data).length > 0;
   return result;
 }
 

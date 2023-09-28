@@ -22,24 +22,6 @@ export interface APIConfig {
   headers?: { [key: string]: any };
 }
 
-/**
- * remove undefined field or trim string value
- *
- * @param data - the object data
- */
-export const trimAndRemoveUndefined = (data: ObjectLiteral): ObjectLiteral => {
-  const newData: ObjectLiteral = {};
-  Object.keys(data).forEach((k: string) => {
-    const valueType = typeof data[k];
-    if (valueType === 'string') {
-      newData[k] = data[k].trim();
-    } else if (valueType !== 'undefined') {
-      newData[k] = data[k];
-    }
-  });
-  return newData;
-};
-
 export interface ObjectLiteral {
   [key: string]: any;
 }
