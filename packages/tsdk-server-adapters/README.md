@@ -182,7 +182,8 @@ const middlewares = [langMiddleware, authMiddleware, rateLimitMiddleware];
 export const genRouteObj = genRouteFactory<APIConfig, RequestInfo>(
   onErrorHandler,
   ProtocolTypes,
-  middlewares
+  middlewares,
+  ['admin', 'user']
 );
 
 export const routeBus = genRouteObj.routeBus;
