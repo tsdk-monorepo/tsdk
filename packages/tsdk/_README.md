@@ -42,6 +42,7 @@ Share code easy between projects.
 - apiconf 不能有重复命名
 - 需要 snippet 写 apiconf，多加一个 CRUD 比较全的命令生成？
 - entity / apiconf 不能有额外引入，尤其是 entity 需要按推荐格式写
+- sdk 重新打包，如果有删除或更改名字，打包会提示报错
 
 ### 文档规划
 

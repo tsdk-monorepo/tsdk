@@ -150,6 +150,9 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 - Feat: onErrorHandler add apiConfig for better debug
 - Fix: tsdk onErrorHandler improve send payload type
 
-### 0.0.20-beta.9 2023/9/28 (Wait publish)
+### 0.0.20-beta.9 2023/9/28
 
 - Fix: `isObject` add FormData check
+- Build: generate `package.json` add `cross-env NODE_ENV=production` to `scripts`
+- Chore: ignore SDK generate markdown files `docs/api`
+- Feat: api config type `common` support in `tsdk-server-adapters`

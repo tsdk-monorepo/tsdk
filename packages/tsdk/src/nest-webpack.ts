@@ -147,7 +147,7 @@ async function run() {
                     ...pkgContent,
                     name: pkgContent.name + '-' + name,
                     scripts: {
-                      start: 'node ./main',
+                      start: 'cross-env NODE_ENV=production node ./main',
                     },
                   },
                   null,

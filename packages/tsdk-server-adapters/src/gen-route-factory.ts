@@ -98,7 +98,9 @@ export function genRouteFactory<APIConfig, RequestInfo>(
     protocol: Protocol,
     apiConfig: APIConfig & BasicAPIConfig,
     reqInfo: RequestInfo
-  ) => Promise<any>)[]
+  ) => Promise<any>)[],
+  /** API types */
+  types?: string[]
 ) {
   const routeBus = new EventEmitter();
   const routesMap: ObjectLiteral = Object.create(null);
@@ -170,7 +172,27 @@ export function genRouteFactory<APIConfig, RequestInfo>(
 
   return {
     routeBus,
-    genRoute,
+    genRoute: function g<ReqData, ResData>(
+      apiConfig: APIConfig & BasicAPIConfig,
+      cb: (
+        reqInfo: Readonly<RequestInfo>,
+        resOrSocket: ResponseSocket,
+        data: ReqData
+      ) => Promise<ResData>
+    ) {
+      if (apiConfig.type === 'common' || !apiConfig.type) {
+        if (!types || types?.length === 0) {
+          throw new Error(`\`genRouteFactory\` \`types\` param is required`);
+        }
+        types?.forEach((item) => {
+          if (item !== 'common') {
+            genRoute({ ...apiConfig, type: item }, cb);
+          }
+        });
+      } else {
+        genRoute(apiConfig, cb);
+      }
+    },
     getRouteEventName,
   };
 }
