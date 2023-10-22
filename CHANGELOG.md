@@ -156,3 +156,7 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 - Build: generate `package.json` add `cross-env NODE_ENV=production` to `scripts`
 - Chore: ignore SDK generate markdown files `docs/api`
 - Feat: api config type `common` support in `tsdk-server-adapters`
+
+### 0.0.20-beta.10 2023/10/19
+
+- Chore: keep `sync-sdk` script when sync

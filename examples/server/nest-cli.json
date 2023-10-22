@@ -11,8 +11,7 @@
   "projects": {
     "express-todo": {
       "type": "application",
-      "root": "src/modules/express-todo",
-      "sourceRoot": "src/modules/express-todo",
+      "sourceRoot": "src",
       "entryFile": "modules/express-todo/main",
       "nodeExternalsParams": {
         "additionalModuleDirs": ["../../node_modules"]
@@ -20,8 +19,7 @@
     },
     "hono-todo": {
       "type": "application",
-      "root": "src/modules/hono-todo",
-      "sourceRoot": "src/modules/hono-todo",
+      "sourceRoot": "src",
       "entryFile": "modules/hono-todo/main",
       "nodeExternalsParams": {
         "additionalModuleDirs": ["../../node_modules"]

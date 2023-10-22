@@ -129,7 +129,7 @@ async function reconfigPkg() {
   const pkgJSON = JSON.parse(content2);
   pkgJSON.scripts = {
     ...(pkgJSON.scripts || {}),
-    'sync-sdk': 'npx tsdk --sync',
+    'sync-sdk': pkgJSON.scripts?.['sync-sdk'] || 'npx tsdk --sync',
   };
   await fsExtra.writeFile('./package.json', JSON.stringify(pkgJSON, null, 2));
 }

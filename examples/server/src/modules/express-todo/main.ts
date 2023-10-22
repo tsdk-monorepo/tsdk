@@ -62,7 +62,6 @@ const port = 3012;
   io.on('connection', (socket) => {
     const { address, query, headers } = socket.handshake;
     console.log('New connection from ' + address);
-
     console.log(address);
     console.log(query);
     console.log('headers: ');

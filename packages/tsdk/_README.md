@@ -33,9 +33,10 @@ Share code easy between projects.
 - [x] tsdk 脚本 sync 调用改为异步版本(部分暂时不弄)
 - [x] 修复 syncSharedFiles 生成路径错误
 - ~~[ ] tsdk 脚本优化：每步 try catch，错误信息提供~~
-- [ ] `nestjs/cli` 在 example 中使用
-- [ ] `tsdk` 支持 `nestjs/cli` 打包成一个文件
+- [x] `nestjs/cli` 在 example 中使用
+- [x] `tsdk` 支持 `nestjs/cli` 打包成一个文件
 - [ ] 快速启动项目脚手架：typescript + nest-cli + tsdk + tsdk-server-adapters + basic auth + redis rate limit
+- [ ] API 文档生成更适合开发
 
 ### 目前缺点
 
