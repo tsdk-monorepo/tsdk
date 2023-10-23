@@ -1,6 +1,6 @@
-import { APIConfig, InsertResult, ObjectLiteral, transformPath } from '../../../shared/tsdk-helper';
 import { Todo } from '../Todo.entity';
 import { addTodoSchema } from './TodoSchema.shared';
+import { APIConfig, InsertResult, ObjectLiteral, transformPath } from '../../../shared/tsdk-helper';
 
 export const AddTodoConfig: APIConfig = {
   type: 'user',
