@@ -115,48 +115,19 @@ export async function syncAPI() {
   const links: string[] = [];
   types.forEach((apiType) => {
     if (apiType === 'common') return;
-    links.push(`- [${apiType} APIs](/docs/api/modules/${apiType}_api)`);
+    links.push(`- [${apiType} APIs](/modules/${apiType}_api)`);
   });
 
-  const files = await glob(
-    config.sharedDirs.map((i) => path.join(i, '**', `*.ts`).replace(/\\/g, '/'))
-  );
-  files.forEach((i) => {
-    const arr = i.split('/');
-    arr.shift();
-    links.push(
-      `- [${arr.join('/').replace('.ts', '')}](${
-        '/docs/api/modules/' + arr.join('_').replace('.ts', '').replace(/-/g, '_')
-      })`
-    );
-  });
-  links.push('- [all reference](/docs/api/modules)');
   const projectName = `%PROJECT NAME%`;
   try {
     let getStartedContent = await fsExtra.readFile(
-      path.join(__dirname, '..', 'fe-sdk-template', 'website', 'docs', 'get-started.md'),
+      path.join(__dirname, '..', 'fe-sdk-template', 'README.md'),
       'utf-8'
     );
     getStartedContent = getStartedContent
       .replace(new RegExp(projectName, 'g'), config.packageName)
       .replace('%API_REFERENCE%', links.join('\n'));
-    await fsExtra.writeFile(
-      path.join(ensureDir, 'website', 'docs', 'get-started.md'),
-      getStartedContent
-    );
-
-    let docusaurusConfigContent = await fsExtra.readFile(
-      path.join(ensureDir, 'website', 'docusaurus.config.js'),
-      'utf-8'
-    );
-    docusaurusConfigContent = docusaurusConfigContent.replace(
-      new RegExp(projectName, 'g'),
-      config.packageName
-    );
-    await fsExtra.writeFile(
-      path.join(ensureDir, 'website', 'docusaurus.config.js'),
-      docusaurusConfigContent
-    );
+    await fsExtra.writeFile(path.join(ensureDir, 'README.md'), getStartedContent);
     console.log(symbols.success, 'Docs config');
   } catch (e: unknown) {
     if (e instanceof Error) {

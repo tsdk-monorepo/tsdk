@@ -160,3 +160,4 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 ### 0.0.20-beta.10 2023/10/19
 
 - Chore: keep `sync-sdk` script when sync
+- Chore: documentation just use `typedoc`

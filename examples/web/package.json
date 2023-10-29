@@ -6,10 +6,10 @@
   "scripts": {
     "lint": "eslint . --ext .ts,.tsx --fix",
     "checktype": "tsc --noEmit",
-    "dev": "next dev -p 3060",
+    "dev": "next dev -p 3080",
     "build": "next build && next export",
     "serve": "serve out",
-    "start": "next start -p 3060",
+    "start": "next start -p 3080",
     "test": "cross-env NODE_ENV=test vitest run"
   },
   "dependencies": {

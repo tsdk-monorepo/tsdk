@@ -86,22 +86,10 @@ const defaultPackagePrefix = `${defaultPackageScope}:registry`;
 async function reconfigPkg() {
   // rename package name
   const pkgPath = path.resolve(process.cwd(), config.packageDir, packageFolder, 'package.json');
-  const docPkgPath = path.resolve(
-    process.cwd(),
-    config.packageDir,
-    packageFolder,
-    'website',
-    'package.json'
-  );
-  const [content, docContent] = await Promise.all([
-    fsExtra.readFile(pkgPath, 'utf-8'),
-    fsExtra.readFile(docPkgPath, 'utf-8'),
-  ]);
+  const [content] = await Promise.all([fsExtra.readFile(pkgPath, 'utf-8')]);
   const pkgContent = JSON.parse(content);
-  const docPkgContent = JSON.parse(docContent);
 
   pkgContent.name = config.packageName;
-  docPkgContent.name = `${config.packageName}-docs`;
   const scope = config.packageName.split('/')[0];
 
   if (!scope[0].startsWith('@') || scope.length <= 1) {
@@ -118,10 +106,7 @@ async function reconfigPkg() {
     delete pkgContent.publishConfig[defaultPackagePrefix];
   }
 
-  await Promise.all([
-    fsExtra.writeFile(pkgPath, JSON.stringify(pkgContent, null, 2)),
-    fsExtra.writeFile(docPkgPath, JSON.stringify(docPkgContent, null, 2)),
-  ]);
+  await Promise.all([fsExtra.writeFile(pkgPath, JSON.stringify(pkgContent, null, 2))]);
 
   await Promise.all([copyShared(), copySnippet()]);
 

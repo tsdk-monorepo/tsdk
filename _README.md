@@ -74,7 +74,7 @@ You can use yarn or npm with this monorepo as well. If you want to use one of th
 ### Apps
 
 - [`apps/mobile`](./apps/mobile) - Expo app using `eslint-config` and `feature-home` packages. Serve port: 19000 .
-- [`apps/web`](./apps/web) - Next.js app using `eslint-config` and `feature-home` packages. Serve port: 3060 .
+- [`apps/web`](./apps/web) - Next.js app using `eslint-config` and `feature-home` packages. Serve port: 3080 .
 - [`apps/desktop`](./apps/desktop) - Electron + Next.js desktop app using `nextron`, `eslint-config` and `feature-home` packages. Serve port: 3080 .
 
 ### Packages
