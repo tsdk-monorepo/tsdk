@@ -1,6 +1,6 @@
 {
   "name": "tsdk-server-adapters",
-  "version": "0.0.20-beta.9",
+  "version": "0.0.20-beta.13",
   "main": "lib/index.js",
   "scripts": {
     "start-publish": "npm run build && npm publish --registry=https://registry.npmjs.org",
@@ -31,7 +31,7 @@
   },
   "peerDependencies": {
     "express": "^4.18.2",
-    "zod": "^3.22.2",
+    "zod": "^3",
     "socket.io": "^4.7.2",
     "ws": "^8.13.0",
     "hono": "^3.5.4"

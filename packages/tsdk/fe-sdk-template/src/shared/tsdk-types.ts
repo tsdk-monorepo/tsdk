@@ -1,10 +1,18 @@
 import { z } from 'zod';
 
+export const APITypes = {
+  user: 'user',
+  admin: 'admin',
+  common: 'common',
+} as const;
+
+export const APITypesKey = Object.keys(APITypes).filter((item) => item !== APITypes.common);
+
+export type APIType = keyof typeof APITypes;
+
 export interface APIConfig {
-  /** The API type. Like: user side or admin side, default is common. */
-  type: string;
-  /** The API name */
-  name: string;
+  /** The API type. Like: user side or admin side. */
+  type: APIType;
   /** The API path */
   path: string;
   method: 'get' | 'post' | 'delete' | 'put' | 'patch' | 'head' | 'options';

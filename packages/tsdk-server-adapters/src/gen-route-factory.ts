@@ -2,6 +2,7 @@
 import EventEmitter from 'eventemitter3';
 // @ts-ignore
 import type { Response } from 'express';
+// @ts-ignore
 import type { Context } from 'hono';
 // @ts-ignore
 import type { Socket } from 'socket.io';
@@ -109,8 +110,8 @@ export function genRouteFactory<APIConfig, RequestInfo>(
     apiConfig: APIConfig & BasicAPIConfig,
     cb: (
       reqInfo: Readonly<RequestInfo>,
-      resOrSocket: ResponseSocket,
-      data: ReqData
+      data: ReqData,
+      resOrSocket?: ResponseSocket
     ) => Promise<ResData>
   ) {
     async function onEvent(
@@ -131,7 +132,7 @@ export function genRouteFactory<APIConfig, RequestInfo>(
           }, Promise.resolve());
         }
         const data = apiConfig.schema ? apiConfig.schema.parse(payload) : payload;
-        const result = await cb(reqInfo, response, data);
+        const result = await cb(reqInfo, data, response);
         send({ result, _id: msgId, callback });
       } catch (e) {
         onErrorHandler(e, {
@@ -176,8 +177,8 @@ export function genRouteFactory<APIConfig, RequestInfo>(
       apiConfig: APIConfig & BasicAPIConfig,
       cb: (
         reqInfo: Readonly<RequestInfo>,
-        resOrSocket: ResponseSocket,
-        data: ReqData
+        data: ReqData,
+        resOrSocket?: ResponseSocket
       ) => Promise<ResData>
     ) {
       if (apiConfig.type === 'common' || !apiConfig.type) {

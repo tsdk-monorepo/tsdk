@@ -5,12 +5,12 @@ import { Server } from 'socket.io';
 import { expressAdapterFactory } from 'tsdk-server-adapters/lib/express-adapter';
 import { socketIOAdapterFactory } from 'tsdk-server-adapters/lib/socket.io-adapter';
 
-import { checkMethodHasBody, ProtocolTypes } from '/src/shared/tsdk-helper';
-import { initializeDataSources } from '/src/db';
-
 import { setupRoutes } from '../setup-routes';
 import { routeBus } from '../todo/gen-route';
 import { RequestInfo } from '../todo/types';
+
+import { initializeDataSources } from '@/src/db';
+import { checkMethodHasBody, ProtocolTypes } from '@/src/shared/tsdk-helper';
 
 const port = 3012;
 

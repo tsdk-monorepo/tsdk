@@ -2,10 +2,11 @@
   "packageDir": "packages/",
   "packageName": "fe-sdk-demo",
   "baseDir": "./src",
-  "entityLibName": "typeorm",
+  "entityLibName": ["typeorm", "kysely"],
   "entityExt": "entity",
   "apiconfExt": "apiconf",
   "sharedDirs": ["./src/shared", "./src/i18n"],
   "sdkWhiteList": [""],
-  "monorepoRoot": "../../"
+  "monorepoRoot": "../../",
+  "axiosVersion": "1.6.1"
 }

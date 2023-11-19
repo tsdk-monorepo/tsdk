@@ -1,4 +1,4 @@
-import { initializeDataSources } from '/src/db';
+import { initializeDataSources } from '@/src/db';
 
 export async function runLoader() {
   await initializeDataSources();

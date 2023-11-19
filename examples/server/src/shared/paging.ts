@@ -1,6 +1,6 @@
 import * as z from 'zod';
 
-import { PositiveNumberSchema } from './utils';
+import { PositiveNumberSchema } from '@/src/shared/utils';
 
 export const pageSchema = z.object({
   page: PositiveNumberSchema.optional(),

@@ -61,7 +61,7 @@ export const setSocketIOInstance = (instance: Socket): void => {
  * @param instance - socekt.io-client instance
  * @returns The io
  */
-export const getSocketIOInstance = () => {
+export const getSocketIOInstance: () => Socket = () => {
   return socketIOInstance;
 };
 

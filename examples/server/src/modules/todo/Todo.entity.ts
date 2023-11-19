@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-import { CreatedUpdatedAt } from '/src/db/entity/CreatedUpdated.entity';
+import { CreatedUpdatedAt } from '@/src/db/entity/CreatedUpdated.entity';
 
 export enum TodoStatus {
   todo = 'todo',

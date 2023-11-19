@@ -1,4 +1,3 @@
-import glob from 'fast-glob';
 import fsExtra from 'fs-extra';
 import path from 'path';
 
@@ -43,16 +42,17 @@ export async function syncAPI() {
 
     const hasCommon = keys.find((k) => {
       const item = apiconfs[k];
-      return (item.type === 'common' || !item.type) && item.name;
+      return (item.type === 'common' || !item.type) && item.path;
     });
 
     const exportStr = apiType === 'common' || !hasCommon ? `` : `\nexport * from './common-api';\n`;
 
     let hasContentCount = 0;
     keys.forEach((k, idx) => {
-      const { name, description, type: _type, category = 'others' } = apiconfs[k];
+      const { name: _name, path, description, type: _type, category = 'others' } = apiconfs[k];
+      const name = _name || k.replace(/Config$/, '');
       const type = _type === 'common' || !_type ? 'common' : _type;
-      if (type === apiType && name) {
+      if (type === apiType && path) {
         importStr += `
           ${name}Config,
           ${name}Req,

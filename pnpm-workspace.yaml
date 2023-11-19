@@ -7,8 +7,9 @@ packages:
 
   # website
   - 'website'
+  - 'docs'
 
   # examples
   - 'examples/**'
-  # exclude dist projects
+  # exclude projects in dist folder 
   - '!**/dist*/**'

@@ -1,1 +1,1 @@
-import '/src/modules/todo';
+import '@/src/modules/todo';

@@ -1,5 +1,7 @@
 import fsExtra from 'fs-extra';
 import path from 'path';
+// @ts-ignore
+import eval from 'safe-eval';
 
 import symbols from './symbols';
 
@@ -24,12 +26,12 @@ export interface TSDKConfig {
    *  [
       'needAuth',
       'category',
-      'name',
       'description',
       'type',
     ]
    */
   removeFields?: string[];
+  axiosVersion?: string;
 }
 
 export const comment = `
@@ -97,14 +99,8 @@ export const ensureDir = path.join(`${config.packageDir}`, `${packageFolder}`);
 const tsconfigPath = path.join(process.cwd(), 'tsconfig.json');
 export const tsconfigExists = fsExtra.pathExistsSync(tsconfigPath);
 
-try {
-  tsconfigExists && JSON.parse(fsExtra.readFileSync(tsconfigPath, 'utf-8'));
-} catch {
-  console.log('\n', symbols.error, '`tsconfig.json` must be a valid JSON file.', '\n');
-}
-
 export const tsconfig = tsconfigExists
-  ? JSON.parse(fsExtra.readFileSync(tsconfigPath, 'utf-8')).compilerOptions
+  ? eval(`(() => (${fsExtra.readFileSync(tsconfigPath, 'utf-8')}))();`).compilerOptions
   : {};
 
 let deps: { [key: string]: string } = {};

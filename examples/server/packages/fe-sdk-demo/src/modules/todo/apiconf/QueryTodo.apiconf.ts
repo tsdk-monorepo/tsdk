@@ -6,7 +6,7 @@ import { queryTodoSchema } from './TodoSchema.shared';
 export const QueryTodoConfig: APIConfig = {
   path: transformPath('QueryTodo'),
   method: 'get',
-  name: 'QueryTodo',
+  
   description: 'query todo',
   category: 'todo',
   type: 'user',

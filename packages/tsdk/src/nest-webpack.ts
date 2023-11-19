@@ -5,6 +5,8 @@ import ts from 'typescript';
 import webpack from 'webpack';
 import nodeExternals from 'webpack-node-externals';
 
+import { getNpmCommand } from './get-pkg-manager';
+
 const defaultMainName = 'default';
 const distProjects = 'dist-projects';
 
@@ -25,25 +27,24 @@ async function run() {
     names.push(defaultMainName);
   }
 
+  const cwd = process.cwd();
+
   if (command === 'build') {
-    const tsconfig = ts.readConfigFile(
-      path.resolve(process.cwd(), 'tsconfig.json'),
-      ts.sys.readFile
-    ).config;
+    const tsconfig = ts.readConfigFile(path.resolve(cwd, 'tsconfig.json'), ts.sys.readFile).config;
     const outDir = path.normalize(tsconfig.compilerOptions.outDir);
     const include = tsconfig.include || [];
     const sourceMap = tsconfig.compilerOptions.sourceMap;
 
     // remove dist folder before build
     await Promise.all([
-      fsExtra.remove(path.resolve(process.cwd(), distProjects)),
-      fsExtra.remove(path.resolve(process.cwd(), outDir)),
+      fsExtra.remove(path.resolve(cwd, distProjects)),
+      fsExtra.remove(path.resolve(cwd, outDir)),
     ]);
 
     console.log(`\n[${command}]: ${names.join(', ')}`);
 
-    await copyProdPackageJSON(path.resolve(process.cwd(), distProjects), undefined, 'default-root');
-
+    await copyProdPackageJSON(path.resolve(cwd, distProjects), undefined, 'default-root');
+    const npmCMDs = getNpmCommand(cwd);
     await Promise.all(
       names.map((name) => {
         if (!projects[name]) {
@@ -54,14 +55,19 @@ async function run() {
 
         return new Promise((resolve, reject) => {
           setTimeout(async () => {
-            console.log(`\n[${command} ${name}] Run: \`npx nest ${command} ${name}\`\n`);
+            console.log(
+              `\n[${command} ${name}] Run: \`${npmCMDs.runCmd} nest ${command} ${name}\`\n`
+            );
             try {
-              execSync(`npx nest ${command} ${name}`, { stdio: 'inherit' });
+              execSync(`${npmCMDs.runCmd} nest ${command} ${name}`, { stdio: 'inherit' });
               console.log(
-                `[${command} ${name}] Success: \`npx nest ${command} ${name}\` and start webpack build`
+                `[${command} ${name}] Success: \`${npmCMDs.runCmd} nest ${command} ${name}\` and start webpack build`
               );
             } catch (e) {
-              console.log(`[${command} ${name}] Run: \`npx nest ${command} ${name}\` error: `, e);
+              console.log(
+                `[${command} ${name}] Run: \`${npmCMDs.runCmd} nest ${command} ${name}\` error: `,
+                e
+              );
               console.log('\n');
               reject(e);
               return;
@@ -73,7 +79,7 @@ async function run() {
               const output = {
                 ...nestProjectConfig.output,
                 filename: path.basename(nestProjectConfig.entryFile).replace('.ts', '') + '.js',
-                path: path.resolve(process.cwd(), distProjects, `dist-${name}`),
+                path: path.resolve(cwd, distProjects, `dist-${name}`),
               };
 
               if (include.length === 0) {
@@ -84,7 +90,7 @@ async function run() {
               }
 
               let entry = path.resolve(
-                process.cwd(),
+                cwd,
                 outDir,
                 nestProjectConfig.entryFile.replace('.ts', '.js')
               );
@@ -99,15 +105,11 @@ async function run() {
                   entry.indexOf('src') > -1
                     ? path.normalize(
                         path
-                          .resolve(
-                            process.cwd(),
-                            outDir,
-                            nestProjectConfig.entryFile.replace('.ts', '.js')
-                          )
+                          .resolve(cwd, outDir, nestProjectConfig.entryFile.replace('.ts', '.js'))
                           .replace('src', '')
                       )
                     : path.resolve(
-                        process.cwd(),
+                        cwd,
                         outDir,
                         'src',
                         nestProjectConfig.entryFile.replace('.ts', '.js')
@@ -117,7 +119,6 @@ async function run() {
                 );
                 if (tmpEntryExists) {
                   entry = tmpEntry;
-                  console.log(`[${command} ${name}] Try another entry: ${entry}`);
                 } else {
                   throw new Error(`${errorMsg}`);
                 }
@@ -141,7 +142,7 @@ async function run() {
                 )}`
               );
               await copyProdPackageJSON(
-                path.join(process.cwd(), distProjects, `dist-${name}`),
+                path.join(cwd, distProjects, `dist-${name}`),
                 JSON.stringify(
                   {
                     ...pkgContent,
@@ -187,8 +188,9 @@ type NestProjectsConfig = {
 };
 
 async function getNestProjectsConfig() {
+  const cwd = process.cwd();
   const nestjsFilepath = path.resolve(
-    process.cwd(),
+    cwd,
     process.env.MONOREPO_ROOT || './',
     'node_modules/@nestjs/cli/package.json'
   );
@@ -197,7 +199,7 @@ async function getNestProjectsConfig() {
     throw new Error(`install \`@nestjs/cli\` first`);
   }
 
-  const nestConfigFilepath = path.resolve(process.cwd(), './nest-cli.json');
+  const nestConfigFilepath = path.resolve(cwd, './nest-cli.json');
   const exists = await fsExtra.pathExists(nestConfigFilepath);
   if (!exists) {
     // throw new Error(`nest-cli.json doesn't exists: ${nestConfigFilepath}`);

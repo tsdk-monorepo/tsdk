@@ -1,3 +1,4 @@
+import { execSync } from 'child_process';
 import glob = require('fast-glob');
 import fsExtra from 'fs-extra';
 import path from 'path';
@@ -12,6 +13,7 @@ import {
   packageFolder,
 } from './config';
 import { deleteFilesBeforeSync } from './delete-files';
+import { getNpmCommand } from './get-pkg-manager';
 import symbols from './symbols';
 import { transformImportPath } from './transform-import-path';
 
@@ -35,33 +37,38 @@ export async function copyTsdkrc() {
 }
 
 export async function addDepsIfNone() {
-  // check if have `zod` as dependencies
-  // if don't have, add `zod` to dependencies
-  const pkgPath = path.resolve(process.cwd(), 'package.json');
+  const cwd = process.cwd();
+  const pkgPath = path.resolve(cwd, 'package.json');
   const content = await fsExtra.readFile(pkgPath, 'utf8');
   const contentJSON = JSON.parse(content);
+  const npmCMDs = await getNpmCommand(cwd);
+  let needRunInstall = false;
   await Promise.all(
     [
-      ['zod', '^3.19.1'],
+      ['zod', '^3'],
       ['change-case', '^4.1.2'],
     ].map(async ([i, version]) => {
       if (!contentJSON.dependencies[i]) {
         contentJSON.dependencies[i] = version;
         await fsExtra.writeFile(pkgPath, JSON.stringify(contentJSON, null, 2));
+        needRunInstall = true;
         console.log('');
         console.log(
           symbols.warning,
-          `\`tsdk\` depends on \`${i}\` for validate schema, so auto add \`${i}\` as dependencies`
+          `\`tsdk\` depends on \`${i}\`, so automatic add \`${i}\` to dependencies`
         );
         console.log(
           symbols.info,
-          'You can run `npm install` or `yarn` to install new dependencies'
+          `You can run \`${npmCMDs.installCmd}\` to install new dependencies`
         );
         console.log('');
       }
       return 1;
     })
   );
+  if (needRunInstall) {
+    execSync(`${npmCMDs.installCmd}`);
+  }
 }
 
 export async function copySnippet() {
@@ -80,9 +87,6 @@ export async function copyShared() {
   );
 }
 
-const defaultPackageScope = '@SCOPE-NAME';
-const defaultPackagePrefix = `${defaultPackageScope}:registry`;
-
 async function reconfigPkg() {
   // rename package name
   const pkgPath = path.resolve(process.cwd(), config.packageDir, packageFolder, 'package.json');
@@ -90,20 +94,14 @@ async function reconfigPkg() {
   const pkgContent = JSON.parse(content);
 
   pkgContent.name = config.packageName;
-  const scope = config.packageName.split('/')[0];
-
-  if (!scope[0].startsWith('@') || scope.length <= 1) {
-    console.log(symbols.info, `Add scope name in \`.tsdkrc\` \`packageName\` field.`);
-  }
-
-  if (scope === defaultPackageScope) {
-    console.log(symbols.warning, `Update package scope name in \`.tsdkrc\` \`packageName\` field.`);
-  }
-
-  if (pkgContent.publishConfig && pkgContent.publishConfig[defaultPackagePrefix]) {
-    pkgContent.publishConfig[`${scope}:registry`] = pkgContent.publishConfig[defaultPackagePrefix];
-
-    delete pkgContent.publishConfig[defaultPackagePrefix];
+  pkgContent.dependencies.axios = config.axiosVersion;
+  if (
+    (Array.isArray(config.entityLibName)
+      ? config.entityLibName
+      : [config.entityLibName || 'typeorm']
+    )?.find((item) => item === 'kysely')
+  ) {
+    pkgContent.dependencies.kysely = '^0.26.3';
   }
 
   await Promise.all([fsExtra.writeFile(pkgPath, JSON.stringify(pkgContent, null, 2))]);
@@ -114,7 +112,7 @@ async function reconfigPkg() {
   const pkgJSON = JSON.parse(content2);
   pkgJSON.scripts = {
     ...(pkgJSON.scripts || {}),
-    'sync-sdk': pkgJSON.scripts?.['sync-sdk'] || 'npx tsdk --sync',
+    'sync-sdk': pkgJSON.scripts?.['sync-sdk'] || `tsdk --sync`,
   };
   await fsExtra.writeFile('./package.json', JSON.stringify(pkgJSON, null, 2));
 }
@@ -215,9 +213,10 @@ export async function syncAddtionShareFiles() {
 export async function syncSharedFiles() {
   console.log(symbols.bullet, `sync shared files`);
 
-  const files = await glob(
-    config.sharedDirs.map((i) => path.join(i, `**/*.ts`).replace(/\\/g, '/'))
-  );
+  const files = await glob([
+    ...config.sharedDirs.map((i) => path.join(i, `**/*.ts`).replace(/\\/g, '/')),
+    path.join(config.baseDir, `**/*.${config.shareExt || 'shared'}.ts`),
+  ]);
   files.sort();
 
   const indexContentMap: { [key: string]: string } = {};

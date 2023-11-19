@@ -161,3 +161,28 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 
 - Chore: keep `sync-sdk` script when sync
 - Chore: documentation just use `typedoc`
+
+### 0.0.20-beta.11 2023/10/30
+
+- Fix: first time run `tsdk --sync` automatic execute install inside the sdk module
+- Feat: detect `npm` or `pnpm` to adjust the run command
+
+### 0.0.20-beta.12 2023/10/31
+
+- chore: ignore `name` in APIConfig
+- chore: change snippets `/src/*` to `@/src/*`
+- fix: path alias start with `@/` sync-sdk error
+- fix: tsconfig.json is not a valid json
+- fix: `shared-refs.ts` include `*.shared.ts`
+- feat: support custom axios version
+
+### 0.0.20-beta.13 2023/11/15
+
+- Breaking Change(tsdk-server-adapters): change `gen-route` paramters sort `gen-route-factory.ts`
+- Chore: `sync-sdk` script no need `npm run` or `pnpm` as prefix
+
+### 0.0.20-beta.14 2023/11/17
+
+- Chore: refactor types in `fe-sdk-template/shared/tsdk-types`, make more sense
+- Fix: make `removeFields`` in `.tsdkrc` work correctly
+- Chore: fix entry not found error if retry entry file exists 

@@ -1,4 +1,4 @@
-import { registerEntites } from '/src/db/register-entities';
+import { registerEntites } from '@/src/db/register-entities';
 
 import { Todo } from './Todo.entity';
 

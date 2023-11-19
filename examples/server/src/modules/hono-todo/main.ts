@@ -3,12 +3,12 @@ import { Hono, HonoRequest } from 'hono';
 import { cors } from 'hono/cors';
 import { honoAdapterFactory } from 'tsdk-server-adapters/lib/hono-adapter';
 
-import { checkMethodHasBody } from '/src/shared/tsdk-helper';
-import { initializeDataSources } from '/src/db';
-
 import { setupRoutes } from '../setup-routes';
 import { routeBus } from '../todo/gen-route';
 import { RequestInfo } from '../todo/types';
+
+import { initializeDataSources } from '@/src/db';
+import { checkMethodHasBody } from '@/src/shared/tsdk-helper';
 
 const port = 3013;
 

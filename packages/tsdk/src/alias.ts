@@ -63,9 +63,6 @@ export function aliasToRelativePath({
           break;
         }
       }
-      // else if (line.startsWith(".")) {
-      //   resolved = path.join(path.dirname(filePath), line);
-      // }
     }
 
     if (resolved.length < 1) {
@@ -77,11 +74,9 @@ export function aliasToRelativePath({
     const current = path.relative(base, path.dirname(filePath));
 
     const target = path.relative(base, resolved);
-
     const relative = path.relative(current, target).replace(/\\/g, '/');
-
     lines[idx] = line.replace(line, relative);
-    if (lines[idx].indexOf('/') < 0) {
+    if (lines[idx].indexOf('/') < 0 || target.startsWith(current)) {
       lines[idx] = './' + lines[idx];
     }
   }

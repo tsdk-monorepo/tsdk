@@ -2,10 +2,10 @@ import { genRouteFactory, getRouteEventName, Protocol } from 'tsdk-server-adapte
 import { TypeORMError, EntityNotFoundError } from 'typeorm';
 import { ZodError } from 'zod';
 
-import { ProtocolTypes } from '/src/shared/tsdk-helper';
-import { APIConfig } from '/src/shared/tsdk-types';
-
 import { RequestInfo } from './types';
+
+import { ProtocolTypes } from '@/src/shared/tsdk-helper';
+import { APIConfig } from '@/src/shared/tsdk-types';
 
 function onErrorHandler(
   e: Error,

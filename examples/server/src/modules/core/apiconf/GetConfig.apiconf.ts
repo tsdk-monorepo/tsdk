@@ -1,4 +1,4 @@
-import { transformPath, APIConfig } from '/src/shared/tsdk-helper';
+import { transformPath, APIConfig } from '@/src/shared/tsdk-helper';
 
 /**
  * get server configs for client ({@link APIConfig})
@@ -6,7 +6,7 @@ import { transformPath, APIConfig } from '/src/shared/tsdk-helper';
  */
 export const GetConfigsConfig: APIConfig = {
   type: 'common',
-  name: 'GetConfigs',
+  
   method: 'get',
   path: transformPath('GetConfigs'),
   description: 'get server configs for client',

@@ -11,26 +11,26 @@ import { UpdateTodoConfig, UpdateTodoReq, UpdateTodoRes } from './apiconf/Update
 import genRoute from './gen-route';
 
 export function setupTodoRoute() {
-  genRoute<QueryTodoReq, QueryTodoRes>(QueryTodoConfig, async (reqInfo, res, data) => {
+  genRoute<QueryTodoReq, QueryTodoRes>(QueryTodoConfig, async (reqInfo, data) => {
     return todoService.queryTodo(data, reqInfo);
   });
 
   genRoute<QueryTodoByCursorReq, QueryTodoByCursorRes>(
     QueryTodoByCursorConfig,
-    async (reqInfo, res, data) => {
+    async (reqInfo, data) => {
       return todoService.queryTodoByCursor(data, reqInfo);
     }
   );
 
-  genRoute<AddTodoReq, AddTodoRes>(AddTodoConfig, async (reqInfo, res, data) => {
+  genRoute<AddTodoReq, AddTodoRes>(AddTodoConfig, async (reqInfo, data) => {
     return todoService.createTodo(data, reqInfo);
   });
 
-  genRoute<UpdateTodoReq, UpdateTodoRes>(UpdateTodoConfig, async (reqInfo, res, data) => {
+  genRoute<UpdateTodoReq, UpdateTodoRes>(UpdateTodoConfig, async (reqInfo, data) => {
     return todoService.updateTodo(data, reqInfo);
   });
 
-  genRoute<DeleteTodoReq, DeleteTodoRes>(DeleteTodoConfig, async (reqInfo, res, data) => {
+  genRoute<DeleteTodoReq, DeleteTodoRes>(DeleteTodoConfig, async (reqInfo, data) => {
     return todoService.deleteTodo(data, reqInfo);
   });
 }

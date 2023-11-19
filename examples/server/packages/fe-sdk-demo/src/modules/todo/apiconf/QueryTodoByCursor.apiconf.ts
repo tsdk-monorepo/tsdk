@@ -12,7 +12,7 @@ import { queryTodoByCursorSchema } from './TodoSchema.shared';
  */
 export const QueryTodoByCursorConfig: APIConfig = {
   type: 'user',
-  name: 'QueryTodoByCursor',
+  
   method: 'get',
   path: transformPath('QueryTodoByCursor'),
   schema: queryTodoByCursorSchema,

@@ -1,6 +1,6 @@
 {
   "packageDir": "packages/",
-  "packageName": "@SCOPE-NAME/fe-sdk",
+  "packageName": "fe-sdk",
   "baseDir": "./src",
   "entityLibName": ["typeorm", "kysely"],
   "entityExt": "entity",
@@ -8,5 +8,6 @@
   "shareExt": "shared",
   "sharedDirs": ["./src/shared"],
   "sdkWhiteList": [""],
-  "monorepoRoot": "./"
+  "monorepoRoot": "./",
+  "axiosVersion": "0.27.2"
 }

@@ -1,5 +1,6 @@
 import { buildSDK } from './compile-tsdk';
 import { tsconfigExists, parsePkg, pkg } from './config';
+import { getNpmCommand } from './get-pkg-manager';
 import { removeFields } from './remove-fields';
 import { runNestCommand } from './run-nest-command';
 import symbols from './symbols';
@@ -49,14 +50,17 @@ Examples
   } else if (params[0] === '--version') {
     await parsePkg();
     console.log(`${pkg.name}@${pkg.version}`);
-  } else if (params.length > 1) {
-    console.log(symbols.error, 'only one parameter support');
   } else if (!tsconfigExists) {
     console.log('\n', 'Error: >> ', symbols.error, validProjectMsg, '\n');
   } else if (params[0] === `--init`) {
     await copyTsdkrc();
     console.log(symbols.success, '`.tsdkrc` copied!');
-    console.log(symbols.info, 'You can edit and generate the SDK package with `npx tsdk --sync`');
+    console.log(
+      symbols.info,
+      `You can edit and generate the SDK package with \`${
+        getNpmCommand(process.cwd()).npxCmd
+      } tsdk --sync\``
+    );
     await addDepsIfNone();
   } else if (params[0] === `--sync`) {
     await addDepsIfNone();

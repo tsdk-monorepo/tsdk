@@ -17,7 +17,7 @@ import { Server } from 'socket.io';
 import { expressAdapterFactory } from 'tsdk-server-adapters/lib/express-adapter';
 import { socketIOAdapterFactory } from 'tsdk-server-adapters/lib/socket.io-adapter';
 
-import { checkMethodHasBody, ProtocolTypes } from '/src/shared/tsdk-helper';
+import { checkMethodHasBody, ProtocolTypes } from '@/src/shared/tsdk-helper';
 import { routeBus, RequestInfo } from './gen-route';
 
 const port = 3012;
@@ -106,9 +106,8 @@ const port = 3012;
 ```ts
 import { genRouteFactory, getRouteEventName, Protocol } from 'tsdk-server-adapters';
 import { TypeORMError, EntityNotFoundError } from 'typeorm';
-import { ZodError } from 'zod';
-import { ProtocolTypes } from '/src/shared/tsdk-helper';
-import { APIConfig } from '/src/shared/tsdk-types';
+import { ProtocolTypes } from '@/src/shared/tsdk-helper';
+import { APIConfig } from '@/src/shared/tsdk-types';
 
 export interface RequestInfo {
   lang: string;

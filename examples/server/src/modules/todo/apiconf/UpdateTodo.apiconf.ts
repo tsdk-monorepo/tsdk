@@ -7,13 +7,13 @@ import {
   RequireAtLeastOne,
   transformPath,
   UpdateResult,
-} from '/src/shared/tsdk-helper';
+} from '@/src/shared/tsdk-helper';
 
 export const UpdateTodoConfig: APIConfig = {
   type: 'user',
   path: transformPath('UpdateTodo'),
   method: 'post',
-  name: 'UpdateTodo',
+  
   description: 'update todo',
   category: 'todo',
   schema: updateTodoSchema,

@@ -2,8 +2,6 @@ import { z } from 'zod';
 export interface APIConfig {
   /** The API type. Like: user side or admin side, required. */
   type: string;
-  /** The API name */
-  name: string;
   /** The API path */
   path: string;
   method: 'get' | 'post' | 'head' | 'put' | 'delete' | 'options' | 'patch';

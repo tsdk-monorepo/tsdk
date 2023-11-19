@@ -1,13 +1,17 @@
 import { execSync } from 'child_process';
-import glob = require('fast-glob');
-import path from 'path';
 
 import { ensureDir } from './config';
+import { getNpmCommand } from './get-pkg-manager';
 
 export async function buildSDK() {
-  execSync(`cd ${ensureDir} && npm run tsc:build`, { stdio: 'inherit' });
+  const CMDs = getNpmCommand(process.cwd());
+  execSync(`cd ${ensureDir} && ${CMDs.installCmd} && ${CMDs.runCmd} tsc:build`, {
+    stdio: 'inherit',
+  });
 }
 
 export function buildSDKDoc() {
-  execSync(`cd ${ensureDir} && npm run doc:build`, { stdio: 'inherit' });
+  execSync(`cd ${ensureDir} && ${getNpmCommand(process.cwd()).runCmd} doc:build`, {
+    stdio: 'inherit',
+  });
 }
