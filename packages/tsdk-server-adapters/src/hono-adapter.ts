@@ -10,7 +10,7 @@ export function honoAdapterFactory<ReqInfo>({
 }: {
   routeBus: ReturnType<typeof genRouteFactory>['routeBus'];
   getReqInfo: (req: Request) => ReqInfo | Promise<ReqInfo>;
-  getData: (req: Request) => ObjectLiteral;
+  getData: (req: Request) => ObjectLiteral | Promise<ObjectLiteral>;
   getType: (reqInfo: ReqInfo, req: Request) => string;
 }) {
   return async function honoAdapter(c: HonoContext, next: NextFunction): Promise<void | Response> {
@@ -28,7 +28,7 @@ export function honoAdapterFactory<ReqInfo>({
       path,
     });
     if ((routeBus as ObjectLiteral)._events[eventName]) {
-      const payload = getData(req);
+      const payload = await getData(req);
       const response = await new Promise((resolve, reject) => {
         routeBus.emit(eventName, reqInfo, c, { payload }, (result: Response) => {
           try {

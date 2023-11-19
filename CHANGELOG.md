@@ -186,3 +186,4 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 - Chore: refactor types in `fe-sdk-template/shared/tsdk-types`, make more sense
 - Fix: make `removeFields`` in `.tsdkrc` work correctly
 - Chore: fix entry not found error if retry entry file exists 
+- Fix: getData in adapters support async

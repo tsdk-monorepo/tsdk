@@ -28,13 +28,13 @@ export function socketIOAdapterFactory<ReqInfo>({
   routeBus: ReturnType<typeof genRouteFactory>['routeBus'];
   getReqInfo: (socket: Socket) => ReqInfo | Promise<ReqInfo>;
   getType: (reqInfo: ReqInfo, socket: Socket) => string;
-  getData?: (req: ObjectLiteral) => ObjectLiteral;
+  getData?: (req: ObjectLiteral) => ObjectLiteral | Promise<ObjectLiteral>;
   protocolType: ProtocolType;
 }) {
   return async function socketIOAdapter(socket: Socket) {
     const reqInfo = await getReqInfo(socket);
 
-    const onRequest = (data: { _id: string; payload: any }) => {
+    const onRequest = async (data: { _id: string; payload: any }) => {
       if (!socket.connected) return;
 
       if (data && data._id) {
@@ -45,7 +45,7 @@ export function socketIOAdapterFactory<ReqInfo>({
         const eventName = getRouteEventName({ protocol: 'socket.io', type, method, path });
 
         if ((routeBus as ObjectLiteral)._events[eventName]) {
-          routeBus.emit(eventName, reqInfo, socket, getData ? getData(data) : data);
+          routeBus.emit(eventName, reqInfo, socket, getData ? await getData(data) : data);
         }
       }
     };

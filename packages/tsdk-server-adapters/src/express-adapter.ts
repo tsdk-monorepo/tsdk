@@ -11,7 +11,7 @@ export function expressAdapterFactory<ReqInfo>({
 }: {
   routeBus: ReturnType<typeof genRouteFactory>['routeBus'];
   getReqInfo: (req: Request) => ReqInfo | Promise<ReqInfo>;
-  getData: (req: Request) => ObjectLiteral;
+  getData: (req: Request) => ObjectLiteral | Promise<ObjectLiteral>;
   getType: (reqInfo: ReqInfo, req: Request) => string;
 }) {
   return async function expressAdapter(req: Request, res: Response, next: NextFunction) {
@@ -26,7 +26,7 @@ export function expressAdapterFactory<ReqInfo>({
     });
 
     if ((routeBus as ObjectLiteral)._events[eventName]) {
-      const payload = getData(req);
+      const payload = await getData(req);
       routeBus.emit(eventName, reqInfo, res, { payload });
     } else {
       next();
