@@ -6,7 +6,8 @@
       "method": "post",
       "description": "add todo",
       "category": "todo",
-      "schema": {}
+      "schema": {},
+      "name": "AddTodo"
     },
     {
       "type": "user",
@@ -14,14 +15,16 @@
       "method": "post",
       "description": "delete todo",
       "category": "todo",
-      "schema": {}
+      "schema": {},
+      "name": "DeleteTodo"
     },
     {
       "type": "user",
       "method": "get",
       "path": "/query-todo-by-cursor",
       "schema": {},
-      "description": "query todo list by cursor"
+      "description": "query todo list by cursor",
+      "name": "QueryTodoByCursor"
     },
     {
       "path": "/query-todo",
@@ -29,7 +32,8 @@
       "description": "query todo",
       "category": "todo",
       "type": "user",
-      "schema": {}
+      "schema": {},
+      "name": "QueryTodo"
     },
     {
       "type": "user",
@@ -37,7 +41,8 @@
       "method": "post",
       "description": "update todo",
       "category": "todo",
-      "schema": {}
+      "schema": {},
+      "name": "UpdateTodo"
     }
   ],
   "common": [
@@ -46,7 +51,8 @@
       "method": "get",
       "path": "/get-configs",
       "description": "get server configs for client",
-      "category": "core"
+      "category": "core",
+      "name": "GetConfigs"
     }
   ]
 }

@@ -43,7 +43,7 @@ const port = 3012;
     '/api/:type',
     expressAdapterFactory<RequestInfo>({
       routeBus,
-      getReqInfo(req) {
+      async getReqInfo(req) {
         return {
           type: req.params.type,
           lang: 'zh-CN', // req.lang?
@@ -53,7 +53,7 @@ const port = 3012;
       getType(reqInfo) {
         return reqInfo.type;
       },
-      getData(req) {
+      async getData(req) {
         // maybe decode here?(e.g.: decryption)
         const data = checkMethodHasBody(req.method) ? req.body : req.query;
         return data;
@@ -77,13 +77,13 @@ const port = 3012;
 
     socketIOAdapterFactory<RequestInfo>({
       routeBus,
-      getReqInfo() {
+      async getReqInfo() {
         return reqInfo;
       },
       getType(reqInfo) {
         return reqInfo.type;
       },
-      getData(data) {
+      async getData(data) {
         // maybe decode here?(e.g.: decryption)
         return data;
       },

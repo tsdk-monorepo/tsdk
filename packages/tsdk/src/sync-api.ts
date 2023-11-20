@@ -96,6 +96,7 @@ export async function syncAPI() {
 
   keys.forEach((k) => {
     const item = apiconfs[k];
+    item.name = item.name || k.replace(/Config$/, '');
     if (!exportPermissions[item.type]) {
       exportPermissions[item.type] = [];
     }

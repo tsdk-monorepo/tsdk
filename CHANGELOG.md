@@ -187,3 +187,4 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 - Fix: make `removeFields`` in `.tsdkrc` work correctly
 - Chore: fix entry not found error if retry entry file exists 
 - Fix: getData in adapters support async
+- Fix: generate `permissions.json` add missing `name` field
