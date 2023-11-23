@@ -1,11 +1,15 @@
 import fsExtra from 'fs-extra';
 import path from 'path';
 
-import { config, ensureDir } from './config';
+import { config, ensureDir, packageFolder } from './config';
 import { formatTS } from './format';
 import symbols from './symbols';
 
 const baseDir = path.join(path.relative(path.dirname(__filename), process.cwd()), ensureDir);
+
+export function deleteSDKFolder() {
+  return fsExtra.remove(path.resolve(process.cwd(), config.packageDir, packageFolder));
+}
 
 export async function syncAPI() {
   console.log(symbols.bullet, 'generating APIs');
@@ -25,6 +29,8 @@ export async function syncAPI() {
   types.sort();
 
   types.forEach((apiType) => {
+    const isSWR = config.dataHookLib === 'SWR';
+    const isReactQuery = config.dataHookLib === 'ReactQuery';
     const headStr = `
       /** 
        * 
@@ -34,6 +40,27 @@ export async function syncAPI() {
        **/
 
       import genApi from './gen-api';
+      ${
+        !isSWR
+          ? ''
+          : `import useSWR, { SWRConfiguration } from "swr";
+        import useSWRMutation, { SWRMutationConfiguration } from "swr/mutation";
+        import { AxiosRequestConfig } from "axios";
+      `
+      }
+      ${
+        !isReactQuery
+          ? ''
+          : `import {
+        useQuery,
+        useMutation,
+        QueryClient,
+        UndefinedInitialDataOptions,
+        UseMutationOptions,
+      } from "@tanstack/react-query";
+      import { AxiosRequestConfig } from "axios";
+      `
+      }
 `;
 
     let importStr = ``;
@@ -49,9 +76,17 @@ export async function syncAPI() {
 
     let hasContentCount = 0;
     keys.forEach((k, idx) => {
-      const { name: _name, path, description, type: _type, category = 'others' } = apiconfs[k];
+      const {
+        name: _name,
+        path,
+        description,
+        method,
+        type: _type,
+        category = 'others',
+      } = apiconfs[k];
       const name = _name || k.replace(/Config$/, '');
       const type = _type === 'common' || !_type ? 'common' : _type;
+      const isGET = method?.toLowerCase() === 'get' || !method;
       if (type === apiType && path) {
         importStr += `
           ${name}Config,
@@ -65,6 +100,94 @@ export async function syncAPI() {
            * @category ${category}
            */
           export const ${name} = genApi<${name}Req, ${name}Res>(${name}Config);
+
+          ${
+            !isSWR
+              ? ''
+              : isGET
+              ? `
+          
+export function use${name}(
+  payload: ${name}Req,
+  options?: SWRConfiguration<${name}Res>,
+  requestConfig?: AxiosRequestConfig<${name}Req>,
+  needTrim?: boolean
+) {
+  return useSWR(
+    { url: ${name}.config.path, arg: payload },
+    ({ arg }) => {
+      return ${name}(arg, requestConfig, needTrim);
+    },
+    options
+  );
+}
+          `
+              : `
+              export function use${name}(
+                options?: SWRMutationConfiguration<
+                  ${name}Res,
+                  { arg: ${name}Req },
+                  string
+                >,
+                requestConfig?: AxiosRequestConfig<${name}Req>,
+                needTrim?: boolean
+              ) {
+                return useSWRMutation(
+                  ${name}.config.path,
+                  (url, { arg }: { arg: ${name}Req }) => {
+                    return ${name}(arg, requestConfig, needTrim);
+                  },
+                  options
+                );
+              }`
+          }
+          ${
+            !isReactQuery
+              ? ''
+              : isGET
+              ? `
+          export function use${name}(
+            payload: ${name}Req,
+            options?: UndefinedInitialDataOptions<${name}Res, Error>,
+            queryClient?: QueryClient,
+            requestConfig?: AxiosRequestConfig<${name}Req>,
+            needTrim?: boolean
+          ) {
+            return useQuery(
+              {
+                ...(options || {}),
+                queryKey: [${name}.config.path, payload],
+                queryFn() {
+                  return ${name}(payload, requestConfig, needTrim);
+                },
+              },
+              queryClient
+            );
+          }`
+              : `
+              export function use${name}(
+                options?: UseMutationOptions<
+                  ${name}Res,
+                  Error,
+                  ${name}Req,
+                  unknown
+                >,
+                queryClient?: QueryClient,
+                requestConfig?: AxiosRequestConfig<${name}Req>,
+                needTrim?: boolean
+              ) {
+                return useMutation(
+                  {
+                    ...(options || {}),
+                    mutationFn(payload) {
+                      return ${name}(payload, requestConfig, needTrim);
+                    },
+                  },
+                  queryClient
+                );
+              }
+              `
+          }
         `;
         hasContentCount++;
       }

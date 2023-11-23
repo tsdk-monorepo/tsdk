@@ -103,6 +103,11 @@ async function reconfigPkg() {
   ) {
     pkgContent.dependencies.kysely = '^0.26.3';
   }
+  if (config.dataHookLib === 'SWR') {
+    pkgContent.dependencies.swr = '^2.2.4';
+  } else if (config.dataHookLib === 'ReactQuery') {
+    pkgContent.dependencies['@tanstack/react-query'] = '^5.8.4';
+  }
 
   await Promise.all([fsExtra.writeFile(pkgPath, JSON.stringify(pkgContent, null, 2))]);
 

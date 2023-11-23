@@ -8,5 +8,6 @@
   "sharedDirs": ["./src/shared", "./src/i18n"],
   "sdkWhiteList": [""],
   "monorepoRoot": "../../",
-  "axiosVersion": "1.6.1"
+  "axiosVersion": "1.6.1",
+  "dataHookLib": "SWR"
 }

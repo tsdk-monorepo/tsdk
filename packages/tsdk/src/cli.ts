@@ -4,7 +4,7 @@ import { getNpmCommand } from './get-pkg-manager';
 import { removeFields } from './remove-fields';
 import { runNestCommand } from './run-nest-command';
 import symbols from './symbols';
-import { copyPermissionsJSON, syncAPI } from './sync-api';
+import { copyPermissionsJSON, deleteSDKFolder, syncAPI } from './sync-api';
 import { addDepsIfNone, copyTsdkrc, syncFiles } from './sync-files';
 
 export async function run() {
@@ -63,6 +63,7 @@ Examples
     );
     await addDepsIfNone();
   } else if (params[0] === `--sync`) {
+    await deleteSDKFolder();
     await addDepsIfNone();
     const noOverwrite = params[1] === `--no-overwrite`;
     await syncFiles(noOverwrite);

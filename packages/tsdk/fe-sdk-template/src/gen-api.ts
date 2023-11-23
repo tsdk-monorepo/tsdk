@@ -46,6 +46,7 @@ export default function genAPICall<ReqPayload, ResData>(
   (
     data: ReqPayload,
     requestConfig?: RequestConfig<ReqPayload> | ObjectLiteral,
+    /** remove fields with undefined */
     needTrim?: boolean
   ): Promise<ResData>;
   config: APIConfig;
@@ -53,6 +54,7 @@ export default function genAPICall<ReqPayload, ResData>(
   function APICall(
     data: ReqPayload,
     requestConfig?: RequestConfig<ReqPayload> | ObjectLiteral,
+    /** remove fields with undefined */
     needTrim = true
   ): Promise<ResData> {
     return getHandler()(apiConfig, data, requestConfig, needTrim);

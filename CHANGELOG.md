@@ -188,3 +188,5 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 - Chore: fix entry not found error if retry entry file exists 
 - Fix: getData in adapters support async
 - Fix: generate `permissions.json` add missing `name` field
+- Feat: add `dataHookLib` field in `.tsdkrc`, support generate `SWR` or `React Query` hooks
+- Breaking Change: delete sdk folder when run sync command

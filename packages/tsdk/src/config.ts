@@ -32,6 +32,7 @@ export interface TSDKConfig {
    */
   removeFields?: string[];
   axiosVersion?: string;
+  dataHookLib?: 'SWR' | 'ReactQuery';
 }
 
 export const comment = `
