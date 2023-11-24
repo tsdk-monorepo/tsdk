@@ -1,10 +1,9 @@
-import { Paging, PagingRes } from '../../../shared/paging';
 import { z } from 'zod';
+
+import { Paging, PagingRes } from '../../../shared/paging';
 import { APIConfig, ObjectLiteral, transformPath } from '../../../shared/tsdk-helper';
 import { Todo } from '../Todo.entity';
 import { queryTodoByCursorSchema } from './TodoSchema.shared';
-
-
 
 /**
  * query todo list by cursor ({@link APIConfig})
@@ -12,7 +11,7 @@ import { queryTodoByCursorSchema } from './TodoSchema.shared';
  */
 export const QueryTodoByCursorConfig: APIConfig = {
   type: 'user',
-  
+
   method: 'get',
   path: transformPath('QueryTodoByCursor'),
   schema: queryTodoByCursorSchema,

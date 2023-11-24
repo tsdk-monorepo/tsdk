@@ -1,7 +1,7 @@
 import { paramCase } from 'change-case';
+
 import { ObjectLiteral } from './tsdk-types';
 export * from './tsdk-types';
-
 
 export const hasBodyMethods: { [key: string]: boolean | undefined } = {
   post: true,

@@ -1,0 +1,12 @@
+{
+  "tsdkrc": ".tsdkrc 配置说明",
+  "apiconf": "APIConfig 说明",
+  "tsdk-snippets": "代码片段 Snippets",
+  "tsdk-server-adapters": "适配器 Adapters",
+  "share-code": "代码共享",
+  "doc": "文档生成",
+  "nest-cli": "nest-cli",
+  "build": "打包成单一文件",
+  "swr": "SWR",
+  "react-query": "React Query"
+}

@@ -1,5 +1,5 @@
 import cors from 'cors';
-import express from 'express';
+import express, { Request } from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
 import { expressAdapterFactory } from 'tsdk-server-adapters/lib/express-adapter';
@@ -39,9 +39,9 @@ const port = 3012;
     '/api/:type',
     expressAdapterFactory<RequestInfo>({
       routeBus,
-      getReqInfo(req) {
+      async getReqInfo(req: Request) {
         return {
-          ip: req.ip,
+          ip: req.ip as string,
           lang: 'zh-CN',
           type: req.params.type,
           token: req.headers.authorization,
@@ -50,7 +50,7 @@ const port = 3012;
       getType(reqInfo) {
         return reqInfo.type;
       },
-      getData(req) {
+      async getData(req) {
         // maybe decode here?(e.g.: decryption)
         return checkMethodHasBody(req.method) ? req.body : req.query;
       },

@@ -1,10 +1,9 @@
 import * as z from 'zod';
 
-import { IDSchema } from '@/src/shared/utils';
-
 import { TodoStatus } from '../Todo.entity';
 
 import { pageSchema } from '@/src/shared/paging';
+import { IDSchema } from '@/src/shared/utils';
 
 export const TodoSchema = z.object({
   id: IDSchema,

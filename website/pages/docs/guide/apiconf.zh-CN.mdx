@@ -1,0 +1,48 @@
+`APIConfig` 定义了 tsdk 的 API 基本配置规范，内容如下：
+
+```ts filename="src/shared/tsdk-types.ts" copy
+import { z } from 'zod';
+
+export const APITypes = {
+  user: 'user',
+  admin: 'admin',
+  common: 'common',
+} as const;
+
+export const APITypesKey = Object.keys(APITypes).filter((item) => item !== APITypes.common);
+
+export type APIType = keyof typeof APITypes;
+
+export interface APIConfig {
+  /** The API type. Like: user side or admin side. */
+  type: APIType;
+  /** The API path */
+  path: string;
+  method: 'get' | 'post' | 'delete' | 'put' | 'patch' | 'head' | 'options';
+  /** Request data validate scheme */
+  schema?: z.ZodTypeAny;
+  /** The API need auth? Default is false */
+  needAuth?: boolean;
+  /** The API disabled? Default is false */
+  disabled?: boolean;
+  /** The API description */
+  description: string;
+  /** The API category */
+  category?: string;
+
+  /** custom headers for client */
+  headers?: { [key: string]: any };
+}
+```
+
+## 字段说明
+
+- `type` - API 类型
+- `path` - API 路径
+- `method` - HTTP 请求方法
+- `description` - API 备注
+- `category` - 可选，API 模块分类
+- `schema` - 可选，运行时类型校验表达式，使用 **zod**
+- `needAuth` - 可选，是否需要登录才能访问
+- `disabled` - 可选，是否禁止 API
+- `headers` - 可选，自定义 headers

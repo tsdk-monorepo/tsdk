@@ -1,6 +1,3 @@
-
-
-
 export class CreatedAt {
   /** createdAt */
   createdAt: Date;

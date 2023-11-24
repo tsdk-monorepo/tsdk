@@ -13,7 +13,7 @@ export const UpdateTodoConfig: APIConfig = {
   type: 'user',
   path: transformPath('UpdateTodo'),
   method: 'post',
-  
+
   description: 'update todo',
   category: 'todo',
   schema: updateTodoSchema,

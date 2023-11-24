@@ -1,0 +1,8 @@
+{
+  "code": "代码仓库",
+  "setup": "TypeScript 环境设置",
+  "hello-world-api": "Hello World API 编写",
+  "hello-world-app": "Hello World API 调用",
+  "swr": "使用 SWR",
+  "react-query": "使用 React Query"
+}

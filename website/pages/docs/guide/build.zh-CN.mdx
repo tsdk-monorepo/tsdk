@@ -1,0 +1,70 @@
+import { Tabs, Callout } from 'nextra/components';
+
+tsdk 支持 **nest-cli** 打包成单一文件，以及对多个模块分别进行打包。
+
+<Callout emoji="">
+  示例仓库 GitHub: [nest-cli-example](https://github.com/tsdk-monorepo/nest-cli-example)
+</Callout>
+
+### 打包默认的项目入口
+
+<Tabs defaultIndex="1" items={['npm', 'pnpm']}>
+  <Tabs.Tab value="npm">
+
+```zsh
+npx tsdk --nest build
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab value="pnpm">
+
+```zsh
+pnpm tsdk --nest build
+```
+
+  </Tabs.Tab>
+</Tabs>
+
+### 打包在 `nest-cli.json` 的所有项目
+
+<Tabs defaultIndex="1" items={['npm', 'pnpm']}>
+  <Tabs.Tab value="npm">
+
+```zsh
+npx tsdk --nest build all
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab value="pnpm">
+
+```zsh
+pnpm tsdk --nest build all
+```
+
+  </Tabs.Tab>
+</Tabs>
+
+### 打包在 `nest-cli.json` 的选定项目
+
+<Tabs defaultIndex="1" items={['npm', 'pnpm']}>
+  <Tabs.Tab value="npm">
+
+```zsh
+npx tsdk --nest build nameA nameB nameC
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab value="pnpm">
+
+```zsh
+pnpm tsdk --nest build nameA nameB nameC
+```
+
+  </Tabs.Tab>
+</Tabs>
+
+### 代码
+
+<Callout emoji="">
+  示例仓库 GitHub: [nest-cli-example](https://github.com/tsdk-monorepo/nest-cli-example)
+</Callout>

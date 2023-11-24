@@ -1,0 +1,176 @@
+import { Tabs } from 'nextra/components';
+import { FileTree } from 'nextra/components';
+
+## 创建 TypeScript 项目
+
+执行以下命令，创建一个基础的 TypeScript 项目
+
+```sh copy
+mkdir -p tsdk-starter/src
+cd tsdk-starter
+```
+
+<Tabs defaultIndex="1" items={['npm', 'pnpm']}>
+  <Tabs.Tab value="npm">
+
+创建 package.json：
+
+```sh copy
+npm init -y
+```
+
+添加依赖：
+
+```sh copy
+npm i express socket.io tsdk-server-adapters --save
+```
+
+```sh copy
+npm i typescript @types/node @types/express tsdk @nestjs/cli --save-dev
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab value="pnpm">
+
+创建 package.json：
+
+```sh copy
+pnpm init
+```
+
+添加依赖：
+
+```sh copy
+pnpm add express socket.io tsdk-server-adapters
+```
+
+```sh copy
+pnpm add typescript @types/node @types/express tsdk @nestjs/cli -D
+```
+
+设置 pnpm monorepo：
+
+```sh copy
+pnpmConfig='
+packages:
+
+  - ./**
+
+  # exclude projects in dist folder
+  - "!**/dist*/**"
+  # exclude .next projects
+  - "!**/.next/**"
+'
+echo $pnpmConfig > pnpm-workspace.yaml
+```
+
+  </Tabs.Tab>
+</Tabs>
+
+创建 **tsconfig.json**：
+
+```sh copy
+config='{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": false,
+    "removeComments": true,
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "strictNullChecks": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "baseUrl": "./",
+    "outDir": "./build",
+    "paths": {
+      "@/*": ["./*"]
+    },
+    "incremental": true,
+    "skipLibCheck": true
+  },
+  "exclude": ["./next-app"]
+}'
+echo $config > tsconfig.json
+```
+
+### 生成配置
+
+执行以下命令生成配置文件 `.trdkrc`（[.tsdkrc 说明](/docs/guide/tsdkrc)）：
+
+<Tabs defaultIndex="1" items={['npm', 'pnpm']}>
+  <Tabs.Tab value="npm">
+
+```sh copy
+npx tsdk --init
+```
+
+再次执行安装依赖：
+
+```sh copy
+npm i
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab value="pnpm">
+
+```sh copy
+pnpm tsdk --init
+```
+
+再次执行安装依赖：
+
+```sh copy
+pnpm i
+```
+
+  </Tabs.Tab>
+</Tabs>
+
+### 导出模块
+
+执行下面同步代码命令会创建相关文件：
+
+<Tabs defaultIndex="1" items={['npm', 'pnpm']}>
+  <Tabs.Tab value="npm">
+
+```sh copy
+npx tsdk --sync
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab value="pnpm">
+
+```sh copy
+pnpm tsdk --sync
+```
+
+  </Tabs.Tab>
+</Tabs>
+
+<FileTree>
+  <FileTree.File name=".tsdkrc" />
+  <FileTree.Folder name=".vscode" defaultOpen>
+    <FileTree.File name="tsdk.code-snippets" />
+  </FileTree.Folder>
+  <FileTree.Folder name="src" defaultOpen>
+    <FileTree.Folder name="shared" defaultOpen>
+      <FileTree.File name="tsdk-helper.ts" />
+      <FileTree.File name="tsdk-types.ts" />
+    </FileTree.Folder>
+  </FileTree.Folder>
+  <FileTree.Folder name="packages" defaultOpen>
+    <FileTree.Folder name="fe-sdk">
+      <FileTree.File name="package.json" />
+      <FileTree.File name="..." />
+    </FileTree.Folder>
+  </FileTree.Folder>
+</FileTree>
+
+创建的相关文件说明：
+
+- `.tsdkrc` - tsdk 配置文件 [说明](../guide/tsdkrc)
+- `.vscode/tsdk.code-snippets` - 代码片段 [说明](../guide/tsdk-snippets)
+- `./src/shared` - 共享文件夹
+- `./packages/fe-sdk` - 导出的共享模块

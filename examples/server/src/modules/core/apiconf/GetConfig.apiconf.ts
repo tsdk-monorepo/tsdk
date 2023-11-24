@@ -6,7 +6,7 @@ import { transformPath, APIConfig } from '@/src/shared/tsdk-helper';
  */
 export const GetConfigsConfig: APIConfig = {
   type: 'common',
-  
+
   method: 'get',
   path: transformPath('GetConfigs'),
   description: 'get server configs for client',

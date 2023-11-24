@@ -1,0 +1,65 @@
+import { Callout } from 'nextra/components';
+
+# Hono Adapter 适配器使用
+
+Hono 适配器使用分别包扩后端使用和前端使用。
+
+## 后端使用
+
+```ts copy
+import { Hono, HonoRequest } from 'hono';
+import http from 'http';
+import { honoAdapterFactory } from 'tsdk-server-adapters/lib/hono-adapter';
+import { checkMethodHasBody, ProtocolTypes } from '@/src/shared/tsdk-helper';
+import { RequestInfo, routeBus } from './gen-route';
+
+const port = 3000;
+
+const app = new Hono();
+const server = http.createServer(app);
+
+app.get('/', (c) => {
+  return c.text('hi, from hono.');
+});
+
+app.all(
+  '/api/:type/*',
+  honoAdapterFactory<RequestInfo>({
+    routeBus,
+    async getReqInfo(req: HonoRequest) {
+      return {
+        ip: '',
+        lang: 'zh-CN',
+        type: (req.param() as { type: string }).type,
+        token: req.headers.get('authorization'),
+      };
+    },
+    getType(reqInfo) {
+      return reqInfo.type;
+    },
+    async getData(req) {
+      return checkMethodHasBody(req.method) ? req.body : req.query();
+    },
+  })
+);
+
+serve({
+  fetch: app.fetch,
+  port,
+});
+```
+
+## 前端使用
+
+<Callout>
+Hono 与 Express 都是 http 协议的 web 框架，所以使用方式一致。
+</Callout>
+
+```ts
+import axios from 'axios';
+import { setHandler, setAxiosInstance, axiosHandler } from 'fe-sdk';
+
+const axiosInstance = axios.create({ baseURL: `/api/user` });
+setAxiosInstance(axiosInstance);
+setHandler(axiosHandler);
+```

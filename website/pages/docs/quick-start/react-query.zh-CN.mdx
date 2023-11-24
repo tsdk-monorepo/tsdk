@@ -1,0 +1,119 @@
+import { Callout } from 'nextra/components';
+
+<Callout>tsdk 目前已内置支持 React Query [教程](../guide/react-query)</Callout>
+
+## 使用 React Query
+
+**React Query** 类似 _SWR_，也是一个针对数据获取的 React 钩子，两者非常类似，但是也有一些不同。
+
+文档参考：https://tanstack.com/query/latest/docs/react/overview
+
+### 添加依赖
+
+添加 `@tanstack/react-query` 依赖到 **next-app/package.json**:
+
+```json {13}
+{
+  "name": "next-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    ...
+    "@tanstack/react-query": "^5.8.4"
+  },
+  ...
+}
+```
+
+<Callout>记得 `pnpm install`</Callout>
+
+### 定义钩子（Hook）
+
+创建两种类型的钩子，一种是获取，另一种更新类型：
+
+```ts copy filename="next-app/app/react-query/hooks.ts"
+import {
+  useQuery,
+  useMutation,
+  QueryClient,
+  UndefinedInitialDataOptions,
+  UseMutationOptions,
+} from '@tanstack/react-query';
+import { GetHello, GetHelloReq, GetHelloRes, UpdateHello, UpdateHelloRes } from '@/lib/user-api';
+
+export function useGetHello(
+  payload: GetHelloReq,
+  options?: UndefinedInitialDataOptions<GetHelloRes, Error>,
+  queryClient?: QueryClient
+) {
+  return useQuery(
+    {
+      ...(options || {}),
+      queryKey: [GetHello.config.path, payload],
+      queryFn() {
+        return GetHello(payload);
+      },
+    },
+    queryClient
+  );
+}
+
+export function useUpdateHello(
+  options?: UseMutationOptions<UpdateHelloRes, Error, UpdateHelloReq, unknown>,
+  queryClient?: QueryClient
+) {
+  return useMutation(
+    {
+      ...(options || {}),
+      mutationFn: UpdateHello,
+    },
+    queryClient
+  );
+}
+```
+
+### 使用
+
+```tsx copy filename="next-app/app/react-query/page.tsx"
+'use client';
+
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useGetHello, useUpdateHello } from './hooks';
+
+const queryClient = new QueryClient();
+
+export default function Page() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Example />
+    </QueryClientProvider>
+  );
+}
+
+function Example() {
+  const { data, refetch } = useGetHello({});
+  const { mutateAsync } = useUpdateHello();
+
+  return (
+    <div className="p-8">
+      <h1 className="text-2xl font-bold">{data?.result}</h1>
+      <button
+        className="bg-indigo-500 rounded px-2 py-4 text-white"
+        onClick={async () => {
+          await mutateAsync({ payload: 'Hello tsdk!' });
+          refetch();
+        }}>
+        Update to `Hello tsdk!`
+      </button>
+    </div>
+  );
+}
+```
+
+运行起来后，访问 **http://localhost:3000/react-query**

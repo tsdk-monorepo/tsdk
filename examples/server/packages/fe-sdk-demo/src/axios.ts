@@ -32,6 +32,7 @@ export async function axiosHandler(
   apiConfig: APIConfig,
   requestData: any,
   requestConfig?: RequestConfig<any>,
+  /** remove fields with undefined */
   needTrim?: boolean
 ) {
   const axiosInstance = getAxiosInstance();

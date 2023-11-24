@@ -1,0 +1,218 @@
+import { Tabs, Callout } from 'nextra/components';
+
+## Hello World API 调用
+
+在 [上一步](./hello-world-api)，我们已将 API 写好，并且将模块导出到 **pacakges/fe-sdk** 文件夹。
+
+接下来：
+
+- 创建前端项目
+- 设置 monorepo
+- 调用 `fe-sdk` 模块，调用相关接口
+
+### 创建前端项目
+
+我们可以在当前项目再创建一个前端应用，这里拿 **next.js** 举例子创建 `next-app` 应用
+
+<Tabs defaultIndex="1" items={['npm', 'pnpm']}>
+  <Tabs.Tab value="npm">
+
+```sh
+npx create-next-app@latest
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab value="pnpm">
+
+```zsh
+pnpx create-next-app@latest
+```
+
+  </Tabs.Tab>
+</Tabs>
+
+按照提示完成项目配置，**项目名称是 `next-app`**。
+
+### 设置 workspace（monorepo）
+
+创建完前端项目后，再将 `packages/fe-sdk` 模块添加到创建好的前端项目里的 **package.json**:
+
+<Callout>
+  这里我们使用的是 [pnpm workspace](https://pnpm.io/workspaces)； 如果使用 npm 或者 yarn，需要参考对应的 workspace 方案。
+</Callout>
+
+```json {4-6, 10}
+{
+  ...
+  "dependencies": {
+    "fe-sdk": "workspace:*",
+    "axios": "1.6.2",
+    "http-proxy": "1.18.1",
+    ...
+  },
+  "devDependencies": {
+    "@types/http-proxy": "^1.17.14",
+    ...
+  }
+  ...
+}
+```
+
+### 调用 `fe-sdk`
+
+先安装依赖：
+
+```sh
+pnpm i
+```
+
+#### 创建配置文件 **.env**
+
+```ts filename="next-app/.env" copy
+API_URL=http://localhost:3030
+```
+
+#### 创建 API Proxy
+
+```ts filename="pages/api/[...path].ts" copy
+import { IncomingMessage, ServerResponse } from 'http';
+import httpProxy from 'http-proxy';
+
+const API_URL = process.env.API_URL;
+
+const proxy = httpProxy.createProxyServer();
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+export default function api(req: IncomingMessage, res: ServerResponse<IncomingMessage>) {
+  return new Promise((resolve, reject) => {
+    proxy.web(
+      req,
+      res,
+      {
+        target: API_URL,
+        changeOrigin: true,
+      },
+      (err) => {
+        if (err) {
+          return reject(err);
+        } else {
+          resolve(1);
+        }
+      }
+    );
+  });
+}
+```
+
+#### 创建 **lib/user-api.ts**
+
+在 `next-app` 里创建 **lib/user-api.ts**：
+
+```ts filename="next-app/lib/user-api.ts" copy
+import axios, { AxiosError } from 'axios';
+import { setHandler, setAxiosInstance, axiosHandler } from 'fe-sdk';
+
+export * from 'fe-sdk/lib/user-api';
+export * from 'fe-sdk/lib/apiconf-refs';
+export * from 'fe-sdk/lib/shared-refs';
+
+export const baseURL = process.env.API_URL || '';
+
+export const apiType = 'user';
+export const apiURL = baseURL + `/api/${apiType}`;
+
+const axiosInstance = axios.create({
+  baseURL: apiURL,
+  headers: {},
+});
+
+axiosInstance.interceptors.response.use(
+  (res) => res,
+  (error: AxiosError) => {
+    throw new Error((error?.response?.data as { msg: string })?.msg || error?.message);
+  }
+);
+
+setAxiosInstance(axiosInstance);
+setHandler(axiosHandler);
+```
+
+#### 创建 hook
+
+```ts filename="next-app/app/useHello.ts" copy
+'use client';
+import { useState, useEffect } from 'react';
+import { GetHello, UpdateHello, UpdateHelloReq } from '@/lib/user-api';
+
+export function useHello() {
+  const [hello, setHello] = useState('');
+
+  useEffect(() => {
+    GetHello({}).then((res) => {
+      setHello(res.result);
+    });
+  }, []);
+
+  async function update(payload: UpdateHelloReq['payload']) {
+    const res = await UpdateHello({ payload });
+    setHello(res.result);
+  }
+
+  return {
+    hello,
+    update,
+  };
+}
+```
+
+<Callout type="error" emoji="️🚫">
+  导入 API 不能直接这样写 
+  ```ts 
+  import { GetHello, UpdateHello, UpdateHelloReq } from 'fe-sdk/lib/user-api'; 
+  ```
+</Callout>
+
+<Callout emoji="️✅">
+  这样写可以：
+  ```ts 
+  import { GetHello, UpdateHello, UpdateHelloReq } from '@/lib/user-api'; 
+  ```
+
+  这是因为在 `@/lib/user-api` 里面我们进行了请求配置。
+</Callout>
+
+#### 更新 `app/page.tsx`
+
+```tsx filename="next-app/app/page.tsx" copy
+'use client';
+
+import { useHello } from './useHello';
+
+export default function Home() {
+  const { hello, update } = useHello();
+
+  return (
+    <div className="p-8">
+      <h1 className="text-2xl font-bold">{hello}</h1>
+      <button
+        className="bg-indigo-500 rounded px-2 py-4 text-white"
+        onClick={() => {
+          update('Hello tsdk!');
+        }}>
+        Update to `Hello tsdk!`
+      </button>
+    </div>
+  );
+}
+```
+
+#### 运行
+
+```sh copy
+pnpm --filter=next-app dev
+```

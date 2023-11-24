@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 
-import { appDataSource } from '@/src/db';
-
 import { TodoStatus } from '../Todo.entity';
 import { todoService } from '../Todo.service';
+
+import { appDataSource } from '@/src/db';
 
 before(() => {
   return appDataSource.initialize();

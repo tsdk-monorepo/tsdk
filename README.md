@@ -61,7 +61,6 @@ pnpm build:docs
 
 - [`packages/tsdk`](./packages/tsdk) - `tsdk` package.
 - [`packages/tsdk-server-adapters`](./packages/tsdk-server-adapters) - `tsdk-server-adapters` package.
-- [`packages/tsdk-boilerplate`](./packages/tsdk-boilerplate) - `tsdk-boilerplate` package.
 
 ### Config Packages
 

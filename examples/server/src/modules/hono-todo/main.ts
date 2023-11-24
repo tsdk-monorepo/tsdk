@@ -34,7 +34,7 @@ const port = 3013;
     '/api/:type/*',
     honoAdapterFactory<RequestInfo>({
       routeBus,
-      getReqInfo(req: HonoRequest) {
+      async getReqInfo(req: HonoRequest) {
         const params = {
           ip: '',
           lang: 'zh-CN',
@@ -46,7 +46,7 @@ const port = 3013;
       getType(reqInfo) {
         return reqInfo.type;
       },
-      getData(req: HonoRequest) {
+      async getData(req: HonoRequest) {
         // maybe decode here?(e.g.: decryption)
         return checkMethodHasBody(req.method) ? req.body : req.query();
       },

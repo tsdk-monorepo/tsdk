@@ -1,0 +1,67 @@
+## 后端服务接口编写
+
+```ts filename="src/express-count.ts" copy
+import express from 'express';
+
+const app = express();
+
+let count = 0;
+
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+app.get('/', (req, res) => {
+  res.end('Hello World');
+});
+
+app.get('/api/express/query-count', (req, res) => {
+  res.send({ count });
+});
+
+app.post('/api/express/update-count', (req, res) => {
+  count += req.body.value;
+  res.send({ count });
+});
+
+app.post('/api/express/reset-count', (req, res) => {
+  count = 0;
+  res.send({ count });
+});
+
+const port = 4080;
+
+app.listen(port, () => {
+  console.log(`Server listen on: http://localhost:${port}`);
+});
+```
+
+## 前端调用接口编写
+
+```ts filename="src/express-client.ts"
+const apiURL = `/api/express`;
+const APIs = {
+  queryCount: `${apiURL}/query-count`,
+  updateCount: `${apiURL}/update-count`,
+  resetCount: `${apiURL}/reset-count`,
+};
+
+export function getCount(): Promise<{ count: number }> {
+  return fetch(APIs.queryCount).then((res) => res.json());
+}
+
+export function updateCount(value: number): Promise<{ count: number }> {
+  return fetch(APIs.updateCount, {
+    method: 'post',
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({ value }),
+  }).then((res) => res.json());
+}
+
+export function resetCount(): Promise<{ count: number }> {
+  return fetch(APIs.resetCount, { method: 'post' }).then((res) => res.json());
+}
+```
+
+## 代码仓库

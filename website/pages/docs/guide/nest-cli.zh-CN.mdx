@@ -1,0 +1,108 @@
+import { Callout } from 'nextra/components';
+
+[nest-cli](https://github.com/nestjs/nest-cli) 是一个为开发 nestjs 应用提供的非常方便的 CLI 工具，但是也支持其他 Node 项目。
+
+这里推荐使用 nest-cli 作为 node 后端项目的开发打包工具。
+
+<Callout emoji="">
+  示例仓库 GitHub: [nest-cli-example](https://github.com/tsdk-monorepo/nest-cli-example)
+</Callout>
+
+## 为什么 nest-cli
+
+- 支持在开发模式监听文件的改动，自动重新启动服务（类似 nodemon）
+- 支持配置对单个入口或多个入口进行打包
+
+## 如何使用？
+
+### 创建 `nest-cli.json`:
+
+```ts filename="nest-cli.json" copy
+{
+  "collection": "@nestjs/schematics",
+  "monorepo": true,
+  "root": "./",
+  "sourceRoot": "src",
+  "entryFile": "main",
+  "compilerOptions": {
+    "webpack": false,
+    "tsConfigPath": "tsconfig.json"
+  }
+}
+```
+
+注意以下这三个字段：
+
+- `root` - 当前根文件夹
+- `sourceRoot` - 代码所在文件夹
+- `entryFile` - 入口文件名
+
+上面的配置入口是 `./src/main.ts` 该文件。
+
+### 运行开发环境
+
+启动开发环境：
+
+```sh copy
+pnpm nest start --watch
+```
+
+### 打包
+
+```sh
+pnpm nest build
+```
+
+### 配置多个入口
+
+```ts filename="nest-cli.json" copy
+{
+  "collection": "@nestjs/schematics",
+  "monorepo": true,
+  "root": "./",
+  "sourceRoot": "src",
+  "entryFile": "main",
+  "compilerOptions": {
+    "webpack": false,
+    "tsConfigPath": "tsconfig.json"
+  },
+  "projects": {
+    "hello": {
+      "type": "application",
+      "sourceRoot": "src",
+      "entryFile": "modules/hello/main",
+      "nodeExternalsParams": {
+        "additionalModuleDirs": ["./node_modules"]
+      }
+    },
+    "foo": {
+      "type": "application",
+      "sourceRoot": "src",
+      "entryFile": "modules/foo/main",
+      "nodeExternalsParams": {
+        "additionalModuleDirs": ["./node_modules"]
+      }
+    }
+  }
+}
+```
+
+### 启动指定模块
+
+启动开发环境：
+
+```sh
+pnpm tsdk --nest start hello --watch
+```
+
+### 打包指定模块
+
+```sh
+pnpm tsdk --nest build hello
+```
+
+### 代码
+
+<Callout emoji="">
+  示例仓库 GitHub: [nest-cli-example](https://github.com/tsdk-monorepo/nest-cli-example)
+</Callout>

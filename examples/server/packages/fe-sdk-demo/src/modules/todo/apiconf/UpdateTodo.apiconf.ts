@@ -1,12 +1,18 @@
+import {
+  APIConfig,
+  ObjectLiteral,
+  RequireAtLeastOne,
+  transformPath,
+  UpdateResult,
+} from '../../../shared/tsdk-helper';
 import { Todo } from '../Todo.entity';
 import { updateTodoSchema } from './TodoSchema.shared';
-import {  APIConfig,  ObjectLiteral,  RequireAtLeastOne,  transformPath,  UpdateResult,} from '../../../shared/tsdk-helper';
 
 export const UpdateTodoConfig: APIConfig = {
   type: 'user',
   path: transformPath('UpdateTodo'),
   method: 'post',
-  
+
   description: 'update todo',
   category: 'todo',
   schema: updateTodoSchema,

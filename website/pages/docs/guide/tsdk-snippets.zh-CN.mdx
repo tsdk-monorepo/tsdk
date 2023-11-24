@@ -1,0 +1,54 @@
+当我们执行 `tsdk --init` 或者 `tsdk --sync` 时，会在当前目录生成 `.vscode/tsdk.code-snippets` 的代码片段。
+
+而代码片段（snippets）可以帮助我们快速生成代码。
+
+目前有两个：
+
+- apii 生成导入
+- apic 生成接口配置
+
+## 演示
+
+<video style={{ width: '100%', maxWidth: 680 }} controls>
+  <source src={require('./videos/tsdk-snippets.mov')} />
+</video>
+
+## 生成导入 `apii`
+
+```ts
+import { transformPath, APIConfig, ObjectLiteral } from '@/src/shared/tsdk-helper';
+```
+
+[`APIConfig` 说明](./apiconf)
+
+## 生成接口配置 `apic`
+
+按 `tab` 键，即可进行更改
+
+```ts
+/**
+ * description ({@link APIConfig})
+ * @category Category
+ */
+export const ApiNameConfig: APIConfig = {
+  type: 'user',
+  method: 'get',
+  path: transformPath('ApiName'),
+  description: 'description',
+  category: 'Category',
+};
+/**
+ *
+ * @category Category
+ */
+export type ApiNameReq = {};
+
+/**
+ *
+ * @category Category
+ */
+export type ApiNameRes = {};
+// --------- ApiName END ---------
+```
+
+[`APIConfig` 说明](./apiconf)

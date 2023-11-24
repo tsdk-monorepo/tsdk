@@ -1,6 +1,6 @@
-import { registerEntites } from '@/src/db/register-entities';
-
 import { Todo } from './Todo.entity';
+
+import { registerEntites } from '@/src/db/register-entities';
 
 registerEntites([Todo]);
 

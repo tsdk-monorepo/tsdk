@@ -1,0 +1,109 @@
+import { Callout } from 'nextra/components';
+
+<Callout>tsdk 目前已内置支持 SWR [教程](../guide/swr)</Callout>
+
+## 使用 SWR
+
+`SWR` 是一个针对数据获取的 React Hook，具有很多优点：
+
+- 内置 loading，错误等状态
+- 错误重试
+- 数据刷新
+- 数据缓存
+- ...
+
+更多优点参考：https://swr.vercel.app/#features
+
+### 添加依赖 SWR
+
+添加 **swr** 依赖到 **next-app/package.json**:
+
+```json {13}
+{
+  "name": "next-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    ...
+    "swr": "^2.2.4"
+  },
+  ...
+}
+```
+
+<Callout>记得 `pnpm install`</Callout>
+
+### 定义 hook
+
+这里使用 SWR 包两种类型的 hook，一种是获取，另一种更新：
+
+```ts copy filename="next-app/app/swr/hooks.ts"
+import useSWR, { SWRConfiguration } from 'swr';
+import useSWRMutation, { SWRMutationConfiguration } from 'swr/mutation';
+
+import {
+  GetHello,
+  GetHelloReq,
+  GetHelloRes,
+  UpdateHello,
+  UpdateHelloReq,
+  UpdateHelloRes,
+} from '@/lib/user-api';
+
+export function useGetHello(payload: GetHelloReq, options?: SWRConfiguration<GetHelloRes>) {
+  return useSWR(
+    { url: GetHello.config.path, arg: payload },
+    ({ arg }) => {
+      return GetHello(arg);
+    },
+    options
+  );
+}
+
+export function useUpdateHello(
+  options?: SWRMutationConfiguration<UpdateHelloRes, { arg: UpdateHelloReq }, string>
+) {
+  return useSWRMutation(
+    UpdateHello.config.path,
+    (url, { arg }: { arg: UpdateHelloReq }) => {
+      return UpdateHello(arg);
+    },
+    options
+  );
+}
+```
+
+### 使用
+
+```tsx copy filename="next-app/app/swr/page.tsx"
+'use client';
+
+import { useGetHello, useUpdateHello } from './hooks';
+
+export default function HelloPage() {
+  const { data, mutate } = useGetHello({});
+  const { trigger } = useUpdateHello();
+
+  return (
+    <div className="p-8">
+      <h1 className="text-2xl font-bold">{data?.result}</h1>
+      <button
+        className="bg-indigo-500 rounded px-2 py-4 text-white"
+        onClick={async () => {
+          await trigger({ payload: 'Hello tsdk!' });
+          mutate();
+        }}>
+        Update to `Hello tsdk!`
+      </button>
+    </div>
+  );
+}
+```
+
+运行起来后，访问 **http://localhost:3000/swr**

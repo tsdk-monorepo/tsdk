@@ -1,12 +1,12 @@
-import { APIConfig, transformPath, ObjectLiteral } from '../../../shared/tsdk-helper';
 import { Paging, PagingRes } from '../../../shared/paging';
+import { APIConfig, transformPath, ObjectLiteral } from '../../../shared/tsdk-helper';
 import { Todo } from '../Todo.entity';
 import { queryTodoSchema } from './TodoSchema.shared';
 
 export const QueryTodoConfig: APIConfig = {
   path: transformPath('QueryTodo'),
   method: 'get',
-  
+
   description: 'query todo',
   category: 'todo',
   type: 'user',
