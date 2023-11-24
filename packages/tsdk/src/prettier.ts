@@ -9,11 +9,15 @@ export async function runPrettier() {
 
   try {
     // prettier 3.x
-    execSync(`node ${rootDir}/node_modules/prettier/bin/prettier.cjs ${formatDir} --write`);
+    execSync(`node ${rootDir}/node_modules/prettier/bin/prettier.cjs ${formatDir} --write`, {
+      stdio: 'pipe',
+    });
   } catch (e) {
     try {
       // prettier 2.x
-      execSync(`node ${rootDir}/node_modules/prettier/bin-prettier ${formatDir} --write`);
+      execSync(`node ${rootDir}/node_modules/prettier/bin-prettier ${formatDir} --write`, {
+        stdio: 'pipe',
+      });
     } catch (e) {
       //
     }

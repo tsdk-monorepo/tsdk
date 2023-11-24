@@ -191,8 +191,9 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 - Feat: add `dataHookLib` field in `.tsdkrc`, support generate `SWR` or `React Query` hooks
 - Breaking Change: delete sdk folder when run sync command
 
-### 0.0.20-beta.14 2023/11/18
+### 0.0.20-beta.15 2023/11/18
 
 - Chore: add `swrVersion`, `reactQueryVersion`, `kyselyVersion` in `.tsdkrc`
 - Chore: add try prettier code script after run sync command
 - Chore: Install only run once when run sync command (before run twice)
+- Fix: fix next build error: Collecting page data  ..TypeError: (0 , o.withMiddleware) is not a function

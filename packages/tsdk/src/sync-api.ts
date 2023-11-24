@@ -30,6 +30,32 @@ export async function syncAPI() {
   types.forEach((apiType) => {
     const isSWR = config.dataHookLib?.toLowerCase() === 'swr';
     const isReactQuery = config.dataHookLib?.toLowerCase() === 'reactquery';
+    const dataHookHeadStr = `
+    ${
+      !isSWR
+        ? ''
+        : `import useSWR, { SWRConfiguration } from "swr";
+      import useSWRMutation, { SWRMutationConfiguration } from "swr/mutation";
+      import { AxiosRequestConfig } from "axios";
+    `
+    }
+    ${
+      !isReactQuery
+        ? ''
+        : `import {
+      useQuery,
+      useMutation,
+      QueryClient,
+      UndefinedInitialDataOptions,
+      UseMutationOptions,
+    } from "@tanstack/react-query";
+    import { AxiosRequestConfig } from "axios";
+    `
+    }
+    `;
+    let dataHookImportStr = ``;
+    let dataHookBodyStr = ``;
+
     const headStr = `
       /** 
        * 
@@ -39,31 +65,10 @@ export async function syncAPI() {
        **/
 
       import genApi from './gen-api';
-      ${
-        !isSWR
-          ? ''
-          : `import useSWR, { SWRConfiguration } from "swr";
-        import useSWRMutation, { SWRMutationConfiguration } from "swr/mutation";
-        import { AxiosRequestConfig } from "axios";
-      `
-      }
-      ${
-        !isReactQuery
-          ? ''
-          : `import {
-        useQuery,
-        useMutation,
-        QueryClient,
-        UndefinedInitialDataOptions,
-        UseMutationOptions,
-      } from "@tanstack/react-query";
-      import { AxiosRequestConfig } from "axios";
-      `
-      }
+     
 `;
 
     let importStr = ``;
-
     let bodyStr = ``;
 
     const hasCommon = keys.find((k) => {
@@ -72,6 +77,9 @@ export async function syncAPI() {
     });
 
     const exportStr = apiType === 'common' || !hasCommon ? `` : `\nexport * from './common-api';\n`;
+
+    const dataHookExportStr =
+      apiType === 'common' || !hasCommon ? `` : `\nexport * from './common-api-hooks';\n`;
 
     let hasContentCount = 0;
     keys.forEach((k, idx) => {
@@ -99,51 +107,57 @@ export async function syncAPI() {
            * @category ${category}
            */
           export const ${name} = genApi<${name}Req, ${name}Res>(${name}Config);
+        `;
 
-          ${
-            !isSWR
-              ? ''
-              : isGET
-              ? `
-          
+        dataHookImportStr += `
+          ${name},
+        `;
+        if (isSWR) {
+          dataHookBodyStr += `
+        ${
+          isGET
+            ? `
+        
 export function use${name}(
-  payload: ${name}Req,
-  options?: SWRConfiguration<${name}Res>,
-  requestConfig?: AxiosRequestConfig<${name}Req>,
-  needTrim?: boolean
+payload: ${name}Req,
+options?: SWRConfiguration<${name}Res>,
+requestConfig?: AxiosRequestConfig<${name}Req>,
+needTrim?: boolean
 ) {
-  return useSWR(
-    { url: ${name}.config.path, arg: payload },
-    ({ arg }) => {
-      return ${name}(arg, requestConfig, needTrim);
-    },
-    options
-  );
+return useSWR(
+  { url: ${name}.config.path, arg: payload },
+  ({ arg }) => {
+    return ${name}(arg, requestConfig, needTrim);
+  },
+  options
+);
 }
-          `
-              : `
-              export function use${name}(
-                options?: SWRMutationConfiguration<
-                  ${name}Res,
-                  { arg: ${name}Req },
-                  string
-                >,
-                requestConfig?: AxiosRequestConfig<${name}Req>,
-                needTrim?: boolean
-              ) {
-                return useSWRMutation(
-                  ${name}.config.path,
-                  (url, { arg }: { arg: ${name}Req }) => {
-                    return ${name}(arg, requestConfig, needTrim);
-                  },
-                  options
-                );
-              }`
-          }
+        `
+            : `
+            export function use${name}(
+              options?: SWRMutationConfiguration<
+                ${name}Res,
+                { arg: ${name}Req },
+                string
+              >,
+              requestConfig?: AxiosRequestConfig<${name}Req>,
+              needTrim?: boolean
+            ) {
+              return useSWRMutation(
+                ${name}.config.path,
+                (url, { arg }: { arg: ${name}Req }) => {
+                  return ${name}(arg, requestConfig, needTrim);
+                },
+                options
+              );
+            }`
+        }
+        
+        `;
+        } else if (isReactQuery) {
+          dataHookBodyStr += `
           ${
-            !isReactQuery
-              ? ''
-              : isGET
+            isGET
               ? `
           export function use${name}(
             payload: ${name}Req,
@@ -187,7 +201,9 @@ export function use${name}(
               }
               `
           }
-        `;
+          `;
+        }
+
         hasContentCount++;
       }
     });
@@ -207,6 +223,31 @@ export function use${name}(
     `;
 
       fsExtra.writeFileSync(path.join(ensureDir, `src`, `${apiType}-api.ts`), content);
+
+      const dataHookContent = `
+    ${dataHookHeadStr}
+    ${
+      importStr
+        ? `import {
+        ${importStr}
+      } from './${config.apiconfExt}-refs';`
+        : ''
+    }
+    ${
+      dataHookImportStr
+        ? `import {
+      ${dataHookImportStr}
+    } from './${apiType}-api';`
+        : ''
+    }
+    ${dataHookExportStr}
+    ${dataHookBodyStr}
+    `;
+
+      fsExtra.writeFileSync(
+        path.join(ensureDir, `src`, `${apiType}-api-hooks.ts`),
+        dataHookContent
+      );
     }
   });
 
