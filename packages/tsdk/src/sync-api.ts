@@ -2,10 +2,9 @@ import fsExtra from 'fs-extra';
 import path from 'path';
 
 import { config, ensureDir, packageFolder } from './config';
-import { formatTS } from './format';
 import symbols from './symbols';
 
-const baseDir = path.join(path.relative(path.dirname(__filename), process.cwd()), ensureDir);
+export const baseDir = path.join(path.relative(path.dirname(__filename), process.cwd()), ensureDir);
 
 export function deleteSDKFolder() {
   return fsExtra.remove(path.resolve(process.cwd(), config.packageDir, packageFolder));
@@ -29,8 +28,8 @@ export async function syncAPI() {
   types.sort();
 
   types.forEach((apiType) => {
-    const isSWR = config.dataHookLib === 'SWR';
-    const isReactQuery = config.dataHookLib === 'ReactQuery';
+    const isSWR = config.dataHookLib?.toLowerCase() === 'swr';
+    const isReactQuery = config.dataHookLib?.toLowerCase() === 'reactquery';
     const headStr = `
       /** 
        * 
@@ -207,7 +206,7 @@ export function use${name}(
       ${bodyStr}
     `;
 
-      fsExtra.writeFileSync(path.join(ensureDir, `src`, `${apiType}-api.ts`), formatTS(content));
+      fsExtra.writeFileSync(path.join(ensureDir, `src`, `${apiType}-api.ts`), content);
     }
   });
 

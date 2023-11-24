@@ -1,6 +1,7 @@
 import { buildSDK } from './compile-tsdk';
 import { tsconfigExists, parsePkg, pkg } from './config';
 import { getNpmCommand } from './get-pkg-manager';
+import { runPrettier } from './prettier';
 import { removeFields } from './remove-fields';
 import { runNestCommand } from './run-nest-command';
 import symbols from './symbols';
@@ -68,7 +69,7 @@ Examples
     const noOverwrite = params[1] === `--no-overwrite`;
     await syncFiles(noOverwrite);
     console.log('\n\n', symbols.bullet, 'build configs for generate APIs');
-    await buildSDK();
+    await buildSDK(true);
     console.log(symbols.success, 'build configs for generate APIs');
     await syncAPI();
     console.log('\n\n', symbols.bullet, 'build files');
@@ -76,6 +77,7 @@ Examples
     console.log(symbols.success, 'build files\n');
     await copyPermissionsJSON();
     await removeFields();
+    await runPrettier();
   } else if (params[0] === `--nest`) {
     runNestCommand();
   }

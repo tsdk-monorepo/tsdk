@@ -184,9 +184,15 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 ### 0.0.20-beta.14 2023/11/17
 
 - Chore: refactor types in `fe-sdk-template/shared/tsdk-types`, make more sense
-- Fix: make `removeFields`` in `.tsdkrc` work correctly
-- Chore: fix entry not found error if retry entry file exists 
+- Fix: make ` removeFields`` in  `.tsdkrc` work correctly
+- Chore: fix entry not found error if retry entry file exists
 - Fix: getData in adapters support async
 - Fix: generate `permissions.json` add missing `name` field
 - Feat: add `dataHookLib` field in `.tsdkrc`, support generate `SWR` or `React Query` hooks
 - Breaking Change: delete sdk folder when run sync command
+
+### 0.0.20-beta.14 2023/11/18
+
+- Chore: add `swrVersion`, `reactQueryVersion`, `kyselyVersion` in `.tsdkrc`
+- Chore: add try prettier code script after run sync command
+- Chore: Install only run once when run sync command (before run twice)

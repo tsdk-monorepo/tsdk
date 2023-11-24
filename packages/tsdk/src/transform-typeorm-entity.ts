@@ -1,7 +1,5 @@
-import { formatTS } from './format';
-
 export function transformTypeormEntity(_fileContent: string, entityLibName: string) {
-  let fileContent = formatTS(_fileContent);
+  let fileContent = _fileContent;
 
   // remove import entityLibName(like `typeorm`) and remove entityLibName(like `typeorm`) decorators @xxx() / @xxx({.*}) / @xxx({ \n\n })
   const result = fileContent.split('\n');
@@ -61,5 +59,5 @@ export function transformTypeormEntity(_fileContent: string, entityLibName: stri
   fileContent = `${imports.join('\n')}\n${otherContent.join('\n')}`;
   // remove entityLibName(like `typeorm`) end
 
-  return formatTS(fileContent);
+  return fileContent;
 }

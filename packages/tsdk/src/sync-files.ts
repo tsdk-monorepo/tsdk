@@ -101,12 +101,12 @@ async function reconfigPkg() {
       : [config.entityLibName || 'typeorm']
     )?.find((item) => item === 'kysely')
   ) {
-    pkgContent.dependencies.kysely = '^0.26.3';
+    pkgContent.dependencies.kysely = config.kyselyVersion || '^0.26.3';
   }
-  if (config.dataHookLib === 'SWR') {
-    pkgContent.dependencies.swr = '^2.2.4';
-  } else if (config.dataHookLib === 'ReactQuery') {
-    pkgContent.dependencies['@tanstack/react-query'] = '^5.8.4';
+  if (config.dataHookLib?.toLowerCase() === 'swr') {
+    pkgContent.dependencies.swr = config.swrVersion || '^2.2.4';
+  } else if (config.dataHookLib?.toLowerCase() === 'reactquery') {
+    pkgContent.dependencies['@tanstack/react-query'] = config.reactQueryVersion || '^5.8.4';
   }
 
   await Promise.all([fsExtra.writeFile(pkgPath, JSON.stringify(pkgContent, null, 2))]);
