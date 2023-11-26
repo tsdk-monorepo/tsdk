@@ -34,7 +34,7 @@
     "zod": "^3",
     "socket.io": "^4.7.2",
     "ws": "^8.13.0",
-    "hono": "^3.5.4"
+    "hono": "^3.10.2"
   },
   "peerDependenciesMeta": {
     "express": {

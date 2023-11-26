@@ -94,19 +94,26 @@ async function reconfigPkg() {
   const pkgContent = JSON.parse(content);
 
   pkgContent.name = config.packageName;
-  pkgContent.dependencies.axios = config.axiosVersion;
   if (
     (Array.isArray(config.entityLibName)
       ? config.entityLibName
       : [config.entityLibName || 'typeorm']
     )?.find((item) => item === 'kysely')
   ) {
-    pkgContent.dependencies.kysely = config.kyselyVersion || '^0.26.3';
+    pkgContent.dependencies.kysely = '^0.26.3';
   }
-  if (config.dataHookLib?.toLowerCase() === 'swr') {
-    pkgContent.dependencies.swr = config.swrVersion || '^2.2.4';
-  } else if (config.dataHookLib?.toLowerCase() === 'reactquery') {
-    pkgContent.dependencies['@tanstack/react-query'] = config.reactQueryVersion || '^5.8.4';
+  const dataHookLib = config.dataHookLib?.toLowerCase();
+  if (dataHookLib === 'swr') {
+    pkgContent.dependencies.swr = '^2.2.4';
+  } else if (dataHookLib === 'reactquery') {
+    pkgContent.dependencies['@tanstack/react-query'] = '^5.8.4';
+  }
+
+  if (config.dependencies) {
+    pkgContent.dependencies = {
+      ...pkgContent.dependencies,
+      ...config.dependencies,
+    };
   }
 
   await Promise.all([fsExtra.writeFile(pkgPath, JSON.stringify(pkgContent, null, 2))]);

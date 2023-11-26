@@ -196,4 +196,9 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 - Chore: add `swrVersion`, `reactQueryVersion`, `kyselyVersion` in `.tsdkrc`
 - Chore: add try prettier code script after run sync command
 - Chore: Install only run once when run sync command (before run twice)
-- Fix: fix next build error: Collecting page data  ..TypeError: (0 , o.withMiddleware) is not a function
+- Fix: fix next build error: Collecting page data ..TypeError: (0 , o.withMiddleware) is not a function
+
+### 0.0.20-beta.16 2023/11/25
+
+- Feat: `fe-sdk` generate doc add types hover popover feature
+- Feat: support custom dependencies in `.tsdkrc`, remove `axiosVersion` / `kyselyVersion` / `swrVersion` / `reactQueryVersion`

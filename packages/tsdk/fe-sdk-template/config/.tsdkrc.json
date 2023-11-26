@@ -7,7 +7,6 @@
   "apiconfExt": "apiconf",
   "shareExt": "shared",
   "sharedDirs": ["./src/shared"],
-  "sdkWhiteList": [""],
-  "monorepoRoot": "./",
-  "axiosVersion": "1.6.2"
+  "sdkWhiteList": [],
+  "monorepoRoot": "./"
 }

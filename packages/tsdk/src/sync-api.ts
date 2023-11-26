@@ -97,8 +97,8 @@ export async function syncAPI() {
       if (type === apiType && path) {
         importStr += `
           ${name}Config,
-          ${name}Req,
-          ${name}Res,
+          type ${name}Req,
+          type ${name}Res,
         `;
         bodyStr += `
           /** 
