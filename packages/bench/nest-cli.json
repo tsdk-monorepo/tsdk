@@ -1,0 +1,53 @@
+{
+  "collection": "@nestjs/schematics",
+  "monorepo": true,
+  "root": "./",
+  "sourceRoot": "src",
+  "entryFile": "main",
+  "compilerOptions": {
+    "webpack": false,
+    "tsConfigPath": "tsconfig.json"
+  },
+  "projects": {
+    "express": {
+      "type": "application",
+      "sourceRoot": "src",
+      "entryFile": "modules/express/main",
+      "nodeExternalsParams": {
+        "additionalModuleDirs": ["../../node_modules"]
+      }
+    },
+    "tsdk-express": {
+      "type": "application",
+      "sourceRoot": "src",
+      "entryFile": "modules/tsdk-express/main",
+      "nodeExternalsParams": {
+        "additionalModuleDirs": ["../../node_modules"]
+      }
+    },
+    "hono": {
+      "type": "application",
+      "sourceRoot": "src",
+      "entryFile": "modules/hono/main",
+      "nodeExternalsParams": {
+        "additionalModuleDirs": ["../../node_modules"]
+      }
+    },
+    "tsdk-hono": {
+      "type": "application",
+      "sourceRoot": "src",
+      "entryFile": "modules/tsdk-hono/main",
+      "nodeExternalsParams": {
+        "additionalModuleDirs": ["../../node_modules"]
+      }
+    },
+    "trpc-express": {
+      "type": "application",
+      "sourceRoot": "src",
+      "entryFile": "modules/trpc-express/main",
+      "nodeExternalsParams": {
+        "additionalModuleDirs": ["../../node_modules"]
+      }
+    }
+  }
+}

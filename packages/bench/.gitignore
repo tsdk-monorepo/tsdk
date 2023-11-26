@@ -1,0 +1,15 @@
+node_modules
+lib
+# packages
+dist
+yarn.lock
+.DS_Store
+dist
+build
+package-lock.json
+dist-*
+build-*
+*.db
+*.db-shm
+*.db-wal
+*.sqlite

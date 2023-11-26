@@ -14,6 +14,9 @@ importers:
       '@configs/eslint-config':
         specifier: '*'
         version: link:configs/eslint-config
+      concurrently:
+        specifier: ^8.2.2
+        version: 8.2.2
       husky:
         specifier: ^8.0.3
         version: 8.0.3
@@ -160,8 +163,8 @@ importers:
   examples/server:
     dependencies:
       '@hono/node-server':
-        specifier: ^1.1.1
-        version: 1.1.1
+        specifier: ^1.2.3
+        version: 1.2.3
       better-sqlite3:
         specifier: ^9.0.0
         version: 9.0.0
@@ -178,8 +181,8 @@ importers:
         specifier: ^4.18.2
         version: 4.18.2
       hono:
-        specifier: ^3.5.4
-        version: 3.5.4
+        specifier: ^3.10.2
+        version: 3.10.2
       kysely:
         specifier: ^0.26.3
         version: 0.26.3
@@ -301,50 +304,23 @@ importers:
   packages/bench:
     dependencies:
       '@hono/node-server':
-        specifier: ^1.1.1
-        version: 1.1.1
-      better-sqlite3:
-        specifier: ^9.0.0
-        version: 9.0.0
-      bufferutil:
-        specifier: ^4.0.7
-        version: 4.0.7
+        specifier: ^1.2.3
+        version: 1.2.3
+      '@trpc/server':
+        specifier: ^10.44.1
+        version: 10.44.1
       change-case:
         specifier: ^4.1.2
         version: 4.1.2
-      cors:
-        specifier: ^2.8.5
-        version: 2.8.5
       express:
         specifier: ^4.18.2
         version: 4.18.2
       hono:
-        specifier: ^3.5.4
-        version: 3.5.4
-      kysely:
-        specifier: ^0.26.3
-        version: 0.26.3
-      reflect-metadata:
-        specifier: ^0.1.13
-        version: 0.1.13
-      socket.io:
-        specifier: ^4.7.2
-        version: 4.7.2(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+        specifier: ^3.10.2
+        version: 3.10.2
       tsdk-server-adapters:
         specifier: '*'
         version: link:../tsdk-server-adapters
-      typeorm:
-        specifier: ^0.3.17
-        version: 0.3.17(better-sqlite3@9.0.0)
-      typeorm-cursor-pagination:
-        specifier: ^0.10.1
-        version: 0.10.1(typeorm@0.3.17)
-      utf-8-validate:
-        specifier: ^6.0.3
-        version: 6.0.3
-      ws:
-        specifier: ^8.13.0
-        version: 8.13.0(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       zod:
         specifier: ^3.22.4
         version: 3.22.4
@@ -364,12 +340,6 @@ importers:
       '@types/express':
         specifier: ^4.17.17
         version: 4.17.17
-      '@types/ws':
-        specifier: ^8.5.5
-        version: 8.5.5
-      socket.io-client:
-        specifier: ^4.7.2
-        version: 4.7.2(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       tsdk:
         specifier: '*'
         version: link:../tsdk
@@ -420,8 +390,8 @@ importers:
         specifier: ^4.18.2
         version: 4.18.2
       hono:
-        specifier: ^3.5.4
-        version: 3.5.4
+        specifier: ^3.10.2
+        version: 3.10.2
       socket.io:
         specifier: ^4.7.2
         version: 4.7.2(bufferutil@4.0.7)(utf-8-validate@6.0.3)
@@ -2985,9 +2955,9 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /@hono/node-server@1.1.1:
-    resolution: {integrity: sha512-0ZfrcW8Y+TAGNzKGoDB1iQ7Gv7uGsGDOYlz7nckXcHRpK60Oxuz1ttiFmdHYmI6kGO+/VJ8Iy58LDhoTPqkiow==}
-    engines: {node: '>=18.0.0'}
+  /@hono/node-server@1.2.3:
+    resolution: {integrity: sha512-IH2lpqgSSLt9sIhWBE6FivFj+0RglCNYVuBT39vkumfjqjHAwQnx7KJw9WDVNlyH+AJY0N5ImZgcIbfM5xgyBw==}
+    engines: {node: '>=18.14.1'}
     dev: false
 
   /@humanwhocodes/config-array@0.11.10:
@@ -3846,6 +3816,11 @@ packages:
   /@total-typescript/ts-reset@0.5.1:
     resolution: {integrity: sha512-AqlrT8YA1o7Ff5wPfMOL0pvL+1X+sw60NN6CcOCqs658emD6RfiXhF7Gu9QcfKBH7ELY2nInLhKSCWVoNL70MQ==}
     dev: true
+
+  /@trpc/server@10.44.1:
+    resolution: {integrity: sha512-mF7B+K6LjuboX8I1RZgKE5GA/fJhsJ8tKGK2UBt3Bwik7hepEPb4NJgNr7vO6BK5IYwPdBLRLTctRw6XZx0sRg==}
+    engines: {node: '>=18.0.0'}
+    dev: false
 
   /@tsconfig/node10@1.0.9:
     resolution: {integrity: sha512-jNsYVVxU8v5g43Erja32laIDHXeoNvFEpX33OK4d6hljo3jDhCBDhx5dhCCTMWUojscpAagGiRkBKxpdl9fxqA==}
@@ -5738,7 +5713,7 @@ packages:
     resolution: {integrity: sha512-gxGWBrTT1JuMx6R+o5PTXMmUnhnVzLQ9SNutD4YqKtI6ap897t3tKECYla6gCWEkplXnlNybEkZg9GEGxKFCgw==}
     dependencies:
       pascal-case: 3.1.2
-      tslib: 2.5.0
+      tslib: 2.6.2
     dev: false
 
   /camelcase@5.3.1:
@@ -5757,7 +5732,7 @@ packages:
     resolution: {integrity: sha512-ds37W8CytHgwnhGGTi88pcPyR15qoNkOpYwmMMfnWqqWgESapLqvDx6huFjQ5vqWSn2Z06173XNA7LtMOeUh1A==}
     dependencies:
       no-case: 3.0.4
-      tslib: 2.5.0
+      tslib: 2.6.2
       upper-case-first: 2.0.2
     dev: false
 
@@ -6025,7 +6000,6 @@ packages:
       string-width: 4.2.3
       strip-ansi: 6.0.1
       wrap-ansi: 7.0.0
-    dev: false
 
   /clone-deep@4.0.1:
     resolution: {integrity: sha512-neHB9xuzh/wk0dIHweyAXv2aPGZIVk3pLMe+/RNzINf17fe0OG96QroktYAUm7SM1PBnzTabaLboqqxDyMU+SQ==}
@@ -6194,6 +6168,22 @@ packages:
       typedarray: 0.0.6
     dev: false
 
+  /concurrently@8.2.2:
+    resolution: {integrity: sha512-1dP4gpXFhei8IOtlXRE/T/4H88ElHgTiUzh71YUmtjTEHMSRS2Z/fgOxHSxxusGHogsRfxNq1vyAwxSC+EVyDg==}
+    engines: {node: ^14.13.0 || >=16.0.0}
+    hasBin: true
+    dependencies:
+      chalk: 4.1.2
+      date-fns: 2.30.0
+      lodash: 4.17.21
+      rxjs: 7.8.1
+      shell-quote: 1.8.1
+      spawn-command: 0.0.2
+      supports-color: 8.1.1
+      tree-kill: 1.2.2
+      yargs: 17.7.2
+    dev: true
+
   /connect@3.7.0:
     resolution: {integrity: sha512-ZqRXc+tZukToSNmh5C2iWMSoV3X1YUcPbqEM4DkEG5tNQXrQUZCNVGGv3IuicnkMtPfGf3Xtp8WCXs295iQ1pQ==}
     engines: {node: '>= 0.10.0'}
@@ -6214,7 +6204,7 @@ packages:
     resolution: {integrity: sha512-I2hSBi7Vvs7BEuJDr5dDHfzb/Ruj3FyvFyh7KLilAjNQw3Be+xgqUBA2W6scVEcL0hL1dwPRtIqEPVUCKkSsyQ==}
     dependencies:
       no-case: 3.0.4
-      tslib: 2.5.0
+      tslib: 2.6.2
       upper-case: 2.0.2
     dev: false
 
@@ -6771,7 +6761,6 @@ packages:
     engines: {node: '>=0.11'}
     dependencies:
       '@babel/runtime': 7.21.0
-    dev: false
 
   /dayjs@1.11.10:
     resolution: {integrity: sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==}
@@ -9187,8 +9176,8 @@ packages:
       minimalistic-crypto-utils: 1.0.1
     dev: false
 
-  /hono@3.5.4:
-    resolution: {integrity: sha512-GrRBIJhZ+tG+8RtoyPQjvqPGwppERmayyTiPKano4egmpkJf1XiptESUYK5vKHICNaJksAKB9jzy1CmOdQENPA==}
+  /hono@3.10.2:
+    resolution: {integrity: sha512-QwJLjWs3e+nZ3b5nQrrdJpYCJqiTK744jeYhX7yhZdxwcQ3KIohBfzI2dA8gSF6HEZkmFUdiKL1BelJ8utIm4w==}
     engines: {node: '>=16.0.0'}
     dev: false
 
@@ -13974,7 +13963,7 @@ packages:
     resolution: {integrity: sha512-8LS0JInaQMCRoQ7YUytAo/xUu5W2XnQxV2HI/6uM6U7CITS1RqPElr30V6uIqyMKM9lJGRVFy5/4CuzcixNYSg==}
     dependencies:
       no-case: 3.0.4
-      tslib: 2.5.0
+      tslib: 2.6.2
       upper-case-first: 2.0.2
     dev: false
 
@@ -14083,6 +14072,10 @@ packages:
     resolution: {integrity: sha512-Vpfqwm4EnqGdlsBFNmHhxhElJYrdfcxPThu+ryKS5J8L/fhAwLazFZtq+S+TWZ9ANj2piSQLGj6NQg+lKPmxrw==}
     dev: false
 
+  /shell-quote@1.8.1:
+    resolution: {integrity: sha512-6j1W9l1iAs/4xYBI1SYOVZyFcCis9b4KCLQ8fgAGG07QvzaRLVVRQvAy85yNmmZSjYjg4MWh4gNvlPujU/5LpA==}
+    dev: true
+
   /shelljs@0.8.5:
     resolution: {integrity: sha512-TiwcRcrkhHvbrZbnRcFYMLl30Dfov3HKqzp5tO5b4pt6G/SezKcYhmDg15zXVBswHmctSAQKznqNW2LO5tTDow==}
     engines: {node: '>=4'}
@@ -14184,7 +14177,7 @@ packages:
     resolution: {integrity: sha512-LAOh4z89bGQvl9pFfNF8V146i7o7/CqFPbqzYgP+yYzDIDeS9HaNFtXABamRW+AQzEVODcvE79ljJ+8a9YSdMg==}
     dependencies:
       dot-case: 3.0.4
-      tslib: 2.5.0
+      tslib: 2.6.2
     dev: false
 
   /snapdragon-node@2.1.1:
@@ -14320,6 +14313,10 @@ packages:
   /space-separated-tokens@2.0.2:
     resolution: {integrity: sha512-PEGlAwrG8yXGXRjW32fGbg66JAlOAwbObuqVoJpv/mRgoWDQfgH1wDPvtzWyUSNAXBGSk8h755YDbbcEy3SH2Q==}
     dev: false
+
+  /spawn-command@0.0.2:
+    resolution: {integrity: sha512-zC8zGoGkmc8J9ndvml8Xksr1Amk9qBujgbF0JAIWO7kXr43w0h/0GJNM/Vustixu+YE8N/MTrQ7N31FvHUACxQ==}
+    dev: true
 
   /split-string@3.1.0:
     resolution: {integrity: sha512-NzNVhJDYpwceVVii8/Hu6DKfD2G+NrQHlS/V/qgv763EYudVwEcMQNxd2lh+0VrUByXN/oJkl5grOhYWvQUYiw==}
@@ -16454,6 +16451,19 @@ packages:
       y18n: 5.0.8
       yargs-parser: 21.1.1
     dev: false
+
+  /yargs@17.7.2:
+    resolution: {integrity: sha512-7dSzzRQ++CKnNI/krKnYRV7JKKPUXMEh61soaHKg9mrWEhzFWhFnxPxGl+69cD1Ou63C13NUPCnmIcrvqCuM6w==}
+    engines: {node: '>=12'}
+    dependencies:
+      cliui: 8.0.1
+      escalade: 3.1.1
+      get-caller-file: 2.0.5
+      require-directory: 2.1.1
+      string-width: 4.2.3
+      y18n: 5.0.8
+      yargs-parser: 21.1.1
+    dev: true
 
   /yn@2.0.0:
     resolution: {integrity: sha512-uTv8J/wiWTgUTg+9vLTi//leUl5vDQS6uii/emeTb2ssY7vl6QWf2fFbIIGjnhjvbdKlU0ed7QPgY1htTC86jQ==}
