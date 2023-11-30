@@ -1,0 +1,12 @@
+{
+  "tsdk-count": "计数器 Count",
+  "tsdk-todos": "待办事项 Todo",
+  "tsdk-encrypt-decrypt": "加解密 encrypt/decrypt",
+  "tsdk-typeorm": "TypeORM 例子",
+  "tsdk-drizzle-orm": "DrizzleORM 例子",
+  "tsdk-kysely": "Kysely 例子",
+  "tsdk-auth": "登录/注册",
+  "tsdk-upload": "上传",
+  "tsdk-role-permission": "权限系统",
+  "more": "更多"
+}

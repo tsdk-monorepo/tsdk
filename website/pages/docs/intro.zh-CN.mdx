@@ -1,24 +1,28 @@
-# tsdk 是什么
+---
+title: tsdk 介绍
+---
 
-tsdk 是一款 TypeScript 项目开发工具。通过 tsdk，开发人员可以更轻松地在项目间共享代码，并确保类型的一致性，从而减少潜在的错误，提高开发效率。
+# 什么是 tsdk 
 
-## 主要特性
+tsdk 是一款 TypeScript 项目开发工具。通过 tsdk，开发人员可以更轻松地在项目间共享代码，确保类型的一致性，从而减少潜在的错误，提高开发效率。
+
+## 主要特点
 
 - 类型安全：确保前后端通信以及不同模块之间的类型一致性
 - [代码共享](/docs/guide/share-code)：简化在项目不同部分之间共享代码的流程
-- 代码生成：生成直接接口调用代码，以及支持 **SWR** 和 **ReactQuery** 钩子生成
-- 基于 **fe-sdk/permissions.json** 可以生成自己想要的模版代码，比如检测登录，导入接口权限等
+- 代码生成：生成直接调用接口的代码，以及支持 **SWR** 和 **ReactQuery** 钩子生成
+- 更多：基于生成的 **fe-sdk/permissions.json** 可以生成自己想要的模版代码，比如检测登录，导入接口权限等
 
-## 为什么 tsdk
+## 动机：为什么 tsdk
 
 我们从传统的 API 开发流程来说：
 
 1. 后端写好接口和接口文档
-2. 前端根据后端提供的接口文档再编写请求接口的代码。
+2. 前端根据接口文档再封装请求接口的代码。
 
 tsdk 可以帮助我们省去第二步，如何做到？我们从一个最简单的 `Hello World` 例子开始。
 
-### 一个简单的后端接口
+### 一个简单的原始后端接口
 
 这里拿 [expressjs.com](https://expressjs.com/en/starter/hello-world.html) 中的 [Hello World](https://expressjs.com/en/starter/hello-world.html) 例子来说明什么是 `端到端类型安全 API`，以及 tsdk 的基本工作原理。
 
@@ -108,7 +112,7 @@ export function HelloWorld(req: HelloWorldReq): Promise<HelloWorldRes> {
 }
 ```
 
-### 总结
+## 总结
 
 tsdk 的运作原理不是非常复杂。
 

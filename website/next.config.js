@@ -7,7 +7,7 @@ const withNextra = require('nextra')({
 module.exports = withNextra(
   withVideos({
     i18n: {
-      locales: ['zh-CN', 'en-US'],
+      locales: ['en-US', 'zh-CN'],
       defaultLocale: 'en-US',
     },
 

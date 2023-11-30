@@ -1,0 +1,132 @@
+import { Tabs, Callout } from 'nextra/components';
+
+# 在 Expo（React Native） 中使用
+
+参考示例代码：https://github.com/tsdk-monorepo/tsdk-quickstart/tree/main/expo-app
+
+## Expo 与 pnpm monorepo 使用说明
+
+Expo 配合 pnpm workspace 使用需要做一些单独设置：
+
+### 添加 .npmrc
+
+```env filename=".npmrc" copy {1}
+node-linker=hoisted
+```
+
+### 添加 metro.config.js
+
+<Callout>注意第 6 行代码，是相对于子项目的根目录。</Callout>
+
+```js filename="expo-app/metro.config.js" copy {6}
+const { getDefaultConfig } = require('expo/metro-config');
+const { FileStore } = require('metro-cache');
+const path = require('path');
+
+const projectRoot = __dirname;
+const workspaceRoot = path.resolve(projectRoot, '../');
+
+const config = getDefaultConfig(projectRoot);
+
+// #1 - Watch all files in the monorepo
+config.watchFolders = [workspaceRoot];
+// #3 - Force resolving nested modules to the folders below
+config.resolver.disableHierarchicalLookup = true;
+// #2 - Try resolving with project modules first, then workspace modules
+config.resolver.nodeModulesPaths = [
+  path.resolve(projectRoot, 'node_modules'),
+  path.resolve(workspaceRoot, 'node_modules'),
+];
+
+// Use turborepo to restore the cache when possible
+config.cacheStores = [
+  new FileStore({
+    root: path.join(projectRoot, 'node_modules', '.cache', 'metro'),
+  }),
+];
+
+module.exports = config;
+```
+
+### 更新 tsconfig.json 添加 path alias
+
+```json {5-7} copy filename="expo-app/tsconfig.json"
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "@/*": ["./*"]
+    }
+  }
+}
+```
+
+### 更新 app.json 支持 path alias
+
+```json filename="expo-app/tsconfig.json" {3-5} copy
+{
+  "expo": {
+    "experiments": {
+      "tsconfigPaths": true
+    },
+    "name": "expo-app",
+    "slug": "expo-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+  }
+}
+```
+
+### 创建 index.js
+
+```js filename="expo-app/index.js" copy
+import { registerRootComponent } from 'expo';
+
+import App from './App';
+
+registerRootComponent(App);
+```
+
+### 更新 package.json
+
+```json filename="expo-app/package.json" copy {4}
+{
+  "name": "expo-app",
+  "version": "1.0.0",
+  "main": "index.js"
+  ......
+}
+```
+
+<Callout type="error">
+
+如果遇到报错：
+
+*TypeError: g.on is not a function*
+
+该错误信息是因为 moporepo 没有正确设置导致。遵循上面步骤即可。
+
+</Callout>
+
+<Callout>参考更多说明 https://docs.expo.dev/guides/monorepos</Callout>

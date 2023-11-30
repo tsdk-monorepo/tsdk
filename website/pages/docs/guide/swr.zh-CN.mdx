@@ -1,8 +1,8 @@
 import { Callout } from 'nextra/components';
 
-## SWR 支持
+# SWR 支持
 
-当导出前端模块的时候，通过配置 [.tsdkrc](./.tsdkrc) 的 [dataHookLib](./tsdkrc#datahooklib) 字段为 **SWR**，就可以顺带生成 SWR 钩子。
+当导出前端模块的时候，通过配置 [.tsdkrc](./.tsdkrc) 的 [dataHookLib](./tsdkrc#datahooklib) 字段为 **SWR**，既可以生成 SWR 钩子。
 
 ```json filename=".tsdkrc" {3}
 {
@@ -15,11 +15,8 @@ import { Callout } from 'nextra/components';
 
 通过在原来的接口名称前加 `use` 即可导入：
 
-参考代码：https://github.com/tsdk-monorepo/tsdk-starter/blob/main/next-app/app/built-in-swr/page.tsx
-
 <Callout>
-  这里路径 `@/lib/user-api-hooks` 是为了和 `@/lib/user-api` 隔离开，避免 Next.js
-  服务端组件报错。
+  这里路径 `@/lib/user-api-hooks` 是为了和 `@/lib/user-api` 隔离开，避免 Next.js 服务端组件报错。
 </Callout>
 
 ```tsx
@@ -46,3 +43,7 @@ export default function HelloPage() {
   );
 }
 ```
+
+### 参考代码
+
+参考代码：https://github.com/tsdk-monorepo/tsdk-quickstart/blob/main/next-app/app/built-in-swr/page.tsx

@@ -1,7 +1,7 @@
 {
   "index": {
     "type": "page",
-    "title": "首页",
+    "title": "Home",
     "display": "hidden",
     "theme": {
       "layout": "full",
@@ -10,6 +10,6 @@
   },
   "docs": {
     "type": "page",
-    "title": "📖 文档"
+    "title": "Documentation"
   }
 }

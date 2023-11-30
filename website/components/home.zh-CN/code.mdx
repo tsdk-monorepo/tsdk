@@ -1,0 +1,120 @@
+import { Bleed, Tabs } from 'nextra-theme-docs';
+
+<div className="flex flex-col-reverse lg:flex-row px-0 md:px-12">
+  
+  <div className="flex-1">
+    <div className="text-left">
+    #### 前端使用
+    </div>
+
+    <Tabs items={['SimpleTest.ts', 'App.tsx']}>
+      <Tabs.Tab>
+
+      简单调用：
+
+      ```tsx filename="SimpleTest.ts"
+      import {
+        GetHello
+      } from 'fe-sdk';
+
+      GetHello({world: 'tsdk'}).then(res => {
+        console.log(res.result);
+      })
+      ```
+      </Tabs.Tab>
+      <Tabs.Tab>
+
+      或在 React 中直接使用 **SWR** 钩子：
+
+      ```ts filename="App.tsx"
+      'use client';
+
+      import { useGetHello } from 'fe-sdk/lib/user-api-hooks';
+
+      export default function App() {
+        const {data, error, isLoading } = useGetHello({world: 'tsdk'});
+
+        if (isLoading) return 'loading';
+        if (error) return <div>Something wrong: {error?.message}</div>
+        return <h1>Hello, {data?.result}</h1>
+      }
+      ```
+
+      </Tabs.Tab>
+    </Tabs>
+
+  </div>
+  <div className="w-0 lg:w-8" />
+
+  <div className="flex-1">
+    <div className="text-left">
+    #### 后端代码
+    </div>
+
+    <Tabs items={['Hello.api.ts', 'Hello.apiconf.ts']}>
+      <Tabs.Tab>
+
+      使用接口配置：
+
+      ```ts filename="Hello.api.ts"
+      import {
+        GetHelloConfig, GetHelloReq, GetHelloRes
+      } from './Hello.apiconf';
+      import { genRoute, type RequestInfo } from './gen-route';
+
+      export function setupHelloAPI() {
+        genRoute<GetHelloReq, GetHelloRes>(
+          GetHelloConfig,
+          async (reqInfo: Readonly<RequestInfo>, data) => {
+            return { result: `Hello ${data.world}` };
+          }
+        );
+      }
+      ```
+      </Tabs.Tab>
+      <Tabs.Tab>
+
+      声明接口配置：
+
+      ```ts filename="Hello.apiconf.ts"
+      import { z } from 'zod';
+      import { APIConfig, transformPath } from '@/src/shared/tsdk-helper';
+
+      /**
+       * Get hello ({@link APIConfig})
+       * @category hello
+       */
+      export const GetHelloConfig: APIConfig = {
+        type: 'user',
+        method: 'get',
+        path: transformPath('GetHello'),
+        description: 'Get hello',
+        category: 'hello',
+        needAuth: false,
+        schema: z.object({
+          world: z.string().min(1).
+        })
+      };
+      /**
+       *
+       * @category hello
+       */
+      export type GetHelloReq = {
+        world: string;
+      };
+
+      /**
+       *
+       * @category hello
+       */
+      export type GetHelloRes = {
+        result: string;
+      };
+      // --------- GetHello END ---------
+
+      ```
+      </Tabs.Tab>
+    </Tabs>
+
+  </div>
+</div>
