@@ -6,8 +6,7 @@
   "entityExt": "entity",
   "apiconfExt": "apiconf",
   "sharedDirs": ["./src/shared", "./src/i18n"],
-  "sdkWhiteList": [""],
+  "sdkWhiteList": [],
   "monorepoRoot": "../../",
-  "axiosVersion": "1.6.1",
   "dataHookLib": "SWR"
 }

@@ -5,24 +5,25 @@
  *
  **/
 
+import genApi from './gen-api';
+
 import {
   AddTodoConfig,
-  AddTodoReq,
-  AddTodoRes,
+  type AddTodoReq,
+  type AddTodoRes,
   DeleteTodoConfig,
-  DeleteTodoReq,
-  DeleteTodoRes,
+  type DeleteTodoReq,
+  type DeleteTodoRes,
   QueryTodoByCursorConfig,
-  QueryTodoByCursorReq,
-  QueryTodoByCursorRes,
+  type QueryTodoByCursorReq,
+  type QueryTodoByCursorRes,
   QueryTodoConfig,
-  QueryTodoReq,
-  QueryTodoRes,
+  type QueryTodoReq,
+  type QueryTodoRes,
   UpdateTodoConfig,
-  UpdateTodoReq,
-  UpdateTodoRes,
+  type UpdateTodoReq,
+  type UpdateTodoRes,
 } from './apiconf-refs';
-import genApi from './gen-api';
 
 export * from './common-api';
 

@@ -1,8 +1,8 @@
-import { AxiosRequestConfig } from 'axios';
 import useSWR, { SWRConfiguration } from 'swr';
 import useSWRMutation, { SWRMutationConfiguration } from 'swr/mutation';
+import { AxiosRequestConfig } from 'axios';
 
-import { GetConfigsConfig, GetConfigsReq, GetConfigsRes } from './apiconf-refs';
+import { GetConfigsConfig, type GetConfigsReq, type GetConfigsRes } from './apiconf-refs';
 import { GetConfigs } from './common-api';
 
 export function useGetConfigs(

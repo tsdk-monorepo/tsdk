@@ -23,8 +23,8 @@ const port = 3012;
   const server = http.createServer(app);
 
   app.use(cors());
-  app.use(express.json()); // for parsing application/json
-  app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
 
   app.use((req, res, next) => {
     res.setHeader('X-Powered-By', 'tsdk');

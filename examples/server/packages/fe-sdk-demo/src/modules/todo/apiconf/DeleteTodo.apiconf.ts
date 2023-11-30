@@ -1,12 +1,12 @@
+import { transformPath } from '../../../shared/tsdk-helper';
+import { Todo } from '../Todo.entity';
+import { deleteTodoSchema } from './TodoSchema.shared';
 import {
-  transformPath,
   APIConfig,
   DeleteResult,
   ObjectLiteral,
   RequireOnlyOne,
 } from '../../../shared/tsdk-helper';
-import { Todo } from '../Todo.entity';
-import { deleteTodoSchema } from './TodoSchema.shared';
 
 export const DeleteTodoConfig: APIConfig = {
   type: 'user',

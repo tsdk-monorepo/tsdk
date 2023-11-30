@@ -4,7 +4,7 @@
   "main": "lib/index.js",
   "scripts": {
     "tsc:build": "tsc --project tsconfig.json",
-    "doc:build": "typedoc src/**.ts",
+    "doc:build": "typedoc src/**.ts --plugin ./hover.mjs && node write-popover.mjs",
     "serve": "serve docs"
   },
   "dependencies": {
