@@ -41,5 +41,5 @@ app.use(
 setupHelloAPI();
 
 app.listen(port, () => {
-  console.log(`Tsdk express server running at http://localhost:${port}`);
+  console.log(`tsdk express server running at http://localhost:${port}`);
 });

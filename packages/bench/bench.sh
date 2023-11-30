@@ -7,10 +7,10 @@ echo Express End
 echo ' '
 
 
-echo Tsdk Express
+echo tsdk Express
 echo ' '
 plow http://127.0.0.1:3015/api/user/hello1900 -c 100 -n 100000 -d 30s
-echo Tsdk Express End
+echo tsdk Express End
 echo ' '
 
 
@@ -22,10 +22,10 @@ echo Hono End
 echo ' '
 
 
-echo Tsdk Hono
+echo tsdk Hono
 echo ' '
 plow http://127.0.0.1:3016/api/user/hello1900 -c 100 -n 100000 -d 30s
-echo Tsdk Hono End
+echo tsdk Hono End
 echo ' '
 
 

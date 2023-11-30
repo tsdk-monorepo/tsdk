@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # Data
-services = ['Express', 'Tsdk Express', 'Hono', 'Tsdk Hono', 'Trpc Express']
+services = ['Express', 'tsdk Express', 'Hono', 'tsdk Hono', 'Trpc Express']
 rps = [1901.312, 2413.334, 2077.162, 2420.152, 2233.697]
 
 # Sort the data in ascending order

@@ -43,4 +43,4 @@ serve({
   port,
 });
 
-console.log(`Tsdk hono server running at http://localhost:${port}`);
+console.log(`tsdk hono server running at http://localhost:${port}`);
