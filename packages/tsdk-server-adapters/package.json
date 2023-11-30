@@ -1,7 +1,10 @@
 {
   "name": "tsdk-server-adapters",
-  "version": "0.0.20-beta.15",
+  "version": "0.0.20",
   "main": "lib/index.js",
+  "repository": "tsdk-monorepo/tsdk",
+  "bugs": "https://github.com/tsdk-monorepo/tsdk/issues",
+  "homepage": "https://tsdk.dev",
   "scripts": {
     "start-publish": "npm run build && npm publish --registry=https://registry.npmjs.org",
     "build": "rm -rf lib && tsc --project tsconfig.json",

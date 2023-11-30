@@ -1,6 +1,11 @@
 {
   "name": "tsdk",
-  "version": "0.0.20-beta.15",
+  "version": "0.0.20",
+  "description": "Type-safe API development and code share tool for TypeScript projects.",
+  "repository": "tsdk-monorepo/tsdk",
+  "bugs": "https://github.com/tsdk-monorepo/tsdk/issues",
+  "homepage": "https://tsdk.dev",
+  "license": "MIT",
   "main": "lib/index.js",
   "bin": {
     "tsdk": "bin/tsdk.js"
@@ -57,6 +62,5 @@
     "ignorePatterns": [
       "node_modules"
     ]
-  },
-  "license": "MIT"
+  }
 }

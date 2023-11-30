@@ -27,7 +27,7 @@ export async function syncFiles(noOverwrite = false) {
   await syncSharedFiles();
 }
 
-export async function copyTsdkrc() {
+export async function copytsdkrc() {
   // copy .tsdkrc and remove packages/fe-sdk .tsdkrc
   await fsExtra.copy(
     path.join(__dirname, '../fe-sdk-template', './config/.tsdkrc.json'),
@@ -133,7 +133,7 @@ export async function copySDK(noOverwrite: boolean) {
   console.log(symbols.bullet, `init ${ensureDir}`);
 
   if (!isCurrentConfigExist) {
-    await copyTsdkrc();
+    await copytsdkrc();
   }
 
   const existPath = path.resolve(process.cwd(), config.packageDir, packageFolder, `package.json`);

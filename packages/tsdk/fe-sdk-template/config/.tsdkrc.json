@@ -8,5 +8,6 @@
   "shareExt": "shared",
   "sharedDirs": ["./src/shared"],
   "sdkWhiteList": [],
+  "removeFields": [],
   "monorepoRoot": "./"
 }

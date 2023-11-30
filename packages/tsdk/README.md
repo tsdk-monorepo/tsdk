@@ -1,7 +1,12 @@
-# tsdk (Note: still in development)
+<div align="center">
+  <a href="https://tsdk.dev">
+  <h1>tsdk</h1>
+  </a>
+  <p>Type-safe API development and code share tool for TypeScript projects.</p>
+</div>
 
-![!Run on Windows](https://github.com/suhaotian/tsdk/actions/workflows/linux-ci.yml/badge.svg?event=push)
-![Run on Linux](https://github.com/suhaotian/tsdk/actions/workflows/windows-ci.yml/badge.svg?event=push)
+![!Run on Windows](https://github.com/tsdk-monorepo/tsdk/actions/workflows/linux-ci.yml/badge.svg?event=push)
+![Run on Linux](https://github.com/tsdk-monorepo/tsdk/actions/workflows/windows-ci.yml/badge.svg?event=push)
 [![NPM version](https://badge.fury.io/js/tsdk.svg)](https://www.npmjs.com/package/tsdk)
 [![install size](https://packagephobia.com/badge?p=tsdk)](https://packagephobia.com/result?p=tsdk)
 ![Downloads](https://img.shields.io/npm/dm/tsdk.svg?style=flat)
@@ -16,6 +21,16 @@
 - Built-in docs.
 
 **Note: `@nestjs/cli` bundle into one single file, but not include `node_modules/*`**
+
+## Website
+
+https://tsdk.dev
+
+[中文](https://tsdk.dev/zh-CN)
+
+## Documentation
+
+https://tsdk.dev/docs/intro
 
 ### Install
 
