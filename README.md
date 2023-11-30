@@ -1,77 +1,52 @@
-# tsdk-monorepo
+<p align="center">
+  <a href="https://tsdk.dev">
+      <img  src="./website/public/tsdk.jpeg" width="300" alt="tsdk" />
+  </a>
+</p>
 
-## Commands
+<div align="center">
+  <p>Type-safe API development and code share tool for TypeScript projects.</p>
+</div>
 
-Prepare git hooks:
+![!Run on Windows](https://github.com/tsdk-monorepo/tsdk/actions/workflows/linux-ci.yml/badge.svg?event=push)
+![Run on Linux](https://github.com/tsdk-monorepo/tsdk/actions/workflows/windows-ci.yml/badge.svg?event=push)
+[![NPM version](https://badge.fury.io/js/tsdk.svg)](https://www.npmjs.com/package/tsdk)
+[![install size](https://packagephobia.com/badge?p=tsdk)](https://packagephobia.com/result?p=tsdk)
+![Downloads](https://img.shields.io/npm/dm/tsdk.svg?style=flat)
 
-```
-pnpm start-prepare
-```
+## Getting Started
 
-Publish `tsdk-server-adapters`packages:
+Visit <a aria-label="tsdk intro" href="https://tsdk.dev/docs/intro">https://tsdk.dev/docs/intro</a> to get started with tsdk.
 
-```bash
-pnpm start-publish
-```
+## Website
 
-Build packages
+https://tsdk.dev
 
-```bash
-pnpm build
-```
+[中文](https://tsdk.dev/zh-CN)
 
-Run examples:
+## Documentation
 
-Run the `examples/web`
+https://tsdk.dev/docs/intro
 
-```bash
-# pnpm --filter server-example --filter web-example dev
-pnpm dev:web-example
-```
+## Development
 
-Run the `examples/mobile`
+This repository uses [PNPM Workspaces](https://pnpm.io/workspaces) and
+[Turborepo](https://github.com/vercel/turborepo).
 
-```bash
-# pnpm --filter server-example --filter app-example dev
-pnpm dev:app-example
-```
+Install dependencies:
 
-Run the `examples/mobile` and `examples/web`
-
-```bash
-# pnpm --filter server-example --filter app-example --filter web-example dev
-pnpm dev:app-web-example
+```sh
+pnpm install
 ```
 
-Example docs:
-
-```bash
-# start docs
-pnpm dev:docs
-# build docs
-pnpm build:docs
-```
-
-## 📁 Structure
-
-- [`examples`](./examples) - Examples that only use packages and aren't aware of other apps.
-- [`packages`](./packages) - Packages that may use external and/or other monorepo packages.
-
-### Packages
+### Structure
 
 - [`packages/tsdk`](./packages/tsdk) - `tsdk` package.
 - [`packages/tsdk-server-adapters`](./packages/tsdk-server-adapters) - `tsdk-server-adapters` package.
+- [`packages/bench`](./packages/bench) - `tsdk` benchmark.
+- [`configs/*`](./packages/bench) - config packages for ts/eslint/test etc.
+- [`examples/*`](./examples) - Examples that only use packages and aren't aware of other apps.
 
-### Config Packages
+## Community
 
-- `configs/ts-config`
-- `configs/eslint-config`
-- `configs/test-config` pure typescript testing with `ts-mocha`
-- `configs/vitest-config` vitest testing for react or others
-
-### Examples
-
-- [`examples/server`](./examples/server) - Node.js server using `packages/tsdk` and `packages/tsdk-server-adapters`packages.
-- [`examples/server/packages/fe-sdk-demo`](./examples/server/packages/fe-sdk-demo) - fe-sdk
-- [`examples/app`](./examples/app) - Expo app using `eslint-config` and `examples/server/packages/fe-sdk-demo` packages.
-- [`examples/web`](./examples/web) - Next.js app using `eslint-config` and `examples/server/packages/fe-sdk-demo` packages.
+Welcome to join the [Discussions](https://github.com/tsdk-monorepo/tsdk/discussions)
