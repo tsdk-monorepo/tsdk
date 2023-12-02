@@ -6,7 +6,7 @@ import { removeFields } from './remove-fields';
 import { runNestCommand } from './run-nest-command';
 import symbols from './symbols';
 import { copyPermissionsJSON, deleteSDKFolder, syncAPI } from './sync-api';
-import { addDepsIfNone, copytsdkrc, syncFiles } from './sync-files';
+import { addDepsIfNone, copyTsdkConfig, syncFiles } from './sync-files';
 
 export async function run() {
   const params = process.argv.filter((i) => i.startsWith('--'));
@@ -54,8 +54,8 @@ Examples
   } else if (!tsconfigExists) {
     console.log('\n', 'Error: >> ', symbols.error, validProjectMsg, '\n');
   } else if (params[0] === `--init`) {
-    await copytsdkrc();
-    console.log(symbols.success, '`.tsdkrc` copied!');
+    await copyTsdkConfig();
+    console.log(symbols.success, '`tsdk.config.js` copied!');
     console.log(
       symbols.info,
       `You can edit and generate the SDK package with \`${

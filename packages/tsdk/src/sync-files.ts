@@ -4,7 +4,7 @@ import fsExtra from 'fs-extra';
 import path from 'path';
 
 import {
-  isCurrentConfigExist,
+  isConfigExist,
   comment,
   getDefaultContent,
   config,
@@ -12,7 +12,6 @@ import {
   parseDeps,
   packageFolder,
 } from './config';
-import { deleteFilesBeforeSync } from './delete-files';
 import { getNpmCommand } from './get-pkg-manager';
 import symbols from './symbols';
 import { transformImportPath } from './transform-import-path';
@@ -20,18 +19,17 @@ import { transformImportPath } from './transform-import-path';
 export async function syncFiles(noOverwrite = false) {
   await copySDK(noOverwrite);
   await parseDeps();
-  await deleteFilesBeforeSync();
   await syncAddtionShareFiles();
   await syncAPIConf();
   await syncEntityFiles();
   await syncSharedFiles();
 }
 
-export async function copytsdkrc() {
-  // copy .tsdkrc and remove packages/fe-sdk .tsdkrc
+export async function copyTsdkConfig() {
+  // copy tsdk.config.js and remove packages/fe-sdk/tsdk.config.js
   await fsExtra.copy(
-    path.join(__dirname, '../fe-sdk-template', './config/.tsdkrc.json'),
-    path.join(process.cwd(), '.tsdkrc.json'),
+    path.join(__dirname, '../fe-sdk-template', './config/tsdk.config.js'),
+    path.join(process.cwd(), 'tsdk.config.js'),
     { overwrite: false }
   );
 }
@@ -138,8 +136,8 @@ async function reconfigPkg() {
 export async function copySDK(noOverwrite: boolean) {
   console.log(symbols.bullet, `init ${ensureDir}`);
 
-  if (!isCurrentConfigExist) {
-    await copytsdkrc();
+  if (!isConfigExist) {
+    await copyTsdkConfig();
   }
 
   const existPath = path.resolve(process.cwd(), config.packageDir, packageFolder, `package.json`);

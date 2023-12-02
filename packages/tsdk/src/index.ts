@@ -1,1 +1,1 @@
-console.log('no index for import');
+export type { TSDKConfig } from './config';
