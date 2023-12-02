@@ -1,9 +1,8 @@
-import { Todo } from '../Todo.entity';
+import type { Todo } from '../Todo.entity';
 import { updateTodoSchema } from './TodoSchema.shared';
 
 import {
   APIConfig,
-  ObjectLiteral,
   RequireAtLeastOne,
   transformPath,
   UpdateResult,

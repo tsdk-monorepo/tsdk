@@ -1,8 +1,8 @@
-import { Todo } from '../Todo.entity';
+import type { Todo } from '../Todo.entity';
 import { queryTodoSchema } from './TodoSchema.shared';
 
 import { Paging, PagingRes } from '@/src/shared/paging';
-import { APIConfig, transformPath, ObjectLiteral } from '@/src/shared/tsdk-helper';
+import { APIConfig, transformPath } from '@/src/shared/tsdk-helper';
 
 export const QueryTodoConfig: APIConfig = {
   path: transformPath('QueryTodo'),

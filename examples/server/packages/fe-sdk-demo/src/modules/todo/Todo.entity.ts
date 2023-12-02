@@ -7,8 +7,6 @@ export enum TodoStatus {
   deleted = 'deleted',
 }
 
-export const todoStatus = Object.values(TodoStatus);
-
 const entityName = 'todo_item';
 
 export class Todo extends CreatedUpdatedAt {

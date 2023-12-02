@@ -1,8 +1,7 @@
-import { z } from 'zod';
-import { Todo } from '../Todo.entity';
+import type { Todo } from '../Todo.entity';
 import { queryTodoByCursorSchema } from './TodoSchema.shared';
 import { Paging, PagingRes } from '../../../shared/paging';
-import { APIConfig, ObjectLiteral, transformPath } from '../../../shared/tsdk-helper';
+import { APIConfig, transformPath } from '../../../shared/tsdk-helper';
 
 /**
  * query todo list by cursor ({@link APIConfig})

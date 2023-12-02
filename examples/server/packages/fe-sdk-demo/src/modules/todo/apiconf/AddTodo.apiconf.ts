@@ -1,7 +1,6 @@
-import { z } from 'zod';
-import { Todo } from '../Todo.entity';
+import type { Todo } from '../Todo.entity';
 import { addTodoSchema } from './TodoSchema.shared';
-import { InsertResult, transformPath, APIConfig, ObjectLiteral } from '../../../shared/tsdk-helper';
+import { InsertResult, transformPath, APIConfig } from '../../../shared/tsdk-helper';
 
 export const AddTodoConfig: APIConfig = {
   type: 'user',
