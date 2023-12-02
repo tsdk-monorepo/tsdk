@@ -319,8 +319,8 @@ importers:
         specifier: ^3.10.2
         version: 3.10.2
       tsdk-server-adapters:
-        specifier: ^0.0.22
-        version: 0.0.22(express@4.18.2)(hono@3.10.2)(zod@3.22.4)
+        specifier: ^0.0.24
+        version: link:../tsdk-server-adapters
       zod:
         specifier: ^3.22.4
         version: 3.22.4
@@ -15338,28 +15338,6 @@ packages:
       minimist: 1.2.6
       strip-bom: 3.0.0
     dev: true
-
-  /tsdk-server-adapters@0.0.22(express@4.18.2)(hono@3.10.2)(zod@3.22.4):
-    resolution: {integrity: sha512-KYRFSdGX/Fhml+JrK2iOJulgpx0YwcvrzPdqwfwI/GPZLiPL6LKxhA2H2QRj7hwddOVc4OQ4jQJejV09ggbhDA==}
-    peerDependencies:
-      express: ^4.18.2
-      hono: ^3.10.2
-      socket.io: ^4.7.2
-      ws: ^8.13.0
-      zod: ^3
-    peerDependenciesMeta:
-      express:
-        optional: true
-      socket.io:
-        optional: true
-      ws:
-        optional: true
-    dependencies:
-      eventemitter3: 4.0.7
-      express: 4.18.2
-      hono: 3.10.2
-      zod: 3.22.4
-    dev: false
 
   /tslib@1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
