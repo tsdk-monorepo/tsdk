@@ -319,7 +319,7 @@ importers:
         specifier: ^3.10.2
         version: 3.10.2
       tsdk-server-adapters:
-        specifier: ^0.0.24
+        specifier: ^0.0.25
         version: link:../tsdk-server-adapters
       zod:
         specifier: ^3.22.4
