@@ -31,7 +31,7 @@ const config: DocsThemeConfig = {
       <div className="flex gap-x-6">
         <div>Copyright @ {new Date().getFullYear()}</div>
         <a href="/sitemap.xml">Sitemap</a>
-        <a href="https://github.com/tsdk-monorepo/tsdk">GitHub</a>
+        <a href="https://github.com/tsdk-monorepo">GitHub</a>
       </div>
     ),
   },

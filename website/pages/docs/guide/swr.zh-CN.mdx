@@ -2,12 +2,13 @@ import { Callout } from 'nextra/components';
 
 # SWR 支持
 
-当导出前端模块的时候，通过配置 [.tsdkrc](./.tsdkrc) 的 [dataHookLib](./tsdkrc#datahooklib) 字段为 **SWR**，既可以生成 SWR 钩子。
+当导出前端模块的时候，通过配置 [tsdk.config.js](./tsdk.config) 的 [dataHookLib](./tsdk.config#datahooklib) 字段为 **SWR**，既可以生成 SWR 钩子。
 
-```json filename=".tsdkrc" {3}
-{
+```json filename="tsdk.config.js" {4}
+/** @type {import('tsdk').TSDKConfig} */
+module.exports = {
   ...
-  "dataHookLib": "SWR"
+  dataHookLib: "SWR"
 }
 ```
 

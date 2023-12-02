@@ -2,10 +2,10 @@ import { Callout } from 'nextra/components';
 
 # React Query 支持
 
-当导出前端模块的时候，通过配置 [.tsdkrc](./.tsdkrc) 的 [dataHookLib](./tsdkrc#datahooklib) 字段为 **ReactQuery**，即可生成 ReactQuery 钩子。
+当导出前端模块的时候，通过配置 [tsdk.config.js](./tsdk.config.js) 的 [dataHookLib](./#datahooklib) 字段为 **ReactQuery**，即可生成 ReactQuery 钩子。
 
-```json filename=".tsdkrc" {3}
-{
+```js filename="tsdk.config.js" {3}
+module.exports = {
   ...
   "dataHookLib": "ReactQuery"
 }

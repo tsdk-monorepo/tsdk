@@ -111,7 +111,7 @@ echo $config > tsconfig.json
 
 ### 生成配置
 
-在 `./server` 目录，执行以下命令生成配置文件 `.trdkrc`（[.tsdkrc 说明](/docs/guide/tsdkrc)）：
+在 `./server` 目录，执行以下命令生成配置文件 `tsdk.config.js`（[tsdk.config 说明](/docs/guide/tsdk.config)）：
 
 <Tabs defaultIndex="1" items={['npm', 'pnpm']}>
   <Tabs.Tab value="npm">
@@ -120,26 +120,26 @@ echo $config > tsconfig.json
 npx tsdk --init
 ```
 
-更新生成的 `.tsdkrc` 内容：
+更新生成的 `tsdk.config.js` 内容：
 
-```json {2,12,13}
-{
-  "packageDir": "../",
-  "packageName": "fe-sdk",
-  "baseDir": "./src",
-  "entityLibName": ["typeorm"],
-  "entityExt": "entity",
-  "apiconfExt": "apiconf",
-  "shareExt": "shared",
-  "sharedDirs": ["./src/shared"],
-  "sdkWhiteList": [],
-  "removeFields": [],
-  "monorepoRoot": "../",
-  "dataHookLib": "SWR",
-  "dependencies": {
-    "axios": "1.6.2"
-  }
-}
+```js {2,12,13}
+/** @type {import('tsdk').TSDKConfig} */
+module.exports = {
+  packageDir: '../',
+  packageName: 'fe-sdk',
+  baseDir: './src',
+  entityLibName: ['typeorm'],
+  entityExt: 'entity',
+  apiconfExt: 'apiconf',
+  shareExt: 'shared',
+  sharedDirs: ['./src/shared'],
+  removeFields: [],
+  monorepoRoot: '../',
+  dataHookLib: 'SWR',
+  dependencies: {
+    axios: '1.6.2',
+  },
+};
 ```
 
 再次执行安装依赖：
@@ -155,26 +155,26 @@ npm i
 pnpm tsdk --init
 ```
 
-更新生成的 `.tsdkrc` 内容：
+更新生成的 `tsdk.config.js` 内容：
 
-```json {2,12,13}
-{
-  "packageDir": "../",
-  "packageName": "fe-sdk",
-  "baseDir": "./src",
-  "entityLibName": ["typeorm"],
-  "entityExt": "entity",
-  "apiconfExt": "apiconf",
-  "shareExt": "shared",
-  "sharedDirs": ["./src/shared"],
-  "sdkWhiteList": [],
-  "removeFields": [],
-  "monorepoRoot": "../",
-  "dataHookLib": "SWR",
-  "dependencies": {
-    "axios": "1.6.2"
-  }
-}
+```js {3,13,14}
+/** @type {import('tsdk').TSDKConfig} */
+module.exports = {
+  packageDir: '../',
+  packageName: 'fe-sdk',
+  baseDir: './src',
+  entityLibName: ['typeorm'],
+  entityExt: 'entity',
+  apiconfExt: 'apiconf',
+  shareExt: 'shared',
+  sharedDirs: ['./src/shared'],
+  removeFields: [],
+  monorepoRoot: '../',
+  dataHookLib: 'SWR',
+  dependencies: {
+    axios: '1.6.2',
+  },
+};
 ```
 
 再次执行安装依赖：
@@ -212,7 +212,7 @@ pnpm tsdk --sync
     <FileTree.File name="tsdk.code-snippets" />
   </FileTree.Folder>
   <FileTree.Folder name="server" defaultOpen>
-    <FileTree.File name=".tsdkrc" />
+    <FileTree.File name="tsdk.config.js" />
     <FileTree.File name="package.json" />
     <FileTree.Folder name="src">
       <FileTree.Folder name="shared" defaultOpen>
@@ -231,7 +231,7 @@ pnpm tsdk --sync
 
 创建的相关文件说明：
 
-- `./server/.tsdkrc` - tsdk 配置文件 [说明](../guide/tsdkrc)
+- `./server/tsdk.config.js` - tsdk 配置文件 [说明](../guide/tsdk.config)
 - `.vscode/tsdk.code-snippets` - tsdk 辅助代码片段 [说明](../guide/tsdk-snippets)
 - `./server/src/shared` - 共享文件夹
 - `./fe-sdk` - 导出的共享模块

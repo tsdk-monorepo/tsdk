@@ -1,5 +1,5 @@
 {
-  "tsdkrc": ".tsdkrc 配置说明",
+  "tsdk.config": "tsdk.config.js 配置说明",
   "apiconf": "APIConfig 说明",
   "tsdk-snippets": "代码片段 Snippets",
   "tsdk-server-adapters": "适配器 Adapters",
