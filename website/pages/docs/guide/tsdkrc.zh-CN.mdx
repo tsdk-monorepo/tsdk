@@ -7,7 +7,7 @@
   "packageDir": "packages/",
   "packageName": "fe-sdk",
   "baseDir": "./src",
-  "entityLibName": ["typeorm", "kysely"],
+  "entityLibName": "typeorm",
   "entityExt": "entity",
   "apiconfExt": "apiconf",
   "shareExt": "shared",
@@ -22,15 +22,15 @@
 
 - `packageDir` - 导出模块到哪个文件夹
 - `packageName` - 导出的模块名称
-- `entityLibName` - ORM 模块，目前支持 `TypeORM` 和 `kysely`
+- `entityLibName` - ORM 模块，目前支持 `TypeORM`, `kysely` 和 `DrizzleORM`
 - `entityExt` - ORM 数据库表模块文件扩展，默认 `*.entity.ts`
 - `apiconfExt` - API 配置文件扩展，默认 `*.apiconf.ts`
 - `shareExt` - 共享文件名扩展，默认 `*.shared.ts`
 - `sharedDirs` - 共享文件夹，默认 `["./src/shared"]`
 - `sdkWhiteList` - 白名单文件夹，同步代码的时候不删除对应的文件夹
 - `monorepoRoot` - monorepo 根路径，默认当前路径 `./`
-- `dataHookLib` - 可选值有 `SWR` | `ReactQuery`，生成 `SWR` 或者 `React Query` 钩子；get 方法的接口将生成获取钩子，非 get 的将生成更新钩子。默认不生成。依赖版本：swr@^2.2.4；@tanstack/react-query@^5.8.4
-- `dependencies` - 自定义依赖，将会和 **fe-sdk/package.json** dependencies 进行合并。适合添加自定义依赖，以及覆盖默认的依赖版本号
+- `dataHookLib` - 可选值有 `SWR` | `ReactQuery`，生成 `SWR` 或者 `React Query` 钩子；get 方法的接口将生成获取钩子，非 get 的将生成更新钩子。默认不生成。依赖版本：swr@^2.2.4；@tanstack/react-query@^5.10.0
+- `dependencies` - 自定义依赖，将会和 **fe-sdk/package.json** dependencies 进行合并。作用：添加自定义依赖，以及覆盖默认的依赖版本号
 
 ### packageDir
 
@@ -42,7 +42,7 @@
 
 ### entityLibName
 
-`entityLibName` - ORM 模块，目前支持 `TypeORM` 和 `kysely`
+`entityLibName` - ORM 模块，目前支持 `TypeORM`，`kysely` 和 `DrizzleORM`
 
 ### entityExt
 
@@ -70,7 +70,7 @@
 
 ### dataHookLib
 
-`dataHookLib` - 可选值有 `SWR` | `ReactQuery`，生成 `SWR` 或者 `React Query` 钩子；get 方法的接口将生成获取钩子，非 get 的将生成更新钩子。默认不生成。依赖版本：swr@^2.2.4；@tanstack/react-query@^5.8.4
+`dataHookLib` - 可选值有 `SWR` | `ReactQuery`，生成 `SWR` 或者 `React Query` 钩子；get 方法的接口将生成获取钩子，非 get 的将生成更新钩子。默认不生成。依赖版本：swr@^2.2.4；@tanstack/react-query@^5.10.0
 
 ### dependencies
 

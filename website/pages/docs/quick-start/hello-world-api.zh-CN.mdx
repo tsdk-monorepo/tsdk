@@ -4,11 +4,11 @@
 
 这一步，我们用 tsdk 写一个简单的返回 Hello World 接口，和一个更新 Hello World 的接口。
 
-### 新建 **src/gen-route.ts**
+### 新建 **server/src/gen-route.ts**
 
 **gen-route.ts** 该文件负责中间件，错误处理等逻辑。
 
-```ts filename="src/gen-route.ts" copy
+```ts filename="server/src/gen-route.ts" copy
 import { ZodError } from 'zod';
 import { genRouteFactory, Protocol } from 'tsdk-server-adapters';
 import { ProtocolTypes } from '@/src/shared/tsdk-helper';
@@ -80,9 +80,9 @@ function onErrorHandler(
 }
 ```
 
-### 新建入口 **src/main.ts**
+### 新建入口 **server/src/main.ts**
 
-```ts filename="src/main.ts" copy
+```ts filename="server/src/main.ts" copy
 import http from 'http';
 import express, { Request } from 'express';
 import { Server } from 'socket.io';
@@ -163,7 +163,7 @@ import { Callout } from 'nextra/components';
   [查看说明](../guide/tsdk-snippets)
 </Callout>
 
-```ts filename="src/Hello.apiconf.ts" copy
+```ts filename="server/src/Hello.apiconf.ts" copy
 import { z } from 'zod';
 import { APIConfig, transformPath } from '@/src/shared/tsdk-helper';
 
@@ -180,13 +180,11 @@ export const GetHelloConfig: APIConfig = {
   needAuth: false,
 };
 /**
- *
  * @category hello
  */
 export type GetHelloReq = {};
 
 /**
- *
  * @category hello
  */
 export type GetHelloRes = {
@@ -210,13 +208,11 @@ export const UpdateHelloConfig = {
   }),
 };
 /**
- *
  * @category hello
  */
 export type UpdateHelloReq = z.infer<typeof UpdateHelloConfig.schema>;
 // export type UpdateHelloReq = {payload: string};
 /**
- *
  * @category hello
  */
 export type UpdateHelloRes = {
@@ -227,7 +223,7 @@ export type UpdateHelloRes = {
 
 ### 编写接口 src/Hello.api.ts
 
-```ts copy filename="src/Hello.api.ts"
+```ts copy filename="server/src/Hello.api.ts"
 import { genRoute, type RequestInfo } from './gen-route';
 import {
   GetHelloReq,
@@ -260,11 +256,11 @@ export function setupHelloAPI() {
 }
 ```
 
-### 安装接口到 `src/main/ts`
+### 安装接口到 `server/src/main/ts`
 
-<Callout type="info">`src/main.ts` 上面已创建好，我们只需要更新入口文件即可。</Callout>
+<Callout type="info">`server/src/main.ts` 上面已创建好，我们只需要更新入口文件即可。</Callout>
 
-```ts filename="src/main.ts" {7, 67}
+```ts filename="server/src/main.ts" {7, 67}
 import http from 'http';
 import { socketIOAdapterFactory } from 'tsdk-server-adapters/lib/socket.io-adapter';
 import express from 'express';
@@ -338,9 +334,13 @@ server.listen(port, () => {
 });
 ```
 
-### 导出模块 packages/fe-sdk
+### 导出模块 ./fe-sdk
 
-执行以下命令导出模块到 **packages/fe-sdk** 文件夹
+执行以下命令导出模块到 **./fe-sdk** 文件夹
+
+```sh
+cd server
+```
 
 ```sh npm2yarn
 npm run sync-sdk
@@ -362,9 +362,9 @@ npm run sync-sdk
 }
 ```
 
-### 添加运行命令到 package.json
+### 添加运行命令到 server/package.json
 
-```json filename="package.json" copy
+```json filename="server/package.json" copy
 {
   ...
   "scripts": {
@@ -378,6 +378,10 @@ npm run sync-sdk
 ```
 
 ### 运行开发环境
+
+```sh
+cd server
+```
 
 ```sh npm2yarn
 npm run dev

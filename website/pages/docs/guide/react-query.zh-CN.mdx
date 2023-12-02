@@ -19,13 +19,14 @@ import { Callout } from 'nextra/components';
   这里路径 `@/lib/user-api-hooks` 是为了和 `@/lib/user-api` 隔离开，避免 Next.js 服务端组件报错。
 </Callout>
 
-```tsx
+```tsx {7}
 'use client';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useGetHello, useUpdateHello } from '@/lib/user-api-hooks';
+import { useGetHello, useUpdateHello, setQueryClient } from '@/lib/user-api-hooks';
 
 const queryClient = new QueryClient();
+setQueryClient(queryClient);
 
 export default function Page() {
   return (

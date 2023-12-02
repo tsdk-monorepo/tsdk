@@ -19,7 +19,7 @@ function getCookie(
     if (cookie && typeof cookie === 'object') {
       return cookie.value;
     }
-    return cookie;
+    return cookie as any;
   }
   return (cookies as LegacyMiddlewareCookies)[key];
 }

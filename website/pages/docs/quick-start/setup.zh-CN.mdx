@@ -6,7 +6,7 @@ import { FileTree } from 'nextra/components';
 执行以下命令，创建一个基础的 TypeScript 项目
 
 ```sh copy
-mkdir -p tsdk-quickstart/src
+mkdir -p tsdk-quickstart/server/src
 cd tsdk-quickstart
 ```
 
@@ -19,7 +19,14 @@ cd tsdk-quickstart
 npm init -y
 ```
 
-添加依赖：
+切换到 `./server` 目录，初始化 `server/package.json` 文件:
+
+```sh copy
+cd server
+npm init -y
+```
+
+切换到 `./server` 目录，执行以下命令添加依赖：
 
 ```sh copy
 npm i express socket.io tsdk-server-adapters --save
@@ -38,16 +45,6 @@ npm i typescript @types/node @types/express tsdk @nestjs/cli --save-dev
 pnpm init
 ```
 
-添加依赖：
-
-```sh copy
-pnpm add express socket.io tsdk-server-adapters
-```
-
-```sh copy
-pnpm add typescript @types/node @types/express tsdk @nestjs/cli -D
-```
-
 设置 pnpm monorepo：
 
 ```sh copy
@@ -62,6 +59,23 @@ packages:
   - "!**/.next/**"
 '
 echo $pnpmConfig > pnpm-workspace.yaml
+```
+
+切换到 `./server` 目录，创建 `./server/package.json`:
+
+```sh copy
+cd server
+pnpm init
+```
+
+在 `./server` 目录，执行以下命令添加依赖：
+
+```sh copy
+pnpm add express socket.io tsdk-server-adapters
+```
+
+```sh copy
+pnpm add typescript @types/node @types/express tsdk @nestjs/cli -D
 ```
 
   </Tabs.Tab>
@@ -97,13 +111,35 @@ echo $config > tsconfig.json
 
 ### 生成配置
 
-执行以下命令生成配置文件 `.trdkrc`（[.tsdkrc 说明](/docs/guide/tsdkrc)）：
+在 `./server` 目录，执行以下命令生成配置文件 `.trdkrc`（[.tsdkrc 说明](/docs/guide/tsdkrc)）：
 
 <Tabs defaultIndex="1" items={['npm', 'pnpm']}>
   <Tabs.Tab value="npm">
 
 ```sh copy
 npx tsdk --init
+```
+
+更新生成的 `.tsdkrc` 内容：
+
+```json {2,12,13}
+{
+  "packageDir": "../",
+  "packageName": "fe-sdk",
+  "baseDir": "./src",
+  "entityLibName": ["typeorm"],
+  "entityExt": "entity",
+  "apiconfExt": "apiconf",
+  "shareExt": "shared",
+  "sharedDirs": ["./src/shared"],
+  "sdkWhiteList": [],
+  "removeFields": [],
+  "monorepoRoot": "../",
+  "dataHookLib": "SWR",
+  "dependencies": {
+    "axios": "1.6.2"
+  }
+}
 ```
 
 再次执行安装依赖：
@@ -119,6 +155,28 @@ npm i
 pnpm tsdk --init
 ```
 
+更新生成的 `.tsdkrc` 内容：
+
+```json {2,12,13}
+{
+  "packageDir": "../",
+  "packageName": "fe-sdk",
+  "baseDir": "./src",
+  "entityLibName": ["typeorm"],
+  "entityExt": "entity",
+  "apiconfExt": "apiconf",
+  "shareExt": "shared",
+  "sharedDirs": ["./src/shared"],
+  "sdkWhiteList": [],
+  "removeFields": [],
+  "monorepoRoot": "../",
+  "dataHookLib": "SWR",
+  "dependencies": {
+    "axios": "1.6.2"
+  }
+}
+```
+
 再次执行安装依赖：
 
 ```sh copy
@@ -130,7 +188,7 @@ pnpm i
 
 ### 导出模块
 
-执行下面同步代码命令会创建相关文件：
+切换到 `./server` 目录，执行下面同步代码命令会创建相关文件：
 
 <Tabs defaultIndex="1" items={['npm', 'pnpm']}>
   <Tabs.Tab value="npm">
@@ -149,28 +207,31 @@ pnpm tsdk --sync
   </Tabs.Tab>
 </Tabs>
 
-<FileTree>
-  <FileTree.File name=".tsdkrc" />
-  <FileTree.Folder name=".vscode" defaultOpen>
+<FileTree.Folder name="tsdk-quickstart" defaultOpen>
+  <FileTree.Folder name=".vscode">
     <FileTree.File name="tsdk.code-snippets" />
   </FileTree.Folder>
-  <FileTree.Folder name="src" defaultOpen>
-    <FileTree.Folder name="shared" defaultOpen>
-      <FileTree.File name="tsdk-helper.ts" />
-      <FileTree.File name="tsdk-types.ts" />
+  <FileTree.Folder name="server" defaultOpen>
+    <FileTree.File name=".tsdkrc" />
+    <FileTree.File name="package.json" />
+    <FileTree.Folder name="src">
+      <FileTree.Folder name="shared" defaultOpen>
+        <FileTree.File name="tsdk-helper.ts" />
+        <FileTree.File name="tsdk-types.ts" />
+      </FileTree.Folder>
     </FileTree.Folder>
   </FileTree.Folder>
-  <FileTree.Folder name="packages" defaultOpen>
-    <FileTree.Folder name="fe-sdk">
-      <FileTree.File name="package.json" />
-      <FileTree.File name="..." />
-    </FileTree.Folder>
+  <FileTree.Folder name="fe-sdk">
+    <FileTree.File name="package.json" />
+    <FileTree.File name="..." />
   </FileTree.Folder>
-</FileTree>
+  <FileTree.File name="package.json" />
+  <FileTree.File name="pnpm-workspace.yaml" />
+</FileTree.Folder>
 
 创建的相关文件说明：
 
-- `.tsdkrc` - tsdk 配置文件 [说明](../guide/tsdkrc)
-- `.vscode/tsdk.code-snippets` - 代码片段 [说明](../guide/tsdk-snippets)
-- `./src/shared` - 共享文件夹
-- `./packages/fe-sdk` - 导出的共享模块
+- `./server/.tsdkrc` - tsdk 配置文件 [说明](../guide/tsdkrc)
+- `.vscode/tsdk.code-snippets` - tsdk 辅助代码片段 [说明](../guide/tsdk-snippets)
+- `./server/src/shared` - 共享文件夹
+- `./fe-sdk` - 导出的共享模块

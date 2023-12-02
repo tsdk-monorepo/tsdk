@@ -1,2 +1,4 @@
 .next
 node_modules
+public/robots.txt
+public/*.xml

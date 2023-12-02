@@ -27,7 +27,13 @@ const config: DocsThemeConfig = {
   },
   docsRepositoryBase: 'https://github.com/tsdk-monorepo/tsdk/tree/main/website',
   footer: {
-    text: 'Copyright @ 2023',
+    text: (
+      <div className="flex gap-x-6">
+        <div>Copyright @ {new Date().getFullYear()}</div>
+        <a href="/sitemap.xml">Sitemap</a>
+        <a href="https://github.com/tsdk-monorepo/tsdk">GitHub</a>
+      </div>
+    ),
   },
   i18n: [
     { locale: 'en-US', text: 'English' },

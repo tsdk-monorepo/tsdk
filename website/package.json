@@ -5,8 +5,9 @@
   "description": "tsdk website and docs",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
+    "build": "next build && npm run sitemap",
+    "start": "next start",
+    "sitemap": "next-sitemap"
   },
   "repository": {
     "type": "git",
@@ -25,7 +26,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "next-videos": "^1.4.1",
-    "react-wrap-balancer": "^1.1.0"
+    "react-wrap-balancer": "^1.1.0",
+    "next-sitemap": "^4.2.3"
   },
   "devDependencies": {
     "@types/node": "^18.13.0",
