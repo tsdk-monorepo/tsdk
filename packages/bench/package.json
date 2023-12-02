@@ -29,7 +29,8 @@
     "@configs/eslint-config": "*",
     "@nestjs/cli": "^10.2.1",
     "@types/express": "^4.17.17",
-    "tsdk": "*"
+    "tsdk": "*",
+    "concurrently": "^8.2.2"
   },
   "eslintConfig": {
     "extends": [

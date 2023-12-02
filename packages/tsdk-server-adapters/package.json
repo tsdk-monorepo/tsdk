@@ -20,7 +20,6 @@
     "tsdk",
     "http",
     "express",
-    "ws",
     "socket.io"
   ],
   "dependencies": {

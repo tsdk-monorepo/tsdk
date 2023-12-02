@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "tsdk-monorepo",
-  "packageManager": "pnpm@8.1.0",
+  "packageManager": "pnpm@8.11.0",
   "scripts": {
     "lint": "turbo lint",
     "checktype": "turbo checktype",
@@ -10,22 +10,18 @@
     "dev": "turbo dev",
     "start:tsdk": "pnpm build:tsdk && pnpm --filter tsdk start",
     "build:tsdk": "pnpm --filter tsdk-server-adapters build",
-    "dev:docs": "pnpm --filter @fe-sdk/docs start",
-    "build:docs": "pnpm --filter @fe-sdk/docs build",
     "dev:web-example": "pnpm --filter server-example --filter web-example dev",
     "dev:app-example": "pnpm --filter server-example --filter app-example dev",
     "dev:app-web-example": "pnpm --filter server-example --filter app-example dev",
     "build:web-example": "pnpm --filter server-example --filter web-example build",
     "serve:web-example": "pnpm build:web-example && pnpm --filter server-example --filter web-example serve",
-    "start-publish": "pnpm --filter tsdk --filter tsdk-server-adapters start-publish",
-    "start-prepare": "chmod +x ./node_modules/.bin/husky && husky install && chmod +x ./node_modules/.bin/cross-env && chmod +x ./node_modules/.bin/nest"
+    "start-publish": "pnpm --filter tsdk --filter tsdk-server-adapters start-publish"
   },
   "devDependencies": {
     "@configs/eslint-config": "*",
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
-    "turbo": "^1.10.16",
-    "concurrently": "^8.2.2"
+    "turbo": "^1.10.16"
   },
   "pnpm": {
     "peerDependencyRules": {
