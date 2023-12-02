@@ -2,7 +2,7 @@
   "packageDir": "packages/",
   "packageName": "fe-sdk",
   "baseDir": "./src",
-  "entityLibName": ["typeorm", "kysely"],
+  "entityLibName": "typeorm",
   "entityExt": "entity",
   "apiconfExt": "apiconf",
   "shareExt": "shared",

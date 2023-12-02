@@ -3,12 +3,10 @@ import path from 'path';
 // @ts-ignore
 import eval from 'safe-eval';
 
-import symbols from './symbols';
-
 export interface TSDKConfig {
   packageDir: string;
   packageName: string;
-  /** ['typeorm', 'kysely'] */
+  /** 'typeorm' or 'kysely' or 'DrizzleORM' */
   entityLibName: string | string[];
   baseDir: string;
   entityExt: string;
@@ -21,7 +19,7 @@ export interface TSDKConfig {
   sdkWhiteList: string[];
   monorepoRoot?: string;
   /** 
-   * remove unnecessary filelds after build in *.apiconf.js 
+   * remove unnecessary filelds in *.apiconf.js after build 
    * @default
    *  [
       'needAuth',
@@ -34,6 +32,7 @@ export interface TSDKConfig {
   dataHookLib?: 'SWR' | 'ReactQuery';
   /** custom dependencies */
   dependencies?: { [key: string]: string };
+  devDependencies?: { [key: string]: string };
 }
 
 export const comment = `
@@ -61,30 +60,6 @@ export const config: TSDKConfig = {
   ...(isCurrentConfigExist ? JSON.parse(fsExtra.readFileSync(currentConfigFilePath, 'utf-8')) : {}),
 };
 
-let hasTypeORM = false;
-let hasKysely = false;
-if (!config.entityLibName) {
-  config.entityLibName = ['typeorm', 'kysely'];
-} else {
-  if (!Array.isArray(config.entityLibName)) {
-    config.entityLibName = [config.entityLibName];
-  }
-
-  hasTypeORM = Boolean(config.entityLibName.find((i) => i === 'typeorm'));
-  hasKysely = Boolean(config.entityLibName.find((i) => i === 'kysely'));
-
-  if (!hasKysely && !hasTypeORM) {
-    console.log(
-      symbols.error,
-      'currently `entityLibName` only support `typeorm` and `kysely`, but your choice is `' +
-        config.entityLibName +
-        '`'
-    );
-  }
-}
-
-export { hasTypeORM, hasKysely };
-
 // example: ./src => src
 config.baseDir = path.normalize(config.baseDir);
 
@@ -102,7 +77,8 @@ const tsconfigPath = path.join(process.cwd(), 'tsconfig.json');
 export const tsconfigExists = fsExtra.pathExistsSync(tsconfigPath);
 
 export const tsconfig = tsconfigExists
-  ? eval(`(() => (${fsExtra.readFileSync(tsconfigPath, 'utf-8')}))();`).compilerOptions
+  ? // eslint-disable-next-line no-eval
+    eval(`(() => (${fsExtra.readFileSync(tsconfigPath, 'utf-8')}))();`).compilerOptions
   : {};
 
 let deps: { [key: string]: string } = {};

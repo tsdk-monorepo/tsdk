@@ -54,7 +54,15 @@ export async function syncAPI() {
     }
     `;
     let dataHookImportStr = ``;
-    let dataHookBodyStr = ``;
+    let dataHookBodyStr = isReactQuery
+      ? `
+    let _queryClient: QueryClient;
+
+    export function setQueryClient(queryClient: QueryClient) {
+      _queryClient = queryClient;
+    }
+    `
+      : ``;
 
     const headStr = `
       /** 
@@ -174,7 +182,7 @@ return useSWR(
                   return ${name}(payload, requestConfig, needTrim);
                 },
               },
-              queryClient
+              queryClient || _queryClient
             );
           }`
               : `
@@ -196,7 +204,7 @@ return useSWR(
                       return ${name}(payload, requestConfig, needTrim);
                     },
                   },
-                  queryClient
+                  queryClient || _queryClient
                 );
               }
               `
@@ -259,6 +267,7 @@ return useSWR(
 
   keys.forEach((k) => {
     const item = apiconfs[k];
+    if (typeof item !== 'object') return;
     item.name = item.name || k.replace(/Config$/, '');
     if (!exportPermissions[item.type]) {
       exportPermissions[item.type] = [];

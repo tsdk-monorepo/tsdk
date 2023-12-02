@@ -20,9 +20,7 @@ Visit <a aria-label="tsdk intro" href="https://tsdk.dev/docs/intro">https://tsdk
 
 ## Website
 
-https://tsdk.dev
-
-[中文](https://tsdk.dev/zh-CN)
+https://tsdk.dev or [中文](https://tsdk.dev/zh-CN)
 
 ## Documentation
 
@@ -43,7 +41,7 @@ pnpm install
 
 - [`packages/tsdk`](./packages/tsdk) - `tsdk` package.
 - [`packages/tsdk-server-adapters`](./packages/tsdk-server-adapters) - `tsdk-server-adapters` package.
-- [`packages/bench`](./packages/bench) - `tsdk` benchmark.
+- [`packages/bench`](./packages/bench) - benchmark for `tsdk-server-adapters`.
 - [`configs/*`](./packages/bench) - config packages for ts/eslint/test etc.
 - [`examples/*`](./examples) - Examples that only use packages and aren't aware of other apps.
 

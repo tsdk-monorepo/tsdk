@@ -2,11 +2,18 @@
 
 This is the log of notable changes to the `tsdk` that are developer-facing.
 
+### 0.0.24 2023/12/2
 
-### 0.0.21 2023/12/1 Unpublished
+- Feat: add `DrizzleORM` in `.tsdkrc`'s `entityLibName`
+- Refactor: remove unused code
+- Add `devDependencies` config in `.tsdkrc`
 
-- Chore: `.tsdkrc` add  `"removeFields": []` when generate config
+### 0.0.21 2023/12/1
+
+- Chore: `.tsdkrc` add `"removeFields": []` when generate config
 - Chore: bump deps
+- Fix: When no `*.apiconf.ts`, fix sync script error
+- Fix: React Query hook error: No QueryClient set, use QueryClientProvider to set one
 
 ### 0.0.20 2023/11/25
 
@@ -159,7 +166,6 @@ This is the log of notable changes to the `tsdk` that are developer-facing.
 - fix broken for old `tsdk` project
 
 ### 0.0.19-beta.5 2022/11/12
-
 
 - `tsdk` export `permissions.json` with organize structure
 
