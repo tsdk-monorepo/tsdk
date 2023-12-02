@@ -33,6 +33,14 @@
         "additionalModuleDirs": ["../../node_modules"]
       }
     },
+    "fastify": {
+      "type": "application",
+      "sourceRoot": "src",
+      "entryFile": "modules/fastify/main",
+      "nodeExternalsParams": {
+        "additionalModuleDirs": ["../../node_modules"]
+      }
+    },
     "tsdk-hono": {
       "type": "application",
       "sourceRoot": "src",

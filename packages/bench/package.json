@@ -7,7 +7,7 @@
     "build": "cross-env MONOREPO_ROOT=../../ node ./node_modules/tsdk/bin/tsdk.js --nest build all",
     "dev": "pnpm start express",
     "start": "cross-env NODE_ENV=production nest start --watch",
-    "start:all": "concurrently \"pnpm start express\" \"pnpm start tsdk-express\" \"pnpm start hono\" \"pnpm start tsdk-hono\" \"pnpm start trpc-express\"",
+    "start:all": "concurrently \"pnpm start express\" \"pnpm start tsdk-express\" \"pnpm start hono\" \"pnpm start tsdk-hono\" \"pnpm start trpc-express\" \"pnpm start fastify\"",
     "bench": "sh bench.sh",
     "bench-opi5": "sh bench-opi5.sh",
     "test": "cross-env NODE_ENV=test TS_CONFIG_PATHS=true ts-mocha -p tsconfig.json src/**/*.test.ts --parallel --timeout 30000",
@@ -21,7 +21,8 @@
     "zod": "^3.22.4",
     "hono": "^3.10.2",
     "@hono/node-server": "^1.2.3",
-    "@trpc/server": "^10.44.1"
+    "@trpc/server": "^10.44.1",
+    "fastify": "^4.24.3"
   },
   "devDependencies": {
     "@configs/test-config": "*",

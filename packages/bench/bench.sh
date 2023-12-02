@@ -22,6 +22,13 @@ echo Hono End
 echo ' '
 
 
+echo Fastify
+echo ' '
+plow http://127.0.0.1:3018/api/user/hello1900 -c 100 -n 100000 -d 30s
+echo Fastify End
+echo ' '
+
+
 echo tsdk Hono
 echo ' '
 plow http://127.0.0.1:3016/api/user/hello1900 -c 100 -n 100000 -d 30s
