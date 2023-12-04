@@ -159,6 +159,9 @@ importers:
 
   examples/server:
     dependencies:
+      '@fastify/express':
+        specifier: ^2.3.0
+        version: 2.3.0
       '@hono/node-server':
         specifier: ^1.2.3
         version: 1.2.3
@@ -177,6 +180,9 @@ importers:
       express:
         specifier: ^4.18.2
         version: 4.18.2
+      fastify:
+        specifier: ^4.24.3
+        version: 4.24.3
       hono:
         specifier: ^3.10.2
         version: 3.10.2
@@ -319,7 +325,7 @@ importers:
         specifier: ^3.10.2
         version: 3.10.2
       tsdk-server-adapters:
-        specifier: ^0.0.25
+        specifier: ^0.0.26
         version: link:../tsdk-server-adapters
       zod:
         specifier: ^3.22.4
@@ -392,6 +398,9 @@ importers:
       express:
         specifier: ^4.18.2
         version: 4.18.2
+      fastify:
+        specifier: ^4.24.3
+        version: 4.24.3
       hono:
         specifier: ^3.10.2
         version: 3.10.2
@@ -2961,6 +2970,15 @@ packages:
 
   /@fastify/error@3.4.1:
     resolution: {integrity: sha512-wWSvph+29GR783IhmvdwWnN4bUxTD01Vm5Xad4i7i1VuAOItLvbPAb69sb0IQ2N57yprvhNIwAP5B6xfKTmjmQ==}
+    dev: false
+
+  /@fastify/express@2.3.0:
+    resolution: {integrity: sha512-jvvjlPPCfJsSHfF6tQDyARJ3+c3xXiqcxVZu6bi3xMWCWB3fl07vrjFDeaqnwqKhLZ9+m6cog5dw7gIMKEsTnQ==}
+    dependencies:
+      express: 4.18.2
+      fastify-plugin: 4.5.1
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /@fastify/fast-json-stringify-compiler@4.3.0:
@@ -8488,6 +8506,10 @@ packages:
     hasBin: true
     dependencies:
       strnum: 1.0.5
+    dev: false
+
+  /fastify-plugin@4.5.1:
+    resolution: {integrity: sha512-stRHYGeuqpEZTL1Ef0Ovr2ltazUT9g844X5z/zEBFLG8RYlpDiOCIG+ATvYEp+/zmc7sN29mcIMp8gvYplYPIQ==}
     dev: false
 
   /fastify@4.24.3:
