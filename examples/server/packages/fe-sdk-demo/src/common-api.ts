@@ -5,9 +5,8 @@
  *
  **/
 
-import genApi from './gen-api';
-
 import { GetConfigsConfig, type GetConfigsReq, type GetConfigsRes } from './apiconf-refs';
+import genApi from './gen-api';
 
 /**
  * get server configs for client

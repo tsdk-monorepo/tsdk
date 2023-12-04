@@ -1,6 +1,6 @@
+import { AxiosRequestConfig } from 'axios';
 import useSWR, { SWRConfiguration } from 'swr';
 import useSWRMutation, { SWRMutationConfiguration } from 'swr/mutation';
-import { AxiosRequestConfig } from 'axios';
 
 import {
   AddTodoConfig,
@@ -24,7 +24,7 @@ import { AddTodo, DeleteTodo, QueryTodoByCursor, QueryTodo, UpdateTodo } from '.
 export * from './common-api-hooks';
 
 export function useAddTodo(
-  options?: SWRMutationConfiguration<AddTodoRes, { arg: AddTodoReq }, string>,
+  options?: SWRMutationConfiguration<AddTodoRes, Error, string, AddTodoReq>,
   requestConfig?: AxiosRequestConfig<AddTodoReq>,
   needTrim?: boolean
 ) {
@@ -38,7 +38,7 @@ export function useAddTodo(
 }
 
 export function useDeleteTodo(
-  options?: SWRMutationConfiguration<DeleteTodoRes, { arg: DeleteTodoReq }, string>,
+  options?: SWRMutationConfiguration<DeleteTodoRes, Error, string, DeleteTodoReq>,
   requestConfig?: AxiosRequestConfig<DeleteTodoReq>,
   needTrim?: boolean
 ) {
@@ -82,7 +82,7 @@ export function useQueryTodo(
 }
 
 export function useUpdateTodo(
-  options?: SWRMutationConfiguration<UpdateTodoRes, { arg: UpdateTodoReq }, string>,
+  options?: SWRMutationConfiguration<UpdateTodoRes, Error, string, UpdateTodoReq>,
   requestConfig?: AxiosRequestConfig<UpdateTodoReq>,
   needTrim?: boolean
 ) {

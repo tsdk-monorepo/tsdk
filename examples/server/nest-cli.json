@@ -24,6 +24,14 @@
       "nodeExternalsParams": {
         "additionalModuleDirs": ["../../node_modules"]
       }
+    },
+    "fastify-todo": {
+      "type": "application",
+      "sourceRoot": "src",
+      "entryFile": "modules/fastify-todo/main",
+      "nodeExternalsParams": {
+        "additionalModuleDirs": ["../../node_modules"]
+      }
     }
   }
 }

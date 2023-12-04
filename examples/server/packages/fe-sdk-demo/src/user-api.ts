@@ -5,8 +5,6 @@
  *
  **/
 
-import genApi from './gen-api';
-
 import {
   AddTodoConfig,
   type AddTodoReq,
@@ -24,6 +22,7 @@ import {
   type UpdateTodoReq,
   type UpdateTodoRes,
 } from './apiconf-refs';
+import genApi from './gen-api';
 
 export * from './common-api';
 
