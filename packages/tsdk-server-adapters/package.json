@@ -1,6 +1,6 @@
 {
   "name": "tsdk-server-adapters",
-  "version": "0.0.25",
+  "version": "0.0.26",
   "main": "lib/index.js",
   "repository": "tsdk-monorepo/tsdk",
   "bugs": "https://github.com/tsdk-monorepo/tsdk/issues",
@@ -20,7 +20,8 @@
     "tsdk",
     "http",
     "express",
-    "socket.io"
+    "socket.io",
+    "fastify"
   ],
   "dependencies": {
     "eventemitter3": "^4.0.7"
@@ -35,7 +36,8 @@
     "express": "^4.18.2",
     "zod": "^3",
     "socket.io": "^4.7.2",
-    "hono": "^3.10.2"
+    "hono": "^3.10.2",
+    "fastify": "^4.24.3"
   },
   "peerDependenciesMeta": {
     "express": {
@@ -45,6 +47,9 @@
       "optional": true
     },
     "hono": {
+      "optional": true
+    },
+    "fastify": {
       "optional": true
     }
   },

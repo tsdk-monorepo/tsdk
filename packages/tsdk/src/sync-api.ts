@@ -145,8 +145,9 @@ return useSWR(
             export function use${name}(
               options?: SWRMutationConfiguration<
                 ${name}Res,
-                { arg: ${name}Req },
-                string
+                Error,
+                string,
+                ${name}Req
               >,
               requestConfig?: AxiosRequestConfig<${name}Req>,
               needTrim?: boolean
