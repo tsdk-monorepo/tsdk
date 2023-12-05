@@ -1,5 +1,6 @@
 {
   "express-adapter": "Express 适配器",
+  "fastify-adapter": "Fasity 适配器",
   "hono-adapter": "Hono 适配器",
   "socket.io-adapter": "Socket.IO 适配器"
 }

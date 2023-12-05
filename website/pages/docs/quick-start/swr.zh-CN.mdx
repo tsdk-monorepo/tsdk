@@ -1,10 +1,8 @@
 import { Callout } from 'nextra/components';
 
-
 # 使用 SWR
 
 <Callout>tsdk 目前已内置支持 SWR [查看教程](../guide/swr)</Callout>
-
 
 `SWR` 是一个针对数据获取的 React Hook，具有很多优点：
 
@@ -69,7 +67,7 @@ export function useGetHello(payload: GetHelloReq, options?: SWRConfiguration<Get
 }
 
 export function useUpdateHello(
-  options?: SWRMutationConfiguration<UpdateHelloRes, { arg: UpdateHelloReq }, string>
+  options?: SWRMutationConfiguration<UpdateHelloRes, Error, string, UpdateHelloReq>
 ) {
   return useSWRMutation(
     UpdateHello.config.path,

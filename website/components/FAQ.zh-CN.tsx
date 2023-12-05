@@ -35,8 +35,8 @@ export const FAQs = [
     q: `GraphQL 和 tsdk 对比？`,
     a: (
       <>
-        GraphQL 是一种查询语言，而 tsdk 是一个用来共享代码和开发类型安全 API
-        的工具，两者是不同的东西，因此无法进行比较。
+        GraphQL 是一种数据查询语言，而 tsdk 是一个用来共享代码和开发类型安全 API
+        的轻量级库，两者是不同的东西。
       </>
     ),
   },

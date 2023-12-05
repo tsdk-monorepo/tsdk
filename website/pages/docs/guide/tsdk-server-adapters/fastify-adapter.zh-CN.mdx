@@ -1,0 +1,74 @@
+# Fastify 适配器使用
+
+这里虽然是 fastify，但是依旧使用 Express 适配器，例子包扩后端使用和前端使用。
+
+## 后端使用
+
+```ts copy
+import http from 'http';
+import Fastify from 'fastify';
+import fastifyExpress from '@fastify/express';
+import { expressAdapterFactory } from 'tsdk-server-adapters/lib/express-adapter';
+import { checkMethodHasBody, ProtocolTypes } from '@/src/shared/tsdk-helper';
+import { RequestInfo, routeBus } from './gen-route';
+
+const port = 3000;
+
+(async () => {
+  let server: http.Server;
+
+  const serverFactory = (handler, opts) => {
+    server = http.createServer((req, res) => {
+      handler(req, res);
+    });
+
+    return server;
+  };
+
+  const app = Fastify({ serverFactory });
+
+  await app.register(fastifyExpress);
+
+  app.get('/', (req, res) => {
+    res.send('hi, from fastify.');
+  });
+
+  app.use(
+    '/api/:type',
+    expressAdapterFactory<RequestInfo>({
+      routeBus,
+      async getReqInfo(req) {
+        return {
+          ip: req.ip as string,
+          lang: 'zh-CN',
+          type: req.params.type,
+          token: req.headers.authorization,
+        };
+      },
+      getType(reqInfo) {
+        return reqInfo.type;
+      },
+      async getData(req) {
+        return checkMethodHasBody(req.method) ? req.body : req.query;
+      },
+    })
+  );
+
+  app.ready(() => {
+    server.listen(port, () => {
+      console.log(`Server running at http://localhost:${port}`);
+    });
+  });
+})();
+```
+
+## 前端使用
+
+```ts
+import axios from 'axios';
+import { setHandler, setAxiosInstance, axiosHandler } from 'fe-sdk';
+
+const axiosInstance = axios.create({ baseURL: `/api/user` });
+setAxiosInstance(axiosInstance);
+setHandler(axiosHandler);
+```

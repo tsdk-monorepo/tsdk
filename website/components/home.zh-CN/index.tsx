@@ -42,13 +42,13 @@ export default function HomePage() {
         </div>
         <div className="bg-gradient-to-b from-slate-50 to-transparent  dark:from-gray-900">
           <div className="flex flex-col md:flex-row gap-y-12 justify-around py-12 px-0 md:px-24 lg:px-48 text-left">
-            <div className="flex-1 px-8">
+            <div className="flex-1 px-8 md:pr-8 md:pl-0">
               <h3 className="text-xl font-mono font-semibold mb-2 tracking-lighter">🚀 第一原则</h3>
               <div className="text-slate-600 dark:text-slate-300">
                 从本质出发，重新组织代码，不再手动封装接口调用代码和添加类型；通俗易懂的概念，提供不一样的开发体验。
               </div>
             </div>
-            <div className="flex-1 px-8">
+            <div className="flex-1 px-8 md:px-4">
               <h3 className="text-xl font-mono font-semibold mb-2 tracking-lighter">
                 🐱 简单且熟悉
               </h3>
@@ -57,7 +57,7 @@ export default function HomePage() {
                 API。
               </div>
             </div>
-            <div className="flex-1 px-8">
+            <div className="flex-1 px-8 md:pl-8 md:pr-0">
               <h3 className="text-xl font-mono font-semibold mb-2 tracking-lighter">💫 更多花样</h3>
               <div className="text-slate-600 dark:text-slate-300">
                 根据接口的核心数据，我们可以玩出更多的花样：导出 SWR 或者 React Query
