@@ -364,9 +364,6 @@ importers:
       fs-extra:
         specifier: ^11.2.0
         version: 11.2.0
-      safe-eval:
-        specifier: ^0.4.1
-        version: 0.4.1
     devDependencies:
       '@configs/eslint-config':
         specifier: '*'
@@ -14389,10 +14386,6 @@ packages:
 
   /safe-buffer@5.2.1:
     resolution: {integrity: sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==}
-
-  /safe-eval@0.4.1:
-    resolution: {integrity: sha512-wmiu4RSYVZ690RP1+cv/LxfPK1dIlEN35aW7iv4SMYdqDrHbkll4+NJcHmKm7PbCuI1df1otOcPwgcc2iFR85g==}
-    dev: false
 
   /safe-json-stringify@1.2.0:
     resolution: {integrity: sha512-gH8eh2nZudPQO6TytOvbxnuhYBOvDBBLW52tz5q6X58lJcd/tkmqFR+5Z9adS8aJtURSXWThWy/xJtJwixErvg==}

@@ -1,7 +1,5 @@
 import fsExtra from 'fs-extra';
 import path from 'path';
-// @ts-ignore
-import eval from 'safe-eval';
 
 import symbols from './symbols';
 
