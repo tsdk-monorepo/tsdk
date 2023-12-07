@@ -21,7 +21,8 @@
     "http",
     "express",
     "socket.io",
-    "fastify"
+    "fastify",
+    "backend"
   ],
   "dependencies": {
     "eventemitter3": "^4.0.7"

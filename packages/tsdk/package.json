@@ -38,7 +38,8 @@
     "http",
     "express",
     "ws",
-    "socket.io"
+    "socket.io",
+    "cli"
   ],
   "dependencies": {
     "chalk": "4.1.2",
