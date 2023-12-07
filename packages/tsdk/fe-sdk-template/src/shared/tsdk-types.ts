@@ -29,6 +29,13 @@ export interface APIConfig {
 
   /** custom headers for client */
   headers?: { [key: string]: any };
+  /**
+   * is params in url? for generate API sdk base documentation.
+   * default undefined,
+   * if `:`, will support `/api/:a/b/:c`,
+   * if `{}`, will support `/api/{a}/b/{c}`,
+   * and will replace with data with {a: 1, c: 2} to `/api/1/b/2`  */
+  paramsInUrl?: ':' | '{}';
 }
 
 export interface ObjectLiteral {

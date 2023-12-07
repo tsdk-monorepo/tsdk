@@ -1,5 +1,5 @@
 {
-  "name": "fe-sdk",
+  "name": "fe-sdk-template",
   "version": "1.0.0",
   "main": "lib/index.js",
   "scripts": {

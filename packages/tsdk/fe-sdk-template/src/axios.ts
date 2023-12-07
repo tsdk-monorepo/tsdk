@@ -1,6 +1,7 @@
 import { AxiosRequestConfig, AxiosInstance } from 'axios';
 
 import { NoHandlerError } from './error';
+import { pathParams } from './path-params';
 import { APIConfig, checkMethodHasBody, trimAndRemoveUndefined } from './shared/tsdk-helper';
 
 let axiosInstance: AxiosInstance;
@@ -65,6 +66,9 @@ export async function axiosHandler(
     } else {
       payload.params = requestConfig?.params ? { ...requestConfig.params, ...data } : data;
     }
+  }
+  if (requestData && (apiConfig as any).paramsInUrl) {
+    payload.url = pathParams(path, requestData, (apiConfig as any).paramsInUrl);
   }
 
   const { data } = await axiosInstance.request(payload);
