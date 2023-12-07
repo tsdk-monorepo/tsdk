@@ -13,3 +13,4 @@ packages:
   - 'examples/**'
   # exclude projects in dist folder 
   - '!**/dist*/**'
+  - '!**/.next/**'

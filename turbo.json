@@ -9,7 +9,7 @@
       "cache": false
     },
     "test": {
-      "dependsOn": ["lint", "build"],
+      "dependsOn": ["lint"],
       "inputs": ["**/*.{ts,tsx,js,jsx}"]
     },
     "build": {
