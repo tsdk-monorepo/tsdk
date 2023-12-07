@@ -32,13 +32,13 @@ https://tsdk.dev
 
 https://tsdk.dev/docs/intro
 
-### Install
+## Install
 
 ```bash
 npm i tsdk
 ```
 
-### Usage
+## Usage
 
 ```bash
 npx tsdk --init
@@ -46,11 +46,6 @@ npx tsdk --init
 
 ```bash
 npx tsdk --sync
-```
-
-```bash
-# keep the files don't overwrite by sync
-npx tsdk --sync --no-overwrite
 ```
 
 Support `@nestjs/cli` bundle project to one single file:
