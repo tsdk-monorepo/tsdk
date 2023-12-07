@@ -5,6 +5,8 @@
  *
  **/
 
+import genApi from './gen-api';
+
 import {
   AddTodoConfig,
   type AddTodoReq,
@@ -18,11 +20,13 @@ import {
   QueryTodoConfig,
   type QueryTodoReq,
   type QueryTodoRes,
+  TestPathParamsConfig,
+  type TestPathParamsReq,
+  type TestPathParamsRes,
   UpdateTodoConfig,
   type UpdateTodoReq,
   type UpdateTodoRes,
 } from './apiconf-refs';
-import genApi from './gen-api';
 
 export * from './common-api';
 
@@ -55,6 +59,13 @@ export const QueryTodoByCursor = genApi<QueryTodoByCursorReq, QueryTodoByCursorR
  * @category todo
  */
 export const QueryTodo = genApi<QueryTodoReq, QueryTodoRes>(QueryTodoConfig);
+
+/**
+ * Test path params
+ *
+ * @category test
+ */
+export const TestPathParams = genApi<TestPathParamsReq, TestPathParamsRes>(TestPathParamsConfig);
 
 /**
  * update todo

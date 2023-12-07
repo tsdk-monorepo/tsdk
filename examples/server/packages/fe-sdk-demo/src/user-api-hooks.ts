@@ -1,6 +1,6 @@
-import { AxiosRequestConfig } from 'axios';
 import useSWR, { SWRConfiguration } from 'swr';
 import useSWRMutation, { SWRMutationConfiguration } from 'swr/mutation';
+import { AxiosRequestConfig } from 'axios';
 
 import {
   AddTodoConfig,
@@ -15,11 +15,21 @@ import {
   QueryTodoConfig,
   type QueryTodoReq,
   type QueryTodoRes,
+  TestPathParamsConfig,
+  type TestPathParamsReq,
+  type TestPathParamsRes,
   UpdateTodoConfig,
   type UpdateTodoReq,
   type UpdateTodoRes,
 } from './apiconf-refs';
-import { AddTodo, DeleteTodo, QueryTodoByCursor, QueryTodo, UpdateTodo } from './user-api';
+import {
+  AddTodo,
+  DeleteTodo,
+  QueryTodoByCursor,
+  QueryTodo,
+  TestPathParams,
+  UpdateTodo,
+} from './user-api';
 
 export * from './common-api-hooks';
 
@@ -76,6 +86,21 @@ export function useQueryTodo(
     { url: QueryTodo.config.path, arg: payload },
     ({ arg }) => {
       return QueryTodo(arg, requestConfig, needTrim);
+    },
+    options
+  );
+}
+
+export function useTestPathParams(
+  payload: TestPathParamsReq,
+  options?: SWRConfiguration<TestPathParamsRes>,
+  requestConfig?: AxiosRequestConfig<TestPathParamsReq>,
+  needTrim?: boolean
+) {
+  return useSWR(
+    { url: TestPathParams.config.path, arg: payload },
+    ({ arg }) => {
+      return TestPathParams(arg, requestConfig, needTrim);
     },
     options
   );

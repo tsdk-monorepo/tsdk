@@ -1,7 +1,7 @@
-import { Paging, PagingRes } from '../../../shared/paging';
-import { APIConfig, transformPath } from '../../../shared/tsdk-helper';
 import type { Todo } from '../Todo.entity';
 import { queryTodoByCursorSchema } from './TodoSchema.shared';
+import { Paging, PagingRes } from '../../../shared/paging';
+import { APIConfig, transformPath } from '../../../shared/tsdk-helper';
 
 /**
  * query todo list by cursor ({@link APIConfig})

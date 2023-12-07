@@ -3,6 +3,7 @@
  * Don't edit this file.
  */
 export * from './modules/core/apiconf/GetConfig.apiconf';
+export * from './modules/core/apiconf/TestParams.apiconf';
 export * from './modules/todo/apiconf/AddTodo.apiconf';
 export * from './modules/todo/apiconf/DeleteTodo.apiconf';
 export * from './modules/todo/apiconf/QueryTodo.apiconf';
