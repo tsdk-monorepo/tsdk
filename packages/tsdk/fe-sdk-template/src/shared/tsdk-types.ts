@@ -36,6 +36,7 @@ export interface APIConfig {
    * if `{}`, will support `/api/{a}/b/{c}`,
    * and will replace with data with {a: 1, c: 2} to `/api/1/b/2`  */
   paramsInUrl?: ':' | '{}';
+  /** Force the API is fetch data, for sometimes the backend API is all `post` method */
   isGet?: boolean;
 }
 
