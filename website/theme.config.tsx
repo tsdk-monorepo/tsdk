@@ -12,13 +12,36 @@ const config: DocsThemeConfig = {
     </div>
   ),
   useNextSeoProps() {
+    const description = 'tsdk: type-safe API development and Code share tool';
     const { asPath } = useRouter();
+    const common = {
+      description,
+      openGraph: {
+        images: [{ url: 'https://tsdk.dev/og.jpg' }],
+      },
+      twitter: {
+        cardType: 'summary_large_image',
+        site: 'https://tsdk.dev',
+      },
+      additionalMetaTags: [{ content: 'tsdk', name: 'apple-mobile-web-app-title' }],
+    };
     if (asPath !== '/' && asPath !== '/docs/intro') {
       return {
         titleTemplate: '%s – tsdk',
+        ...common,
       };
     }
+    return {
+      ...common,
+    };
   },
+  head: (
+    <>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta property="og:title" content="tsdk" />
+      <meta property="og:description" content="type-safe API development and Code share tool" />
+    </>
+  ),
   navbar: {
     extraContent: <LocaleSwitch />,
   },

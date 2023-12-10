@@ -1,0 +1,43 @@
+---
+title: 构建可扩展的项目结构
+---
+
+# 构建可扩展的项目结构
+
+原则：不要按照技术角色来分类你的文件，要按独立的组成部分来组织你的解决方案。
+
+或者：`src/modules/` 里面的模块可以单独拎出来和外面的 `src/core` 运行。
+
+```
+package.json
+nest-cli.json
+src
+  main.ts
+  loaders
+    db.ts
+    redis.ts
+    express.ts
+    socket.ts
+    logger.ts
+    tsdk.ts
+  shared
+    tsdk-helper.ts
+    tsdk-types.ts
+  core
+    core_modules1
+    core_modules2
+  modules
+    modules1
+      x.entity.ts
+      x.service.ts
+      x.apiconf.ts
+      x.api.ts
+      x.admin.apiconf.ts
+      x.admin.api.ts
+      x.task.ts
+      setup.ts
+      tests
+        x.service.test.ts
+    modules2
+      ...
+```

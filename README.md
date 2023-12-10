@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://tsdk.dev">
-      <img  src="./website/public/tsdk.jpeg" width="300" alt="tsdk" />
+      <img  src="./website/public/og.jpg" width="100%" alt="tsdk" />
   </a>
 </p>
 

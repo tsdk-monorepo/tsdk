@@ -2,7 +2,7 @@ import { Tabs, Callout } from 'nextra/components';
 
 # Hello World API 调用
 
-在 [上一步](./hello-world-api)，我们已将 API 写好，并且将模块导出到 **pacakges/fe-sdk** 文件夹。
+在 [上一步](./hello-world-api)，我们已将 API 写好，并且将模块导出到 **./fe-sdk** 文件夹。
 
 接下来：
 
@@ -35,7 +35,7 @@ pnpx create-next-app@latest
 
 ### 设置 workspace（monorepo）
 
-创建完前端项目后，再将 `packages/fe-sdk` 模块添加到创建好的前端项目里的 **package.json**:
+创建完前端项目后，再将 `./fe-sdk` 模块添加到创建好的前端项目里的 **package.json**:
 
 <Callout>
   这里我们使用的是 [pnpm workspace](https://pnpm.io/workspaces)； 如果使用 npm 或者 yarn，需要参考对应的 workspace 方案。
