@@ -101,7 +101,12 @@ export async function syncAPI() {
       } = apiconfs[k];
       const name = _name || k.replace(/Config$/, '');
       const type = _type === 'common' || !_type ? 'common' : _type;
-      const isGET = method?.toLowerCase() === 'get' || !method || apiconfs[k].isGet;
+
+      const isGET =
+        apiconfs[k].isGet === false
+          ? false
+          : apiconfs[k].isGet === true || !method || method?.toLowerCase() === 'get';
+
       if (type === apiType && path) {
         importStr += `
           ${name}Config,
