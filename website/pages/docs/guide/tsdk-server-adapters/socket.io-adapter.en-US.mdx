@@ -1,0 +1,59 @@
+# Socket.IO adapter
+
+## In backend
+
+```ts copy
+import http from 'http';
+import { Server } from 'socket.io';
+import { socketIOAdapterFactory } from 'tsdk-server-adapters/lib/socket.io-adapter';
+import { ProtocolTypes } from '@/src/shared/tsdk-helper';
+import { RequestInfo, routeBus } from './gen-route';
+
+const port = 3000;
+const server = http.createServer();
+const io = new Server(server);
+io.on('connection', (socket) => {
+  const { address, query, headers } = socket.handshake;
+
+  const reqInfo = {
+    ip: address,
+    lang: 'zh-CN',
+    token: query.token as string,
+    type: query.type as string,
+  };
+
+  socketIOAdapterFactory<RequestInfo>({
+    routeBus,
+    async getReqInfo() {
+      return reqInfo;
+    },
+    getType(reqInfo) {
+      return reqInfo.type;
+    },
+    async getData(data) {
+      return data;
+    },
+    protocolType: ProtocolTypes,
+  })(socket);
+});
+
+server.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
+});
+```
+
+## In frontend
+
+```ts
+import { io as SocketIO } from 'socket.io-client';
+import { setHandler, setSocketIOInstance, socketIOHandler } from 'fe-sdk';
+
+const ioInstance = SocketIO(`/`, {
+  transports: ['websocket'],
+  query: {
+    type: apiType,
+  },
+});
+setSocketIOInstance(ioInstance);
+setHandler(socketIOHandler);
+```

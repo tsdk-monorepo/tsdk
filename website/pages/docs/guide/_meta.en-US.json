@@ -1,0 +1,12 @@
+{
+  "tsdk.config": "tsdk.config.js",
+  "apiconf": "APIConfig",
+  "tsdk-snippets": "Snippets",
+  "tsdk-server-adapters": "Server adapters",
+  "share-code": "Code share",
+  "doc": "Docs",
+  "nest-cli": "nest-cli",
+  "build": "Bundle into single file",
+  "swr": "SWR",
+  "react-query": "React Query"
+}

@@ -8,6 +8,14 @@
       "timestamp": false
     }
   },
+  "examples": {
+    "type": "page",
+    "title": "🌰 例子",
+    "display": "hidden",
+    "theme": {
+      "layout": "full"
+    }
+  },
   "docs": {
     "type": "page",
     "title": "📖 文档"

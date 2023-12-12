@@ -1,0 +1,102 @@
+# nest-cli
+
+import { Callout } from 'nextra/components';
+
+[nest-cli](https://github.com/nestjs/nest-cli) is a CLI tool for Nest applications, but also can support others Node.js projects. If you had experience with nodemon, you will like nest-cli: support multiple entries config and build.
+
+<Callout emoji="">
+  Example: [nest-cli-example](https://github.com/tsdk-monorepo/nest-cli-example)
+</Callout>
+
+## Why `nest-cli`
+
+- Like `nodemon`, automatically restarting the node application when file changes in the directory are detected
+- Support build and multiple entries config
+
+## Usage
+
+### Create `nest-cli.json`:
+
+```ts filename="nest-cli.json" copy
+{
+  "collection": "@nestjs/schematics",
+  "monorepo": true,
+  "root": "./",
+  "sourceRoot": "src",
+  "entryFile": "main",
+  "compilerOptions": {
+    "webpack": false,
+    "tsConfigPath": "tsconfig.json"
+  }
+}
+```
+
+There are 3 fields need considerations:
+
+- `root` - Current root folder
+- `sourceRoot` - The code folder
+- `entryFile` - Entry file filename
+
+### Run dev
+
+```sh copy
+pnpm nest start --watch
+```
+
+### Build
+
+```sh
+pnpm nest build
+```
+
+### Multiple entries
+
+```ts filename="nest-cli.json" copy
+{
+  "collection": "@nestjs/schematics",
+  "monorepo": true,
+  "root": "./",
+  "sourceRoot": "src",
+  "entryFile": "main",
+  "compilerOptions": {
+    "webpack": false,
+    "tsConfigPath": "tsconfig.json"
+  },
+  "projects": {
+    "hello": {
+      "type": "application",
+      "sourceRoot": "src",
+      "entryFile": "modules/hello/main",
+      "nodeExternalsParams": {
+        "additionalModuleDirs": ["./node_modules"]
+      }
+    },
+    "foo": {
+      "type": "application",
+      "sourceRoot": "src",
+      "entryFile": "modules/foo/main",
+      "nodeExternalsParams": {
+        "additionalModuleDirs": ["./node_modules"]
+      }
+    }
+  }
+}
+```
+
+### Run certain module
+
+```sh
+pnpm tsdk --nest start hello --watch
+```
+
+### Build certain modules
+
+```sh
+pnpm tsdk --nest build hello
+```
+
+### Code
+
+<Callout emoji="">
+  Example: [nest-cli-example](https://github.com/tsdk-monorepo/nest-cli-example)
+</Callout>

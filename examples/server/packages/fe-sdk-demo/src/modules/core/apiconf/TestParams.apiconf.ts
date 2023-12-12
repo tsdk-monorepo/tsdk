@@ -1,4 +1,5 @@
 import { z } from 'zod';
+
 import { transformPath, APIConfig, ObjectLiteral } from '../../../shared/tsdk-helper';
 
 /**
@@ -8,7 +9,7 @@ import { transformPath, APIConfig, ObjectLiteral } from '../../../shared/tsdk-he
 export const TestPathParamsConfig: APIConfig = {
   type: 'user',
   method: 'get',
-  path: transformPath('TestPathParams/:a/b/:c'),
+  path: transformPath('TestPathParams') + '/:a/b/:c',
   description: 'Test path params',
   category: 'test',
   paramsInUrl: ':',

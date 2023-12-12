@@ -1,0 +1,6 @@
+{
+  "express-adapter": "Express adapter",
+  "fastify-adapter": "Fasity adapter",
+  "hono-adapter": "Hono adapter",
+  "socket.io-adapter": "Socket.IO adapter"
+}

@@ -1,0 +1,50 @@
+# APIConfig
+
+`APIConfig` defined the basic configuration specifications of API:
+
+```ts filename="src/shared/tsdk-types.ts" copy
+import { z } from 'zod';
+
+export const APITypes = {
+  user: 'user',
+  admin: 'admin',
+  common: 'common',
+} as const;
+
+export const APITypesKey = Object.keys(APITypes).filter((item) => item !== APITypes.common);
+
+export type APIType = keyof typeof APITypes;
+
+export interface APIConfig {
+  /** The API type. Like: user side or admin side. */
+  type: APIType;
+  /** The API path */
+  path: string;
+  method: 'get' | 'post' | 'delete' | 'put' | 'patch' | 'head' | 'options';
+  /** Request data validate scheme */
+  schema?: z.ZodTypeAny;
+  /** The API need auth? Default is false */
+  needAuth?: boolean;
+  /** The API disabled? Default is false */
+  disabled?: boolean;
+  /** The API description */
+  description: string;
+  /** The API category */
+  category?: string;
+
+  /** custom headers for client */
+  headers?: { [key: string]: any };
+}
+```
+
+## Fields
+
+- `type` - API type
+- `path` - API url path
+- `method` - HTTP request method
+- `description` - API description
+- `category` - Optional, API category
+- `schema` - Optional, validate schem with zod
+- `needAuth` - Optional, need auth or no need
+- `disabled` - Optional, is disabled or not
+- `headers` - Optional, custom headers

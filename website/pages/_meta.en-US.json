@@ -11,5 +11,14 @@
   "docs": {
     "type": "page",
     "title": "Documentation"
+  },
+  "examples": {
+    "type": "page",
+    "title": "Examples",
+    "display": "hidden",
+    "theme": {
+      "layout": "full",
+      "timestamp": false
+    }
   }
 }

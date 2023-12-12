@@ -1,0 +1,109 @@
+import { Callout } from 'nextra/components';
+
+# SWR
+
+<Callout>tsdk already built-in support SWR hook generate [Check tutorial](../guide/swr)</Callout>
+
+`SWR` is a React Hooks library for data fetching. There are many features:
+
+- loading status
+- Error retry
+- Built-in cache and request deduplication
+- Revalidation on focus
+- ...
+
+More: https://swr.vercel.app/#features
+
+### Install SWR
+
+Add **swr** to **next-app/package.json**:
+
+```json {13}
+{
+  "name": "next-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    ...
+    "swr": "^2.2.4"
+  },
+  ...
+}
+```
+
+<Callout>Remember `pnpm install`</Callout>
+
+### Create SWR hooks
+
+There are two types hook in react query, one is fetch data, another is update data
+
+```ts copy filename="next-app/app/swr/hooks.ts"
+import useSWR, { SWRConfiguration } from 'swr';
+import useSWRMutation, { SWRMutationConfiguration } from 'swr/mutation';
+
+import {
+  GetHello,
+  GetHelloReq,
+  GetHelloRes,
+  UpdateHello,
+  UpdateHelloReq,
+  UpdateHelloRes,
+} from '@/lib/user-api';
+
+export function useGetHello(payload: GetHelloReq, options?: SWRConfiguration<GetHelloRes>) {
+  return useSWR(
+    { url: GetHello.config.path, arg: payload },
+    ({ arg }) => {
+      return GetHello(arg);
+    },
+    options
+  );
+}
+
+export function useUpdateHello(
+  options?: SWRMutationConfiguration<UpdateHelloRes, Error, string, UpdateHelloReq>
+) {
+  return useSWRMutation(
+    UpdateHello.config.path,
+    (url, { arg }: { arg: UpdateHelloReq }) => {
+      return UpdateHello(arg);
+    },
+    options
+  );
+}
+```
+
+### Use the hooks
+
+```tsx copy filename="next-app/app/swr/page.tsx"
+'use client';
+
+import { useGetHello, useUpdateHello } from './hooks';
+
+export default function HelloPage() {
+  const { data, mutate } = useGetHello({});
+  const { trigger } = useUpdateHello();
+
+  return (
+    <div className="p-8">
+      <h1 className="text-2xl font-bold">{data?.result}</h1>
+      <button
+        className="bg-indigo-500 rounded px-2 py-4 text-white"
+        onClick={async () => {
+          await trigger({ payload: 'Hello tsdk!' });
+          mutate();
+        }}>
+        Update to `Hello tsdk!`
+      </button>
+    </div>
+  );
+}
+```
+
+Run `pnpm --filter=next-app dev`, then access **http://localhost:3000/swr**

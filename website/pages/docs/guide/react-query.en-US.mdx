@@ -1,0 +1,58 @@
+import { Callout } from 'nextra/components';
+
+# React Query
+
+When export files to fe-sdk, we can generate React Query hooks through configured [tsdk.config.js](./tsdk.config) [dataHookLib](./tsdk.config#datahooklib) field to **ReactQuery**.
+
+```js filename="tsdk.config.js" {3}
+module.exports = {
+  ...
+  "dataHookLib": "ReactQuery"
+}
+```
+
+### Usage
+
+Add `use` as prefix to the method:
+
+<Callout>
+  Note: `@/lib/user-api-hooks` and `@/lib/user-api` seperate, because sometimes we only want use API
+  but not hooks in Next.js.
+</Callout>
+
+```tsx {7}
+'use client';
+
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useGetHello, useUpdateHello, setQueryClient } from '@/lib/user-api-hooks';
+
+const queryClient = new QueryClient();
+setQueryClient(queryClient);
+
+export default function Page() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <HelloApp />
+    </QueryClientProvider>
+  );
+}
+
+function HelloApp() {
+  const { data, refetch } = useGetHello({});
+  const { mutateAsync } = useUpdateHello();
+
+  return (
+    <div className="p-8">
+      <h1 className="text-2xl font-bold">{data?.result}</h1>
+      <button
+        className="bg-indigo-500 rounded px-2 py-4 text-white"
+        onClick={async () => {
+          await mutateAsync({ payload: 'Hello tsdk!' });
+          refetch();
+        }}>
+        Update to `Hello tsdk!`
+      </button>
+    </div>
+  );
+}
+```

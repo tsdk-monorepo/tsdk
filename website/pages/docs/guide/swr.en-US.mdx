@@ -1,0 +1,50 @@
+import { Callout } from 'nextra/components';
+
+# SWR
+
+When export files to fe-sdk, we can generate SWR hooks through configured [tsdk.config.js](./tsdk.config) [dataHookLib](./tsdk.config#datahooklib) field to SWR.
+
+```js filename="tsdk.config.js" {4}
+/** @type {import('tsdk').TSDKConfig} */
+module.exports = {
+  ...
+  dataHookLib: "SWR"
+}
+```
+
+### Usage
+
+Add `use` as prefix to the method:
+
+<Callout>
+  Note: `@/lib/user-api-hooks` and `@/lib/user-api` seperate, because sometimes we only want use API but not hooks in Next.js.
+</Callout>
+
+```tsx
+'use client';
+
+import { useGetHello, useUpdateHello } from '@/lib/user-api-hooks';
+
+export default function HelloPage() {
+  const { data, mutate } = useGetHello({});
+  const { trigger } = useUpdateHello();
+
+  return (
+    <div className="p-8">
+      <h1 className="text-2xl font-bold">{data?.result}</h1>
+      <button
+        className="bg-indigo-500 rounded px-2 py-4 text-white"
+        onClick={async () => {
+          await trigger({ payload: 'Hello tsdk!' });
+          mutate();
+        }}>
+        Update to `Hello tsdk!`
+      </button>
+    </div>
+  );
+}
+```
+
+### Example
+
+Repo: https://github.com/tsdk-monorepo/tsdk-quickstart/blob/main/next-app/app/built-in-swr/page.tsx

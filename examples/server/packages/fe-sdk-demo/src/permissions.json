@@ -38,7 +38,7 @@
     {
       "type": "user",
       "method": "get",
-      "path": "/test-path-params-a-b-c",
+      "path": "/test-path-params/:a/b/:c",
       "description": "Test path params",
       "category": "test",
       "paramsInUrl": ":",

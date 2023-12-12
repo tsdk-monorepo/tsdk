@@ -1,0 +1,215 @@
+import { Tabs, Callout } from 'nextra/components';
+
+# Request the API in Next.js
+
+In the [previous](./hello-world-api) chapter, we writed the API, and export the API call functions module to ./fe-sdk folder.
+
+In next, we will:
+
+- Crate Next.js project folder
+- Setting monorepo
+- Import `fe-sdk`, and call the API function
+
+### Create Next.js proejct
+
+The project name is **next-app**:
+
+<Tabs defaultIndex="1" items={['npm', 'pnpm']}>
+  <Tabs.Tab value="npm">
+
+```sh
+npx create-next-app@latest
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab value="pnpm">
+
+```zsh
+pnpx create-next-app@latest
+```
+
+  </Tabs.Tab>
+</Tabs>
+
+### Settings workspace (monorepo)
+
+After create next-app project folder，We add `./fe-sdk` module to the file `./next-app/package.json`:
+
+<Callout>
+  If you are not familier workspace with pnpm, check here [pnpm
+  workspace](https://pnpm.io/workspaces); if npm or yarn, check the workspace they provide.
+</Callout>
+
+```json {4-6, 10}
+{
+  ...
+  "dependencies": {
+    "fe-sdk": "workspace:*",
+    "axios": "1.6.2",
+    "http-proxy": "1.18.1",
+    ...
+  },
+  "devDependencies": {
+    "@types/http-proxy": "^1.17.14",
+    ...
+  }
+  ...
+}
+```
+
+### Import and run `fe-sdk`
+
+Install dependencies first:
+
+```sh
+pnpm i
+```
+
+#### Create **.env**
+
+```ts filename="next-app/.env" copy
+API_URL=http://localhost:3030
+```
+
+#### Create proxy
+
+```ts filename="pages/api/[...path].ts" copy
+import { IncomingMessage, ServerResponse } from 'http';
+import httpProxy from 'http-proxy';
+
+const API_URL = process.env.API_URL;
+
+const proxy = httpProxy.createProxyServer();
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+export default function api(req: IncomingMessage, res: ServerResponse<IncomingMessage>) {
+  return new Promise((resolve, reject) => {
+    proxy.web(
+      req,
+      res,
+      {
+        target: API_URL,
+        changeOrigin: true,
+      },
+      (err) => {
+        if (err) {
+          return reject(err);
+        } else {
+          resolve(1);
+        }
+      }
+    );
+  });
+}
+```
+
+#### Create **lib/user-api.ts**
+
+Create `lib/user-api.ts` in **./next-app**:
+
+```ts filename="next-app/lib/user-api.ts" copy
+import axios, { AxiosError } from 'axios';
+import { setHandler, setAxiosInstance, axiosHandler } from 'fe-sdk';
+
+export * from 'fe-sdk/lib/user-api';
+export * from 'fe-sdk/lib/apiconf-refs';
+export * from 'fe-sdk/lib/shared-refs';
+
+export const baseURL = process.env.API_URL || '';
+
+export const apiType = 'user';
+export const apiURL = baseURL + `/api/${apiType}`;
+
+const axiosInstance = axios.create({
+  baseURL: apiURL,
+  headers: {},
+});
+
+axiosInstance.interceptors.response.use(
+  (res) => res,
+  (error: AxiosError) => {
+    throw new Error((error?.response?.data as { msg: string })?.msg || error?.message);
+  }
+);
+
+setAxiosInstance(axiosInstance);
+setHandler(axiosHandler);
+```
+
+#### Create React hook
+
+```ts filename="next-app/app/useHello.ts" copy
+'use client';
+import { useState, useEffect } from 'react';
+import { GetHello, UpdateHello, UpdateHelloReq } from '@/lib/user-api';
+
+export function useHello() {
+  const [hello, setHello] = useState('');
+
+  useEffect(() => {
+    GetHello({}).then((res) => {
+      setHello(res.result);
+    });
+  }, []);
+
+  async function update(payload: UpdateHelloReq['payload']) {
+    const res = await UpdateHello({ payload });
+    setHello(res.result);
+  }
+
+  return {
+    hello,
+    update,
+  };
+}
+```
+
+<Callout type="error" emoji="️🚫">
+  Import API can't write like this: ```ts import {(GetHello, UpdateHello, UpdateHelloReq)} from
+  'fe-sdk/lib/user-api'; ```
+</Callout>
+
+<Callout emoji="️✅">
+  This is recommend:
+  ```ts 
+  import { GetHello, UpdateHello, UpdateHelloReq } from '@/lib/user-api'; 
+  ```
+
+Because we have settings in file `./next-app/lib/user-api`
+</Callout>
+
+#### Update `app/page.tsx`
+
+```tsx filename="next-app/app/page.tsx" copy
+'use client';
+
+import { useHello } from './useHello';
+
+export default function Home() {
+  const { hello, update } = useHello();
+
+  return (
+    <div className="p-8">
+      <h1 className="text-2xl font-bold">{hello}</h1>
+      <button
+        className="bg-indigo-500 rounded px-2 py-4 text-white"
+        onClick={() => {
+          update('Hello tsdk!');
+        }}>
+        Update to `Hello tsdk!`
+      </button>
+    </div>
+  );
+}
+```
+
+#### Run dev
+
+```sh copy
+pnpm --filter=next-app dev
+```

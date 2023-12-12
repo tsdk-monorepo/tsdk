@@ -1,0 +1,34 @@
+# How tsdk created
+
+<img src="/tssdk.jpg" className="w-72 rounded-2xl my-12 mx-auto" />
+
+At the end of 2019, after studying Golang backend development for a period of time, I questioned the decision to switch from my accustomed JavaScript language to Golang. Instead, I decided to shift my focus to learning Node.js for backend development.
+
+There are several advantages to using Node.js for backend development:
+
+1. Unified JavaScript or TypeScript for both frontend and backend allows for code sharing for common logic.
+2. Find a way to generate frontend code for calling the API written on the Node.js side. This is a core feature provided by the current tsdk.
+
+However, there are some drawbacks to using Node.js for backend development, which led me to reconsider:
+
+1. Issues with code stability in multi-person development (solutions: TypeScript for strong typing, unit testing, interface testing).
+
+2. JavaScript itself is relatively flexible, leading to an increase in complexity and messy code over time (addressed by adopting TypeScript).
+
+3. Many Node.js users come from a frontend background and lack experience in server-side development, such as application layering, distributed architecture, massive concurrency, scaling, and the separation of computing and storage.
+
+4. Truly skilled Node.js developers with deep expertise in server-side development are rare. Hiring a Node.js developer with equivalent server-side capabilities is much more challenging than hiring a Java developer. Entrusting large or complex business tasks to non-professionals is a risky proposition.
+
+
+For points 1 and 2, adhering to TypeScript and ESLint standards resolves these issues. As for points 3 and 4, lack of experience in these areas is a challenge for anyone learning a new language. The key lies in a fundamental understanding, a focus on essentials, and rigorous code and stress testing.
+
+import { Callout } from 'nextra/components';
+
+<Callout emoji="🐣" type="info">
+  As I review the code history, there are pauses, refactoring, and updates. The code has also been
+  migrated four times[^1]. Yet, it has never been officially released, like a thorn in my throat.
+  Despite having excellent tRPC, I've decided to set aside some time to pull out this thorn. Whether
+  it succeeds or if anyone uses it is not my immediate concern.
+</Callout>
+
+[^1]: **nsf** (Node Server Framework) -> **bsv** -> refactor express.js to fastify, and go back express.js from fastify -> **tsdk** -> **tsdk-monorepo**

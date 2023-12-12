@@ -53,8 +53,9 @@ const config: DocsThemeConfig = {
     text: (
       <div className="flex gap-x-6">
         <div>Copyright @ {new Date().getFullYear()}</div>
-        <a href="/sitemap.xml">Sitemap</a>
+        <a href="https://github.com/suhaotian">@suhaotian</a>
         <a href="https://github.com/tsdk-monorepo">GitHub</a>
+        <a href="/sitemap.xml">Sitemap</a>
       </div>
     ),
   },

@@ -1,0 +1,56 @@
+# tsdk Snippets
+
+When we run `tsdk --init` or `tsdk --sync`, will generate `.vscode/tsdk.code-snippets` file in the root directory.
+
+Snippets can help us generate API config quickly.
+
+Currently, include 2 snippets:
+
+- **apii** generate the import
+- **apic** generate the config
+
+## Video
+
+<video style={{ width: '100%', maxWidth: 680 }} controls>
+  <source src={require('./videos/tsdk-snippets.mov')} />
+</video>
+
+## Generate the import line use `apii`
+
+```ts
+import { transformPath, APIConfig, ObjectLiteral } from '@/src/shared/tsdk-helper';
+```
+
+[`APIConfig` README](./apiconf)
+
+## Generate config use `apic`
+
+Press `tab` can eaisly move cursor to the next step
+
+```ts
+/**
+ * description ({@link APIConfig})
+ * @category Category
+ */
+export const ApiNameConfig: APIConfig = {
+  type: 'user',
+  method: 'get',
+  path: transformPath('ApiName'),
+  description: 'description',
+  category: 'Category',
+};
+/**
+ *
+ * @category Category
+ */
+export type ApiNameReq = {};
+
+/**
+ *
+ * @category Category
+ */
+export type ApiNameRes = {};
+// --------- ApiName END ---------
+```
+
+[`APIConfig` README](./apiconf)

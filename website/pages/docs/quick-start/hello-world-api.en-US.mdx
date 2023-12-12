@@ -1,0 +1,394 @@
+# Writing the API
+
+In [previous step](./setup), we prepared the TypeScript project environment.
+
+This chapter, We will use tsdk to develop two simple APIs, one is return Hello world and another API is update the Hello World message.
+
+### Create **server/src/gen-route.ts**
+
+**gen-route.ts** This file is responsible for middleware, error handling and route logic.
+
+```ts filename="server/src/gen-route.ts" copy
+import { ZodError } from 'zod';
+import { genRouteFactory, Protocol } from 'tsdk-server-adapters';
+import { ProtocolTypes } from '@/src/shared/tsdk-helper';
+import { APIConfig, APITypesKey } from '@/src/shared/tsdk-types';
+
+const middlewares = [authMiddleware];
+const genRouteObj = genRouteFactory<APIConfig, RequestInfo>(
+  onErrorHandler,
+  ProtocolTypes,
+  middlewares,
+  APITypesKey
+);
+export const routeBus = genRouteObj.routeBus;
+export const genRoute = genRouteObj.genRoute;
+
+export interface RequestInfo {
+  type: string;
+  ip: string;
+  lang: string;
+  username?: string;
+  userId?: number;
+  token?: string;
+}
+export type ReadonlyRequestInfo = Readonly<RequestInfo>;
+
+async function authMiddleware(protocol: Protocol, apiConfig: APIConfig, reqInfo: RequestInfo) {
+  if (protocol === 'socket.io' || protocol === 'ws') {
+    // only parse once for socket
+  }
+  if (!apiConfig.needAuth) {
+    return Promise.resolve();
+  }
+  if (!reqInfo.token) {
+    return Promise.reject(new AuthError());
+  }
+
+  return Promise.resolve();
+}
+
+class AuthError extends Error {
+  message = 'AuthError';
+}
+
+class CustomError extends Error {
+  statusCode: number;
+}
+
+function onErrorHandler(
+  e: CustomError,
+  { protocol, send, msgId }: Parameters<Parameters<typeof genRouteFactory>[0]>[1]
+) {
+  if (e instanceof ZodError) {
+    return send({
+      _id: msgId,
+      status: 400,
+      result: {
+        msg: e.errors,
+      },
+    });
+  }
+
+  let status = e.statusCode || 500;
+  const msg = e.message;
+
+  if (e instanceof AuthError) {
+    status = 401;
+  }
+  return send({ _id: msgId, status, result: { msg } });
+}
+```
+
+### Create entry **server/src/main.ts**
+
+```ts filename="server/src/main.ts" copy
+import http from 'http';
+import express, { Request } from 'express';
+import { Server } from 'socket.io';
+import { socketIOAdapterFactory } from 'tsdk-server-adapters/lib/socket.io-adapter';
+import { expressAdapterFactory } from 'tsdk-server-adapters/lib/express-adapter';
+import { checkMethodHasBody, ProtocolTypes } from '@/src/shared/tsdk-helper';
+import { RequestInfo, routeBus } from './gen-route';
+
+const port = 3030;
+
+const app = express();
+const server = http.createServer(app);
+
+const io = new Server(server);
+io.on('connection', (socket) => {
+  const { address, query, headers } = socket.handshake;
+
+  const reqInfo = {
+    ip: address,
+    lang: 'zh-CN',
+    token: query.token as string,
+    type: query.type as string,
+  };
+
+  socketIOAdapterFactory<RequestInfo>({
+    routeBus,
+    async getReqInfo() {
+      return reqInfo;
+    },
+    getType(reqInfo) {
+      return reqInfo.type;
+    },
+    async getData(data) {
+      return data;
+    },
+    protocolType: ProtocolTypes,
+  })(socket);
+});
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.get('/', (req, res) => {
+  res.end('hi, from express.');
+});
+app.use(
+  '/api/:type',
+  expressAdapterFactory<RequestInfo>({
+    routeBus,
+    async getReqInfo(req: Request) {
+      return {
+        ip: req.ip as string,
+        lang: 'zh-CN',
+        type: req.params.type,
+        token: req.headers.authorization,
+      };
+    },
+    getType(reqInfo) {
+      return reqInfo.type;
+    },
+    async getData(req) {
+      return checkMethodHasBody(req.method) ? req.body : req.query;
+    },
+  })
+);
+
+server.listen(port, () => {
+  console.log(`Server listening at ${port}`);
+});
+```
+
+### Write the API configs `src/Hello.apiconf.ts`
+
+import { Callout } from 'nextra/components';
+
+<Callout>
+  别慌！接口配置可以通过 tsdk 内置的代码片段 Snippet Code 快速生成!!
+  [查看说明](../guide/tsdk-snippets)
+</Callout>
+
+```ts filename="server/src/Hello.apiconf.ts" copy
+import { z } from 'zod';
+import { APIConfig, transformPath } from '@/src/shared/tsdk-helper';
+
+/**
+ * Get hello ({@link APIConfig})
+ * @category hello
+ */
+export const GetHelloConfig: APIConfig = {
+  type: 'user',
+  method: 'get',
+  path: transformPath('GetHello'),
+  description: 'Get hello',
+  category: 'hello',
+  needAuth: false,
+};
+/**
+ * @category hello
+ */
+export type GetHelloReq = {};
+
+/**
+ * @category hello
+ */
+export type GetHelloRes = {
+  result: string;
+};
+// --------- GetHello END ---------
+
+/**
+ * Update hello ({@link APIConfig})
+ * @category hello
+ */
+export const UpdateHelloConfig = {
+  type: 'user' as const,
+  method: 'post' as const,
+  path: transformPath('UpdateHello'),
+  description: 'Update hello',
+  category: 'hello',
+  needAuth: false,
+  schema: z.object({
+    payload: z.string().min(1),
+  }),
+};
+/**
+ * @category hello
+ */
+export type UpdateHelloReq = z.infer<typeof UpdateHelloConfig.schema>;
+// export type UpdateHelloReq = {payload: string};
+/**
+ * @category hello
+ */
+export type UpdateHelloRes = {
+  result: string;
+};
+// --------- UpdateHello END ---------
+```
+
+### Combine the API with config in `src/Hello.api.ts`
+
+```ts copy filename="server/src/Hello.api.ts"
+import { genRoute, type RequestInfo } from './gen-route';
+import {
+  GetHelloReq,
+  GetHelloRes,
+  GetHelloConfig,
+  UpdateHelloReq,
+  UpdateHelloRes,
+  UpdateHelloConfig,
+} from './Hello.apiconf';
+
+const DB = {
+  data: 'Hello World',
+};
+
+export function setupHelloAPI() {
+  genRoute<GetHelloReq, GetHelloRes>(
+    GetHelloConfig,
+    async (reqInfo: Readonly<RequestInfo>, data) => {
+      return { result: DB.data };
+    }
+  );
+
+  genRoute<UpdateHelloReq, UpdateHelloRes>(
+    UpdateHelloConfig,
+    async (reqInfo: Readonly<RequestInfo>, data) => {
+      DB.data = data.payload;
+      return { result: data.payload };
+    }
+  );
+}
+```
+
+### Setup API routes `server/src/main/ts`
+
+<Callout type="info">`server/src/main.ts` 上面已创建好，我们只需要更新入口文件即可。</Callout>
+
+```ts filename="server/src/main.ts" {7, 67}
+import http from 'http';
+import { socketIOAdapterFactory } from 'tsdk-server-adapters/lib/socket.io-adapter';
+import express from 'express';
+import { expressAdapterFactory } from 'tsdk-server-adapters/lib/express-adapter';
+import { checkMethodHasBody, ProtocolTypes } from '@/src/shared/tsdk-helper';
+import { RequestInfo, routeBus } from './gen-route';
+import { setupHelloAPI } from './Hello.api';
+
+const port = 3030;
+
+const io = new Server(server);
+io.on('connection', (socket) => {
+  const { address, query, headers } = socket.handshake;
+
+  const reqInfo = {
+    ip: address,
+    lang: 'zh-CN',
+    token: query.token as string,
+    type: query.type as string,
+  };
+
+  socketIOAdapterFactory<RequestInfo>({
+    routeBus,
+    async getReqInfo() {
+      return reqInfo;
+    },
+    getType(reqInfo) {
+      return reqInfo.type;
+    },
+    async getData(data) {
+      return data;
+    },
+    protocolType: ProtocolTypes,
+  })(socket);
+});
+
+const app = express();
+const server = http.createServer(app);
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.get('/', (req, res) => {
+  res.end('hi, from express.');
+});
+app.use(
+  '/api/:type',
+  expressAdapterFactory<RequestInfo>({
+    routeBus,
+    async getReqInfo(req) {
+      return {
+        ip: req.ip,
+        lang: 'zh-CN',
+        type: req.params.type,
+        token: req.headers.authorization,
+      };
+    },
+    getType(reqInfo) {
+      return reqInfo.type;
+    },
+    async getData(req) {
+      return checkMethodHasBody(req.method) ? req.body : req.query;
+    },
+  })
+);
+
+setupHelloAPI();
+
+server.listen(port, () => {
+  console.log(`Server listening at ${port}`);
+});
+```
+
+### Export module to `./fe-sdk`
+
+Run below command export the module to folder **./fe-sdk**:
+
+```sh
+cd server
+```
+
+```sh npm2yarn
+npm run sync-sdk
+```
+
+### Create `nest-cli.json`
+
+```json filename="nest-cli.json" copy
+{
+  "collection": "@nestjs/schematics",
+  "monorepo": true,
+  "root": "./",
+  "sourceRoot": "src",
+  "entryFile": "main",
+  "compilerOptions": {
+    "webpack": false,
+    "tsConfigPath": "tsconfig.json"
+  }
+}
+```
+
+### Add running command to `server/package.json`
+
+```json filename="server/package.json" copy
+{
+  ...
+  "scripts": {
+    ...
+    "dev": "nest start --watch",
+    "build": "nest build",
+    "checktype": "tsc --noEmit"
+  }
+  ...
+}
+```
+
+### Run dev
+
+```sh
+cd server
+```
+
+```sh npm2yarn
+npm run dev
+```
+
+### Build
+
+```sh npm2yarn
+npm run build
+```

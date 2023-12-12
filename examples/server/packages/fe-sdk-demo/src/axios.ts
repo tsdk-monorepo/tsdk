@@ -40,7 +40,7 @@ export async function axiosHandler(
   if (!axiosInstance) {
     throw new NoHandlerError(`Call \`setAxiosInstance\` first`);
   }
-  const { path, headers, paramsInUrl } = apiConfig;
+  const { path, headers } = apiConfig;
   const method = apiConfig.method.toLowerCase();
 
   const payload: AxiosRequestConfig = {
@@ -67,8 +67,8 @@ export async function axiosHandler(
       payload.params = requestConfig?.params ? { ...requestConfig.params, ...data } : data;
     }
   }
-  if (requestData && paramsInUrl) {
-    payload.url = pathParams(path, requestData, paramsInUrl);
+  if (requestData && (apiConfig as any).paramsInUrl) {
+    payload.url = pathParams(path, requestData, (apiConfig as any).paramsInUrl);
   }
 
   const { data } = await axiosInstance.request(payload);

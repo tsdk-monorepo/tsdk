@@ -1,11 +1,12 @@
+
 import { Tabs } from 'nextra/components';
 import { FileTree } from 'nextra/components';
 
-# 项目环境设置
+# Environment setup
 
-> 跟随下面步骤，设置和安装项目环境。如果觉得麻烦，可以直接克隆代码到本地跑起来。
+Follow the steps to setup the project environment.
 
-执行以下命令，创建项目相关文件夹：
+## Create folder
 
 ```sh copy
 mkdir -p tsdk-quickstart/server/src
@@ -15,20 +16,20 @@ cd tsdk-quickstart
 <Tabs defaultIndex="1" items={['npm', 'pnpm']}>
   <Tabs.Tab value="npm">
 
-创建 package.json：
+Initialize `package.json`:
 
 ```sh copy
 npm init -y
 ```
 
-切换到 `./server` 目录，初始化 `server/package.json` 文件:
+Switch to directory `./server`, initialize `server/package.json`:
 
 ```sh copy
 cd server
 npm init -y
 ```
 
-切换到 `./server` 目录，执行以下命令添加依赖：
+Add dependencies in `./server` folder：
 
 ```sh copy
 npm i express socket.io tsdk-server-adapters --save
@@ -41,13 +42,13 @@ npm i typescript @types/node @types/express tsdk @nestjs/cli --save-dev
   </Tabs.Tab>
   <Tabs.Tab value="pnpm">
 
-创建 package.json：
+Initialize `package.json`:
 
 ```sh copy
 pnpm init
 ```
 
-设置 pnpm monorepo：
+Setting pnpm monorepo:
 
 ```sh copy
 pnpmConfig='
@@ -63,14 +64,14 @@ packages:
 echo $pnpmConfig > pnpm-workspace.yaml
 ```
 
-切换到 `./server` 目录，创建 `./server/package.json`:
+Switch to directory `./server`, initialize `server/package.json`:
 
 ```sh copy
 cd server
 pnpm init
 ```
 
-在 `./server` 目录，执行以下命令添加依赖：
+Install dependencies in `./server`:
 
 ```sh copy
 pnpm add express socket.io tsdk-server-adapters
@@ -83,7 +84,7 @@ pnpm add typescript @types/node @types/express tsdk @nestjs/cli -D
   </Tabs.Tab>
 </Tabs>
 
-创建 **tsconfig.json**：
+Create **tsconfig.json**:
 
 ```sh copy
 config='{
@@ -111,9 +112,9 @@ config='{
 echo $config > tsconfig.json
 ```
 
-### 生成配置
+### Generate config file: `tsdk.config.js`
 
-在 `./server` 目录，执行以下命令生成配置文件 `tsdk.config.js`（[tsdk.config 说明](/docs/guide/tsdk.config)）：
+In directory ./server, run below command to generate tsdk.config.js([tsdk.config README](/docs/guide/tsdk.config)):
 
 <Tabs defaultIndex="1" items={['npm', 'pnpm']}>
   <Tabs.Tab value="npm">
@@ -122,7 +123,7 @@ echo $config > tsconfig.json
 npx tsdk --init
 ```
 
-更新生成的 `tsdk.config.js` 内容：
+Update `tsdk.config.js` config content:
 
 ```js {2,12,13}
 /** @type {import('tsdk').TSDKConfig} */
@@ -144,7 +145,7 @@ module.exports = {
 };
 ```
 
-再次执行安装依赖：
+Run command to install dependencies:
 
 ```sh copy
 npm i
@@ -157,7 +158,7 @@ npm i
 pnpm tsdk --init
 ```
 
-更新生成的 `tsdk.config.js` 内容：
+Update `tsdk.config.js` config content:
 
 ```js {3,13,14}
 /** @type {import('tsdk').TSDKConfig} */
@@ -179,7 +180,7 @@ module.exports = {
 };
 ```
 
-再次执行安装依赖：
+Run command to install dependencies:
 
 ```sh copy
 pnpm i
@@ -188,9 +189,9 @@ pnpm i
   </Tabs.Tab>
 </Tabs>
 
-### 导出模块
+### Export module
 
-切换到 `./server` 目录，执行下面同步代码命令会创建相关文件：
+Switch to directory `./server`, run commands to generate `fe-sdk` folder:
 
 <Tabs defaultIndex="1" items={['npm', 'pnpm']}>
   <Tabs.Tab value="npm">
@@ -231,9 +232,10 @@ pnpm tsdk --sync
   <FileTree.File name="pnpm-workspace.yaml" />
 </FileTree.Folder>
 
-创建的相关文件说明：
+Folder and file explain:
 
-- `./server/tsdk.config.js` - tsdk 配置文件 [说明](../guide/tsdk.config)
-- `.vscode/tsdk.code-snippets` - tsdk 辅助代码片段 [说明](../guide/tsdk-snippets)
-- `./server/src/shared` - 共享文件夹
-- `./fe-sdk` - 导出的共享模块
+- `./server/tsdk.config.js` - tsdk's config file [More](../guide/tsdk.config)
+- `.vscode/tsdk.code-snippets` - tsdk code snippets [More](../guide/tsdk-snippets)
+- `./server/src/shared` - shared folder (will copy to `fe-sdk`)
+- `./fe-sdk` - the exported module
+

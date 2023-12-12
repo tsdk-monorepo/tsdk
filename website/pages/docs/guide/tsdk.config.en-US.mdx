@@ -1,0 +1,90 @@
+# tsdk.config.js
+
+Run `npx tsdk --init`, tsdk will initialize `tsdk.config.js` file with content:
+
+```js
+/** @type {import('tsdk').TSDKConfig} */
+module.exports = {
+  packageDir: 'packages/',
+  packageName: 'fe-sdk',
+  baseDir: './src',
+  entityLibName: 'typeorm',
+  entityExt: 'entity',
+  apiconfExt: 'apiconf',
+  shareExt: 'shared',
+  sharedDirs: ['./src/shared'],
+  removeFields: [],
+  monorepoRoot: './',
+};
+```
+
+## Fields
+
+- `packageDir` - which folder to export the module
+- `packageName` - the export module name, default is `fe-sdk`
+- `entityLibName` - ORM library, current support `TypeORM`, `kysely` 和 `DrizzleORM`
+- `entityExt` - ORM model extension name, default is `*.entity.ts`
+- `apiconfExt` - API config extension name, default is `*.apiconf.ts`
+- `shareExt` -  shared file extension name, default is `*.shared.ts`
+- `sharedDirs` -  shared dir, default is `["./src/shared"]`
+- `monorepoRoot` - monorepo root folder, default is `./`
+- `dataHookLib` - `SWR` | `ReactQuery`，Generate `SWR` or `React Query` hooks;dependencies version: `swr@^2.2.4`; `@tanstack/react-query@^5.10.0`
+- `dependencies` - custom dependencies，will combine to `fe-sdk/package.json ` dependencies. This can custom dependencies and override fe-sdk's default version
+- `devDependencies` - custom devDependencies.
+
+### packageDir
+
+`packageDir` - which folder to export the module
+
+### packageName
+
+`packageName` - the export module name, default is `fe-sdk`
+
+### entityLibName
+
+`entityLibName` - ORM library, current support `TypeORM`，`kysely` 和 `DrizzleORM`
+
+### entityExt
+
+`entityExt` - ORM model extension name, default is `*.entity.ts`
+
+### apiconfExt
+
+`apiconfExt` - API config extension name, default is `*.apiconf.ts`
+
+### shareExt
+
+`shareExt` - shared file extension name, default is `*.shared.ts`
+
+### sharedDirs
+
+`sharedDirs` - shared dir, default is `["./src/shared"]`
+
+### monorepoRoot
+
+`monorepoRoot` - monorepo root folder, default is `./`
+
+### dataHookLib
+
+`dataHookLib` - `SWR` | `ReactQuery`; Generate `SWR` or `React Query` hooks;dependencies version: `swr@^2.2.4`; `@tanstack/react-query@^5.10.0`
+
+### dependencies
+
+Custom dependencies，will combine to `fe-sdk/package.json` dependencies. This can custom dependencies and override `fe-sdk`'s default version
+
+For example, update `tsdk.config.js` to change axios to latest version:
+
+
+```js filename="tsdk.config.js" {4-6}
+/** @type {import('tsdk').TSDKConfig} */
+module.exports = {
+  ...
+  dependencies: {
+    "axios": "latest"
+  }
+}
+```
+
+### `devDependencies`
+
+Like `dependencies`, but for `devDependencies`.

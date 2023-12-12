@@ -1,0 +1,120 @@
+import { Callout } from 'nextra/components';
+
+
+# React Query
+
+<Callout>tsdk already built-in support React Query. [Check tutorial](../guide/react-query)</Callout>
+
+**React Query** like SWR, is another data synchronization library for React.
+
+React Query documentation: https://tanstack.com/query/latest/docs/react/overview
+
+### Add dependencies
+
+Add `@tanstack/react-query` to **next-app/package.json**:
+
+```json {13}
+{
+  "name": "next-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    ...
+    "@tanstack/react-query": "^5.8.4"
+  },
+  ...
+}
+```
+
+<Callout>Don't forget to install dependencies with `pnpm install`</Callout>
+
+### Create React query hooks
+
+There are two types hook in react query, one is fetch data, another is update data:
+
+```ts copy filename="next-app/app/react-query/hooks.ts"
+import {
+  useQuery,
+  useMutation,
+  QueryClient,
+  UndefinedInitialDataOptions,
+  UseMutationOptions,
+} from '@tanstack/react-query';
+import { GetHello, GetHelloReq, GetHelloRes, UpdateHello, UpdateHelloRes } from '@/lib/user-api';
+
+export function useGetHello(
+  payload: GetHelloReq,
+  options?: UndefinedInitialDataOptions<GetHelloRes, Error>,
+  queryClient?: QueryClient
+) {
+  return useQuery(
+    {
+      ...(options || {}),
+      queryKey: [GetHello.config.path, payload],
+      queryFn() {
+        return GetHello(payload);
+      },
+    },
+    queryClient
+  );
+}
+
+export function useUpdateHello(
+  options?: UseMutationOptions<UpdateHelloRes, Error, UpdateHelloReq, unknown>,
+  queryClient?: QueryClient
+) {
+  return useMutation(
+    {
+      ...(options || {}),
+      mutationFn: UpdateHello,
+    },
+    queryClient
+  );
+}
+```
+
+### Usage
+
+```tsx copy filename="next-app/app/react-query/page.tsx"
+'use client';
+
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useGetHello, useUpdateHello } from './hooks';
+
+const queryClient = new QueryClient();
+
+export default function Page() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Example />
+    </QueryClientProvider>
+  );
+}
+
+function Example() {
+  const { data, refetch } = useGetHello({});
+  const { mutateAsync } = useUpdateHello();
+
+  return (
+    <div className="p-8">
+      <h1 className="text-2xl font-bold">{data?.result}</h1>
+      <button
+        className="bg-indigo-500 rounded px-2 py-4 text-white"
+        onClick={async () => {
+          await mutateAsync({ payload: 'Hello tsdk!' });
+          refetch();
+        }}>
+        Update to `Hello tsdk!`
+      </button>
+    </div>
+  );
+}
+```
+
+Run `pnpm --filter=next-app dev`, and access **http://localhost:3000/react-query**

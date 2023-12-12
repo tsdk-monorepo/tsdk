@@ -1,0 +1,72 @@
+# Bundle into single file
+
+import { Tabs, Callout } from 'nextra/components';
+
+tsdk support **nest-cli** bundle project to single file.
+
+<Callout emoji="">
+  Example: [nest-cli-example](https://github.com/tsdk-monorepo/nest-cli-example)
+</Callout>
+
+### Build default entry
+
+<Tabs defaultIndex="1" items={['npm', 'pnpm']}>
+  <Tabs.Tab value="npm">
+
+```zsh
+npx tsdk --nest build
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab value="pnpm">
+
+```zsh
+pnpm tsdk --nest build
+```
+
+  </Tabs.Tab>
+</Tabs>
+
+### Build all projects entries in `nest-cli.json`
+
+<Tabs defaultIndex="1" items={['npm', 'pnpm']}>
+  <Tabs.Tab value="npm">
+
+```zsh
+npx tsdk --nest build all
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab value="pnpm">
+
+```zsh
+pnpm tsdk --nest build all
+```
+
+  </Tabs.Tab>
+</Tabs>
+
+### Build certain projects in `nest-cli.json`
+
+<Tabs defaultIndex="1" items={['npm', 'pnpm']}>
+  <Tabs.Tab value="npm">
+
+```zsh
+npx tsdk --nest build nameA nameB nameC
+```
+
+  </Tabs.Tab>
+  <Tabs.Tab value="pnpm">
+
+```zsh
+pnpm tsdk --nest build nameA nameB nameC
+```
+
+  </Tabs.Tab>
+</Tabs>
+
+### Code
+
+<Callout emoji="">
+  Example: [nest-cli-example](https://github.com/tsdk-monorepo/nest-cli-example)
+</Callout>

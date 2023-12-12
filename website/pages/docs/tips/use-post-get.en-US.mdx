@@ -1,0 +1,32 @@
+---
+title: Use method GET and POST
+---
+
+# Use method `GET` and `POST`
+
+In restful API principles:
+
+- GET means fetch data
+- POST means create
+- PUT means update data
+- DELETE means delete data
+
+But in real project, recommend only use GET and POST, to reduce complexity.
+
+Why? There are 4 reasons:
+
+- Caching and proxies
+
+> Some Web proxies and caching mechanisms may not handle HTTP methods such as DELETE and PUT correctly. This can lead to unexpected behavior, such as treating a cached DELETE request as a GET request.
+
+- Idempotency
+
+> The HTTP specification recommends that certain methods, including GET, PUT, and DELETE, should be idempotent. An operation is idempotent if the result of performing it once is the same as performing it repeatedly. However, not all implementations strictly follow this principle, and relying on it can lead to unexpected behavior.
+
+- Security considerations
+
+> Some security scanners and firewalls may not properly handle non-standard HTTP methods. In some cases, these methods may be blocked or suspect.
+
+- Cross-Origin Requests (CORS)
+
+> When initiating cross-origin requests, certain HTTP methods, including DELETE and PUT, may trigger a preflight request. A preflight request is an additional request sent by the browser to check that the actual request is secure. This can add complexity to your application, especially if your server is not configured to handle preflight requests.

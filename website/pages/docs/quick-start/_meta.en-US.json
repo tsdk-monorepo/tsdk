@@ -1,0 +1,9 @@
+{
+  "setup": "Environment setup",
+  "hello-world-api": "Write Hello World API",
+  "hello-world-next": "Request Hello World API",
+  "swr": "With SWR",
+  "react-query": "With React Query",
+  "hello-world-react-native": "With Expo（React Native）",
+  "code": "Code repository"
+}
