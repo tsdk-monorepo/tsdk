@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/suhaotian/tsdk-monorepo.git"
+    "url": "https://github.com/suhaotian/tsdk-monorepo.git"
   },
   "author": "suhaotian",
   "license": "MIT",
