@@ -12,16 +12,6 @@ jobs:
   release:
     runs-on: ubuntu-latest
 
-    inputs:
-      fetch-depth:
-        description: 'Number of commits to fetch'
-        default: '1'
-        required: false
-      persist-credentials:
-        description: 'Whether to persist credentials'
-        default: 'true'
-        required: false
-
     strategy:
       matrix:
         node-version: [18.x]
