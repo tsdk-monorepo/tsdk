@@ -42,8 +42,8 @@ export default function HomePage() {
                 🚀 First principle
               </h3>
               <div className="text-slate-600 dark:text-slate-300">
-                From the essence of the re-organisation of the code, no longer manually encapsulate
-                the interface call code and add types; easy-to-understand concepts and provide a
+                From the essence of the re-organization of the code, no longer manually write the
+                API call code as well as add types; easy to understand the concepts, and provide a
                 different development experience.
               </div>
             </div>
