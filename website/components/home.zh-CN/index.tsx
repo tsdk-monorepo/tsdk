@@ -10,7 +10,7 @@ export default function HomePage() {
     <>
       <ScrollAnimation />
       <div className="max-w-2xl mx-auto mt-24">
-        <div className="text-slate-900 font-extrabold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-center dark:text-white leading-relaxed">
+        <h1 className="text-slate-900 font-extrabold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-center dark:text-white leading-relaxed">
           <span className="inline-block bg-clip-text text-transparent bg-gradient-to-r from-gray-800 to-gray-600 dark:from-gray-200 dark:to-gray-400">
             类型安全的接口开发
             <br />
@@ -18,13 +18,13 @@ export default function HomePage() {
           <span className="inline-block bg-clip-text text-transparent bg-gradient-to-r from-gray-700 to-gray-500 dark:from-gray-200 dark:to-gray-400">
             与代码共享工具
           </span>
-        </div>
+        </h1>
 
-        <div className="mt-4 md:mt-6 text-lg text-slate-600 text-center dark:text-slate-400">
+        <h2 className="mt-4 md:mt-6 text-lg text-slate-600 text-center dark:text-slate-400">
           轻松地在 TypeScript 项目间共享代码
           <br />
           确保类型的一致性，减少潜在的错误和提升开发体验
-        </div>
+        </h2>
       </div>
 
       <Bleed full={false}>
@@ -89,7 +89,11 @@ export default function HomePage() {
 
         <div className="py-16 flex flex-col md:flex-row m-auto items-center justify-center bg-gradient-to-b from-sky-50 to-white dark:from-transparent dark:to-transparent dark:border-t-2 dark:border-slate-800 dark:pt-24 dark:border-dashed">
           <div className="animate--animated" data-scroll-active="animate--fadeInUp">
-            <img src="/heart.jpeg" className="rounded-2xl w-64 m-auto" />
+            <img
+              src="/heart.jpeg"
+              className="rounded-2xl w-64 m-auto"
+              alt="加入 tsdk.dev 社区，变更强"
+            />
           </div>
           <div
             className="ml-0 mt-4 md:mt-0 md:ml-24 animate--animated"

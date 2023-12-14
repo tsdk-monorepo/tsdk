@@ -10,16 +10,16 @@ export default function HomePage() {
     <>
       <ScrollAnimation />
       <div className="max-w-2xl mx-auto mt-24">
-        <div className="text-slate-900 font-extrabold text-3xl sm:text-6xl lg:text-5xl tracking-tight text-center dark:text-white leading-relaxed">
+        <h1 className="text-slate-900 font-extrabold text-3xl sm:text-6xl lg:text-5xl tracking-tight text-center dark:text-white leading-relaxed">
           <span className="inline-block bg-clip-text text-transparent bg-gradient-to-r from-gray-800 to-gray-600 dark:from-gray-200 dark:to-gray-200">
-            Share Code and Type-Safe API development tool
+            Type-safe API development and Code share tool
           </span>
-        </div>
+        </h1>
 
-        <div className="mt-4 md:mt-6 text-lg text-slate-600 text-center dark:text-slate-400">
+        <h2 className="mt-4 md:mt-6 text-lg text-slate-600 text-center dark:text-slate-400">
           Easily share code between TypeScript projects, ensuring type consistency, avoiding
           potential errors, and enhancing the development experience.
-        </div>
+        </h2>
       </div>
 
       <Bleed full={false}>
@@ -91,7 +91,11 @@ export default function HomePage() {
 
         <div className="py-16 flex flex-col md:flex-row m-auto items-center justify-center bg-gradient-to-b from-sky-50 to-white dark:from-transparent dark:to-transparent dark:border-t-2 dark:border-slate-800 dark:pt-24 dark:border-dashed">
           <div className="animate--animated" data-scroll-active="animate--fadeInUp">
-            <img src="/heart.jpeg" className="rounded-2xl w-64 m-auto" />
+            <img
+              src="/heart.jpeg"
+              className="rounded-2xl w-64 m-auto"
+              alt="Join tsdk.dev community"
+            />
           </div>
           <div
             className="ml-0 mt-4 md:mt-0 md:ml-24 animate--animated"
