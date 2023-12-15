@@ -130,7 +130,11 @@ export async function syncAPI() {
         ${
           isGET
             ? `
-        
+/** 
+ * ${description}
+ * 
+ * @category ${category}
+ */
 export function use${name}(
 payload: ${name}Req,
 options?: SWRConfiguration<${name}Res>,
@@ -147,6 +151,11 @@ return useSWR(
 }
         `
             : `
+            /** 
+             * ${description}
+             * 
+             * @category ${category}
+             */
             export function use${name}(
               options?: SWRMutationConfiguration<
                 ${name}Res,
@@ -173,6 +182,11 @@ return useSWR(
           ${
             isGET
               ? `
+          /** 
+           * ${description}
+           * 
+           * @category ${category}
+           */
           export function use${name}(
             payload: ${name}Req,
             options?: UndefinedInitialDataOptions<${name}Res, Error>,
@@ -192,6 +206,11 @@ return useSWR(
             );
           }`
               : `
+              /** 
+               * ${description}
+               * 
+               * @category ${category}
+               */
               export function use${name}(
                 options?: UseMutationOptions<
                   ${name}Res,

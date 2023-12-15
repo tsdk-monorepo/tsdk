@@ -329,7 +329,7 @@ importers:
         specifier: ^3.10.2
         version: 3.10.2
       tsdk-server-adapters:
-        specifier: ^0.0.29
+        specifier: ^0.0.30
         version: link:../tsdk-server-adapters
       zod:
         specifier: ^3.22.4
@@ -8678,6 +8678,7 @@ packages:
 
   /figgy-pudding@3.5.2:
     resolution: {integrity: sha512-0btnI/H8f2pavGMN8w40mlSKOfTK2SVJmBfBeVIj3kNw0swwgzyRq0d5TJVOwodFmtvpPeWPN/MCcfuWF0Ezbw==}
+    deprecated: This module is no longer supported.
     dev: false
 
   /figures@3.2.0:
