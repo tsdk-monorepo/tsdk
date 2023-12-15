@@ -12,7 +12,7 @@ export default function HomePage() {
       <div className="max-w-2xl mx-auto mt-24">
         <h1 className="text-slate-900 font-extrabold text-3xl sm:text-6xl lg:text-5xl tracking-tight text-center dark:text-white leading-relaxed">
           <span className="inline-block bg-clip-text text-transparent bg-gradient-to-r from-gray-800 to-gray-600 dark:from-gray-200 dark:to-gray-200">
-            Type-safe API development and Code share tool
+            Type-safe API development and code share tool
           </span>
         </h1>
 
