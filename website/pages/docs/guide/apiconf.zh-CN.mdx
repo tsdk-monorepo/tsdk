@@ -34,6 +34,15 @@ export interface APIConfig {
 
   /** custom headers for client */
   headers?: { [key: string]: any };
+  /**
+   * is params in url? for generate API sdk base documentation.
+   * default undefined,
+   * if `:`, will support `/api/:a/b/:c`,
+   * if `{}`, will support `/api/{a}/b/{c}`,
+   * and will replace with data with {a: 1, c: 2} to `/api/1/b/2`  */
+  paramsInUrl?: ':' | '{}';
+  /** Force the API is fetch data, for sometimes the backend API is all `post` method */
+  isGet?: boolean;
 }
 ```
 
@@ -48,3 +57,5 @@ export interface APIConfig {
 - `needAuth` - 可选，是否需要登录才能访问
 - `disabled` - 可选，是否禁止 API
 - `headers` - 可选，自定义 headers
+- `paramsInUrl` - 可选，值为 `{}` | `:`, 用来替换 url 中的参数
+- `isGet` - 可选，值为 `true` 时，生成 `SWR `或者 `ReactQuery`，即使 method 不是 get 方法，也会被当作 get 方法看待；为 `false`，则当作非 `get` 看待，生成更新类型的 hook
