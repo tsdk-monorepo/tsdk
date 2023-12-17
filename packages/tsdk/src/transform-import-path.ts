@@ -83,8 +83,8 @@ export async function transformImportPath(filePath: string, isEntity?: boolean) 
   let res = await fsExtra.readFile(filePath, 'utf-8');
 
   if (isEntity) {
-    res = transformTypeormEntity(res, 'typeorm');
-    res = transformTypeormEntity(res, '@nestjs');
+    res = config.entityLibName?.includes('typeorm') ? transformTypeormEntity(res, 'typeorm') : res;
+    res = res.includes('@nestjs') ? transformTypeormEntity(res, '@nestjs') : res;
   }
 
   const result = res.split('\n');

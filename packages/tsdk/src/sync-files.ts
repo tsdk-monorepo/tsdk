@@ -104,7 +104,7 @@ async function reconfigPkg() {
   if (dataHookLib === 'swr') {
     pkgContent.dependencies.swr = '^2.2.4';
   } else if (dataHookLib === 'reactquery') {
-    pkgContent.dependencies['@tanstack/react-query'] = '^5.10.0';
+    pkgContent.dependencies['@tanstack/react-query'] = '^5.14.0';
   }
 
   if (config.dependencies) {

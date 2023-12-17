@@ -1,6 +1,6 @@
+import { AxiosRequestConfig } from 'axios';
 import useSWR, { SWRConfiguration } from 'swr';
 import useSWRMutation, { SWRMutationConfiguration } from 'swr/mutation';
-import { AxiosRequestConfig } from 'axios';
 
 import {
   AddTodoConfig,
@@ -33,6 +33,11 @@ import {
 
 export * from './common-api-hooks';
 
+/**
+ * add todo
+ *
+ * @category todo
+ */
 export function useAddTodo(
   options?: SWRMutationConfiguration<AddTodoRes, Error, string, AddTodoReq>,
   requestConfig?: AxiosRequestConfig<AddTodoReq>,
@@ -47,6 +52,11 @@ export function useAddTodo(
   );
 }
 
+/**
+ * delete todo
+ *
+ * @category todo
+ */
 export function useDeleteTodo(
   options?: SWRMutationConfiguration<DeleteTodoRes, Error, string, DeleteTodoReq>,
   requestConfig?: AxiosRequestConfig<DeleteTodoReq>,
@@ -61,6 +71,11 @@ export function useDeleteTodo(
   );
 }
 
+/**
+ * query todo list by cursor
+ *
+ * @category others
+ */
 export function useQueryTodoByCursor(
   payload: QueryTodoByCursorReq,
   options?: SWRConfiguration<QueryTodoByCursorRes>,
@@ -76,6 +91,11 @@ export function useQueryTodoByCursor(
   );
 }
 
+/**
+ * query todo
+ *
+ * @category todo
+ */
 export function useQueryTodo(
   payload: QueryTodoReq,
   options?: SWRConfiguration<QueryTodoRes>,
@@ -91,6 +111,11 @@ export function useQueryTodo(
   );
 }
 
+/**
+ * Test path params
+ *
+ * @category test
+ */
 export function useTestPathParams(
   payload: TestPathParamsReq,
   options?: SWRConfiguration<TestPathParamsRes>,
@@ -106,6 +131,11 @@ export function useTestPathParams(
   );
 }
 
+/**
+ * update todo
+ *
+ * @category todo
+ */
 export function useUpdateTodo(
   options?: SWRMutationConfiguration<UpdateTodoRes, Error, string, UpdateTodoReq>,
   requestConfig?: AxiosRequestConfig<UpdateTodoReq>,
