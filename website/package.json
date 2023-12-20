@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build && npm run sitemap",
     "start": "next start",
-    "sitemap": "next-sitemap"
+    "sitemap": "next-sitemap && mv public/sitemap-0.xml public/sitemap.xml"
   },
   "repository": {
     "type": "git",
