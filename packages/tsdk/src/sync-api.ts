@@ -26,10 +26,9 @@ export async function syncAPI() {
   }
 
   types.sort();
-
+  const isSWR = config.dataHookLib?.toLowerCase() === 'swr';
+  const isReactQuery = config.dataHookLib?.toLowerCase() === 'reactquery';
   types.forEach((apiType) => {
-    const isSWR = config.dataHookLib?.toLowerCase() === 'swr';
-    const isReactQuery = config.dataHookLib?.toLowerCase() === 'reactquery';
     const dataHookHeadStr = `
     ${
       !isSWR
@@ -58,8 +57,16 @@ export async function syncAPI() {
       ? `
     let _queryClient: QueryClient;
 
-    export function setQueryClient(queryClient: QueryClient) {
+    ${
+      apiType === 'common'
+        ? `
+    export function setQueryClientForCommon(queryClient: QueryClient) {
       _queryClient = queryClient;
+    }
+    `
+        : `
+    
+    `
     }
     `
       : ``;
@@ -87,7 +94,29 @@ export async function syncAPI() {
     const exportStr = apiType === 'common' || !hasCommon ? `` : `\nexport * from './common-api';\n`;
 
     const dataHookExportStr =
-      apiType === 'common' || !hasCommon ? `` : `\nexport * from './common-api-hooks';\n`;
+      apiType === 'common' || !hasCommon
+        ? ``
+        : `\nexport * from './common-api-hooks';
+        ${
+          isReactQuery
+            ? `
+      import { setQueryClientForCommon } from './common-api-hooks';
+      export function setQueryClient(queryClient: QueryClient) {
+        _queryClient = queryClient;
+        setQueryClientForCommon(queryClient);
+      }
+        `
+            : `${
+                isReactQuery
+                  ? `
+            export function setQueryClient(queryClient: QueryClient) {
+              _queryClient = queryClient;
+            }
+            `
+                  : ``
+              }`
+        }
+      `;
 
     let hasContentCount = 0;
     keys.forEach((k, idx) => {
@@ -136,14 +165,15 @@ export async function syncAPI() {
  * @category ${category}
  */
 export function use${name}(
-payload: ${name}Req,
-options?: SWRConfiguration<${name}Res>,
+payload: ${name}Req | undefined,
+options?: SWRConfiguration<${name}Res | undefined>,
 requestConfig?: AxiosRequestConfig<${name}Req>,
 needTrim?: boolean
 ) {
 return useSWR(
-  { url: ${name}.config.path, arg: payload },
+  () => ({ url: ${name}.config.path, arg: payload }),
   ({ arg }) => {
+    if (typeof arg === 'undefined') return undefined;
     return ${name}(arg, requestConfig, needTrim);
   },
   options
@@ -188,8 +218,8 @@ return useSWR(
            * @category ${category}
            */
           export function use${name}(
-            payload: ${name}Req,
-            options?: UndefinedInitialDataOptions<${name}Res, Error>,
+            payload: ${name}Req | undefined,
+            options?: UndefinedInitialDataOptions<${name}Res | undefined, Error>,
             queryClient?: QueryClient,
             requestConfig?: AxiosRequestConfig<${name}Req>,
             needTrim?: boolean
@@ -199,6 +229,9 @@ return useSWR(
                 ...(options || {}),
                 queryKey: [${name}.config.path, payload],
                 queryFn() {
+                  if (typeof payload === 'undefined') {
+                    return undefined;
+                  }
                   return ${name}(payload, requestConfig, needTrim);
                 },
               },

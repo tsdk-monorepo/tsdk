@@ -8,5 +8,5 @@ module.exports = {
   entityExt: 'entity',
   apiconfExt: 'apiconf',
   sharedDirs: ['./src/shared', './src/i18n'],
-  dataHookLib: 'SWR',
+  dataHookLib: 'ReactQuery',
 };

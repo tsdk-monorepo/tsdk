@@ -1,6 +1,11 @@
+import {
+  useQuery,
+  useMutation,
+  QueryClient,
+  UndefinedInitialDataOptions,
+  UseMutationOptions,
+} from '@tanstack/react-query';
 import { AxiosRequestConfig } from 'axios';
-import useSWR, { SWRConfiguration } from 'swr';
-import useSWRMutation, { SWRMutationConfiguration } from 'swr/mutation';
 
 import {
   AddTodoConfig,
@@ -22,6 +27,7 @@ import {
   type UpdateTodoReq,
   type UpdateTodoRes,
 } from './apiconf-refs';
+import { setQueryClientForCommon } from './common-api-hooks';
 import {
   AddTodo,
   DeleteTodo,
@@ -32,6 +38,12 @@ import {
 } from './user-api';
 
 export * from './common-api-hooks';
+export function setQueryClient(queryClient: QueryClient) {
+  _queryClient = queryClient;
+  setQueryClientForCommon(queryClient);
+}
+
+let _queryClient: QueryClient;
 
 /**
  * add todo
@@ -39,16 +51,19 @@ export * from './common-api-hooks';
  * @category todo
  */
 export function useAddTodo(
-  options?: SWRMutationConfiguration<AddTodoRes, Error, string, AddTodoReq>,
+  options?: UseMutationOptions<AddTodoRes, Error, AddTodoReq, unknown>,
+  queryClient?: QueryClient,
   requestConfig?: AxiosRequestConfig<AddTodoReq>,
   needTrim?: boolean
 ) {
-  return useSWRMutation(
-    AddTodo.config.path,
-    (url, { arg }: { arg: AddTodoReq }) => {
-      return AddTodo(arg, requestConfig, needTrim);
+  return useMutation(
+    {
+      ...(options || {}),
+      mutationFn(payload) {
+        return AddTodo(payload, requestConfig, needTrim);
+      },
     },
-    options
+    queryClient || _queryClient
   );
 }
 
@@ -58,16 +73,19 @@ export function useAddTodo(
  * @category todo
  */
 export function useDeleteTodo(
-  options?: SWRMutationConfiguration<DeleteTodoRes, Error, string, DeleteTodoReq>,
+  options?: UseMutationOptions<DeleteTodoRes, Error, DeleteTodoReq, unknown>,
+  queryClient?: QueryClient,
   requestConfig?: AxiosRequestConfig<DeleteTodoReq>,
   needTrim?: boolean
 ) {
-  return useSWRMutation(
-    DeleteTodo.config.path,
-    (url, { arg }: { arg: DeleteTodoReq }) => {
-      return DeleteTodo(arg, requestConfig, needTrim);
+  return useMutation(
+    {
+      ...(options || {}),
+      mutationFn(payload) {
+        return DeleteTodo(payload, requestConfig, needTrim);
+      },
     },
-    options
+    queryClient || _queryClient
   );
 }
 
@@ -77,17 +95,24 @@ export function useDeleteTodo(
  * @category others
  */
 export function useQueryTodoByCursor(
-  payload: QueryTodoByCursorReq,
-  options?: SWRConfiguration<QueryTodoByCursorRes>,
+  payload: QueryTodoByCursorReq | undefined,
+  options?: UndefinedInitialDataOptions<QueryTodoByCursorRes | undefined, Error>,
+  queryClient?: QueryClient,
   requestConfig?: AxiosRequestConfig<QueryTodoByCursorReq>,
   needTrim?: boolean
 ) {
-  return useSWR(
-    { url: QueryTodoByCursor.config.path, arg: payload },
-    ({ arg }) => {
-      return QueryTodoByCursor(arg, requestConfig, needTrim);
+  return useQuery(
+    {
+      ...(options || {}),
+      queryKey: [QueryTodoByCursor.config.path, payload],
+      queryFn() {
+        if (typeof payload === 'undefined') {
+          return undefined;
+        }
+        return QueryTodoByCursor(payload, requestConfig, needTrim);
+      },
     },
-    options
+    queryClient || _queryClient
   );
 }
 
@@ -97,17 +122,24 @@ export function useQueryTodoByCursor(
  * @category todo
  */
 export function useQueryTodo(
-  payload: QueryTodoReq,
-  options?: SWRConfiguration<QueryTodoRes>,
+  payload: QueryTodoReq | undefined,
+  options?: UndefinedInitialDataOptions<QueryTodoRes | undefined, Error>,
+  queryClient?: QueryClient,
   requestConfig?: AxiosRequestConfig<QueryTodoReq>,
   needTrim?: boolean
 ) {
-  return useSWR(
-    { url: QueryTodo.config.path, arg: payload },
-    ({ arg }) => {
-      return QueryTodo(arg, requestConfig, needTrim);
+  return useQuery(
+    {
+      ...(options || {}),
+      queryKey: [QueryTodo.config.path, payload],
+      queryFn() {
+        if (typeof payload === 'undefined') {
+          return undefined;
+        }
+        return QueryTodo(payload, requestConfig, needTrim);
+      },
     },
-    options
+    queryClient || _queryClient
   );
 }
 
@@ -117,17 +149,24 @@ export function useQueryTodo(
  * @category test
  */
 export function useTestPathParams(
-  payload: TestPathParamsReq,
-  options?: SWRConfiguration<TestPathParamsRes>,
+  payload: TestPathParamsReq | undefined,
+  options?: UndefinedInitialDataOptions<TestPathParamsRes | undefined, Error>,
+  queryClient?: QueryClient,
   requestConfig?: AxiosRequestConfig<TestPathParamsReq>,
   needTrim?: boolean
 ) {
-  return useSWR(
-    { url: TestPathParams.config.path, arg: payload },
-    ({ arg }) => {
-      return TestPathParams(arg, requestConfig, needTrim);
+  return useQuery(
+    {
+      ...(options || {}),
+      queryKey: [TestPathParams.config.path, payload],
+      queryFn() {
+        if (typeof payload === 'undefined') {
+          return undefined;
+        }
+        return TestPathParams(payload, requestConfig, needTrim);
+      },
     },
-    options
+    queryClient || _queryClient
   );
 }
 
@@ -137,15 +176,18 @@ export function useTestPathParams(
  * @category todo
  */
 export function useUpdateTodo(
-  options?: SWRMutationConfiguration<UpdateTodoRes, Error, string, UpdateTodoReq>,
+  options?: UseMutationOptions<UpdateTodoRes, Error, UpdateTodoReq, unknown>,
+  queryClient?: QueryClient,
   requestConfig?: AxiosRequestConfig<UpdateTodoReq>,
   needTrim?: boolean
 ) {
-  return useSWRMutation(
-    UpdateTodo.config.path,
-    (url, { arg }: { arg: UpdateTodoReq }) => {
-      return UpdateTodo(arg, requestConfig, needTrim);
+  return useMutation(
+    {
+      ...(options || {}),
+      mutationFn(payload) {
+        return UpdateTodo(payload, requestConfig, needTrim);
+      },
     },
-    options
+    queryClient || _queryClient
   );
 }
