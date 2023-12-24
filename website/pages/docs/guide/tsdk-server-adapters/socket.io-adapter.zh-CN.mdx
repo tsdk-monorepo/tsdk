@@ -50,6 +50,7 @@ server.listen(port, () => {
 import { io as SocketIO } from 'socket.io-client';
 import { setHandler, setSocketIOInstance, socketIOHandler } from 'fe-sdk';
 
+const apiType = `user`;
 const ioInstance = SocketIO(`/`, {
   transports: ['websocket'],
   query: {
