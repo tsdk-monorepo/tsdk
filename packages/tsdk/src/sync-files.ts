@@ -240,7 +240,6 @@ export async function syncSharedFiles() {
     files.map(async (file) => {
       const filePath = path.join(ensureDir, file.replace(`${config.baseDir}/`, 'src/'));
       const content = await transformImportPath(file);
-
       await fsExtra.ensureDir(path.dirname(filePath));
 
       let fromPath = path.relative(

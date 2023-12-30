@@ -92,10 +92,13 @@ export async function transformImportPath(filePath: string, isEntity?: boolean) 
   const otherContent: string[] = [];
   let importArr: string[] = [];
   result.forEach((i) => {
+    const inlineImport = i.indexOf("import '") > -1 || i.indexOf('import "') > -1;
     const hasImport = i.indexOf('import ') > -1;
     const hasFrom = i.indexOf(' from') > -1;
 
-    if (hasImport && hasFrom) {
+    if (inlineImport) {
+      imports.push(i);
+    } else if (hasImport && hasFrom) {
       imports.push(processImportPath(i, filePath));
     } else if (hasImport) {
       importArr.push(i);

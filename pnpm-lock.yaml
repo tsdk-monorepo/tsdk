@@ -190,6 +190,12 @@ importers:
       hono:
         specifier: ^3.10.2
         version: 3.10.2
+      i18next:
+        specifier: ^23.7.13
+        version: 23.7.13
+      intl-pluralrules:
+        specifier: ^2.0.1
+        version: 2.0.1
       kysely:
         specifier: ^0.26.3
         version: 0.26.3
@@ -254,6 +260,12 @@ importers:
       change-case:
         specifier: ^4.1.2
         version: 4.1.2
+      i18next:
+        specifier: ^23.7.13
+        version: 23.7.13
+      intl-pluralrules:
+        specifier: ^2.0.1
+        version: 2.0.1
       kysely:
         specifier: ^0.26.3
         version: 0.26.3
@@ -330,7 +342,7 @@ importers:
         version: 3.10.2
       tsdk-server-adapters:
         specifier: ^0.0.31
-        version: link:../tsdk-server-adapters
+        version: 0.0.31(express@4.18.2)(fastify@4.24.3)(hono@3.10.2)(zod@3.22.4)
       zod:
         specifier: ^3.22.4
         version: 3.22.4
@@ -2293,6 +2305,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.13.11
+    dev: false
 
   /@babel/runtime@7.23.2:
     resolution: {integrity: sha512-mM8eg4yl5D6i3lu2QKPuPH4FArvJ8KhTofbE7jwMUv9KX5mBvwPAqnV3MlyBNqdp9RyRKP6Yck8TrfYrPvX3bg==}
@@ -9734,6 +9747,12 @@ packages:
     resolution: {integrity: sha512-ygGZLjmXfPHj+ZWh6LwbC37l43MhfztxetbFCoYTM2VjkIUpeHgSNn7QIyVFj7YQ1Wl9Cbw5sholVJPzWvC2MQ==}
     dev: false
 
+  /i18next@23.7.13:
+    resolution: {integrity: sha512-DbCPlw6VmURSZa43iOnycxq9o15e+WuBWDBZ3aj+gQZcDz4sgnuKwrcwmP1n8gSSCwCN7CRFGTpnwTd93A16Mg==}
+    dependencies:
+      '@babel/runtime': 7.23.2
+    dev: false
+
   /iconv-lite@0.4.24:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==}
     engines: {node: '>=0.10.0'}
@@ -9901,6 +9920,10 @@ packages:
 
   /intersection-observer@0.12.2:
     resolution: {integrity: sha512-7m1vEcPCxXYI8HqnL8CKI6siDyD+eIWSwgB3DZA+ZTogxk9I4CDnj4wilt9x/+/QbHI4YG5YZNmC6458/e9Ktg==}
+    dev: false
+
+  /intl-pluralrules@2.0.1:
+    resolution: {integrity: sha512-astxTLzIdXPeN0K9Rumi6LfMpm3rvNO0iJE+h/k8Kr/is+wPbRe4ikyDjlLr6VTh/mEfNv8RjN+gu3KwDiuhqg==}
     dev: false
 
   /invariant@2.2.4:
@@ -14148,6 +14171,7 @@ packages:
 
   /regenerator-runtime@0.13.11:
     resolution: {integrity: sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==}
+    dev: false
 
   /regenerator-runtime@0.14.0:
     resolution: {integrity: sha512-srw17NI0TUWHuGa5CFGGmhfNIeja30WMBfbslPNhf6JrqQlLN5gcrvig1oqPxiVaXb0oW0XRKtH6Nngs5lKCIA==}
@@ -14155,7 +14179,7 @@ packages:
   /regenerator-transform@0.15.0:
     resolution: {integrity: sha512-LsrGtPmbYg19bcPHwdtmXwbW+TqNvtY4riE3P83foeHRroMbH6/2ddFBfab3t7kbzc7v7p4wbkIecHImqt0QNg==}
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.23.2
 
   /regex-not@1.0.2:
     resolution: {integrity: sha512-J6SDjUgDxQj5NusnOtdFxDwN/+HWykR8GELwctJ7mdqhcyy1xEc4SRFHUXvxTp661YaVKAjfRLZ9cCqS6tn32A==}
@@ -15914,6 +15938,31 @@ packages:
       minimist: 1.2.6
       strip-bom: 3.0.0
     dev: true
+
+  /tsdk-server-adapters@0.0.31(express@4.18.2)(fastify@4.24.3)(hono@3.10.2)(zod@3.22.4):
+    resolution: {integrity: sha512-6dTA0HvQg7pzMMYE0yWxBiTcdkTQ57VU19MgAIRsBKECtReXLiQepmgzc1Xk/QX27KW4wLLx/mZLKsN+eKmsPw==}
+    peerDependencies:
+      express: ^4.18.2
+      fastify: ^4.24.3
+      hono: ^3.10.2
+      socket.io: ^4.7.2
+      zod: ^3
+    peerDependenciesMeta:
+      express:
+        optional: true
+      fastify:
+        optional: true
+      hono:
+        optional: true
+      socket.io:
+        optional: true
+    dependencies:
+      eventemitter3: 4.0.7
+      express: 4.18.2
+      fastify: 4.24.3
+      hono: 3.10.2
+      zod: 3.22.4
+    dev: false
 
   /tslib@1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
