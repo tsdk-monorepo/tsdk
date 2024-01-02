@@ -102,7 +102,6 @@ async function run() {
               );
               if (!entryExists) {
                 const errorMsg = `[${command} ${name}] Entry not found: \`${entry}\``;
-                console.log(`\n${errorMsg}`);
                 const tmpEntry =
                   entry.indexOf('src') > -1
                     ? path.normalize(
@@ -121,6 +120,7 @@ async function run() {
                 );
                 if (tmpEntryExists) {
                   entry = tmpEntry;
+                  console.log(`\n${errorMsg}, use another entry: \`${entry}\``);
                 } else {
                   throw new Error(`${errorMsg}`);
                 }
