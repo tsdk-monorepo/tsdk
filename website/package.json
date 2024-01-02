@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/suhaotian/tsdk-monorepo.git"
+    "url": "https://github.com/tsdk-monorepo/tsdk.git"
   },
   "author": "suhaotian",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/suhaotian/tsdk-monorepo/issues"
+    "url": "https://github.com/tsdk-monorepo/tsdk/issues"
   },
-  "homepage": "https://github.com/suhaotian/tsdk-monorepo#readme",
+  "homepage": "https://github.com/tsdk-monorepo/tsdk#readme",
   "dependencies": {
     "next": "13.0.6",
     "nextra": "latest",
