@@ -11,15 +11,18 @@ export async function runNestCommand() {
   if (command === 'build') {
     const cwd = process.cwd();
     const webpackDistFile = path.resolve(cwd, 'node_modules', 'nest-webpack.js');
-    const pkgManagerDistFile = path.resolve(cwd, 'node_modules', 'get-pkg-manager.js');
-    await Promise.all([
-      fsExtra.copy(path.resolve(__dirname, '../lib/nest-webpack.js'), webpackDistFile, {
-        overwrite: true,
-      }),
-      fsExtra.copy(path.resolve(__dirname, '../lib/get-pkg-manager.js'), pkgManagerDistFile, {
-        overwrite: true,
-      }),
-    ]);
+    const copyFiles = ['nest-webpack.js', 'get-pkg-manager.js'];
+    await Promise.all(
+      copyFiles.map((filename) => {
+        return fsExtra.copy(
+          path.resolve(__dirname, `../lib/${filename}`),
+          path.resolve(cwd, 'node_modules', filename),
+          {
+            overwrite: true,
+          }
+        );
+      })
+    );
 
     const names = process.argv.filter((i, index) => index > idx + 1);
 

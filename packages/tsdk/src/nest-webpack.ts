@@ -7,6 +7,8 @@ import nodeExternals from 'webpack-node-externals';
 
 import { getNpmCommand } from './get-pkg-manager';
 
+export const tsdkConfigFilePath = path.join(process.cwd(), 'tsdk.config.js');
+
 const defaultMainName = 'default';
 const distProjects = 'dist-projects';
 
@@ -191,7 +193,7 @@ async function getNestProjectsConfig() {
   const cwd = process.cwd();
   const nestjsFilepath = path.resolve(
     cwd,
-    process.env.MONOREPO_ROOT || './',
+    require(tsdkConfigFilePath).monorepoRoot || './',
     'node_modules/@nestjs/cli/package.json'
   );
   const nestjsFilepathExists = await fsExtra.pathExists(nestjsFilepath);
