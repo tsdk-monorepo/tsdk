@@ -6,7 +6,7 @@ import { config, ensureDir, getDeps, tsconfig } from './config';
 import symbols from './symbols';
 import { transformTypeormEntity } from './transform-typeorm-entity';
 
-/** 处理引用路径 */
+/** Handling import path */
 export function processImportPath(_importString: string, _filePath: string) {
   let importString = _importString;
 
@@ -94,7 +94,7 @@ export async function transformImportPath(filePath: string, isEntity?: boolean) 
   result.forEach((i) => {
     const inlineImport = i.indexOf("import '") > -1 || i.indexOf('import "') > -1;
     const hasImport = i.indexOf('import ') > -1;
-    const hasFrom = i.indexOf(' from') > -1;
+    const hasFrom = i.indexOf(' from "') > -1 || i.indexOf(" from '") > -1;
 
     if (inlineImport) {
       imports.push(i);
