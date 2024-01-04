@@ -241,14 +241,14 @@ const DB = {
 export function setupHelloAPI() {
   genRoute<GetHelloReq, GetHelloRes>(
     GetHelloConfig,
-    async (reqInfo: Readonly<RequestInfo>, data) => {
+    async (data, reqInfo: Readonly<RequestInfo>) => {
       return { result: DB.data };
     }
   );
 
   genRoute<UpdateHelloReq, UpdateHelloRes>(
     UpdateHelloConfig,
-    async (reqInfo: Readonly<RequestInfo>, data) => {
+    async (data, reqInfo: Readonly<RequestInfo>) => {
       DB.data = data.payload;
       return { result: data.payload };
     }
