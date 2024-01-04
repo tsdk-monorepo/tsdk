@@ -109,8 +109,8 @@ export function genRouteFactory<APIConfig, RequestInfo>(
   function genRoute<ReqData, ResData>(
     apiConfig: APIConfig & BasicAPIConfig,
     cb: (
-      reqInfo: Readonly<RequestInfo>,
       data: ReqData,
+      reqInfo: Readonly<RequestInfo>,
       resOrSocket?: ResponseSocket
     ) => Promise<ResData>
   ) {
@@ -132,7 +132,7 @@ export function genRouteFactory<APIConfig, RequestInfo>(
           }, Promise.resolve());
         }
         const data = apiConfig.schema ? apiConfig.schema.parse(payload) : payload;
-        const result = await cb(reqInfo, data, response);
+        const result = await cb(data, reqInfo, response);
         send({ result, _id: msgId, callback });
       } catch (e) {
         onErrorHandler(e, {
@@ -176,8 +176,8 @@ export function genRouteFactory<APIConfig, RequestInfo>(
     genRoute: function g<ReqData, ResData>(
       apiConfig: APIConfig & BasicAPIConfig,
       cb: (
-        reqInfo: Readonly<RequestInfo>,
         data: ReqData,
+        reqInfo: Readonly<RequestInfo>,
         resOrSocket?: ResponseSocket
       ) => Promise<ResData>
     ) {

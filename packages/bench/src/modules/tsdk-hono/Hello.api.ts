@@ -17,7 +17,7 @@ export function setupHelloAPI() {
         description: `Hello${_i} api`,
         category: 'hello',
       },
-      async (reqInfo: Readonly<RequestInfo>, data) => {
+      async (data, reqInfo: Readonly<RequestInfo>) => {
         const result = 'hi ' + Date.now() + ' ' + Math.random();
         return { result };
       }
