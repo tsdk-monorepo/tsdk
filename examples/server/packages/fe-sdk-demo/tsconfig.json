@@ -9,7 +9,9 @@
     "esModuleInterop": true,
     "declaration": true,
     "target": "ES5",
-    "outDir": "lib"
+    "outDir": "lib",
+    "incremental": true,
+    "skipLibCheck": true
   },
   "include": ["./src"]
 }
