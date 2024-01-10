@@ -8,30 +8,28 @@
   --animate-repeat: 1;
 }
 
-@media print,
-(prefers-reduced-motion: reduce) {
+@media print, (prefers-reduced-motion: reduce) {
   .animate--animated {
     animation-duration: 1ms !important;
     transition-duration: 1ms !important;
     animation-iteration-count: 1 !important;
   }
 
-  .animate--animated[class*="Out"] {
+  .animate--animated[class*='Out'] {
     opacity: 0;
   }
 }
 
-
 body {
   background: linear-gradient(180deg, hsla(0, 0%, 100%, 0) 0, #fff 300px),
     fixed 0 0 /20px 20px radial-gradient(lightblue 1px, transparent 0),
-    fixed 10px 10px /20px 20px radial-gradient(lightblue 1px, transparent 0)
+    fixed 10px 10px /20px 20px radial-gradient(lightblue 1px, transparent 0);
 }
 
 .dark body {
   background: linear-gradient(180deg, hsla(0, 0%, 100%, 0) 0, #121212 300px),
     fixed 0 0 /20px 20px radial-gradient(skyblue 1px, transparent 0),
-    fixed 10px 10px /20px 20px radial-gradient(skyblue 1px, transparent 0)
+    fixed 10px 10px /20px 20px radial-gradient(skyblue 1px, transparent 0);
 }
 
 .accordion-item .accordion-content {
@@ -70,7 +68,6 @@ body {
   background-image: url(/wave2-dark.svg);
 }
 
-
 .bg-wave-3 {
   background-image: url(/wave2.svg);
   background-size: 250px;
@@ -86,8 +83,20 @@ body {
   animation: bg-wave 65s infinite ease;
 }
 
-.bg-wave-2, .bg-wave-3 {
+.bg-wave-2,
+.bg-wave-3 {
   animation: bg-wave 50s infinite linear;
+}
+
+@media (max-width: 750px) {
+  .bg-wave {
+    animation-duration: 15s;
+  }
+
+  .bg-wave-2,
+  .bg-wave-3 {
+    animation-duration: 10s;
+  }
 }
 
 @keyframes bg-wave {
