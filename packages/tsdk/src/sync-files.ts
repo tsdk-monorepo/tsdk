@@ -230,8 +230,8 @@ export async function syncSharedFiles() {
   console.log(symbols.bullet, `sync shared files`);
 
   const files = await glob([
-    ...config.sharedDirs.map((i) => path.join(i, `**/*.ts`).replace(/\\/g, '/')),
-    path.join(config.baseDir, `**/*.${config.shareExt || 'shared'}.ts`),
+    ...config.sharedDirs.map((i) => path.join(i, `**/*.*`).replace(/\\/g, '/')),
+    path.join(config.baseDir, `**/*.${config.shareExt || 'shared'}.*`),
   ]);
   files.sort();
 
@@ -248,7 +248,7 @@ export async function syncSharedFiles() {
       );
       fromPath = path.normalize(fromPath);
       fromPath = fromPath.startsWith('.') ? fromPath : './' + fromPath;
-      if (fromPath.indexOf('tsdk-types') < 0) {
+      if (fromPath.indexOf('tsdk-types') < 0 && filePath.endsWith('.ts')) {
         indexContentMap[file] = `export * from '${fromPath.replace(/\\/g, '/')}';\n`;
       }
       return fsExtra.writeFile(filePath, content);

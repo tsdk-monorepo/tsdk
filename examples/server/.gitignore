@@ -13,3 +13,4 @@ build-*
 *.db-shm
 *.db-wal
 *.sqlite
+packages/fe-sdk-demo

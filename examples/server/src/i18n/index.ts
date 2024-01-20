@@ -1,9 +1,9 @@
 import 'intl-pluralrules';
 import i18next from 'i18next';
 
-const translation = {
-  hello: 'hello world',
-};
+import helloJSON from './index.json';
+
+const translation = helloJSON;
 export const i18n = i18next.createInstance(
   {
     fallbackLng: 'en',
