@@ -11,7 +11,8 @@
     "target": "ES5",
     "outDir": "lib",
     "incremental": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "resolveJsonModule": true
   },
   "include": ["./src"]
 }
