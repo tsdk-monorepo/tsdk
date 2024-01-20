@@ -231,7 +231,7 @@ export async function syncSharedFiles() {
 
   const files = await glob([
     ...config.sharedDirs.map((i) => path.join(i, `**/*.*`).replace(/\\/g, '/')),
-    path.join(config.baseDir, `**/*.${config.shareExt || 'shared'}.*`),
+    path.join(config.baseDir, `**/*.${config.shareExt || 'shared'}.*`).replace(/\\/g, '/'),
   ]);
   files.sort();
 
