@@ -46,7 +46,7 @@ export const FAQs = [
     q: `What are the cons and pros of tsdk so far?`,
     a: (
       <>
-        Pros:
+        Cons:
         <br />
         1. API configuration cannot be duplicated;
         <br />
@@ -54,7 +54,7 @@ export const FAQs = [
         the API with config {'->'} and run the scripts sync module.
         <br />
         <br />
-        Cons：
+        Pros：
         <br />
         1. Because API are based on configurations, which are equivalent to the core data of the
         API, they are more flexible;
@@ -69,18 +69,18 @@ export const FAQs = [
     q: 'More questions',
     a: (
       <>
-        If you have any other questions or suggestions, feel free to contact us at{' '}
+        If you have any other questions or suggestions, feel free to contact us at
         <a
           className="text-blue-500 px-2 capitalize"
           href="https://github.com/tsdk-monorepo/tsdk/issues">
           issue
-        </a>{' '}
-        Or join the{' '}
+        </a>
+        Or join the
         <a
           className="text-blue-500 px-2 capitalize"
           href="https://github.com/tsdk-monorepo/tsdk/discussions/categories/q-a">
           discussions
-        </a>{' '}
+        </a>
       </>
     ),
   },
