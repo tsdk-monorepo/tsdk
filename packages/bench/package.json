@@ -25,12 +25,12 @@
     "fastify": "^4.24.3"
   },
   "devDependencies": {
-    "@configs/test-config": "*",
-    "@configs/ts-config": "*",
-    "@configs/eslint-config": "*",
+    "@configs/test-config": "workspace:*",
+    "@configs/ts-config": "workspace:*",
+    "@configs/eslint-config": "workspace:*",
     "@nestjs/cli": "^10.2.1",
     "@types/express": "^4.17.17",
-    "tsdk": "*",
+    "tsdk": "workspace:*",
     "concurrently": "^8.2.2"
   },
   "eslintConfig": {

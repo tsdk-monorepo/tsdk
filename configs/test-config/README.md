@@ -2,12 +2,12 @@
 
 Usage:
 
-First, add `"@configs/test-config": "*"` to the `package.json` devDependencies:
+First, add `"@configs/test-config": "workspace:*"` to the `package.json` devDependencies:
 
 ```json
 {
   "devDependencies": {
-    "@configs/test-config": "*"
+    "@configs/test-config": "workspace:*"
   }
 }
 ```

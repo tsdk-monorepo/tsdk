@@ -2,12 +2,12 @@
 
 Usage:
 
-First, add `"@configs/vitest-config": "*"` to the `package.json` devDependencies:
+First, add `"@configs/vitest-config": "workspace:*"` to the `package.json` devDependencies:
 
 ```json
 {
   "devDependencies": {
-    "@configs/vitest-config": "*"
+    "@configs/vitest-config": "workspace:*"
   }
 }
 ```

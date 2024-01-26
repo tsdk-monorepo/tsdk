@@ -18,7 +18,7 @@
     "test": "cross-env NODE_ENV=test vitest run"
   },
   "dependencies": {
-    "fe-sdk-demo": "*",
+    "fe-sdk-demo": "workspace:*",
     "expo": "^49.0.3",
     "expo-dev-client": "^2.4.6",
     "expo-status-bar": "^1.6.0",
@@ -30,9 +30,9 @@
     "socket.io-client": "^4.7.2"
   },
   "devDependencies": {
-    "@configs/vitest-config": "*",
-    "@configs/eslint-config": "*",
-    "@configs/ts-config": "*",
+    "@configs/vitest-config": "workspace:*",
+    "@configs/eslint-config": "workspace:*",
+    "@configs/ts-config": "workspace:*",
     "@babel/core": "^7.22.9",
     "@types/react": "~18.2.15",
     "@types/react-dom": "~18.2.7",

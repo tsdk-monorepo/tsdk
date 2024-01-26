@@ -13,7 +13,7 @@
     "test": "cross-env NODE_ENV=test vitest run"
   },
   "dependencies": {
-    "fe-sdk-demo": "*",
+    "fe-sdk-demo": "workspace:*",
     "next": "^13.5.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -22,8 +22,8 @@
     "axios": "1.6.1"
   },
   "devDependencies": {
-    "@configs/vitest-config": "*",
-    "@configs/eslint-config": "*",
+    "@configs/vitest-config": "workspace:*",
+    "@configs/eslint-config": "workspace:*",
     "babel-plugin-react-native-web": "^0.19.6"
   },
   "eslintConfig": {

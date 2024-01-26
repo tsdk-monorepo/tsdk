@@ -47,9 +47,9 @@
     "fs-extra": "^11.2.0"
   },
   "devDependencies": {
-    "@configs/test-config": "*",
-    "@configs/eslint-config": "*",
-    "@configs/ts-config": "*",
+    "@configs/test-config": "workspace:*",
+    "@configs/eslint-config": "workspace:*",
+    "@configs/ts-config": "workspace:*",
     "@types/fs-extra": "^11.0.4",
     "@types/webpack-node-externals": "^3.0.0",
     "webpack": "^5.89.0",

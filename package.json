@@ -19,7 +19,7 @@
     "prepare": "is-ci || husky install"
   },
   "devDependencies": {
-    "@configs/eslint-config": "*",
+    "@configs/eslint-config": "workspace:*",
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
     "turbo": "^1.11.0",

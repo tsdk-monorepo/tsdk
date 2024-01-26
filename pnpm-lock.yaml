@@ -13,7 +13,7 @@ importers:
   .:
     devDependencies:
       '@configs/eslint-config':
-        specifier: '*'
+        specifier: workspace:*
         version: link:configs/eslint-config
       husky:
         specifier: ^8.0.3
@@ -121,7 +121,7 @@ importers:
         specifier: ^0.18.10
         version: 0.18.10(expo@49.0.3)
       fe-sdk-demo:
-        specifier: '*'
+        specifier: workspace:*
         version: link:../server/packages/fe-sdk-demo
       react:
         specifier: 18.2.0
@@ -143,13 +143,13 @@ importers:
         specifier: ^7.22.9
         version: 7.22.9
       '@configs/eslint-config':
-        specifier: '*'
+        specifier: workspace:*
         version: link:../../configs/eslint-config
       '@configs/ts-config':
-        specifier: '*'
+        specifier: workspace:*
         version: link:../../configs/ts-config
       '@configs/vitest-config':
-        specifier: '*'
+        specifier: workspace:*
         version: link:../../configs/vitest-config
       '@types/react':
         specifier: ~18.2.15
@@ -206,7 +206,7 @@ importers:
         specifier: ^4.7.2
         version: 4.7.2(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       tsdk-server-adapters:
-        specifier: '*'
+        specifier: workspace:*
         version: link:../../packages/tsdk-server-adapters
       typeorm:
         specifier: ^0.3.17
@@ -225,13 +225,13 @@ importers:
         version: 3.22.4
     devDependencies:
       '@configs/eslint-config':
-        specifier: '*'
+        specifier: workspace:*
         version: link:../../configs/eslint-config
       '@configs/test-config':
-        specifier: '*'
+        specifier: workspace:*
         version: link:../../configs/test-config
       '@configs/ts-config':
-        specifier: '*'
+        specifier: workspace:*
         version: link:../../configs/ts-config
       '@nestjs/cli':
         specifier: ^10.2.1
@@ -246,7 +246,7 @@ importers:
         specifier: ^4.7.2
         version: 4.7.2(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       tsdk:
-        specifier: '*'
+        specifier: workspace:*
         version: link:../../packages/tsdk
 
   examples/server/packages/fe-sdk-demo:
@@ -292,7 +292,7 @@ importers:
         specifier: 1.6.1
         version: 1.6.1
       fe-sdk-demo:
-        specifier: '*'
+        specifier: workspace:*
         version: link:../server/packages/fe-sdk-demo
       next:
         specifier: ^13.5.6
@@ -311,10 +311,10 @@ importers:
         version: 4.7.2(bufferutil@4.0.7)(utf-8-validate@6.0.3)
     devDependencies:
       '@configs/eslint-config':
-        specifier: '*'
+        specifier: workspace:*
         version: link:../../configs/eslint-config
       '@configs/vitest-config':
-        specifier: '*'
+        specifier: workspace:*
         version: link:../../configs/vitest-config
       babel-plugin-react-native-web:
         specifier: ^0.19.6
@@ -342,19 +342,19 @@ importers:
         version: 3.10.2
       tsdk-server-adapters:
         specifier: ^0.1.1
-        version: link:../tsdk-server-adapters
+        version: 0.1.4(express@4.18.2)(fastify@4.24.3)(hono@3.10.2)(zod@3.22.4)
       zod:
         specifier: ^3.22.4
         version: 3.22.4
     devDependencies:
       '@configs/eslint-config':
-        specifier: '*'
+        specifier: workspace:*
         version: link:../../configs/eslint-config
       '@configs/test-config':
-        specifier: '*'
+        specifier: workspace:*
         version: link:../../configs/test-config
       '@configs/ts-config':
-        specifier: '*'
+        specifier: workspace:*
         version: link:../../configs/ts-config
       '@nestjs/cli':
         specifier: ^10.2.1
@@ -366,7 +366,7 @@ importers:
         specifier: ^8.2.2
         version: 8.2.2
       tsdk:
-        specifier: '*'
+        specifier: workspace:*
         version: link:../tsdk
 
   packages/tsdk:
@@ -382,13 +382,13 @@ importers:
         version: 11.2.0
     devDependencies:
       '@configs/eslint-config':
-        specifier: '*'
+        specifier: workspace:*
         version: link:../../configs/eslint-config
       '@configs/test-config':
-        specifier: '*'
+        specifier: workspace:*
         version: link:../../configs/test-config
       '@configs/ts-config':
-        specifier: '*'
+        specifier: workspace:*
         version: link:../../configs/ts-config
       '@types/fs-extra':
         specifier: ^11.0.4
@@ -425,13 +425,13 @@ importers:
         version: 3.22.4
     devDependencies:
       '@configs/eslint-config':
-        specifier: '*'
+        specifier: workspace:*
         version: link:../../configs/eslint-config
       '@configs/test-config':
-        specifier: '*'
+        specifier: workspace:*
         version: link:../../configs/test-config
       '@configs/ts-config':
-        specifier: '*'
+        specifier: workspace:*
         version: link:../../configs/ts-config
       '@types/express':
         specifier: ^4.17.17
@@ -15938,6 +15938,31 @@ packages:
       minimist: 1.2.6
       strip-bom: 3.0.0
     dev: true
+
+  /tsdk-server-adapters@0.1.4(express@4.18.2)(fastify@4.24.3)(hono@3.10.2)(zod@3.22.4):
+    resolution: {integrity: sha512-EylE40loVYAOEeD0ULQcZuU44rK8NCfx8IdPJrePLUJXNwK2OX4DcZBE4M8FWVN3pDTbYpkRnM8DGbSneF7LaA==}
+    peerDependencies:
+      express: ^4.18.2
+      fastify: ^4.24.3
+      hono: ^3.10.2
+      socket.io: ^4.7.2
+      zod: ^3
+    peerDependenciesMeta:
+      express:
+        optional: true
+      fastify:
+        optional: true
+      hono:
+        optional: true
+      socket.io:
+        optional: true
+    dependencies:
+      eventemitter3: 4.0.7
+      express: 4.18.2
+      fastify: 4.24.3
+      hono: 3.10.2
+      zod: 3.22.4
+    dev: false
 
   /tslib@1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
