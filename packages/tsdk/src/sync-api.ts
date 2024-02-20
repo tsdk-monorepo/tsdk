@@ -35,7 +35,11 @@ export async function syncAPI() {
         ? ''
         : `import useSWR, { SWRConfiguration } from "swr";
       import useSWRMutation, { SWRMutationConfiguration } from "swr/mutation";
-      import { AxiosRequestConfig } from "axios";
+      ${
+        config.httpLib !== 'xior'
+          ? `import type { AxiosRequestConfig } from "axios";`
+          : `import type { XiorRequestConfig as AxiosRequestConfig } from "xior";`
+      }
     `
     }
     ${
@@ -48,7 +52,11 @@ export async function syncAPI() {
       UndefinedInitialDataOptions,
       UseMutationOptions,
     } from "@tanstack/react-query";
-    import { AxiosRequestConfig } from "axios";
+    ${
+      config.httpLib !== 'xior'
+        ? `import type { AxiosRequestConfig } from "axios";`
+        : `import type { XiorRequestConfig as AxiosRequestConfig } from "xior";`
+    }
     `
     }
     `;

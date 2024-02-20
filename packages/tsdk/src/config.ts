@@ -14,6 +14,8 @@ export interface TSDKConfig {
   shareExt?: string;
   sharedDirs: string[];
   monorepoRoot?: string;
+  /** default: axios */
+  httpLib?: 'xior' | 'axios';
   dataHookLib?: 'SWR' | 'ReactQuery';
   /** custom dependencies */
   dependencies?: { [key: string]: string };

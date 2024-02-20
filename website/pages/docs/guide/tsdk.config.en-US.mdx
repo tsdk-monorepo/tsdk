@@ -11,6 +11,7 @@ module.exports = {
   entityLibName: 'typeorm',
   entityExt: 'entity',
   apiconfExt: 'apiconf',
+  httpLib: 'axios',
   shareExt: 'shared',
   sharedDirs: ['./src/shared'],
   removeFields: [],
@@ -25,9 +26,10 @@ module.exports = {
 - `entityLibName` - ORM library, current support `TypeORM`, `kysely` 和 `DrizzleORM`
 - `entityExt` - ORM model extension name, default is `*.entity.ts`
 - `apiconfExt` - API config extension name, default is `*.apiconf.ts`
-- `shareExt` -  shared file extension name, default is `*.shared.ts`
-- `sharedDirs` -  shared dir, default is `["./src/shared"]`
+- `shareExt` - shared file extension name, default is `*.shared.ts`
+- `sharedDirs` - shared dir, default is `["./src/shared"]`
 - `monorepoRoot` - monorepo root folder, default is `./`
+- `httpLib` - `xior` | `axios`, default is `axios`; `xior` use fetch, and have similiar API with axios
 - `dataHookLib` - `SWR` | `ReactQuery`，Generate `SWR` or `React Query` hooks;dependencies version: `swr@^2.2.5`; `@tanstack/react-query@^5.10.0`
 - `dependencies` - custom dependencies，will combine to `fe-sdk/package.json ` dependencies. This can custom dependencies and override fe-sdk's default version
 - `devDependencies` - custom devDependencies.
@@ -64,6 +66,12 @@ module.exports = {
 
 `monorepoRoot` - monorepo root folder, default is `./`
 
+### httpLib
+
+Generate API SDK which request library to use.
+
+`xior` | `axios`, default is `axios`; And `xior` use fetch, and similiar API with axios
+
 ### dataHookLib
 
 `dataHookLib` - `SWR` | `ReactQuery`; Generate `SWR` or `React Query` hooks;dependencies version: `swr@^2.2.5`; `@tanstack/react-query@^5.10.0`
@@ -73,7 +81,6 @@ module.exports = {
 Custom dependencies，will combine to `fe-sdk/package.json` dependencies. This can custom dependencies and override `fe-sdk`'s default version
 
 For example, update `tsdk.config.js` to change axios to latest version:
-
 
 ```js filename="tsdk.config.js" {4-6}
 /** @type {import('tsdk').TSDKConfig} */
