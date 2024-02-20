@@ -38,7 +38,7 @@ pnpx create-next-app@latest
 创建完前端项目后，再将 `./fe-sdk` 模块添加到创建好的前端项目里的 **package.json**:
 
 <Callout>
-  这里我们使用的是 [pnpm workspace](https://pnpm.io/workspaces)； 如果使用 npm 或者 yarn，需要参考对应的 workspace 方案。
+  这里我们使用的是 [pnpm workspace](https://pnpm.io/workspaces)； 如果使用 npm 或者 yarn，请参考相对应的 workspace 方案。
 </Callout>
 
 ```json {4-6, 10}
@@ -141,6 +141,8 @@ axiosInstance.interceptors.response.use(
 setAxiosInstance(axiosInstance);
 setHandler(axiosHandler);
 ```
+
+上面使用的是 `axios`, 如果你想使用 fetch，可以使用 `xior` [查看](/docs/guide/tsdk-server-adapters/express-adapter#前端使用-xior-基于-fetch)
 
 #### 创建 hook
 
