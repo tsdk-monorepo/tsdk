@@ -2,7 +2,6 @@ import { Callout } from 'nextra/components';
 
 # Hono adapter
 
-
 ## In backend
 
 ```ts copy
@@ -49,9 +48,22 @@ serve({
 console.log(`Hono server running at http://localhost:${port}`);
 ```
 
-## In frontend
+## In frontend (Use xior, based on fetch)
 
-<Callout>Hono 与 Express 都是 http 协议的 web 框架，所以使用方式一致。</Callout>
+> xior based on the fetch API similar axios: https://www.npmjs.com/package/xior
+
+```ts
+import xior from 'xior';
+import { setHandler, setXiorInstance, xiorHandler } from 'fe-sdk';
+
+const xiorInstance = xior.create({ baseURL: `/api/user` });
+setXiorInstance(xiorInstance);
+setHandler(xiorHandler);
+```
+
+## In frontend (Use axios)
+
+<Callout>Hono and Express are web framework based on HTTP protocol</Callout>
 
 ```ts
 import axios from 'axios';

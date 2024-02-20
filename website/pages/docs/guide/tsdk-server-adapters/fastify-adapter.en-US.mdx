@@ -1,6 +1,5 @@
 # Fastify adapter
 
-
 ## In backend
 
 ```ts copy
@@ -61,7 +60,33 @@ const port = 3000;
 })();
 ```
 
-## In frontend
+## In frontend (Use xior, based on fetch)
+
+> xior based on the fetch API similar axios: https://www.npmjs.com/package/xior
+
+```ts
+import xior from 'xior';
+import { setHandler, setXiorInstance, xiorHandler } from 'fe-sdk';
+
+const xiorInstance = xior.create({ baseURL: `/api/user` });
+setXiorInstance(xiorInstance);
+setHandler(xiorHandler);
+```
+
+## In frontend (Use xior, based on fetch)
+
+> xior based on the fetch API similar axios: https://www.npmjs.com/package/xior
+
+```ts
+import xior from 'xior';
+import { setHandler, setXiorInstance, xiorHandler } from 'fe-sdk';
+
+const xiorInstance = xior.create({ baseURL: `/api/user` });
+setXiorInstance(xiorInstance);
+setHandler(xiorHandler);
+```
+
+## In frontend (Use axios)
 
 ```ts
 import axios from 'axios';

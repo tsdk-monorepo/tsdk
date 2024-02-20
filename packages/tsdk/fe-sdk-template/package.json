@@ -9,7 +9,8 @@
   },
   "dependencies": {
     "zod": "^3",
-    "axios": "1.6.1",
+    "axios": "^1.6.7",
+    "xior": "^0.0.3",
     "change-case": "^4.1.2"
   },
   "devDependencies": {
@@ -18,7 +19,7 @@
     "@tsconfig/recommended": "^1.0.3"
   },
   "peerDependencies": {
-    "socket.io-client": "^4.7.2"
+    "socket.io-client": "^4.7.4"
   },
   "peerDependenciesMeta": {
     "socket.io-client": {

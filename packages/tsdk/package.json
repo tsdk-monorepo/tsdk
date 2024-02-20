@@ -1,6 +1,6 @@
 {
   "name": "tsdk",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Type-safe API development and code share tool for TypeScript projects.",
   "repository": "tsdk-monorepo/tsdk",
   "bugs": "https://github.com/tsdk-monorepo/tsdk/issues",
@@ -11,7 +11,7 @@
     "tsdk": "bin/tsdk.js"
   },
   "scripts": {
-    "start": "npm run build && npx pnpm --filter server-example sync && npx pnpm --filter server-example build && npx pnpm --filter server-example example",
+    "start": "npm run build && pnpm --filter server-example sync && pnpm --filter server-example build && pnpm --filter server-example example",
     "start-publish": "npm run build && npm publish --registry=https://registry.npmjs.org",
     "build": "rm -rf lib && tsc --project tsconfig.json",
     "start-website": "cd website && yarn && npm run start",
@@ -30,6 +30,8 @@
     "TypeScript",
     "Share Code",
     "APIs",
+    "typesafe API",
+    "type-safe API",
     "typeorm",
     "zod",
     "express",
@@ -39,7 +41,10 @@
     "express",
     "ws",
     "socket.io",
-    "cli"
+    "cli",
+    "axois",
+    "fetch",
+    "xior"
   ],
   "dependencies": {
     "chalk": "4.1.2",
@@ -52,7 +57,7 @@
     "@configs/ts-config": "workspace:*",
     "@types/fs-extra": "^11.0.4",
     "@types/webpack-node-externals": "^3.0.0",
-    "webpack": "^5.89.0",
+    "webpack": "^5.90.1",
     "webpack-node-externals": "^3.0.0"
   },
   "eslintConfig": {

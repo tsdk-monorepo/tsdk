@@ -50,7 +50,23 @@ serve({
 console.log(`Hono server running at http://localhost:${port}`);
 ```
 
-## 前端使用
+## 前端使用 xior（基于 fetch）
+
+> xior 基于 fetch， API 类似 axios， https://www.npmjs.com/package/xior
+
+
+<Callout>Hono 与 Express 都是 http 协议的 web 框架，所以使用方式一致。</Callout>
+
+```ts
+import xior from 'xior';
+import { setHandler, setXiorInstance, xiorHandler } from 'fe-sdk';
+
+const xiorInstance = xior.create({ baseURL: `/api/user` });
+setXiorInstance(xiorInstance);
+setHandler(xiorHandler);
+```
+
+## 前端使用 axios
 
 <Callout>Hono 与 Express 都是 http 协议的 web 框架，所以使用方式一致。</Callout>
 

@@ -18,8 +18,9 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native-web": "^0.19.6",
-    "socket.io-client": "^4.7.2",
-    "axios": "1.6.1"
+    "socket.io-client": "^4.7.4",
+    "axios": "^1.6.7",
+    "xior": "^0.0.3"
   },
   "devDependencies": {
     "@configs/vitest-config": "workspace:*",

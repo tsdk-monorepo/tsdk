@@ -20,7 +20,7 @@ import '@total-typescript/ts-reset';
 const { manifest } = Constants;
 const baseURL =
   // process.env.NODE_ENV === 'production'
-  //   ? '' //  @todo 使用环境变量打包
+  //   ? ''
   //   :
   (() => {
     // TODO - put a "prod" api server somewhere

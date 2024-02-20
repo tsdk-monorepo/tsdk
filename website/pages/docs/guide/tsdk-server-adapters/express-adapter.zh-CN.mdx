@@ -49,7 +49,20 @@ server.listen(port, () => {
 });
 ```
 
-## 前端使用
+## 前端使用 xior （基于 fetch）
+
+> xior 基于 fetch， API 类似 axios，https://www.npmjs.com/package/xior
+
+```ts
+import xior from 'xior';
+import { setHandler, setXiorInstance, xiorHandler } from 'fe-sdk';
+
+const xiorInstance = xior.create({ baseURL: `/api/user` });
+setXiorInstance(xiorInstance);
+setHandler(xiorHandler);
+```
+
+## 前端使用 axios
 
 ```ts
 import axios from 'axios';

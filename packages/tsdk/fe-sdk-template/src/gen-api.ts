@@ -1,11 +1,12 @@
 import type { RequestConfig } from './axios';
 import { NoHandlerError } from './error';
 import { APIConfig, ObjectLiteral } from './shared/tsdk-helper';
+import type { XiorRequestConfig } from './xior';
 
 let handler = (
   apiConfig: APIConfig,
   requestData: any,
-  requestConfig?: RequestConfig<any> | ObjectLiteral,
+  requestConfig?: any | RequestConfig<any> | ObjectLiteral | XiorRequestConfig<any>,
   needTrim?: boolean
 ): Promise<any> => {
   return Promise.reject(new NoHandlerError(`Call \`setHandler\` first`));

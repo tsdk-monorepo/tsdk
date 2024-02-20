@@ -1,11 +1,9 @@
-// import { HomeScreen, HomeIcon } from '@acme/feature-home';
-import axios from 'axios';
 import {
   setHandler,
   setSocketIOInstance,
   socketIOHandler,
-  setAxiosInstance,
-  axiosHandler,
+  setXiorInstance,
+  xiorHandler,
   getHandler,
 } from 'fe-sdk-demo';
 import { QueryTodoRes } from 'fe-sdk-demo/lib/apiconf-refs';
@@ -15,8 +13,9 @@ import Head from 'next/head';
 import { useState, useEffect } from 'react';
 // eslint-disable-next-line import/namespace
 import { io as SocketIO } from 'socket.io-client';
+import xior from 'xior';
 
-import styles from '../styles/Home.module.css';
+import styles from '../../styles/Home.module.css';
 
 const baseURL =
   // process.env.NODE_ENV === 'production'
@@ -61,8 +60,8 @@ export default function Home() {
 
       io.disconnect();
       setTimeout(async () => {
-        setAxiosInstance(axios.create({ baseURL: apiURL }));
-        setHandler(axiosHandler);
+        setXiorInstance(xior.create({ baseURL: apiURL }));
+        setHandler(xiorHandler);
 
         setHanlderName(getHandler().name);
         await AddTodo({

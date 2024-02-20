@@ -4,6 +4,7 @@ import EventEmitter from 'eventemitter3';
 import type { Response } from 'express';
 // @ts-ignore
 import type { Context } from 'hono';
+import { StatusCode, SuccessStatusCode } from 'hono/utils/http-status';
 // @ts-ignore
 import type { Socket } from 'socket.io';
 // @ts-ignore
@@ -67,7 +68,7 @@ function sendFactory(
       (response as Response).status(status || 200).send(result);
     } else if (protocol === 'hono') {
       const { status, result } = payload;
-      (response as Context).status(status || 200);
+      (response as Context).status((status || 200) as StatusCode);
       if (typeof result === 'string') {
         callback?.((response as Context).text(result));
       } else {
