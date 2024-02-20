@@ -273,8 +273,8 @@ importers:
         specifier: ^4.7.4
         version: 4.7.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       xior:
-        specifier: ^0.0.3
-        version: 0.0.3
+        specifier: 0.0.5
+        version: 0.0.5
       zod:
         specifier: ^3
         version: 3.22.4
@@ -313,8 +313,8 @@ importers:
         specifier: ^4.7.4
         version: 4.7.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       xior:
-        specifier: ^0.0.3
-        version: 0.0.3
+        specifier: ^0.0.5
+        version: 0.0.5
     devDependencies:
       '@configs/eslint-config':
         specifier: workspace:*
@@ -455,8 +455,8 @@ importers:
         specifier: ^4.7.4
         version: 4.7.4(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       xior:
-        specifier: ^0.0.3
-        version: 0.0.3
+        specifier: ^0.0.5
+        version: 0.0.5
       zod:
         specifier: ^3
         version: 3.22.4
@@ -17331,8 +17331,8 @@ packages:
       uuid: 3.4.0
     dev: false
 
-  /xior@0.0.3:
-    resolution: {integrity: sha512-5w3Gm0z7wHKYJZ5NWKavUzluhLrw+EVk8W1rGboAEED/daBx2sldiEB5Dquoruyj1bDy+G2PNaJOvdbhdphNnA==}
+  /xior@0.0.5:
+    resolution: {integrity: sha512-isvDHa1PV30Qb+pJOlcsyxC8weqP6iZLAbJPeTug+JhMR15EFvM7BTuh/YZU0m6OsL9istpfp+zhHJSdOVLAnA==}
     dependencies:
       ts-deepmerge: 7.0.0
     dev: false

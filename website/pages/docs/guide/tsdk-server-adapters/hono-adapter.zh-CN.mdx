@@ -66,6 +66,17 @@ setXiorInstance(xiorInstance);
 setHandler(xiorHandler);
 ```
 
+
+再更新 `tsdk.config.js`，添加配置 `httpLib: 'xior'`
+
+```js filename='tsdk.config.js'
+/** @type {import('tsdk').TSDKConfig} */
+module.exports = {
+  ...
+  httpLib: 'xior',
+  ...
+}
+
 ## 前端使用 axios
 
 <Callout>Hono 与 Express 都是 http 协议的 web 框架，所以使用方式一致。</Callout>

@@ -60,6 +60,16 @@ setXiorInstance(xiorInstance);
 setHandler(xiorHandler);
 ```
 
+Then update `tsdk.config.js`, add conifg `httpLib: 'xior'`
+
+```js filename='tsdk.config.js'
+/** @type {import('tsdk').TSDKConfig} */
+module.exports = {
+  ...
+  httpLib: 'xior',
+  ...
+}
+
 ## In frontend (Use axios)
 
 ```ts
