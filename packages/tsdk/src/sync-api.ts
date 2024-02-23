@@ -12,7 +12,7 @@ export function deleteSDKFolder() {
 
 export async function syncAPI() {
   console.log(symbols.bullet, 'generating APIs');
-
+  await replaceGenAPI();
   const pkgJSON = require(path.join(baseDir, 'package.json'));
   const apiconfs = require(path.join(baseDir, 'lib', `${config.apiconfExt}-refs`));
 
@@ -381,4 +381,15 @@ export function copyPermissionsJSON() {
   return fsExtra.copy(path.join(ensureDir, `src`, `permissions.json`), dist, {
     overwrite: true,
   });
+}
+
+export async function replaceGenAPI() {
+  if (config.httpLib === 'xior') {
+    const genAPIfile = path.join(ensureDir, 'src', 'gen-api.ts');
+    const res = await fsExtra.readFile(genAPIfile, 'utf-8');
+    return fsExtra.writeFile(
+      genAPIfile,
+      res.replace('= AxiosRequestConfig<T>', '= XiorRequestConfig<T>')
+    );
+  }
 }

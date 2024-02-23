@@ -1,7 +1,9 @@
-import type { RequestConfig } from './axios';
+import type { RequestConfig as AxiosRequestConfig } from './axios';
 import { NoHandlerError } from './error';
 import { APIConfig, ObjectLiteral } from './shared/tsdk-helper';
 import type { XiorRequestConfig } from './xior';
+
+type RequestConfig<T> = AxiosRequestConfig<T>;
 
 let handler = (
   apiConfig: APIConfig,

@@ -10,6 +10,7 @@
     "declaration": true,
     "target": "ES5",
     "outDir": "lib",
+    "lib": ["DOM", "ES2015", "ES5"],
     "incremental": true,
     "skipLibCheck": true,
     "resolveJsonModule": true
