@@ -43,8 +43,7 @@ export async function xiorHandler(
   const { path, headers } = apiConfig;
   const method = apiConfig.method.toLowerCase();
 
-  // TODO: remove & {url: string}
-  const payload: _XiorRequestConfig & { url: string } = {
+  const payload: _XiorRequestConfig = {
     method: method === 'patch' ? method.toUpperCase() : method,
     url: path,
     ...requestConfig,

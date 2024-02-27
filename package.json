@@ -36,7 +36,8 @@
     "packageExtensions": {},
     "overrides": {
       "uuid": "^3.4.0",
-      "@babel/traverse": ">=7.23.2"
+      "@babel/traverse": ">=7.23.2",
+      "xior": "^0.0.7"
     }
   },
   "eslintConfig": {
