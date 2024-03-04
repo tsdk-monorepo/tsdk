@@ -80,7 +80,9 @@ async function run() {
             try {
               const output = {
                 ...nestProjectConfig.output,
-                filename: path.basename(nestProjectConfig.entryFile).replace('.ts', '') + '.js',
+                filename: nestProjectConfig.entryFile.endsWith('.js')
+                  ? nestProjectConfig.entryFile
+                  : path.basename(nestProjectConfig.entryFile).replace('.ts', '') + '.js',
                 path: path.resolve(cwd, distProjects, `dist-${name}`),
               };
 
