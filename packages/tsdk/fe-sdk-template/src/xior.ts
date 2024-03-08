@@ -40,12 +40,13 @@ export async function xiorHandler(
   if (!xiorInstance) {
     throw new NoHandlerError(`Call \`setXiorInstance\` first`);
   }
-  const { path, headers } = apiConfig;
+  const { path, headers, isGet } = apiConfig;
   const method = apiConfig.method.toLowerCase();
 
   const payload: _XiorRequestConfig = {
     method: method === 'patch' ? method.toUpperCase() : method,
     url: path,
+    isGet,
     ...requestConfig,
   };
 

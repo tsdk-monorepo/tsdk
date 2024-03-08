@@ -29,6 +29,7 @@ export interface APIConfig {
 
   /** custom headers for client */
   headers?: { [key: string]: any };
+  isGet?: boolean;
 }
 
 export interface ObjectLiteral {
