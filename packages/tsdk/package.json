@@ -1,6 +1,6 @@
 {
   "name": "tsdk",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "Type-safe API development and code share tool for TypeScript projects.",
   "repository": "tsdk-monorepo/tsdk",
   "bugs": "https://github.com/tsdk-monorepo/tsdk/issues",
@@ -33,6 +33,7 @@
     "typesafe API",
     "type-safe API",
     "typeorm",
+    "typesafe",
     "zod",
     "express",
     "@nestjs/cli",
@@ -42,7 +43,7 @@
     "ws",
     "socket.io",
     "cli",
-    "axois",
+    "axios",
     "fetch",
     "xior"
   ],

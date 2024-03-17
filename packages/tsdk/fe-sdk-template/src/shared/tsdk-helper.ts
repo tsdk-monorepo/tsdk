@@ -8,7 +8,6 @@ export const hasBodyMethods: { [key: string]: boolean | undefined } = {
   post: true,
   put: true,
   patch: true,
-  options: true,
 };
 
 export function checkMethodHasBody(method: string) {
