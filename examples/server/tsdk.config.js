@@ -11,7 +11,7 @@ module.exports = {
   sharedDirs: ['./src/shared', './src/i18n'],
   dataHookLib: 'ReactQuery',
   dependencies: {
-    i18next: '^23.7.13',
+    i18next: '^23.10.1',
     'intl-pluralrules': '^2.0.1',
     xior: '0.3.0',
   },
