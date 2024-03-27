@@ -20,7 +20,7 @@
     "react-native-web": "^0.19.6",
     "socket.io-client": "^4.7.5",
     "axios": "^1.6.7",
-    "xior": "^0.3.0"
+    "xior": "^0.3.1"
   },
   "devDependencies": {
     "@configs/vitest-config": "workspace:*",

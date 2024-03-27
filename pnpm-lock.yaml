@@ -7,7 +7,7 @@ settings:
 overrides:
   uuid: ^3.4.0
   '@babel/traverse': '>=7.23.2'
-  xior: ^0.3.0
+  xior: ^0.3.1
 
 importers:
 
@@ -274,8 +274,8 @@ importers:
         specifier: ^4.7.5
         version: 4.7.5(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       xior:
-        specifier: ^0.3.0
-        version: 0.3.0
+        specifier: ^0.3.1
+        version: 0.3.1
       zod:
         specifier: ^3
         version: 3.22.4
@@ -314,8 +314,8 @@ importers:
         specifier: ^4.7.5
         version: 4.7.5(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       xior:
-        specifier: ^0.3.0
-        version: 0.3.0
+        specifier: ^0.3.1
+        version: 0.3.1
     devDependencies:
       '@configs/eslint-config':
         specifier: workspace:*
@@ -456,8 +456,8 @@ importers:
         specifier: ^4.7.5
         version: 4.7.5(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       xior:
-        specifier: ^0.3.0
-        version: 0.3.0
+        specifier: ^0.3.1
+        version: 0.3.1
       zod:
         specifier: ^3
         version: 3.22.4
@@ -17477,8 +17477,8 @@ packages:
       uuid: 3.4.0
     dev: false
 
-  /xior@0.3.0:
-    resolution: {integrity: sha512-3sQ66R7l+TlseSaiuh6Xrh46g5gNe+SgB5O27tkykzMOo0xvRXK2BmY08h/+JNm4/ZpJkME4nhvGZuBMnsTSaw==}
+  /xior@0.3.1:
+    resolution: {integrity: sha512-7SoxZJSy2wowkyhHyqJo3eO/pVcpO7ZzTi/ipTjHYIvbLHTo8sj8MdBR61oP9durRNg/iXX4qbRgEWH+tsI6JA==}
     dependencies:
       tiny-lru: 11.2.5
       ts-deepmerge: 7.0.0
