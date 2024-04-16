@@ -7,7 +7,7 @@ settings:
 overrides:
   uuid: ^3.4.0
   '@babel/traverse': '>=7.23.2'
-  xior: ^0.3.8
+  xior: ^0.3.12
 
 importers:
 
@@ -183,14 +183,14 @@ importers:
         specifier: ^2.8.5
         version: 2.8.5
       express:
-        specifier: ^4.19.1
-        version: 4.19.1
+        specifier: ^4.19.2
+        version: 4.19.2
       fastify:
         specifier: ^4.26.2
         version: 4.26.2
       hono:
-        specifier: ^4.1.3
-        version: 4.1.3
+        specifier: ^4.2.4
+        version: 4.2.4
       i18next:
         specifier: ^23.10.1
         version: 23.10.1
@@ -274,8 +274,8 @@ importers:
         specifier: ^4.7.5
         version: 4.7.5(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       xior:
-        specifier: ^0.3.8
-        version: 0.3.8
+        specifier: ^0.3.12
+        version: 0.3.12
       zod:
         specifier: ^3
         version: 3.22.4
@@ -314,8 +314,8 @@ importers:
         specifier: ^4.7.5
         version: 4.7.5(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       xior:
-        specifier: ^0.3.8
-        version: 0.3.8
+        specifier: ^0.3.12
+        version: 0.3.12
     devDependencies:
       '@configs/eslint-config':
         specifier: workspace:*
@@ -339,17 +339,17 @@ importers:
         specifier: ^4.1.2
         version: 4.1.2
       express:
-        specifier: ^4.19.1
-        version: 4.19.1
+        specifier: ^4.19.2
+        version: 4.19.2
       fastify:
         specifier: ^4.26.2
         version: 4.26.2
       hono:
-        specifier: ^4.1.3
-        version: 4.1.3
+        specifier: ^4.2.4
+        version: 4.2.4
       tsdk-server-adapters:
         specifier: ^0.1.3
-        version: 0.1.4(express@4.19.1)(fastify@4.26.2)(hono@4.1.3)(zod@3.22.4)
+        version: 0.1.4(express@4.19.2)(fastify@4.26.2)(hono@4.2.4)(zod@3.22.4)
       zod:
         specifier: ^3.22.4
         version: 3.22.4
@@ -416,14 +416,14 @@ importers:
         specifier: ^4.0.7
         version: 4.0.7
       express:
-        specifier: ^4.19.1
-        version: 4.19.1
+        specifier: ^4.19.2
+        version: 4.19.2
       fastify:
         specifier: ^4.26.2
         version: 4.26.2
       hono:
-        specifier: ^4.1.3
-        version: 4.1.3
+        specifier: ^4.2.4
+        version: 4.2.4
       socket.io:
         specifier: ^4.7.5
         version: 4.7.5(bufferutil@4.0.7)(utf-8-validate@6.0.3)
@@ -456,8 +456,8 @@ importers:
         specifier: ^4.7.5
         version: 4.7.5(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       xior:
-        specifier: ^0.3.8
-        version: 0.3.8
+        specifier: ^0.3.12
+        version: 0.3.12
       zod:
         specifier: ^3
         version: 3.22.4
@@ -2778,7 +2778,7 @@ packages:
       '@expo/metro-config': 0.10.6
       '@expo/osascript': 2.0.33
       '@expo/spawn-async': 1.5.0
-      body-parser: 1.20.1
+      body-parser: 1.20.2
       chalk: 4.1.2
       connect: 3.7.0
       fs-extra: 9.0.0
@@ -2986,7 +2986,7 @@ packages:
   /@fastify/express@2.3.0:
     resolution: {integrity: sha512-jvvjlPPCfJsSHfF6tQDyARJ3+c3xXiqcxVZu6bi3xMWCWB3fl07vrjFDeaqnwqKhLZ9+m6cog5dw7gIMKEsTnQ==}
     dependencies:
-      express: 4.19.1
+      express: 4.19.2
       fastify-plugin: 4.5.1
     transitivePeerDependencies:
       - supports-color
@@ -5883,26 +5883,6 @@ packages:
     resolution: {integrity: sha512-eXRvHzWyYPBuB4NBy0cmYQjGitUrtqwbvlzP3G6VFnNRbsZQIxQ10PbKKHt8gZ/HW/D/747aDl+QkDqg3KQLMQ==}
     dev: false
 
-  /body-parser@1.20.1:
-    resolution: {integrity: sha512-jWi7abTbYwajOytWCQc37VulmWiRae5RyTpaCyDcS5/lMdtwSz5lOpDE67srw/HYe35f1z3fDQw+3txg7gNtWw==}
-    engines: {node: '>= 0.8', npm: 1.2.8000 || >= 1.4.16}
-    dependencies:
-      bytes: 3.1.2
-      content-type: 1.0.4
-      debug: 2.6.9
-      depd: 2.0.0
-      destroy: 1.2.0
-      http-errors: 2.0.0
-      iconv-lite: 0.4.24
-      on-finished: 2.4.1
-      qs: 6.11.0
-      raw-body: 2.5.1
-      type-is: 1.6.18
-      unpipe: 1.0.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /body-parser@1.20.2:
     resolution: {integrity: sha512-ml9pReCu3M61kGlqoTm2umSXTlRTuGTx0bfYj+uIUKKYycG5NtSbeetV3faSU6R7ajOPw0g/J1PvK4qNy7s5bA==}
     engines: {node: '>= 0.8', npm: 1.2.8000 || >= 1.4.16}
@@ -6780,11 +6760,6 @@ packages:
     engines: {node: '>= 0.6'}
     dependencies:
       safe-buffer: 5.2.1
-    dev: false
-
-  /content-type@1.0.4:
-    resolution: {integrity: sha512-hIP3EEPs8tB9AT1L+NUqtwOAps4mk2Zob89MWXMHjHWg9milF/j4osnnQLXBCBFBk/tvIG/tUc9mOUJiPBhPXA==}
-    engines: {node: '>= 0.6'}
     dev: false
 
   /content-type@1.0.5:
@@ -8675,8 +8650,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /express@4.19.1:
-    resolution: {integrity: sha512-K4w1/Bp7y8iSiVObmCrtq8Cs79XjJc/RU2YYkZQ7wpUu5ZyZ7MtPHkqoMz4pf+mgXfNvo2qft8D9OnrH2ABk9w==}
+  /express@4.19.2:
+    resolution: {integrity: sha512-5T6nhjsT+EOMzuck8JjBHARTHfMht0POzlA60WV2pMD3gyXw2LZnZ+ueGdNxG+0calOJcWKbpFcuzLZ91YWq9Q==}
     engines: {node: '>= 0.10.0'}
     dependencies:
       accepts: 1.3.8
@@ -9851,8 +9826,8 @@ packages:
       minimalistic-crypto-utils: 1.0.1
     dev: false
 
-  /hono@4.1.3:
-    resolution: {integrity: sha512-V0I6qCw0gn2MA4LLtyXe6oD3/7ToeQf5Zv98o7uSuLuViQgWHJeYoYrZ4NbXhOtg4SaZjNJJm1+XuFB3LN+j6A==}
+  /hono@4.2.4:
+    resolution: {integrity: sha512-2T5Ahxh8tT0ISKCrNeA+OIwfD5W4EZ00iIMYBBCuiIivr+sOrZYOphinARSG7wL3nFsY6zkFHMMZbcR9CzEzug==}
     engines: {node: '>=16.0.0'}
     dev: false
 
@@ -14091,16 +14066,6 @@ packages:
     engines: {node: '>= 0.6'}
     dev: false
 
-  /raw-body@2.5.1:
-    resolution: {integrity: sha512-qqJBtEyVgS0ZmPGdCFPWJ3FreoqvG4MVQln/kCgF7Olq95IbOp0/BWyMwbdtn4VTvkM8Y7khCQ2Xgk/tcrCXig==}
-    engines: {node: '>= 0.8'}
-    dependencies:
-      bytes: 3.1.2
-      http-errors: 2.0.0
-      iconv-lite: 0.4.24
-      unpipe: 1.0.0
-    dev: false
-
   /raw-body@2.5.2:
     resolution: {integrity: sha512-8zGqypfENjCIqGhgXToC8aB2r7YrBX+AQAfIPs/Mlk+BtPTztOvTS01NRW/3Eh60J+a48lt8qsCzirQ6loCVfA==}
     engines: {node: '>= 0.8'}
@@ -16194,7 +16159,7 @@ packages:
       strip-bom: 3.0.0
     dev: true
 
-  /tsdk-server-adapters@0.1.4(express@4.19.1)(fastify@4.26.2)(hono@4.1.3)(zod@3.22.4):
+  /tsdk-server-adapters@0.1.4(express@4.19.2)(fastify@4.26.2)(hono@4.2.4)(zod@3.22.4):
     resolution: {integrity: sha512-EylE40loVYAOEeD0ULQcZuU44rK8NCfx8IdPJrePLUJXNwK2OX4DcZBE4M8FWVN3pDTbYpkRnM8DGbSneF7LaA==}
     peerDependencies:
       express: ^4.18.2
@@ -16213,9 +16178,9 @@ packages:
         optional: true
     dependencies:
       eventemitter3: 4.0.7
-      express: 4.19.1
+      express: 4.19.2
       fastify: 4.26.2
-      hono: 4.1.3
+      hono: 4.2.4
       zod: 3.22.4
     dev: false
 
@@ -17477,8 +17442,8 @@ packages:
       uuid: 3.4.0
     dev: false
 
-  /xior@0.3.8:
-    resolution: {integrity: sha512-p2tkn/9ZyrQRsV5IIxo1yBB4NhyBnNvh0gu1XtEMxBwTh2I85fsjdNG1FpLdBNb4FYmyThFC/V6ls60tmcXPtQ==}
+  /xior@0.3.12:
+    resolution: {integrity: sha512-jugPO7n8HxUGEWRP8evf1iZZblMeY3rJ/ym6epAzqUEiRHnaHAxBS8gu/Pm1q/SxeYDy69N4S89vZoplCS0xpQ==}
     dependencies:
       tiny-lru: 11.2.5
       ts-deepmerge: 7.0.0
