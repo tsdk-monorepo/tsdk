@@ -10,7 +10,7 @@
   "dependencies": {
     "zod": "^3",
     "axios": "^1.6.7",
-    "xior": "^0.3.12",
+    "xior": "^0.4.1",
     "change-case": "^4.1.2"
   },
   "devDependencies": {
@@ -27,6 +27,7 @@
     }
   },
   "files": [
-    "lib"
+    "lib",
+    "src"
   ]
 }

@@ -28,25 +28,6 @@ export function isObject<T = any>(data: T) {
   return result;
 }
 
-/**
- * remove undefined field or trim string value
- *
- * @param data - the object data
- */
-export const trimAndRemoveUndefined = (data: ObjectLiteral): ObjectLiteral => {
-  if (!isObject(data)) return data;
-  const newData: ObjectLiteral = {};
-  Object.keys(data).forEach((k: string) => {
-    const valueType = typeof data[k];
-    if (valueType === 'string') {
-      newData[k] = data[k].trim();
-    } else if (valueType !== 'undefined') {
-      newData[k] = data[k];
-    }
-  });
-  return newData;
-};
-
 export const ProtocolTypes = {
   request: 'REQ:',
   response: 'RES:',

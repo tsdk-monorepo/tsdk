@@ -175,14 +175,13 @@ export async function syncAPI() {
 export function use${name}(
 payload: ${name}Req | undefined,
 options?: SWRConfiguration<${name}Res | undefined>,
-requestConfig?: AxiosRequestConfig<${name}Req>,
-needTrim?: boolean
+requestConfig?: AxiosRequestConfig<${name}Req>
 ) {
 return useSWR(
   () => ({ url: ${name}.config.path, arg: payload }),
   ({ arg }) => {
     if (typeof arg === 'undefined') return undefined;
-    return ${name}(arg, requestConfig, needTrim);
+    return ${name}(arg, requestConfig);
   },
   options
 );
@@ -202,12 +201,11 @@ return useSWR(
                 ${name}Req
               >,
               requestConfig?: AxiosRequestConfig<${name}Req>,
-              needTrim?: boolean
             ) {
               return useSWRMutation(
                 ${name}.config.path,
                 (url, { arg }: { arg: ${name}Req }) => {
-                  return ${name}(arg, requestConfig, needTrim);
+                  return ${name}(arg, requestConfig);
                 },
                 options
               );
@@ -230,7 +228,6 @@ return useSWR(
             options?: UndefinedInitialDataOptions<${name}Res | undefined, Error>,
             queryClient?: QueryClient,
             requestConfig?: AxiosRequestConfig<${name}Req>,
-            needTrim?: boolean
           ) {
             return useQuery(
               {
@@ -240,7 +237,7 @@ return useSWR(
                   if (typeof payload === 'undefined') {
                     return undefined;
                   }
-                  return ${name}(payload, requestConfig, needTrim);
+                  return ${name}(payload, requestConfig);
                 },
               },
               queryClient || _queryClient
@@ -261,13 +258,12 @@ return useSWR(
                 >,
                 queryClient?: QueryClient,
                 requestConfig?: AxiosRequestConfig<${name}Req>,
-                needTrim?: boolean
               ) {
                 return useMutation(
                   {
                     ...(options || {}),
                     mutationFn(payload) {
-                      return ${name}(payload, requestConfig, needTrim);
+                      return ${name}(payload, requestConfig);
                     },
                   },
                   queryClient || _queryClient

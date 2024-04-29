@@ -8,8 +8,7 @@ type RequestConfig<T> = AxiosRequestConfig<T>;
 let handler = (
   apiConfig: APIConfig,
   requestData: any,
-  requestConfig?: any | RequestConfig<any> | ObjectLiteral | XiorRequestConfig<any>,
-  needTrim?: boolean
+  requestConfig?: any | RequestConfig<any> | ObjectLiteral | XiorRequestConfig<any>
 ): Promise<any> => {
   return Promise.reject(new NoHandlerError(`Call \`setHandler\` first`));
 };
@@ -46,21 +45,14 @@ export function getHandler() {
 export default function genAPICall<ReqPayload, ResData>(
   apiConfig: APIConfig
 ): {
-  (
-    data: ReqPayload,
-    requestConfig?: RequestConfig<ReqPayload> | ObjectLiteral,
-    /** remove fields with undefined */
-    needTrim?: boolean
-  ): Promise<ResData>;
+  (data: ReqPayload, requestConfig?: RequestConfig<ReqPayload> | ObjectLiteral): Promise<ResData>;
   config: APIConfig;
 } {
   function APICall(
     data: ReqPayload,
-    requestConfig?: RequestConfig<ReqPayload> | ObjectLiteral,
-    /** remove fields with undefined */
-    needTrim = true
+    requestConfig?: RequestConfig<ReqPayload> | ObjectLiteral
   ): Promise<ResData> {
-    return getHandler()(apiConfig, data, requestConfig, needTrim);
+    return getHandler()(apiConfig, data, requestConfig);
   }
 
   // now you can access the config with api

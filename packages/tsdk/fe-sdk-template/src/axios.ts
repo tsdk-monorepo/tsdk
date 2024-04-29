@@ -2,7 +2,7 @@ import { AxiosRequestConfig, AxiosInstance } from 'axios';
 
 import { NoHandlerError } from './error';
 import { pathParams } from './path-params';
-import { APIConfig, checkMethodHasBody, trimAndRemoveUndefined } from './shared/tsdk-helper';
+import { APIConfig, checkMethodHasBody } from './shared/tsdk-helper';
 
 let axiosInstance: AxiosInstance;
 
@@ -32,9 +32,7 @@ export type RequestConfig<ReqPayload> = Omit<AxiosRequestConfig, 'data'> & {
 export async function axiosHandler(
   apiConfig: APIConfig,
   requestData: any,
-  requestConfig?: RequestConfig<any>,
-  /** remove fields with undefined */
-  needTrim?: boolean
+  requestConfig?: RequestConfig<any>
 ) {
   const axiosInstance = getAxiosInstance();
   if (!axiosInstance) {
@@ -57,7 +55,7 @@ export async function axiosHandler(
   }
 
   if (requestData) {
-    const data = needTrim ? trimAndRemoveUndefined(requestData) : requestData;
+    const data = requestData;
     if (checkMethodHasBody(method)) {
       payload.data = data;
       if (requestConfig?.params) {

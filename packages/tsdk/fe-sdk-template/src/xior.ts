@@ -2,7 +2,7 @@ import { XiorRequestConfig as _XiorRequestConfig, xior } from 'xior';
 
 import { NoHandlerError } from './error';
 import { pathParams } from './path-params';
-import { APIConfig, checkMethodHasBody, trimAndRemoveUndefined } from './shared/tsdk-helper';
+import { APIConfig, checkMethodHasBody } from './shared/tsdk-helper';
 
 let xiorInstance: xior;
 
@@ -32,9 +32,7 @@ export type XiorRequestConfig<ReqPayload> = Omit<_XiorRequestConfig, 'data'> & {
 export async function xiorHandler(
   apiConfig: APIConfig,
   requestData: any,
-  requestConfig?: XiorRequestConfig<any>,
-  /** remove fields with undefined */
-  needTrim?: boolean
+  requestConfig?: XiorRequestConfig<any>
 ) {
   const xiorInstance = getXiorInstance();
   if (!xiorInstance) {
@@ -58,7 +56,7 @@ export async function xiorHandler(
   }
 
   if (requestData) {
-    const data = needTrim ? trimAndRemoveUndefined(requestData) : requestData;
+    const data = requestData;
     if (checkMethodHasBody(method)) {
       payload.data = data;
       if (requestConfig?.params) {

@@ -2,12 +2,7 @@
 import type { Socket } from 'socket.io-client';
 
 import { NoConnectionError, NoHandlerError, TimeoutError } from './error';
-import {
-  APIConfig,
-  ObjectLiteral,
-  ProtocolTypes,
-  trimAndRemoveUndefined,
-} from './shared/tsdk-helper';
+import { APIConfig, ObjectLiteral, ProtocolTypes } from './shared/tsdk-helper';
 import { getID } from './utils';
 
 let socketIOInstance: Socket;
@@ -68,8 +63,7 @@ export const getSocketIOInstance: () => Socket = () => {
 export function socketIOHandler(
   apiConfig: APIConfig,
   data: any,
-  requestConfig?: ObjectLiteral & { timeout?: number },
-  needTrim?: boolean
+  requestConfig?: ObjectLiteral & { timeout?: number }
 ): Promise<any> {
   const ioInstance = getSocketIOInstance();
   if (!ioInstance) {
@@ -84,7 +78,7 @@ export function socketIOHandler(
 
     ioInstance.emit(ProtocolTypes.request, {
       _id: msgId,
-      payload: needTrim && data ? trimAndRemoveUndefined(data) : data,
+      payload: data,
     });
 
     const timer = requestConfig?.timeout
