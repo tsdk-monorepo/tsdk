@@ -139,10 +139,8 @@ export async function syncAPI() {
       const name = _name || k.replace(/Config$/, '');
       const type = _type === 'common' || !_type ? 'common' : _type;
 
-      const isGET =
-        apiconfs[k].isGet === false
-          ? false
-          : apiconfs[k].isGet === true || !method || method?.toLowerCase() === 'get';
+      const isGET = !method || method?.toLowerCase() === 'get';
+      const likeGET = apiconfs[k].isGet === false ? false : apiconfs[k].isGet === true || isGET;
 
       if (type === apiType && path) {
         importStr += `
@@ -156,7 +154,9 @@ export async function syncAPI() {
            * 
            * @category ${category}
            */
-          export const ${name} = genApi<${name}Req, ${name}Res>(${name}Config);
+          export const ${name} = genApi<${name}Req${
+          isGET ? '' : ' | FormData'
+        }, ${name}Res>(${name}Config);
         `;
 
         dataHookImportStr += `
@@ -165,7 +165,7 @@ export async function syncAPI() {
         if (isSWR) {
           dataHookBodyStr += `
         ${
-          isGET
+          likeGET
             ? `
 /** 
  * ${description}
@@ -216,7 +216,7 @@ return useSWR(
         } else if (isReactQuery) {
           dataHookBodyStr += `
           ${
-            isGET
+            likeGET
               ? `
           /** 
            * ${description}

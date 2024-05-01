@@ -4,7 +4,7 @@ import EventEmitter from 'eventemitter3';
 import type { Response } from 'express';
 // @ts-ignore
 import type { Context } from 'hono';
-import { StatusCode, SuccessStatusCode } from 'hono/utils/http-status';
+import { StatusCode } from 'hono/utils/http-status';
 // @ts-ignore
 import type { Socket } from 'socket.io';
 // @ts-ignore

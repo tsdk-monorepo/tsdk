@@ -189,8 +189,8 @@ importers:
         specifier: ^4.26.2
         version: 4.26.2
       hono:
-        specifier: ^4.2.4
-        version: 4.2.4
+        specifier: ^4.2.9
+        version: 4.2.9
       i18next:
         specifier: ^23.10.1
         version: 23.10.1
@@ -345,11 +345,11 @@ importers:
         specifier: ^4.26.2
         version: 4.26.2
       hono:
-        specifier: ^4.2.4
-        version: 4.2.4
+        specifier: ^4.2.9
+        version: 4.2.9
       tsdk-server-adapters:
         specifier: ^0.1.3
-        version: 0.1.4(express@4.19.2)(fastify@4.26.2)(hono@4.2.4)(socket.io@4.7.5)(zod@3.22.4)
+        version: 0.1.4(express@4.19.2)(fastify@4.26.2)(hono@4.2.9)(socket.io@4.7.5)(zod@3.22.4)
       zod:
         specifier: ^3.22.4
         version: 3.22.4
@@ -413,8 +413,8 @@ importers:
   packages/tsdk-server-adapters:
     dependencies:
       eventemitter3:
-        specifier: ^4.0.7
-        version: 4.0.7
+        specifier: ^5.0.1
+        version: 5.0.1
       express:
         specifier: ^4.19.2
         version: 4.19.2
@@ -422,8 +422,8 @@ importers:
         specifier: ^4.26.2
         version: 4.26.2
       hono:
-        specifier: ^4.2.4
-        version: 4.2.4
+        specifier: ^4.2.9
+        version: 4.2.9
       socket.io:
         specifier: ^4.7.5
         version: 4.7.5(bufferutil@4.0.7)(utf-8-validate@6.0.3)
@@ -4720,8 +4720,8 @@ packages:
   highlight.js@10.7.3:
     resolution: {integrity: sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==}
 
-  hono@4.2.4:
-    resolution: {integrity: sha512-2T5Ahxh8tT0ISKCrNeA+OIwfD5W4EZ00iIMYBBCuiIivr+sOrZYOphinARSG7wL3nFsY6zkFHMMZbcR9CzEzug==}
+  hono@4.2.9:
+    resolution: {integrity: sha512-59FAv52UxDWUt/NlC0NzrRCjeVCThUnVlqlrKYm+k80XujBu6uJwBIa5gACKKZWobjA0MJ6Vds0I3URKf383Cw==}
     engines: {node: '>=16.0.0'}
 
   hosted-git-info@3.0.8:
@@ -13711,7 +13711,7 @@ snapshots:
 
   highlight.js@10.7.3: {}
 
-  hono@4.2.4: {}
+  hono@4.2.9: {}
 
   hosted-git-info@3.0.8:
     dependencies:
@@ -17363,14 +17363,14 @@ snapshots:
       minimist: 1.2.8
       strip-bom: 3.0.0
 
-  tsdk-server-adapters@0.1.4(express@4.19.2)(fastify@4.26.2)(hono@4.2.4)(socket.io@4.7.5)(zod@3.22.4):
+  tsdk-server-adapters@0.1.4(express@4.19.2)(fastify@4.26.2)(hono@4.2.9)(socket.io@4.7.5)(zod@3.22.4):
     dependencies:
       eventemitter3: 4.0.7
       zod: 3.22.4
     optionalDependencies:
       express: 4.19.2
       fastify: 4.26.2
-      hono: 4.2.4
+      hono: 4.2.9
       socket.io: 4.7.5(bufferutil@4.0.7)(utf-8-validate@6.0.3)
 
   tslib@1.14.1: {}
