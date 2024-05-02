@@ -7,7 +7,7 @@ settings:
 overrides:
   uuid: ^3.4.0
   '@babel/traverse': '>=7.23.2'
-  xior: ^0.4.1
+  xior: ^0.4.3
 
 importers:
 
@@ -274,8 +274,8 @@ importers:
         specifier: ^4.7.5
         version: 4.7.5(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       xior:
-        specifier: ^0.4.1
-        version: 0.4.1
+        specifier: ^0.4.3
+        version: 0.4.3
       zod:
         specifier: ^3
         version: 3.22.4
@@ -314,8 +314,8 @@ importers:
         specifier: ^4.7.5
         version: 4.7.5(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       xior:
-        specifier: ^0.4.1
-        version: 0.4.1
+        specifier: ^0.4.3
+        version: 0.4.3
     devDependencies:
       '@configs/eslint-config':
         specifier: workspace:*
@@ -456,8 +456,8 @@ importers:
         specifier: ^4.7.5
         version: 4.7.5(bufferutil@4.0.7)(utf-8-validate@6.0.3)
       xior:
-        specifier: ^0.4.1
-        version: 0.4.1
+        specifier: ^0.4.3
+        version: 0.4.3
       zod:
         specifier: ^3
         version: 3.22.4
@@ -8306,8 +8306,8 @@ packages:
     resolution: {integrity: sha512-kCz5k7J7XbJtjABOvkc5lJmkiDh8VhjVCGNiqdKCscmVpdVUpEAyXv1xmCLkQJ5dsHqx3IPO4XW+NTDhU/fatA==}
     engines: {node: '>=10.0.0'}
 
-  xior@0.4.1:
-    resolution: {integrity: sha512-Wq1PcFYBdGx1RybBxmJz+YyIh4MK84WKrYvlWa2DrYRrz/shfX+dSdoFQYReSXHMdyD/X2zy/wMW40psFUM2Og==}
+  xior@0.4.3:
+    resolution: {integrity: sha512-5X6FB8VlD7SvUKicJ38K3Lb/SX1wsaoCR+06QCca0IC0XDiEXGVK952WjP5s+HvU7ktaKOR0VMryBUj3O9rsKg==}
 
   xml-name-validator@5.0.0:
     resolution: {integrity: sha512-EvGK8EJ3DhaHfbRlETOWAS5pO9MZITeauHKJyb8wyajUfQUenkIg2MvLDTZ4T/TgIcm3HU0TFBgWWboAZ30UHg==}
@@ -18013,7 +18013,7 @@ snapshots:
       simple-plist: 1.3.1
       uuid: 3.4.0
 
-  xior@0.4.1:
+  xior@0.4.3:
     dependencies:
       tiny-lru: 11.2.5
       ts-deepmerge: 7.0.0
