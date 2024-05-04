@@ -4,7 +4,7 @@
   "description": "Benchmark for tsdk",
   "version": "1.0.0",
   "scripts": {
-    "build": "cross-env MONOREPO_ROOT=../../ node ./node_modules/tsdk/bin/tsdk.js --nest build all",
+    "build": "node ./node_modules/tsdk/bin/tsdk.js --nest build all",
     "dev": "pnpm start express",
     "start": "cross-env NODE_ENV=production nest start --watch",
     "start:all": "concurrently \"pnpm start express\" \"pnpm start tsdk-express\" \"pnpm start hono\" \"pnpm start tsdk-hono\" \"pnpm start trpc-express\" \"pnpm start fastify\"",

@@ -4,7 +4,7 @@
   "description": "Server development example, `tsdk` export `fe-sdk-demo` package.",
   "version": "1.0.0",
   "scripts": {
-    "build": "cross-env MONOREPO_ROOT=../../ node ./node_modules/tsdk/bin/tsdk.js --nest build all && pnpm sync",
+    "build": "node ./node_modules/tsdk/bin/tsdk.js --nest build all && pnpm sync",
     "example": "cross-env IS_TEST=true node dist-projects/dist-express-todo/main && npm run test",
     "serve": "node dist-projects/dist-express-todo/main",
     "dev": "nest start express-todo --watch",
