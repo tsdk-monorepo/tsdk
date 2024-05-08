@@ -5,6 +5,7 @@
 ```ts copy
 import http from 'http';
 import express, { Request } from 'express';
+import multer from 'multer';
 import { expressAdapterFactory } from 'tsdk-server-adapters/lib/express-adapter';
 import { checkMethodHasBody, ProtocolTypes } from '@/src/shared/tsdk-helper';
 import { RequestInfo, routeBus } from './gen-route';
@@ -16,6 +17,7 @@ const server = http.createServer(app);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(multer().none());
 
 app.get('/', (req, res) => {
   res.end('hi, from express.');

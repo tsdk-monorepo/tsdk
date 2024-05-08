@@ -85,6 +85,7 @@ function onErrorHandler(
 ```ts filename="server/src/main.ts" copy
 import http from 'http';
 import express, { Request } from 'express';
+import multer from 'multer';
 import { Server } from 'socket.io';
 import { socketIOAdapterFactory } from 'tsdk-server-adapters/lib/socket.io-adapter';
 import { expressAdapterFactory } from 'tsdk-server-adapters/lib/express-adapter';
@@ -124,6 +125,7 @@ io.on('connection', (socket) => {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(multer().none());
 
 app.get('/', (req, res) => {
   res.end('hi, from express.');
@@ -264,6 +266,7 @@ export function setupHelloAPI() {
 import http from 'http';
 import { socketIOAdapterFactory } from 'tsdk-server-adapters/lib/socket.io-adapter';
 import express from 'express';
+import multer from 'multer'
 import { expressAdapterFactory } from 'tsdk-server-adapters/lib/express-adapter';
 import { checkMethodHasBody, ProtocolTypes } from '@/src/shared/tsdk-helper';
 import { RequestInfo, routeBus } from './gen-route';
@@ -302,6 +305,7 @@ const server = http.createServer(app);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(multer().none());
 
 app.get('/', (req, res) => {
   res.end('hi, from express.');
