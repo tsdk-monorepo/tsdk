@@ -15,4 +15,7 @@ module.exports = {
     'intl-pluralrules': '^2.0.1',
     xior: '^0.4.3',
   },
+  scripts: {
+    'tsc:build': 'echo 233 && tsc --project tsconfig.json',
+  },
 };

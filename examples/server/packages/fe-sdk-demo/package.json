@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "lib/index.js",
   "scripts": {
-    "tsc:build": "tsc --project tsconfig.json",
+    "tsc:build": "echo 233 && tsc --project tsconfig.json",
     "doc:build": "typedoc src/**.ts --plugin ./hover.mjs && node write-popover.mjs",
     "serve": "serve docs"
   },
