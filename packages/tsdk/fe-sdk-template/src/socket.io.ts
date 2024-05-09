@@ -78,7 +78,7 @@ export function socketIOHandler(
 
     ioInstance.emit(ProtocolTypes.request, {
       _id: msgId,
-      payload: data,
+      payload: data instanceof FormData ? Object.fromEntries(data) : data,
     });
 
     const timer = requestConfig?.timeout
