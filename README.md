@@ -28,8 +28,7 @@ https://tsdk.dev/docs/intro
 
 ## Development
 
-This repository uses [PNPM Workspaces](https://pnpm.io/workspaces) and
-[Turborepo](https://github.com/vercel/turborepo).
+This repository uses [PNPM Workspaces](https://pnpm.io/workspaces)
 
 Install dependencies:
 

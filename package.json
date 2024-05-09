@@ -3,11 +3,11 @@
   "name": "tsdk-monorepo",
   "packageManager": "pnpm@9.1.0",
   "scripts": {
-    "lint": "turbo lint",
-    "checktype": "turbo checktype",
-    "test": "turbo test",
-    "build": "turbo build",
-    "dev": "turbo dev",
+    "lint": "pnpm -r lint",
+    "checktype": "pnpm -r checktype",
+    "test": "pnpm -r test",
+    "build": "pnpm -r build",
+    "dev": "pnpm -r dev",
     "start:tsdk": "pnpm build:tsdk && pnpm --filter tsdk start",
     "build:tsdk": "pnpm --filter tsdk-server-adapters --filter tsdk build",
     "dev:web-example": "pnpm --filter server-example --filter web-example dev",
@@ -21,7 +21,6 @@
     "@configs/eslint-config": "workspace:*",
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
-    "turbo": "^1.11.0",
     "is-ci": "^3.0.1"
   },
   "pnpm": {
