@@ -119,6 +119,12 @@ async function reconfigPkg() {
       ...config.devDependencies,
     };
   }
+  if (config.scripts) {
+    pkgContent.scripts = {
+      ...pkgContent.scripts,
+      ...config.scripts,
+    };
+  }
 
   await Promise.all([fsExtra.writeFile(pkgPath, JSON.stringify(pkgContent, null, 2))]);
 

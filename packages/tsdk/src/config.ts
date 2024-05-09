@@ -17,9 +17,11 @@ export interface TSDKConfig {
   /** default: axios */
   httpLib?: 'xior' | 'axios';
   dataHookLib?: 'SWR' | 'ReactQuery';
-  /** custom dependencies */
+  /** custom dependencies or override */
   dependencies?: { [key: string]: string };
   devDependencies?: { [key: string]: string };
+  /** custom scripts or override */
+  scripts?: { [key: string]: string };
   /** 
    * remove unnecessary filelds in *.apiconf.js after build 
    * @default
