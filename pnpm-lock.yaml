@@ -290,8 +290,8 @@ importers:
         specifier: ^4.3.3
         version: 4.3.3
       tsdk-server-adapters:
-        specifier: ^0.1.4
-        version: 0.1.14(express@4.19.2)(fastify@4.27.0)(hono@4.3.3)(socket.io@4.7.5)(zod@3.23.8)
+        specifier: ^0.1.15
+        version: 0.1.15(express@4.19.2)(fastify@4.27.0)(hono@4.3.3)(socket.io@4.7.5)(zod@3.23.8)
       zod:
         specifier: ^3.23.7
         version: 3.23.8
@@ -5320,8 +5320,8 @@ packages:
     resolution: {integrity: sha512-NoZ4roiN7LnbKn9QqE1amc9DJfzvZXxF4xDavcOWt1BPkdx+m+0gJuPM+S0vCe7zTJMYUP0R8pO2XMr+Y8oLIg==}
     engines: {node: '>=6'}
 
-  tsdk-server-adapters@0.1.14:
-    resolution: {integrity: sha512-U4EdwZexi+QRF45FJS89GVmI34rFU85nmd6z5qFhZ2Ezw+uch++Bqg9BxpQzgW7XITKchxuW5pWOmj/AEnaaig==}
+  tsdk-server-adapters@0.1.15:
+    resolution: {integrity: sha512-pU0i4nDjDWAr3nxETmyckzbYQ/WPsZq/1vv8z2PfDmSfChA+LjmLRHAK1vuHxSnFewsS2eci3Usqk2d6uZCL1w==}
     peerDependencies:
       express: ^4.19.2
       fastify: ^4.27.0
@@ -11708,7 +11708,7 @@ snapshots:
       minimist: 1.2.8
       strip-bom: 3.0.0
 
-  tsdk-server-adapters@0.1.14(express@4.19.2)(fastify@4.27.0)(hono@4.3.3)(socket.io@4.7.5)(zod@3.23.8):
+  tsdk-server-adapters@0.1.15(express@4.19.2)(fastify@4.27.0)(hono@4.3.3)(socket.io@4.7.5)(zod@3.23.8):
     dependencies:
       eventemitter3: 5.0.1
       zod: 3.23.8
