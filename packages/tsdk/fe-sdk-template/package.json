@@ -10,7 +10,7 @@
   "dependencies": {
     "zod": "^3.23.7",
     "axios": "^1.6.8",
-    "xior": "^0.4.3",
+    "xior": "^0.5.0",
     "change-case": "^4.1.2"
   },
   "devDependencies": {

@@ -27,7 +27,6 @@
     "peerDependencyRules": {
       "ignoreMissing": [
         "@babel/*",
-        "expo-modules-*",
         "typescript"
       ]
     },
@@ -35,15 +34,14 @@
     "overrides": {
       "uuid": "^3.4.0",
       "@babel/traverse": ">=7.23.2",
-      "xior": "^0.4.3"
+      "xior": "^0.5.0"
     }
   },
   "eslintConfig": {
     "extends": "@configs/eslint-config",
     "ignorePatterns": [
       "node_modules",
-      ".next",
-      "public"
+      ".next"
     ]
   },
   "prettier": {
