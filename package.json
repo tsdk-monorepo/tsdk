@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "tsdk-monorepo",
-  "packageManager": "pnpm@9.1.0",
+  "packageManager": "pnpm@9.1.2",
   "scripts": {
     "lint": "pnpm -r lint",
     "checktype": "pnpm -r checktype",
