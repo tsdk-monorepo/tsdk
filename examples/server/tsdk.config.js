@@ -13,9 +13,9 @@ module.exports = {
   dependencies: {
     i18next: '^23.10.1',
     'intl-pluralrules': '^2.0.1',
-    xior: '^0.5.0',
+    xior: '^0.5.3',
   },
   scripts: {
-    'tsc:build': 'echo 233 && tsc --project tsconfig.json',
+    'tsc:build': 'tsc --project tsconfig.json',
   },
 };

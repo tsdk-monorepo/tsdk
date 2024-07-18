@@ -20,7 +20,7 @@
     "eslint": "^8.45.0",
     "eslint-config-universe": "^11.3.0",
     "prettier": "^2.8.8",
-    "@tsconfig/recommended": "^1.0.6"
+    "@tsconfig/recommended": "^1.0.7"
   },
   "eslintConfig": {
     "extends": "."

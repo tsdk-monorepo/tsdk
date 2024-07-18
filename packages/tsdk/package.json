@@ -1,6 +1,6 @@
 {
   "name": "tsdk",
-  "version": "0.1.16",
+  "version": "0.2.0",
   "description": "Type-safe API development and code share tool for TypeScript projects.",
   "repository": "tsdk-monorepo/tsdk",
   "bugs": "https://github.com/tsdk-monorepo/tsdk/issues",
@@ -61,7 +61,7 @@
     "webpack": "^5.91.0",
     "webpack-node-externals": "^3.0.0",
     "typescript": "^5",
-    "@tsconfig/recommended": "^1.0.6"
+    "@tsconfig/recommended": "^1.0.7"
   },
   "eslintConfig": {
     "extends": [
