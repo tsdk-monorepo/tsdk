@@ -60,6 +60,8 @@ export const getSocketIOInstance: () => Socket = () => {
   return socketIOInstance;
 };
 
+type ParamsOfFromEntries = Parameters<typeof Object.fromEntries>[0];
+
 export function socketIOHandler(
   apiConfig: APIConfig,
   data: any,
@@ -78,7 +80,10 @@ export function socketIOHandler(
 
     ioInstance.emit(ProtocolTypes.request, {
       _id: msgId,
-      payload: data instanceof FormData ? Object.fromEntries(data) : data,
+      payload:
+        data instanceof FormData
+          ? Object.fromEntries(data as unknown as ParamsOfFromEntries)
+          : data,
     });
 
     const timer = requestConfig?.timeout
