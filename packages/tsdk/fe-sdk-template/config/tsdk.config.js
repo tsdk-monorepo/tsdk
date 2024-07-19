@@ -13,6 +13,6 @@ module.exports = {
   /** 'xior' | 'axios'. More: https://tsdk.dev/docs/guide/tsdk.config#httplib */
   httpLib: 'xior',
   dependencies: {
-    xior: '^0.5.3',
+    xior: '^0.5.5',
   },
 };

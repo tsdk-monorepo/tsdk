@@ -7,7 +7,7 @@ settings:
 overrides:
   uuid: ^3.4.0
   '@babel/traverse': '>=7.23.2'
-  xior: ^0.5.3
+  xior: ^0.5.5
 
 importers:
 
@@ -164,7 +164,7 @@ importers:
         specifier: ^8.13.0
         version: 8.17.0(bufferutil@4.0.8)(utf-8-validate@6.0.3)
       zod:
-        specifier: ^3.23.7
+        specifier: ^3.23.8
         version: 3.23.8
     devDependencies:
       '@configs/eslint-config':
@@ -216,8 +216,8 @@ importers:
         specifier: ^4.7.5
         version: 4.7.5(bufferutil@4.0.8)(utf-8-validate@6.0.3)
       xior:
-        specifier: ^0.5.3
-        version: 0.5.3
+        specifier: ^0.5.5
+        version: 0.5.5
       zod:
         specifier: ^3.23.8
         version: 3.23.8
@@ -256,8 +256,8 @@ importers:
         specifier: ^4.7.5
         version: 4.7.5(bufferutil@4.0.8)(utf-8-validate@6.0.3)
       xior:
-        specifier: ^0.5.3
-        version: 0.5.3
+        specifier: ^0.5.5
+        version: 0.5.5
     devDependencies:
       '@configs/eslint-config':
         specifier: workspace:*
@@ -293,7 +293,7 @@ importers:
         specifier: ^0.1.15
         version: 0.1.15(express@4.19.2)(fastify@4.27.0)(hono@4.5.0)(socket.io@4.7.5)(zod@3.23.8)
       zod:
-        specifier: ^3.23.7
+        specifier: ^3.23.8
         version: 3.23.8
     devDependencies:
       '@configs/eslint-config':
@@ -410,8 +410,8 @@ importers:
         specifier: ^4.7.5
         version: 4.7.5(bufferutil@4.0.8)(utf-8-validate@6.0.3)
       xior:
-        specifier: ^0.5.3
-        version: 0.5.3
+        specifier: ^0.5.5
+        version: 0.5.5
       zod:
         specifier: ^3.23.8
         version: 3.23.8
@@ -5859,8 +5859,8 @@ packages:
       utf-8-validate:
         optional: true
 
-  xior@0.5.3:
-    resolution: {integrity: sha512-FVrmTDy7UNoT/3BIK7dAdwQY1KtuaU5yb5IGn8k9GZ/z3kIREBAeAmETSWjPVdEpHk2RJYiN16Vn1CMKxZdV8g==}
+  xior@0.5.5:
+    resolution: {integrity: sha512-tMJUiuFgfww5SHi8IhiEFoYVNA3scUqZAPUuc2dJB0yYorDM+PYR7Bqcoz07g8pa55xPuJwIDPLX0SDRhZscmg==}
 
   xml-name-validator@5.0.0:
     resolution: {integrity: sha512-EvGK8EJ3DhaHfbRlETOWAS5pO9MZITeauHKJyb8wyajUfQUenkIg2MvLDTZ4T/TgIcm3HU0TFBgWWboAZ30UHg==}
@@ -12357,7 +12357,7 @@ snapshots:
       bufferutil: 4.0.8
       utf-8-validate: 6.0.3
 
-  xior@0.5.3:
+  xior@0.5.5:
     dependencies:
       tiny-lru: 11.2.6
       ts-deepmerge: 7.0.0

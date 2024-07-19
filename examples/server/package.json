@@ -32,7 +32,7 @@
     "typeorm-cursor-pagination": "^0.10.1",
     "utf-8-validate": "^6.0.3",
     "ws": "^8.13.0",
-    "zod": "^3.23.7",
+    "zod": "^3.23.8",
     "hono": "^4.5.0",
     "fastify": "^4.27.0",
     "@fastify/express": "^3.0.0",

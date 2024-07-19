@@ -8,6 +8,7 @@
     "downlevelIteration": true,
     "esModuleInterop": true,
     "declaration": true,
+    "noImplicitAny": true,
     "target": "ES5",
     "outDir": "lib",
     "lib": ["DOM", "ES2015", "ES5",  "dom.iterable"],
