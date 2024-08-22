@@ -19,7 +19,7 @@ export const PROTOCOLs = {
   'socket.io': 'io',
   /** @deprecated not recommend */
   ws: 'ws',
-};
+} as const;
 
 export type Protocol = keyof typeof PROTOCOLs;
 
