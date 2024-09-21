@@ -50,9 +50,10 @@ export default function genAPICall<ReqPayload, ResData>(
 } {
   function APICall(
     data: ReqPayload,
-    requestConfig?: RequestConfig<ReqPayload> | ObjectLiteral
+    requestConfig?: RequestConfig<ReqPayload> | ObjectLiteral,
+    customHandler?: typeof handler
   ): Promise<ResData> {
-    return getHandler()(apiConfig, data, requestConfig);
+    return (customHandler ? customHandler : getHandler())(apiConfig, data, requestConfig);
   }
 
   // now you can access the config with api

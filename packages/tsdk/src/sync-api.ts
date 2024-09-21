@@ -385,7 +385,9 @@ export async function replaceGenAPI() {
     const res = await fsExtra.readFile(genAPIfile, 'utf-8');
     return fsExtra.writeFile(
       genAPIfile,
-      res.replace('= AxiosRequestConfig<T>', '= XiorRequestConfig<T>')
+      res
+        .replace('= AxiosRequestConfig<T>', '= XiorRequestConfig<T>')
+        .replace(`import type { RequestConfig as AxiosRequestConfig } from './axios';`, '')
     );
   }
 }
