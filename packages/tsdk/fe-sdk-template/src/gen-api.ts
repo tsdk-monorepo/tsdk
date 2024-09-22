@@ -45,7 +45,11 @@ export function getHandler() {
 export default function genAPICall<ReqPayload, ResData>(
   apiConfig: APIConfig
 ): {
-  (data: ReqPayload, requestConfig?: RequestConfig<ReqPayload> | ObjectLiteral): Promise<ResData>;
+  (
+    data: ReqPayload,
+    requestConfig?: RequestConfig<ReqPayload> | ObjectLiteral,
+    customHandler?: typeof handler
+  ): Promise<ResData>;
   config: APIConfig;
 } {
   function APICall(
