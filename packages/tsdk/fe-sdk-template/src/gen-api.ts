@@ -13,6 +13,8 @@ let handler = (
   return Promise.reject(new NoHandlerError(`Call \`setHandler\` first`));
 };
 
+export type Handler = typeof handler;
+
 /**
  * @example
  * ```ts

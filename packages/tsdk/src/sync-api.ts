@@ -59,6 +59,7 @@ export async function syncAPI() {
     }
     `
     }
+    import { Handler } from './gen-api';
     `;
     let dataHookImportStr = ``;
     let dataHookBodyStr = isReactQuery
@@ -173,15 +174,16 @@ export async function syncAPI() {
  * @category ${category}
  */
 export function use${name}(
-payload: ${name}Req | undefined,
+payload?: ${name}Req,
 options?: SWRConfiguration<${name}Res | undefined>,
-requestConfig?: AxiosRequestConfig<${name}Req>
+requestConfig?: AxiosRequestConfig<${name}Req>,
+customHandler?: Handler,
 ) {
 return useSWR(
   () => ({ url: ${name}.config.path, arg: payload }),
   ({ arg }) => {
     if (typeof arg === 'undefined') return undefined;
-    return ${name}(arg, requestConfig);
+    return ${name}(arg, requestConfig, customHandler);
   },
   options
 );
@@ -201,11 +203,12 @@ return useSWR(
                 ${name}Req
               >,
               requestConfig?: AxiosRequestConfig<${name}Req>,
+              customHandler?: Handler,
             ) {
               return useSWRMutation(
                 ${name}.config.path,
                 (url, { arg }: { arg: ${name}Req }) => {
-                  return ${name}(arg, requestConfig);
+                  return ${name}(arg, requestConfig, customHandler);
                 },
                 options
               );
@@ -224,10 +227,11 @@ return useSWR(
            * @category ${category}
            */
           export function use${name}(
-            payload: ${name}Req | undefined,
+            payload?: ${name}Req,
             options?: UndefinedInitialDataOptions<${name}Res | undefined, Error>,
             queryClient?: QueryClient,
             requestConfig?: AxiosRequestConfig<${name}Req>,
+            customHandler?: Handler,
           ) {
             return useQuery(
               {
@@ -237,7 +241,7 @@ return useSWR(
                   if (typeof payload === 'undefined') {
                     return undefined;
                   }
-                  return ${name}(payload, requestConfig);
+                  return ${name}(payload, requestConfig, customHandler);
                 },
               },
               queryClient || _queryClient
@@ -258,12 +262,13 @@ return useSWR(
                 >,
                 queryClient?: QueryClient,
                 requestConfig?: AxiosRequestConfig<${name}Req>,
+                customHandler?: Handler,
               ) {
                 return useMutation(
                   {
                     ...(options || {}),
                     mutationFn(payload) {
-                      return ${name}(payload, requestConfig);
+                      return ${name}(payload, requestConfig, customHandler);
                     },
                   },
                   queryClient || _queryClient

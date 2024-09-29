@@ -28,7 +28,7 @@
     "reflect-metadata": "^0.2.1",
     "socket.io": "^4.8.0",
     "typeorm": "^0.3.20",
-    "kysely": "^0.27.2",
+    "kysely": "^0.27.4",
     "typeorm-cursor-pagination": "^0.10.1",
     "utf-8-validate": "^6.0.3",
     "ws": "^8.13.0",
