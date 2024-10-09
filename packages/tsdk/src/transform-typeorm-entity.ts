@@ -11,7 +11,18 @@ export function transformTypeormEntity(_fileContent: string, entityLibName: stri
 
   result.forEach((i) => {
     const hasImport = i.indexOf('import ') > -1;
-    const hasFrom = i.indexOf(' from') > -1;
+    const fromIdx = i.indexOf(' from');
+
+    const commentIdx = i.indexOf('//');
+    const commentIdx2 = i.indexOf('/*');
+    const commentIdx3 = i.indexOf('*/');
+
+    const isComment =
+      (commentIdx > -1 && commentIdx < fromIdx) ||
+      (commentIdx2 > -1 && commentIdx2 < fromIdx) ||
+      (commentIdx3 > -1 && commentIdx3 > fromIdx);
+
+    const hasFrom = fromIdx > -1 && !isComment && (i[fromIdx + 5] || '').trim() === '';
     const hasTypeormFrom =
       hasFrom && (i.indexOf(` '${entityLibName}`) > -1 || i.indexOf(` "${entityLibName}`) > -1);
 

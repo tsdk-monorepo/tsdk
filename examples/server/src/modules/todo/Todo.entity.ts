@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'; // from
 
 import { CreatedUpdatedAt } from '@/src/db/entity/CreatedUpdated.entity';
 
@@ -34,4 +34,22 @@ export class Todo extends CreatedUpdatedAt {
   })
   /** remark */
   remark?: string;
+
+  @Column({
+    nullable: true, // from
+  })
+  /** for test only */
+  from?: string;
+
+  @Column({
+    nullable: true,
+  })
+  /** for test only */
+  _from?: string;
+
+  @Column({
+    nullable: true,
+  })
+  /** for test only from */
+  from_?: string;
 }

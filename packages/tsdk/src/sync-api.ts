@@ -88,7 +88,7 @@ export async function syncAPI() {
        * 
        **/
 
-      import genApi from './gen-api';
+      import genApi, { Expand } from './gen-api';
      
 `;
 
@@ -155,9 +155,9 @@ export async function syncAPI() {
            * 
            * @category ${category}
            */
-          export const ${name} = genApi<${name}Req${
+          export const ${name} = genApi<Expand<${name}Req>${
           isGET ? '' : ' | FormData'
-        }, ${name}Res>(${name}Config);
+        }, Expand<${name}Res>>(${name}Config);
         `;
 
         dataHookImportStr += `
