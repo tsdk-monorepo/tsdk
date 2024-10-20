@@ -3,6 +3,7 @@
     "scope": "typescript",
     "prefix": "apii",
     "body": [
+      "import * as z from 'zod';",
       "import { transformPath, APIConfig, ObjectLiteral } from '@/src/shared/tsdk-helper';"
     ],
     "description": "api config import snippet"
@@ -36,6 +37,6 @@
       "// --------- ${2:ApiName} END ---------",
       ""
     ],
-    "description": "apic onfig snippet"
+    "description": "snippet for API config"
   }
 }
