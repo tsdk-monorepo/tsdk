@@ -94,6 +94,7 @@ export function genRouteFactory<APIConfig, RequestInfo>(
       msgId: string;
       send: ReturnType<typeof sendFactory>;
       config: APIConfig;
+      payload?: any;
     }
   ) => void,
   protocolType: ProtocolType,
@@ -142,6 +143,7 @@ export function genRouteFactory<APIConfig, RequestInfo>(
           msgId,
           send,
           config: apiConfig,
+          payload,
         });
       }
     }
