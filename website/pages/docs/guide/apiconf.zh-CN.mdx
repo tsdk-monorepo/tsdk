@@ -3,7 +3,7 @@
 `APIConfig` 定义了 tsdk 的 API 基本配置规范，内容如下：
 
 ```ts filename="src/shared/tsdk-types.ts" copy
-import { z } from 'zod';
+import * as z from 'zod';
 
 export const APITypes = {
   user: 'user',

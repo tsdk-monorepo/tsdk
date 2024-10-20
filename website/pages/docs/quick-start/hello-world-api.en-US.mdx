@@ -166,7 +166,7 @@ import { Callout } from 'nextra/components';
 </Callout>
 
 ```ts filename="server/src/Hello.apiconf.ts" copy
-import { z } from 'zod';
+import * as z from 'zod';
 import { APIConfig, transformPath } from '@/src/shared/tsdk-helper';
 
 /**

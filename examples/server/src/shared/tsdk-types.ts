@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import * as z from 'zod';
 
 export interface APIConfig {
   /** The API type. Like: user side or admin side, required. */
