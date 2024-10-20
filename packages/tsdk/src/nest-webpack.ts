@@ -200,7 +200,10 @@ async function getNestProjectsConfig() {
   );
   const nestjsFilepathExists = await fsExtra.pathExists(nestjsFilepath);
   if (!nestjsFilepathExists) {
-    throw new Error(`install \`@nestjs/cli\` first`);
+    // check again without `monorepoRoot`
+    const nestjsFilepath = path.resolve(cwd, 'node_modules/@nestjs/cli/package.json');
+    const nestjsFilepathExists = await fsExtra.pathExists(nestjsFilepath);
+    if (!nestjsFilepathExists) throw new Error(`install \`@nestjs/cli\` first`);
   }
 
   const nestConfigFilepath = path.resolve(cwd, './nest-cli.json');
