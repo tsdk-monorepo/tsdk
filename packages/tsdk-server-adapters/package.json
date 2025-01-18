@@ -1,6 +1,6 @@
 {
   "name": "tsdk-server-adapters",
-  "version": "0.2.4",
+  "version": "0.3.0",
   "main": "lib/index.js",
   "repository": "tsdk-monorepo/tsdk",
   "bugs": "https://github.com/tsdk-monorepo/tsdk/issues",
