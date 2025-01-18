@@ -98,11 +98,11 @@ async function reconfigPkg() {
       : [config.entityLibName || 'typeorm']
     )?.find((item) => item === 'kysely')
   ) {
-    pkgContent.dependencies.kysely = '^0.27.4';
+    pkgContent.dependencies.kysely = '^0.27.5';
   }
   const dataHookLib = config.dataHookLib?.toLowerCase();
   if (dataHookLib === 'swr') {
-    pkgContent.dependencies.swr = '^2.2.5';
+    pkgContent.dependencies.swr = '^2.3.0';
   } else if (dataHookLib === 'reactquery') {
     pkgContent.dependencies['@tanstack/react-query'] = '^5.56.2';
   }

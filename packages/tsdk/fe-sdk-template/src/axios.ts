@@ -34,7 +34,7 @@ export async function axiosHandler(
   requestData: any,
   requestConfig?: RequestConfig<any>
 ) {
-  const axiosInstance = getAxiosInstance();
+  const instance = getAxiosInstance();
   if (!axiosInstance) {
     throw new NoHandlerError(`Call \`setAxiosInstance\` first`);
   }
@@ -69,6 +69,6 @@ export async function axiosHandler(
     payload.url = pathParams(path, requestData, (apiConfig as any).paramsInUrl);
   }
 
-  const { data } = await axiosInstance.request(payload);
+  const { data } = await instance.request(payload);
   return data;
 }

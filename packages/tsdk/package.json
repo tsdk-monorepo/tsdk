@@ -58,7 +58,7 @@
     "@configs/ts-config": "workspace:*",
     "@types/fs-extra": "^11.0.4",
     "@types/webpack-node-externals": "^3.0.0",
-    "webpack": "^5.91.0",
+    "webpack": "^5.97.1",
     "webpack-node-externals": "^3.0.0",
     "typescript": "^5",
     "@tsconfig/recommended": "^1.0.7"

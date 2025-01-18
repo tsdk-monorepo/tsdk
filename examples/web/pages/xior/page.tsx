@@ -9,7 +9,7 @@ import {
 import { QueryTodoRes } from 'fe-sdk-demo/lib/apiconf-refs';
 import { TodoStatus } from 'fe-sdk-demo/lib/modules/todo/Todo.entity';
 import { AddTodo, QueryTodo } from 'fe-sdk-demo/lib/user-api';
-import { useQueryTodo } from 'fe-sdk-demo/lib/user-api-hooks';
+import { useQueryTodo, useDeleteTodo } from 'fe-sdk-demo/lib/user-api-hooks';
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
 // eslint-disable-next-line import/namespace
@@ -37,6 +37,8 @@ export default function Home() {
   const [handlerName, setHanlderName] = useState('');
   const [result, setResult] = useState<QueryTodoRes>();
   const { data } = useQueryTodo(handlerName ? {} : undefined);
+
+  const { mutate: deleteTodo } = useDeleteTodo();
 
   useEffect(() => {
     const io = SocketIO(socketURL, {
