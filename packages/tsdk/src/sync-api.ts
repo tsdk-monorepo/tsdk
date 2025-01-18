@@ -200,14 +200,14 @@ return useSWR(
                 ${name}Res,
                 Error,
                 string,
-                ${name}Req
+                ${name}Req | FormData
               >,
-              requestConfig?: AxiosRequestConfig<${name}Req>,
+              requestConfig?: AxiosRequestConfig<${name}Req | FormData>,
               customHandler?: Handler,
             ) {
               return useSWRMutation(
                 ${name}.config.path,
-                (url, { arg }: { arg: ${name}Req }) => {
+                (url, { arg }: { arg: ${name}Req | FormData }) => {
                   return ${name}(arg, requestConfig, customHandler);
                 },
                 options
@@ -257,11 +257,11 @@ return useSWR(
                 options?: UseMutationOptions<
                   ${name}Res,
                   Error,
-                  ${name}Req,
+                  ${name}Req | FormData,
                   unknown
                 >,
                 queryClient?: QueryClient,
-                requestConfig?: AxiosRequestConfig<${name}Req>,
+                requestConfig?: AxiosRequestConfig<${name}Req | FormData>,
                 customHandler?: Handler,
               ) {
                 return useMutation(
