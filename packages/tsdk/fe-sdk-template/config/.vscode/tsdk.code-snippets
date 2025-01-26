@@ -22,21 +22,42 @@
       "  method: '${5|get,post,delete,put,patch,head,options|}',",
       "  path: transformPath('${2:ApiName}'),",
       "  description: '${1:description}',",
-      "  category: '${3:Category}',",
-      "  needAuth: true",
+      "  category: '${3:Category}'",
       "};",
       "/**",
+      " *",
       " * @category ${3:Category}",
       " */",
       "export type ${2:ApiName}Req = ${8:{\\}};",
       "",
       "/**",
+      " *",
       " * @category ${3:Category}",
       " */",
       "export type ${2:ApiName}Res = ${9:{\\}};",
       "// --------- ${2:ApiName} END ---------",
       ""
     ],
-    "description": "snippet for API config"
+    "description": "apic onfig snippet"
+  },
+  "importApiConf": {
+    "scope": "typescript",
+    "prefix": "apin",
+    "body": [
+      "${1:name}Config,",
+      "${1:name}Req,",
+      "${1:name}Res,",
+    ],
+    "description": "apic onfig name snippet"
+  },
+  "genRoute": {
+    "scope": "typescript",
+    "prefix": "genr",
+    "body": [
+      "genRoute<${1:name}Req, ${1:name}Res>(${1:name}Config, async (data, reqInfo) => {",
+      "  return ${2://service}(data, reqInfo);",
+      "});"
+    ],
+    "description": "genRoute<Req, Res>() snippet"
   }
 }
