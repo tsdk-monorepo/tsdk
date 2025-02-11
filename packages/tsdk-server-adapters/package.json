@@ -6,7 +6,7 @@
   "bugs": "https://github.com/tsdk-monorepo/tsdk/issues",
   "homepage": "https://tsdk.dev",
   "scripts": {
-    "start-publish": "npm run build && npm publish --registry=https://registry.npmjs.org",
+    "start-publish": "npm run build && npm publish --access public --no-git-checks --provenance --registry=https://registry.npmjs.org",
     "build": "rm -rf lib && tsc --project tsconfig.json && rm -rf lib/tests",
     "lint": "eslint . --ext .ts,.tsx --fix",
     "checktype": "tsc --noEmit",
