@@ -41,7 +41,7 @@
     "description": "apic onfig snippet"
   },
   "importApiConf": {
-    "scope": "typescript",
+    "scope": "typescriptreact,typescript",
     "prefix": "apin",
     "body": [
       "${1:name}Config,",
