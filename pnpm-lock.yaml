@@ -7,7 +7,7 @@ settings:
 overrides:
   uuid: ^3.4.0
   '@babel/traverse': '>=7.23.2'
-  xior: ^0.6.2
+  xior: ^0.6.3
 
 importers:
 
@@ -153,10 +153,10 @@ importers:
         version: link:../../packages/tsdk-server-adapters
       typeorm:
         specifier: ^0.3.20
-        version: 0.3.20(better-sqlite3@9.6.0)(ts-node@10.9.2(@types/node@18.19.33)(typescript@5.3.3))
+        version: 0.3.20(better-sqlite3@9.6.0)(ts-node@10.9.2(@types/node@18.19.33)(typescript@5.4.5))
       typeorm-cursor-pagination:
         specifier: ^0.10.1
-        version: 0.10.1(typeorm@0.3.20(better-sqlite3@9.6.0)(ts-node@10.9.2(@types/node@18.19.33)(typescript@5.3.3)))
+        version: 0.10.1(typeorm@0.3.20(better-sqlite3@9.6.0)(ts-node@10.9.2(@types/node@18.19.33)(typescript@5.4.5)))
       utf-8-validate:
         specifier: ^6.0.3
         version: 6.0.3
@@ -195,8 +195,8 @@ importers:
   examples/server/packages/fe-sdk-demo:
     dependencies:
       '@tanstack/react-query':
-        specifier: ^5.56.2
-        version: 5.56.2(react@18.2.0)
+        specifier: ^5.66.9
+        version: 5.66.9(react@18.2.0)
       axios:
         specifier: ^1.7.9
         version: 1.7.9
@@ -216,8 +216,8 @@ importers:
         specifier: ^4.8.0
         version: 4.8.0(bufferutil@4.0.8)(utf-8-validate@6.0.3)
       xior:
-        specifier: ^0.6.2
-        version: 0.6.2
+        specifier: ^0.6.3
+        version: 0.6.3
       zod:
         specifier: ^3.24.1
         version: 3.24.1
@@ -256,8 +256,8 @@ importers:
         specifier: ^4.8.0
         version: 4.8.0(bufferutil@4.0.8)(utf-8-validate@6.0.3)
       xior:
-        specifier: ^0.6.2
-        version: 0.6.2
+        specifier: ^0.6.3
+        version: 0.6.3
     devDependencies:
       '@configs/eslint-config':
         specifier: workspace:*
@@ -410,8 +410,8 @@ importers:
         specifier: ^4.8.0
         version: 4.8.0(bufferutil@4.0.8)(utf-8-validate@6.0.3)
       xior:
-        specifier: ^0.6.2
-        version: 0.6.2
+        specifier: ^0.6.3
+        version: 0.6.3
       zod:
         specifier: ^3.24.1
         version: 3.24.1
@@ -1221,11 +1221,11 @@ packages:
   '@swc/helpers@0.5.2':
     resolution: {integrity: sha512-E4KcWTpoLHqwPHLxidpOqQbcrZVgi0rsmmZXUle1jXmJfuIf/UWpczUJ7MZZ5tlxytgJXyp0w4PGkkeLiuIdZw==}
 
-  '@tanstack/query-core@5.56.2':
-    resolution: {integrity: sha512-gor0RI3/R5rVV3gXfddh1MM+hgl0Z4G7tj6Xxpq6p2I03NGPaJ8dITY9Gz05zYYb/EJq9vPas/T4wn9EaDPd4Q==}
+  '@tanstack/query-core@5.66.4':
+    resolution: {integrity: sha512-skM/gzNX4shPkqmdTCSoHtJAPMTtmIJNS0hE+xwTTUVYwezArCT34NMermABmBVUg5Ls5aiUXEDXfqwR1oVkcA==}
 
-  '@tanstack/react-query@5.56.2':
-    resolution: {integrity: sha512-SR0GzHVo6yzhN72pnRhkEFRAHMsUo5ZPzAxfTMvUxFIDVS6W9LYUp6nXW3fcHVdg0ZJl8opSH85jqahvm6DSVg==}
+  '@tanstack/react-query@5.66.9':
+    resolution: {integrity: sha512-NRI02PHJsP5y2gAuWKP+awamTIBFBSKMnO6UVzi03GTclmHHHInH5UzVgzi5tpu4+FmGfsdT7Umqegobtsp23A==}
     peerDependencies:
       react: ^18 || ^19
 
@@ -5966,8 +5966,8 @@ packages:
       utf-8-validate:
         optional: true
 
-  xior@0.6.2:
-    resolution: {integrity: sha512-1tb//3L7ARved6FbwxwptrdJucRkZiOolxBjIUFltlNcDbtMM8MPw4V18Nbkeus2g+S4LT3XRuFjWZyPMlGp0A==}
+  xior@0.6.3:
+    resolution: {integrity: sha512-WxDMGk7W2duFoCS0M59Pll/BIGfWiadZp4MMEY0/56K+3Vz400DUTiEZLpuaVcSnv+pCSz05MJz8kohn8wivhg==}
 
   xml-name-validator@5.0.0:
     resolution: {integrity: sha512-EvGK8EJ3DhaHfbRlETOWAS5pO9MZITeauHKJyb8wyajUfQUenkIg2MvLDTZ4T/TgIcm3HU0TFBgWWboAZ30UHg==}
@@ -6715,11 +6715,11 @@ snapshots:
     dependencies:
       tslib: 2.6.2
 
-  '@tanstack/query-core@5.56.2': {}
+  '@tanstack/query-core@5.66.4': {}
 
-  '@tanstack/react-query@5.56.2(react@18.2.0)':
+  '@tanstack/react-query@5.66.9(react@18.2.0)':
     dependencies:
-      '@tanstack/query-core': 5.56.2
+      '@tanstack/query-core': 5.66.4
       react: 18.2.0
 
   '@tanstack/react-virtual@3.5.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
@@ -11926,25 +11926,6 @@ snapshots:
     optionalDependencies:
       tsconfig-paths: 3.15.0
 
-  ts-node@10.9.2(@types/node@18.19.33)(typescript@5.3.3):
-    dependencies:
-      '@cspotcode/source-map-support': 0.8.1
-      '@tsconfig/node10': 1.0.11
-      '@tsconfig/node12': 1.0.11
-      '@tsconfig/node14': 1.0.3
-      '@tsconfig/node16': 1.0.4
-      '@types/node': 18.19.33
-      acorn: 8.11.3
-      acorn-walk: 8.3.2
-      arg: 4.1.3
-      create-require: 1.1.1
-      diff: 4.0.2
-      make-error: 1.3.6
-      typescript: 5.3.3
-      v8-compile-cache-lib: 3.0.1
-      yn: 3.1.1
-    optional: true
-
   ts-node@10.9.2(@types/node@18.19.33)(typescript@5.4.5):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
@@ -12074,11 +12055,11 @@ snapshots:
       typescript: 5.4.5
       yaml: 2.7.0
 
-  typeorm-cursor-pagination@0.10.1(typeorm@0.3.20(better-sqlite3@9.6.0)(ts-node@10.9.2(@types/node@18.19.33)(typescript@5.3.3))):
+  typeorm-cursor-pagination@0.10.1(typeorm@0.3.20(better-sqlite3@9.6.0)(ts-node@10.9.2(@types/node@18.19.33)(typescript@5.4.5))):
     dependencies:
-      typeorm: 0.3.20(better-sqlite3@9.6.0)(ts-node@10.9.2(@types/node@18.19.33)(typescript@5.3.3))
+      typeorm: 0.3.20(better-sqlite3@9.6.0)(ts-node@10.9.2(@types/node@18.19.33)(typescript@5.4.5))
 
-  typeorm@0.3.20(better-sqlite3@9.6.0)(ts-node@10.9.2(@types/node@18.19.33)(typescript@5.3.3)):
+  typeorm@0.3.20(better-sqlite3@9.6.0)(ts-node@10.9.2(@types/node@18.19.33)(typescript@5.4.5)):
     dependencies:
       '@sqltools/formatter': 1.2.5
       app-root-path: 3.1.0
@@ -12097,7 +12078,7 @@ snapshots:
       yargs: 17.7.2
     optionalDependencies:
       better-sqlite3: 9.6.0
-      ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.3.3)
+      ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.4.5)
     transitivePeerDependencies:
       - supports-color
 
@@ -12567,7 +12548,7 @@ snapshots:
       bufferutil: 4.0.8
       utf-8-validate: 6.0.3
 
-  xior@0.6.2:
+  xior@0.6.3:
     dependencies:
       tiny-lru: 11.2.6
       ts-deepmerge: 7.0.0
