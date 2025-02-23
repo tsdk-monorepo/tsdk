@@ -8,11 +8,8 @@ import symbols from './symbols';
 import { copyPermissionsJSON, deleteSDKFolder, syncAPI } from './sync-api';
 import { addDepsIfNone, copyTsdkConfig, syncFiles } from './sync-files';
 
-export async function run() {
-  const params = process.argv.filter((i) => i.startsWith('--'));
-
-  const commands: { [key: string]: any } = {
-    help: `
+const cliCommands: Record<string, string> = {
+  help: `
 Usage
   $ tsdk
 
@@ -22,7 +19,7 @@ Options
   --sync sync files and generate api
   --sync --no-overwrite default is overwrite with template files(no overwrite for create custom files)
   --nest run nest command, only support build
-  --version the verison info
+  --version the version info
 
 Examples
   $ tsdk --version
@@ -35,15 +32,16 @@ Examples
   $ tsdk --nest build [name] [name]
   $ tsdk --nest build all
 `,
-    init: `init \`tsdk\` config file`,
-    sync: `generate api`,
-    nest: `@nestjs/cli enchance`,
-  };
+  init: `init \`tsdk\` config file`,
+  sync: `generate api`,
+  nest: `@nestjs/cli enchance`,
+};
 
-  const validProjectMsg = `Please run \`tsdk\` in a valid TypeScript project's root directory.`;
+const validProjectMsg = `Please run \`tsdk\` in a valid TypeScript project's root directory.`;
 
+async function handleCommand(params: string[]) {
   if (params.length === 0 || params[0] === '--help') {
-    console.log(commands.help);
+    console.log(cliCommands.help);
 
     if (!tsconfigExists) {
       console.log(symbols.warning, validProjectMsg, '\n');
@@ -52,13 +50,12 @@ Examples
     await parsePkg();
     console.log(`${pkg.name}@${pkg.version}`);
   } else if (!tsconfigExists) {
-    console.log('\n', 'Error: >> ', symbols.error, validProjectMsg, '\n');
+    console.log(`\nError: >> ${symbols.error} ${validProjectMsg}\n`);
   } else if (params[0] === `--init`) {
     await copyTsdkConfig();
-    console.log(symbols.success, '`tsdk.config.js` copied!');
+    console.log(`${symbols.success} \`tsdk.config.js\` copied!`);
     console.log(
-      symbols.info,
-      `You can edit and generate the SDK package with \`${
+      `${symbols.info} You can edit and generate the SDK package with \`${
         getNpmCommand(process.cwd()).npxCmd
       } tsdk --sync\``
     );
@@ -70,16 +67,21 @@ Examples
     await syncFiles(noOverwrite);
     console.log('\n\n', symbols.bullet, 'build configs for generate APIs');
     await buildSDK(true);
-    console.log(symbols.success, 'build configs for generate APIs');
+    console.log(`${symbols.success} build configs for generate APIs`);
     await syncAPI();
     console.log('\n\n', symbols.bullet, 'build files');
     await buildSDK();
-    console.log(symbols.success, 'build files\n');
+    console.log(`${symbols.success} build files\n`);
     await Promise.all([copyPermissionsJSON(), removeFields()]);
     await runPrettier();
   } else if (params[0] === `--nest`) {
     runNestCommand();
   }
+}
+
+export async function run() {
+  const params = process.argv.filter((i) => i.startsWith('--'));
+  await handleCommand(params);
 }
 
 run();

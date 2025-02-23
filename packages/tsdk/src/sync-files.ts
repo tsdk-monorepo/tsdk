@@ -102,9 +102,9 @@ async function reconfigPkg() {
   }
   const dataHookLib = config.dataHookLib?.toLowerCase();
   if (dataHookLib === 'swr') {
-    pkgContent.dependencies.swr = '^2.3.0';
+    pkgContent.dependencies.swr = '^2.3.2';
   } else if (dataHookLib === 'reactquery') {
-    pkgContent.dependencies['@tanstack/react-query'] = '^5.56.2';
+    pkgContent.dependencies['@tanstack/react-query'] = '^5.66.9';
   }
 
   if (config.dependencies) {
