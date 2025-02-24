@@ -4,8 +4,8 @@ import path from 'path';
 import { config, packageFolder } from './config';
 
 export async function runPrettier() {
-  const rootDir = path.posix.resolve(process.cwd(), config.monorepoRoot || './');
-  const formatDir = path.posix.resolve(process.cwd(), config.packageDir, packageFolder);
+  const rootDir = path.resolve(process.cwd(), config.monorepoRoot || './');
+  const formatDir = path.resolve(process.cwd(), config.packageDir, packageFolder);
 
   try {
     // prettier 3.x

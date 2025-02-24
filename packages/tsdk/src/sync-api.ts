@@ -4,20 +4,17 @@ import path from 'path';
 import { config, ensureDir, packageFolder } from './config';
 import symbols from './symbols';
 
-export const baseDir = path.posix.join(
-  path.posix.relative(path.posix.dirname(__filename), process.cwd()),
-  ensureDir
-);
+export const baseDir = path.join(path.relative(path.dirname(__filename), process.cwd()), ensureDir);
 
 export function deleteSDKFolder() {
-  return fsExtra.remove(path.posix.resolve(process.cwd(), config.packageDir, packageFolder));
+  return fsExtra.remove(path.resolve(process.cwd(), config.packageDir, packageFolder));
 }
 
 export async function syncAPI() {
   console.log(symbols.bullet, 'generating APIs');
   await replaceGenAPI();
-  const pkgJSON = require(path.posix.join(baseDir, 'package.json'));
-  const apiconfs = require(path.posix.join(baseDir, 'lib', `${config.apiconfExt}-refs`));
+  const pkgJSON = require(path.join(baseDir, 'package.json'));
+  const apiconfs = require(path.join(baseDir, 'lib', `${config.apiconfExt}-refs`));
 
   const keys = Object.keys(apiconfs);
   keys.sort();
@@ -300,7 +297,7 @@ return useSWR(
       ${bodyStr}
     `;
 
-      fsExtra.writeFileSync(path.posix.join(ensureDir, `src`, `${apiType}-api.ts`), content);
+      fsExtra.writeFileSync(path.join(ensureDir, `src`, `${apiType}-api.ts`), content);
 
       const dataHookContent = `
     ${dataHookHeadStr}
@@ -323,7 +320,7 @@ return useSWR(
     `;
 
       fsExtra.writeFileSync(
-        path.posix.join(ensureDir, `src`, `${apiType}-api-hooks.ts`),
+        path.join(ensureDir, `src`, `${apiType}-api-hooks.ts`),
         dataHookContent
       );
     }
@@ -349,7 +346,7 @@ return useSWR(
   });
 
   await fsExtra.writeFile(
-    path.posix.join(ensureDir, 'src', `permissions.json`),
+    path.join(ensureDir, 'src', `permissions.json`),
     JSON.stringify(exportPermissions, null, 2)
   );
 
@@ -364,13 +361,13 @@ return useSWR(
   const projectName = `%PROJECT NAME%`;
   try {
     let getStartedContent = await fsExtra.readFile(
-      path.posix.join(__dirname, '..', 'fe-sdk-template', 'README.md'),
+      path.join(__dirname, '..', 'fe-sdk-template', 'README.md'),
       'utf-8'
     );
     getStartedContent = getStartedContent
       .replace(new RegExp(projectName, 'g'), config.packageName)
       .replace('%API_REFERENCE%', links.join('\n'));
-    await fsExtra.writeFile(path.posix.join(ensureDir, 'README.md'), getStartedContent);
+    await fsExtra.writeFile(path.join(ensureDir, 'README.md'), getStartedContent);
     console.log(symbols.success, 'Docs config');
   } catch (e: unknown) {
     if (e instanceof Error) {
@@ -380,16 +377,16 @@ return useSWR(
 }
 
 export function copyPermissionsJSON() {
-  const dist = path.posix.join(ensureDir, `lib`, `permissions.json`);
+  const dist = path.join(ensureDir, `lib`, `permissions.json`);
   console.log(symbols.info, `copy \`permission.json\` to \`${dist}\``);
-  return fsExtra.copy(path.posix.join(ensureDir, `src`, `permissions.json`), dist, {
+  return fsExtra.copy(path.join(ensureDir, `src`, `permissions.json`), dist, {
     overwrite: true,
   });
 }
 
 export async function replaceGenAPI() {
   if (config.httpLib === 'xior') {
-    const genAPIfile = path.posix.join(ensureDir, 'src', 'gen-api.ts');
+    const genAPIfile = path.join(ensureDir, 'src', 'gen-api.ts');
     const res = await fsExtra.readFile(genAPIfile, 'utf-8');
     return fsExtra.writeFile(
       genAPIfile,
