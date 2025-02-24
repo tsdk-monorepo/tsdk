@@ -4,10 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-overrides:
-  uuid: ^3.4.0
-  xior: ^0.6.3
-
 importers:
 
   .:
@@ -4524,9 +4520,12 @@ packages:
     resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
     engines: {node: '>= 0.4.0'}
 
-  uuid@3.4.0:
-    resolution: {integrity: sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==}
-    deprecated: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
+  uuid@8.3.2:
+    resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
+    hasBin: true
+
+  uuid@9.0.1:
+    resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==}
     hasBin: true
 
   v8-compile-cache-lib@3.0.1:
@@ -8411,7 +8410,7 @@ snapshots:
       dequal: 2.0.3
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
-      uuid: 3.4.0
+      uuid: 8.3.2
 
   react-diff-viewer-continued@4.0.5(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
@@ -9106,7 +9105,7 @@ snapshots:
       reflect-metadata: 0.2.2
       sha.js: 2.4.11
       tslib: 2.6.2
-      uuid: 3.4.0
+      uuid: 9.0.1
       yargs: 17.7.2
     optionalDependencies:
       better-sqlite3: 11.8.1
@@ -9181,7 +9180,9 @@ snapshots:
 
   utils-merge@1.0.1: {}
 
-  uuid@3.4.0: {}
+  uuid@8.3.2: {}
+
+  uuid@9.0.1: {}
 
   v8-compile-cache-lib@3.0.1:
     optional: true

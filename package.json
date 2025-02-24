@@ -15,7 +15,7 @@
     "build:web-example": "pnpm --filter server-example --filter web-example build",
     "serve:web-example": "pnpm build:web-example && pnpm --filter server-example --filter web-example serve",
     "start-publish": "pnpm --filter tsdk --filter tsdk-server-adapters start-publish",
-    "prepare": "is-ci || husky install"
+    "prepare": "is-ci || husky"
   },
   "devDependencies": {
     "husky": "^9.1.7",
