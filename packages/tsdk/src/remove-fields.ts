@@ -8,10 +8,13 @@ export async function removeFields() {
   if (!config.removeFields || config.removeFields.length === 0) return;
 
   const jsPattern = path.join(ensureDir, `lib/**/*.${config.apiconfExt}.js`).replace(/\\/g, '/');
+  const jsPatternForEsm = path
+    .join(ensureDir, `esm/**/*.${config.apiconfExt}.js`)
+    .replace(/\\/g, '/');
 
   const removeFields = config.removeFields ?? ['needAuth', 'category', 'description', 'type'];
 
-  const files = await glob([jsPattern]);
+  const files = await glob([jsPattern, jsPatternForEsm]);
   await Promise.all(
     files.map(async (file) => {
       const content = await fsExtra.readFile(file, 'utf8');

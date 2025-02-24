@@ -16,7 +16,7 @@ export interface TSDKConfig {
   monorepoRoot?: string;
   /** default: xior */
   httpLib?: 'xior' | 'axios';
-  dataHookLib?: 'SWR' | 'ReactQuery';
+  dataHookLib?: 'SWR' | 'ReactQuery' | 'VueReactQuery';
   /** custom dependencies or override */
   dependencies?: { [key: string]: string };
   devDependencies?: { [key: string]: string };
