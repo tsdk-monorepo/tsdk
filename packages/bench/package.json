@@ -15,7 +15,7 @@
     "checktype": "tsc --noEmit"
   },
   "dependencies": {
-    "tsdk-server-adapters": "^0.1.15",
+    "tsdk-server-adapters": "^0.3.0",
     "change-case": "^4.1.2",
     "express": "^4.21.0",
     "zod": "^3.23.8",

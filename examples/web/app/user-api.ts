@@ -1,5 +1,5 @@
-import { setHandler } from 'fe-sdk-demo/src/gen-api';
-import { xiorHandler, setXiorInstance } from 'fe-sdk-demo/src/xior';
+import { setHandler } from 'fe-sdk-demo/esm/gen-api';
+import { xiorHandler, setXiorInstance } from 'fe-sdk-demo/esm/xior';
 import axios, { XiorError as AxiosError } from 'xior';
 
 const baseURL =
@@ -37,8 +37,8 @@ export function setupUserApi() {
   setHandler(xiorHandler);
 }
 
-export * from 'fe-sdk-demo/src/user-api';
-export * from 'fe-sdk-demo/src/user-api-hooks';
-export * from 'fe-sdk-demo/src/apiconf-refs';
-export * from 'fe-sdk-demo/src/entity-refs';
-export * from 'fe-sdk-demo/src/shared-refs';
+export * from 'fe-sdk-demo/esm/user-api';
+export * from 'fe-sdk-demo/esm/user-api-hooks';
+export * from 'fe-sdk-demo/esm/apiconf-refs';
+export * from 'fe-sdk-demo/esm/entity-refs';
+export * from 'fe-sdk-demo/esm/shared-refs';

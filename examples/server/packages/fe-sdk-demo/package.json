@@ -1,14 +1,17 @@
 {
   "name": "fe-sdk-demo",
   "version": "1.0.0",
-  "main": "lib/index.js",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "require": "./lib/index.js",
   "scripts": {
-    "tsc:build": "tsc --project tsconfig.json",
+    "tsc:build": "tsc --project tsconfig.json && npm run tsc:build:esm",
+    "tsc:build:esm": "tsc --project tsconfig.esm.json",
     "doc:build": "typedoc src/**.ts --plugin ./hover.mjs && node write-popover.mjs",
     "serve": "serve docs"
   },
   "dependencies": {
-    "zod": "^3.24.1",
+    "zod": "^3.24.2",
     "axios": "^1.7.9",
     "xior": "^0.6.3",
     "change-case": "^4.1.2",
@@ -19,7 +22,7 @@
   },
   "devDependencies": {
     "typescript": "^5",
-    "typedoc": "^0.27.6",
+    "typedoc": "^0.27.8",
     "@tsconfig/recommended": "^1.0.8"
   },
   "peerDependencies": {

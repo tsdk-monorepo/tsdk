@@ -9,12 +9,13 @@
     "esModuleInterop": true,
     "declaration": true,
     "noImplicitAny": true,
-    "target": "ES5",
-    "module": "CommonJS",
-    "outDir": "lib",
-    "lib": ["DOM", "ES2015", "ES5", "dom.iterable"],
+    "module": "ES2015",
+    "target": "ES2015",
+    "outDir": "esm",
+    "lib": ["ES2015"],
     "incremental": true,
     "skipLibCheck": true,
+    "moduleResolution": "bundler",
     "resolveJsonModule": true
   },
   "include": ["./src"]
