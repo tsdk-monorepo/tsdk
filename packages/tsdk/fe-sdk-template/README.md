@@ -3,6 +3,8 @@
 ### Setup for xior.js and socket.io
 
 ```ts
+/*
+// For CommonJs
 import {
   setHandler,
   setSocketIOInstance,
@@ -10,9 +12,20 @@ import {
   setXiorInstance,
   xiorHandler,
   getHandler,
-} from '%PROJECT NAME%';
+} from '%PROJECT NAME%/lib/index';
 import type { QueryTodoRes } from '%PROJECT NAME%/lib/apiconf-refs';
 import { QueryTodo } from '%PROJECT NAME%/lib/user-api';
+*/
+import {
+  setHandler,
+  setSocketIOInstance,
+  socketIOHandler,
+  setXiorInstance,
+  xiorHandler,
+  getHandler,
+} from '%PROJECT NAME%/esm/index';
+import type { QueryTodoRes } from '%PROJECT NAME%/esm/apiconf-refs';
+import { QueryTodo } from '%PROJECT NAME%/esm/user-api';
 import { io as SocketIO } from 'socket.io-client';
 import axios from 'xior';
 
@@ -51,6 +64,8 @@ io.on('connect', async function () {
 ### Setup for axios and socket.io
 
 ```ts
+/*
+// For CommonJS
 import {
   setHandler,
   setSocketIOInstance,
@@ -58,9 +73,20 @@ import {
   setAxiosInstance,
   axiosHandler,
   getHandler,
-} from '%PROJECT NAME%';
+} from '%PROJECT NAME%/lib/index';
 import type { QueryTodoRes } from '%PROJECT NAME%/lib/apiconf-refs';
 import { QueryTodo } from '%PROJECT NAME%/lib/user-api';
+*/
+import {
+  setHandler,
+  setSocketIOInstance,
+  socketIOHandler,
+  setAxiosInstance,
+  axiosHandler,
+  getHandler,
+} from '%PROJECT NAME%/esm/index';
+import type { QueryTodoRes } from '%PROJECT NAME%/esm/apiconf-refs';
+import { QueryTodo } from '%PROJECT NAME%/esm/user-api';
 import { io as SocketIO } from 'socket.io-client';
 import axios from 'axios';
 
