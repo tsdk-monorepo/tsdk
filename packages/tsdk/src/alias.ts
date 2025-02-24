@@ -54,11 +54,11 @@ export function aliasToRelativePath({
     resolved = importPath.replace(alias, resolved);
 
     // Calculate relative path
-    const base = path.join(cwd, path.relative(cwd, config.baseUrl));
-    const current = path.dirname(filePath);
-    const target = path.join(base, resolved);
+    const base = path.posix.join(cwd, path.posix.relative(cwd, config.baseUrl));
+    const current = path.posix.dirname(filePath);
+    const target = path.posix.join(base, resolved);
 
-    let relative = path.relative(current, target).replace(/\\/g, '/');
+    let relative = path.posix.relative(current, target);
 
     // Ensure proper path format
     if (!relative.startsWith('../') && !relative.startsWith('./')) {

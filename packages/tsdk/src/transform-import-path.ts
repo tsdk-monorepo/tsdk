@@ -46,7 +46,7 @@ export function processImportPath(_importString: string, _filePath: string) {
       }
     }
 
-    const finalPath = path.join(filePath, fromPath);
+    const finalPath = path.posix.join(filePath, fromPath);
     const isEntityOrApiconf =
       importString.indexOf(`.${config.entityExt}`) > -1 ||
       importString.indexOf(`.${config.apiconfExt}`) > -1 ||
@@ -60,7 +60,7 @@ export function processImportPath(_importString: string, _filePath: string) {
       const findDir =
         isEntityOrApiconf ||
         config.sharedDirs.find((dir) => {
-          const currentShareDir = path.normalize(dir);
+          const currentShareDir = path.posix.normalize(dir);
           return finalPath.indexOf(currentShareDir) === 0;
         });
       if (!findDir) {

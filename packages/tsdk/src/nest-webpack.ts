@@ -7,7 +7,7 @@ import nodeExternals from 'webpack-node-externals';
 
 import { getNpmCommand } from './get-pkg-manager';
 
-export const tsdkConfigFilePath = path.join(process.cwd(), 'tsdk.config.js');
+export const tsdkConfigFilePath = path.posix.join(process.cwd(), 'tsdk.config.js');
 
 const defaultMainName = 'default';
 const distProjects = 'dist-projects';
@@ -32,20 +32,23 @@ async function run() {
   const cwd = process.cwd();
 
   if (command === 'build') {
-    const tsconfig = ts.readConfigFile(path.resolve(cwd, 'tsconfig.json'), ts.sys.readFile).config;
-    const outDir = path.normalize(tsconfig.compilerOptions.outDir);
+    const tsconfig = ts.readConfigFile(
+      path.posix.resolve(cwd, 'tsconfig.json'),
+      ts.sys.readFile
+    ).config;
+    const outDir = path.posix.normalize(tsconfig.compilerOptions.outDir);
     const include = tsconfig.include || [];
     const sourceMap = tsconfig.compilerOptions.sourceMap;
 
     // remove dist folder before build
     await Promise.all([
-      fsExtra.remove(path.resolve(cwd, distProjects)),
-      fsExtra.remove(path.resolve(cwd, outDir)),
+      fsExtra.remove(path.posix.resolve(cwd, distProjects)),
+      fsExtra.remove(path.posix.resolve(cwd, outDir)),
     ]);
 
     console.log(`\n[${command}]: ${names.join(', ')}`);
 
-    await copyProdPackageJSON(path.resolve(cwd, distProjects), undefined, 'default-root');
+    await copyProdPackageJSON(path.posix.resolve(cwd, distProjects), undefined, 'default-root');
     const npmCMDs = getNpmCommand(cwd);
     await Promise.all(
       names.map((name) => {
@@ -82,18 +85,18 @@ async function run() {
                 ...nestProjectConfig.output,
                 filename: nestProjectConfig.entryFile.endsWith('.js')
                   ? nestProjectConfig.entryFile
-                  : path.basename(nestProjectConfig.entryFile).replace('.ts', '') + '.js',
-                path: path.resolve(cwd, distProjects, `dist-${name}`),
+                  : path.posix.basename(nestProjectConfig.entryFile).replace('.ts', '') + '.js',
+                path: path.posix.resolve(cwd, distProjects, `dist-${name}`),
               };
 
               if (include.length === 0) {
-                nestProjectConfig.entryFile = path.join(
+                nestProjectConfig.entryFile = path.posix.join(
                   nestProjectConfig.sourceRoot,
-                  path.basename(nestProjectConfig.entryFile)
+                  path.posix.basename(nestProjectConfig.entryFile)
                 );
               }
 
-              let entry = path.resolve(
+              let entry = path.posix.resolve(
                 cwd,
                 outDir,
                 nestProjectConfig.entryFile.replace('.ts', '.js')
@@ -106,12 +109,12 @@ async function run() {
                 const errorMsg = `[${command} ${name}] Entry not found: \`${entry}\``;
                 const tmpEntry =
                   entry.indexOf('src') > -1
-                    ? path.normalize(
+                    ? path.posix.normalize(
                         path
                           .resolve(cwd, outDir, nestProjectConfig.entryFile.replace('.ts', '.js'))
                           .replace('src', '')
                       )
-                    : path.resolve(
+                    : path.posix.resolve(
                         cwd,
                         outDir,
                         'src',
@@ -139,14 +142,14 @@ async function run() {
                 output,
               });
               console.log(
-                `\n[${command} ${name}] Success webpack build, output: ./${path.join(
+                `\n[${command} ${name}] Success webpack build, output: ./${path.posix.join(
                   distProjects,
                   `dist-${name}`,
                   output.filename
                 )}`
               );
               await copyProdPackageJSON(
-                path.join(cwd, distProjects, `dist-${name}`),
+                path.posix.join(cwd, distProjects, `dist-${name}`),
                 JSON.stringify(
                   {
                     ...pkgContent,
@@ -193,7 +196,7 @@ type NestProjectsConfig = {
 
 async function getNestProjectsConfig() {
   const cwd = process.cwd();
-  const nestjsFilepath = path.resolve(
+  const nestjsFilepath = path.posix.resolve(
     cwd,
     require(tsdkConfigFilePath).monorepoRoot || './',
     'node_modules/@nestjs/cli/package.json'
@@ -201,12 +204,12 @@ async function getNestProjectsConfig() {
   const nestjsFilepathExists = await fsExtra.pathExists(nestjsFilepath);
   if (!nestjsFilepathExists) {
     // check again without `monorepoRoot`
-    const nestjsFilepath = path.resolve(cwd, 'node_modules/@nestjs/cli/package.json');
+    const nestjsFilepath = path.posix.resolve(cwd, 'node_modules/@nestjs/cli/package.json');
     const nestjsFilepathExists = await fsExtra.pathExists(nestjsFilepath);
     if (!nestjsFilepathExists) throw new Error(`install \`@nestjs/cli\` first`);
   }
 
-  const nestConfigFilepath = path.resolve(cwd, './nest-cli.json');
+  const nestConfigFilepath = path.posix.resolve(cwd, './nest-cli.json');
   const exists = await fsExtra.pathExists(nestConfigFilepath);
   if (!exists) {
     // throw new Error(`nest-cli.json doesn't exists: ${nestConfigFilepath}`);
@@ -252,7 +255,7 @@ async function getNestProjectsConfig() {
 
       target: 'node',
       output: {
-        path: path.resolve(process.cwd(), 'dist-nestjs-todo'),
+        path: path.posix.resolve(process.cwd(), 'dist-nestjs-todo'),
         filename: 'main.js',
       },
     })
@@ -287,7 +290,10 @@ export function webpackBuild({
 let pkgContent: any = {};
 async function copyProdPackageJSON(dir?: string, content?: string, name?: string) {
   if (!Object.keys(pkgContent).length) {
-    const fileContent = await fsExtra.readFile(path.resolve(process.cwd(), 'package.json'), 'utf8');
+    const fileContent = await fsExtra.readFile(
+      path.posix.resolve(process.cwd(), 'package.json'),
+      'utf8'
+    );
     const pkgJson = JSON.parse(fileContent);
     ['devDependencies', 'license', 'author', 'keywords', 'files'].forEach((k) => {
       delete pkgJson[k];
@@ -299,7 +305,7 @@ async function copyProdPackageJSON(dir?: string, content?: string, name?: string
   if (dir) {
     await fsExtra.ensureDir(dir);
     await fsExtra.writeFile(
-      path.resolve(dir, 'package.json'),
+      path.posix.resolve(dir, 'package.json'),
       content ||
         JSON.stringify(
           {

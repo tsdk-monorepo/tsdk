@@ -43,7 +43,7 @@ export function getPkgManager(baseDir: string): PackageManager {
   try {
     // Check for lock files
     for (const { lockFile, packageManager } of LOCK_FILE_CONFIGS) {
-      if (fs.existsSync(path.join(baseDir, lockFile))) {
+      if (fs.existsSync(path.posix.join(baseDir, lockFile))) {
         return packageManager;
       }
     }
