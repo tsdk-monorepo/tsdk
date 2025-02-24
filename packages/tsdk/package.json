@@ -60,11 +60,5 @@
     "typescript": "^5",
     "@tsconfig/recommended": "^1.0.8",
     "vitest": "^3.0.6"
-  },
-  "eslintConfig": {
-    "extends": [],
-    "ignorePatterns": [
-      "node_modules"
-    ]
   }
 }

@@ -31,14 +31,5 @@
     "concurrently": "^9.1.2",
     "vitest": "^3.0.6"
   },
-  "eslintConfig": {
-    "extends": [],
-    "rules": {
-      "@typescript-eslint/no-useless-constructor": 0
-    },
-    "ignorePatterns": [
-      "node_modules"
-    ]
-  },
   "license": "MIT"
 }

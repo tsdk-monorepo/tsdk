@@ -48,13 +48,5 @@
     "tsdk": "workspace:*",
     "vitest": "^3.0.6"
   },
-  "eslintConfig": {
-    "rules": {
-      "@typescript-eslint/no-useless-constructor": 0
-    },
-    "ignorePatterns": [
-      "node_modules"
-    ]
-  },
   "license": "MIT"
 }

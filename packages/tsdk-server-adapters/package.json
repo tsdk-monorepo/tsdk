@@ -54,11 +54,5 @@
       "optional": true
     }
   },
-  "eslintConfig": {
-    "extends": [],
-    "ignorePatterns": [
-      "node_modules"
-    ]
-  },
   "license": "MIT"
 }
