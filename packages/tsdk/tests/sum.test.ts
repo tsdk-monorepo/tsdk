@@ -1,10 +1,10 @@
-import { expect } from 'chai';
+import { expect, it, describe, beforeAll, afterAll, beforeEach, afterEach } from 'vitest';
 
-before(() => {
+beforeAll(() => {
   console.log('before test');
 });
 
-after(() => {
+afterAll(() => {
   console.log('after test');
 });
 

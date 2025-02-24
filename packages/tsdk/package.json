@@ -16,7 +16,7 @@
     "build": "rm -rf lib && tsc --project tsconfig.json",
     "start-website": "cd website && yarn && npm run start",
     "build-website": "cd website && yarn && npm run build",
-    "test": "cross-env NODE_ENV=test TS_CONFIG_PATHS=true ts-mocha -p tsconfig.json ./**/*.test.ts --parallel --timeout 30000",
+    "test": "vitest --run",
     "lint": "eslint . --ext .ts,.tsx --fix",
     "checktype": "tsc --noEmit"
   },
@@ -53,20 +53,16 @@
     "fs-extra": "^11.3.0"
   },
   "devDependencies": {
-    "@configs/test-config": "workspace:*",
-    "@configs/eslint-config": "workspace:*",
-    "@configs/ts-config": "workspace:*",
     "@types/fs-extra": "^11.0.4",
     "@types/webpack-node-externals": "^3.0.0",
     "webpack": "^5.97.1",
     "webpack-node-externals": "^3.0.0",
     "typescript": "^5",
-    "@tsconfig/recommended": "^1.0.7"
+    "@tsconfig/recommended": "^1.0.8",
+    "vitest": "^3.0.6"
   },
   "eslintConfig": {
-    "extends": [
-      "@configs/eslint-config/node"
-    ],
+    "extends": [],
     "ignorePatterns": [
       "node_modules"
     ]

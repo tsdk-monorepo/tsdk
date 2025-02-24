@@ -1,14 +1,14 @@
 import assert from 'assert';
-import { expect } from 'chai';
+import { expect, it, describe, beforeAll, afterAll, beforeEach, afterEach } from 'vitest';
 
 import { sum } from '@/src/shared/utils';
 
 describe('hooks', function () {
-  before(function () {
+  beforeAll(function () {
     // runs once before the first test in this block
   });
 
-  after(function () {
+  afterAll(function () {
     // runs once after the last test in this block
   });
 

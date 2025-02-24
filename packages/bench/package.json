@@ -10,33 +10,29 @@
     "start:all": "concurrently \"pnpm start express\" \"pnpm start tsdk-express\" \"pnpm start hono\" \"pnpm start tsdk-hono\" \"pnpm start trpc-express\" \"pnpm start fastify\"",
     "bench": "sh bench.sh",
     "bench-opi5": "sh bench-opi5.sh",
-    "test": "cross-env NODE_ENV=test TS_CONFIG_PATHS=true ts-mocha -p tsconfig.json src/**/*.test.ts --parallel --timeout 30000",
+    "test": "vitest --run",
     "lint": "eslint . --ext .ts,.tsx --fix",
     "checktype": "tsc --noEmit"
   },
   "dependencies": {
     "tsdk-server-adapters": "^0.3.0",
     "change-case": "^4.1.2",
-    "express": "^4.21.0",
-    "zod": "^3.23.8",
-    "hono": "^4.6.2",
-    "@hono/node-server": "^1.11.1",
-    "@trpc/server": "^10.44.1",
-    "fastify": "^5.0.0"
+    "express": "^4.21.2",
+    "zod": "^3.24.2",
+    "hono": "^4.7.2",
+    "@hono/node-server": "^1.13.8",
+    "@trpc/server": "^10.45.2",
+    "fastify": "^5.2.0"
   },
   "devDependencies": {
-    "@configs/test-config": "workspace:*",
-    "@configs/ts-config": "workspace:*",
-    "@configs/eslint-config": "workspace:*",
-    "@nestjs/cli": "^10.3.2",
+    "@nestjs/cli": "^11.0.4",
     "@types/express": "^4.17.21",
     "tsdk": "workspace:*",
-    "concurrently": "^8.2.2"
+    "concurrently": "^9.1.2",
+    "vitest": "^3.0.6"
   },
   "eslintConfig": {
-    "extends": [
-      "@configs/eslint-config/node"
-    ],
+    "extends": [],
     "rules": {
       "@typescript-eslint/no-useless-constructor": 0
     },

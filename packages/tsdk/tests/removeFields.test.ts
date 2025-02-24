@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import { expect, it, describe, beforeAll, afterAll, beforeEach, afterEach } from 'vitest';
 
 import { removeInputFields } from '../src/utils'; // Adjust the import path
 
