@@ -1,9 +1,8 @@
 import { expect, it, describe, beforeAll, afterAll, beforeEach, afterEach } from 'vitest';
+import { appDataSource } from '../../../db';
 
 import { TodoStatus } from '../Todo.entity';
 import { todoService } from '../Todo.service';
-
-import { appDataSource } from '@/src/db';
 
 beforeAll(() => {
   return appDataSource.initialize();

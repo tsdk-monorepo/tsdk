@@ -14,18 +14,18 @@
     "start:prod": "node dist/main",
     "sync-sdk": "npx tsdk --sync",
     "sync": "node ./node_modules/tsdk/bin/tsdk.js --sync",
-    "test": "vitest --run",
+    "test": "vitest --run ./src/",
     "lint": "eslint . --ext .ts,.tsx --fix",
     "checktype": "tsc --noEmit"
   },
   "dependencies": {
     "tsdk-server-adapters": "workspace:*",
-    "better-sqlite3": "^11.8.1",
+    "better-sqlite3": "9.0.0",
     "bufferutil": "^4.0.9",
     "change-case": "^4.1.2",
     "cors": "^2.8.5",
     "express": "^4.21.2",
-    "reflect-metadata": "^0.2.1",
+    "reflect-metadata": "^0.2.2",
     "socket.io": "^4.8.1",
     "typeorm": "^0.3.20",
     "kysely": "^0.27.5",
@@ -46,7 +46,10 @@
     "@types/ws": "^8.5.5",
     "socket.io-client": "^4.8.1",
     "tsdk": "workspace:*",
-    "vitest": "^3.0.6"
+    "vitest": "^3.0.6",
+    "cross-env": "^7.0.3",
+    "vite-tsconfig-paths": "^5.1.4",
+    "unplugin-swc": "^1.5.1"
   },
   "license": "MIT"
 }
