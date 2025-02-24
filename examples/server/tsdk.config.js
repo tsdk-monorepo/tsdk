@@ -5,6 +5,7 @@ module.exports = {
   baseDir: './src',
   monorepoRoot: '../../',
   entityLibName: ['typeorm', 'kysely'],
+  removeFields: ['schema', 'needAuth', 'category', 'description', 'type'],
   entityExt: 'entity',
   apiconfExt: 'apiconf',
   httpLib: 'xior',
