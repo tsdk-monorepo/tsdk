@@ -28,9 +28,12 @@ export async function syncAPI() {
   types.sort();
   const isSWR = config.dataHookLib?.toLowerCase() === 'swr';
   const isReactQuery = config.dataHookLib?.toLowerCase() === 'reactquery';
+  const isVueReactQuery = config.dataHookLib?.toLowerCase() === 'vuereactquery';
+
   types.forEach((apiType) => {
     const dataHookHeadStr = `
     ${
+      // swr
       !isSWR
         ? ''
         : `import useSWR, { SWRConfiguration } from "swr";
@@ -52,18 +55,39 @@ export async function syncAPI() {
       UndefinedInitialDataOptions,
       UseMutationOptions,
     } from "@tanstack/react-query";
-    ${
-      config.httpLib !== 'xior'
-        ? `import type { AxiosRequestConfig } from "axios";`
-        : `import type { XiorRequestConfig as AxiosRequestConfig } from "xior";`
-    }
+      ${
+        config.httpLib !== 'xior'
+          ? `import type { AxiosRequestConfig } from "axios";`
+          : `import type { XiorRequestConfig as AxiosRequestConfig } from "xior";`
+      }
     `
     }
+
+    ${
+      !isVueReactQuery
+        ? ''
+        : `import {
+      useQueryClient,
+      useQuery,
+      useMutation,
+      QueryClient,
+      UndefinedInitialQueryOptions,
+      UseMutationOptions,
+    } from "@tanstack/vue-query";
+      ${
+        config.httpLib !== 'xior'
+          ? `import type { AxiosRequestConfig } from "axios";`
+          : `import type { XiorRequestConfig as AxiosRequestConfig } from "xior";`
+      }
+    `
+    }
+
     import { Handler } from './gen-api';
     `;
     let dataHookImportStr = ``;
-    let dataHookBodyStr = isReactQuery
-      ? `
+    let dataHookBodyStr =
+      isReactQuery || isVueReactQuery
+        ? `
     let _queryClient: QueryClient;
 
     ${
@@ -73,12 +97,10 @@ export async function syncAPI() {
       _queryClient = queryClient;
     }
     `
-        : `
-    
-    `
+        : ``
     }
     `
-      : ``;
+        : ``;
 
     const headStr = `
       /** 
@@ -107,7 +129,7 @@ export async function syncAPI() {
         ? ``
         : `\nexport * from './common-api-hooks';
         ${
-          isReactQuery
+          isReactQuery || isVueReactQuery
             ? `
       import { setQueryClientForCommon } from './common-api-hooks';
       export function setQueryClient(queryClient: QueryClient) {
@@ -116,7 +138,7 @@ export async function syncAPI() {
       }
         `
             : `${
-                isReactQuery
+                isReactQuery || isVueReactQuery
                   ? `
             export function setQueryClient(queryClient: QueryClient) {
               _queryClient = queryClient;
@@ -216,7 +238,7 @@ return useSWR(
         }
         
         `;
-        } else if (isReactQuery) {
+        } else if (isReactQuery || isVueReactQuery) {
           dataHookBodyStr += `
           ${
             likeGET
@@ -228,7 +250,9 @@ return useSWR(
            */
           export function use${name}(
             payload?: ${name}Req,
-            options?: UndefinedInitialDataOptions<${name}Res | undefined, Error>,
+            options?: Omit<${
+              isReactQuery ? `UndefinedInitialDataOptions` : `UndefinedInitialQueryOptions`
+            }<${name}Res | undefined, Error>, 'queryKey' | 'queryFn'>,
             queryClient?: QueryClient,
             requestConfig?: AxiosRequestConfig<${name}Req>,
             customHandler?: Handler,

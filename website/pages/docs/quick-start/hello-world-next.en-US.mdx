@@ -114,11 +114,23 @@ Create `lib/user-api.ts` in **./next-app**:
 
 ```ts filename="next-app/lib/user-api.ts" copy
 import axios, { AxiosError } from 'axios';
-import { setHandler, setAxiosInstance, axiosHandler } from 'fe-sdk';
+/*
+// For CommonJS
+import { setHandler, setAxiosInstance, axiosHandler } from 'fe-sdk/lib/index';
 
 export * from 'fe-sdk/lib/user-api';
+export * from 'fe-sdk/lib/user-api-hooks';
 export * from 'fe-sdk/lib/apiconf-refs';
+export * from 'fe-sdk/lib/entity-refs';
 export * from 'fe-sdk/lib/shared-refs';
+*/
+import { setHandler, setAxiosInstance, axiosHandler } from 'fe-sdk/lib/index';
+
+export * from 'fe-sdk/esm/user-api';
+export * from 'fe-sdk/esm/user-api-hooks';
+export * from 'fe-sdk/esm/apiconf-refs';
+export * from 'fe-sdk/esm/entity-refs';
+export * from 'fe-sdk/esm/shared-refs';
 
 export const baseURL = process.env.API_URL || '';
 

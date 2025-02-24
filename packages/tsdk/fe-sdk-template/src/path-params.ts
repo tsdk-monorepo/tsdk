@@ -35,7 +35,7 @@ export function parseParams(path: string) {
   return result;
 }
 
-/** parse /{a}/{b} -> [{name: 'a', symbol: '{'},{name: 'b', symbol: '{'},] */
+/** parse /{a}/{b} -> [{name: 'a', symbol: '{a}'},{name: 'b', symbol: '{b}'},] */
 export function parseBracesParams(path: string) {
   const result: { name: string; symbol: string }[] = [];
   const arr = path.match(/\{(.*?)\}/g);
