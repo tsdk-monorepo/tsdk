@@ -5,10 +5,6 @@ packages:
   # configs
   - 'configs/*'
 
-  # website
-  - 'website'
-  - 'docs'
-
   # examples
   - 'examples/**'
   # exclude projects in dist folder 
