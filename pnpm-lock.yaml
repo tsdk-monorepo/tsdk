@@ -326,6 +326,9 @@ importers:
       typescript:
         specifier: ^5.7.2
         version: 5.7.3
+      vitest:
+        specifier: ^3.0.6
+        version: 3.0.6(@types/node@20.17.19)(lightningcss@1.29.1)(terser@5.39.0)
 
   packages/tsdk/fe-sdk-template:
     dependencies:

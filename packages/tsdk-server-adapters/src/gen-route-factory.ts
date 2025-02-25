@@ -1,13 +1,8 @@
-// @ts-ignore
 import EventEmitter from 'eventemitter3';
-// @ts-ignore
 import type { Response } from 'express';
-// @ts-ignore
 import type { Context } from 'hono';
 import { StatusCode } from 'hono/utils/http-status';
-// @ts-ignore
 import type { Socket } from 'socket.io';
-// @ts-ignore
 import type { WebSocket } from 'ws';
 import type { ZodTypeAny } from 'zod';
 
@@ -53,14 +48,14 @@ function sendFactory(
   protocol: Protocol,
   response: ResponseSocket,
   protocolType: ProtocolType,
-  callback?: (result: any) => void
+  callback?: (result: unknown) => void
 ) {
   return function send(payload: {
     _id: string;
     status?: number;
     result?: unknown;
     // [key: string]: unknown;
-    callback?: Function;
+    callback?: () => void;
   }) {
     // default http is express.js
     if (protocol === 'express') {
@@ -122,7 +117,7 @@ export function genRouteFactory<APIConfig, RequestInfo>(
       reqInfo: Readonly<RequestInfo>,
       response: ResponseSocket,
       { _id: msgId, payload }: { _id: string; payload: ReqData },
-      callback?: (result: any) => void
+      callback?: () => void
     ) {
       const send = sendFactory(protocol, response, protocolType, callback);
 
@@ -168,7 +163,7 @@ export function genRouteFactory<APIConfig, RequestInfo>(
           reqInfo: Readonly<RequestInfo>,
           resOrSocket: ResponseSocket,
           body: { _id: string; payload: ReqData },
-          callback?: (result: any) => void
+          callback?: () => void
         ) => {
           onEvent(i as Protocol, reqInfo, resOrSocket, body, callback);
         }
