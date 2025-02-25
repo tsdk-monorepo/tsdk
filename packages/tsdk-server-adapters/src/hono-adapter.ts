@@ -1,3 +1,4 @@
+// @ts-ignore
 import type { HonoRequest as Request, Context as HonoContext, Next as NextFunction } from 'hono';
 
 import { genRouteFactory, getRouteEventName, ObjectLiteral } from './gen-route-factory';
