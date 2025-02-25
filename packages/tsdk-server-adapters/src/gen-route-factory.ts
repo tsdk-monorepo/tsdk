@@ -1,9 +1,15 @@
 import EventEmitter from 'eventemitter3';
+// @ts-ignore
 import type { Response } from 'express';
+// @ts-ignore
 import type { Context } from 'hono';
+// @ts-ignore
 import { StatusCode } from 'hono/utils/http-status';
+// @ts-ignore
 import type { Socket } from 'socket.io';
+// @ts-ignore
 import type { WebSocket } from 'ws';
+// @ts-ignore
 import type { ZodTypeAny } from 'zod';
 
 export const PROTOCOLs = {

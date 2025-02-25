@@ -1,3 +1,4 @@
+// @ts-ignore
 import type { Socket } from 'socket.io';
 
 import {
