@@ -38,8 +38,4 @@ async function demo() {
     .select(['first_name', 'pet.name as pet_name'])
     .where('person.id', '=', id)
     .executeTakeFirst();
-
-  if (person) {
-    person.pet_name;
-  }
 }

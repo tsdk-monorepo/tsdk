@@ -39,7 +39,8 @@ export function parseParams(path: string) {
 export function parseBracesParams(path: string) {
   const result: { name: string; symbol: string }[] = [];
   const arr = path.match(/\{(.*?)\}/g);
-  arr &&
+
+  if (arr)
     arr.forEach((item) => {
       const key = item.slice(1, -1);
       result.push({

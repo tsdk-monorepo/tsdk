@@ -21,8 +21,8 @@ function onErrorHandler(
     });
   }
 
-  let status = 500,
-    msg = e.message;
+  let status = 500;
+  const msg = e.message;
 
   if (e instanceof AuthError) {
     status = 401;

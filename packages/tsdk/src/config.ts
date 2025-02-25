@@ -94,8 +94,7 @@ const tsconfigPath = path.join(process.cwd(), 'tsconfig.json');
 export const tsconfigExists = fsExtra.pathExistsSync(tsconfigPath);
 
 export const tsconfig = tsconfigExists
-  ? // eslint-disable-next-line no-eval
-    eval(`(() => (${fsExtra.readFileSync(tsconfigPath, 'utf-8')}))();`).compilerOptions
+  ? eval(`(() => (${fsExtra.readFileSync(tsconfigPath, 'utf-8')}))();`).compilerOptions
   : {};
 
 let deps: { [key: string]: string } = {};
