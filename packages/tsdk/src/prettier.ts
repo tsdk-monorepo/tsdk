@@ -12,14 +12,17 @@ export async function runPrettier() {
     execSync(`node ${rootDir}/node_modules/prettier/bin/prettier.cjs ${formatDir} --write`, {
       stdio: 'pipe',
     });
-  } catch (e) {
+    return true;
+  } catch (error) {
     try {
       // prettier 2.x
-      execSync(`node ${rootDir}/node_modules/prettier/bin-prettier ${formatDir} --write`, {
+      execSync(`node ${rootDir}/node_modules/prettier/bin-prettier.js ${formatDir} --write`, {
         stdio: 'pipe',
       });
-    } catch (e) {
-      //
+      return true;
+    } catch (error) {
+      console.error('Failed to run Prettier:', (error as Error)?.message);
+      return false;
     }
   }
 }

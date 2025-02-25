@@ -73,7 +73,9 @@ async function handleCommand(params: string[]) {
     await buildSDK();
     console.log(`${symbols.success} build files\n`);
     await Promise.all([copyPermissionsJSON(), removeFields()]);
-    await runPrettier();
+    console.log('\n\n', symbols.bullet, 'Prettier files');
+    const prettierSuccess = await runPrettier();
+    if (prettierSuccess) console.log(`${symbols.success} Prettier files\n`);
   } else if (params[0] === `--nest`) {
     runNestCommand();
   }

@@ -19,7 +19,7 @@ export async function syncAPI() {
   const keys = Object.keys(apiconfs);
   keys.sort();
 
-  const types = [...new Set(keys.map((k) => apiconfs[k].type))].filter((i) => !!i);
+  const types = [...new Set(keys.map((k) => apiconfs[k].type))].filter(Boolean);
 
   if (!types.includes('common')) {
     types.push('common');
@@ -30,7 +30,7 @@ export async function syncAPI() {
   const isReactQuery = config.dataHookLib?.toLowerCase() === 'reactquery';
   const isVueReactQuery = config.dataHookLib?.toLowerCase() === 'vuereactquery';
 
-  types.forEach((apiType) => {
+  for (const apiType of types) {
     const dataHookHeadStr = `
     ${
       // swr
@@ -84,6 +84,7 @@ export async function syncAPI() {
 
     import { Handler } from './gen-api';
     `;
+
     let dataHookImportStr = ``;
     let dataHookBodyStr =
       isReactQuery || isVueReactQuery
@@ -150,7 +151,8 @@ export async function syncAPI() {
       `;
 
     let hasContentCount = 0;
-    keys.forEach((k, idx) => {
+
+    for (const k of keys) {
       const {
         name: _name,
         path,
@@ -173,7 +175,7 @@ export async function syncAPI() {
         `;
         bodyStr += `
           /** 
-           * ${description}
+           * ${description || 'No description provided'}
            * 
            * @category ${category}
            */
@@ -185,56 +187,56 @@ export async function syncAPI() {
         dataHookImportStr += `
           ${name},
         `;
+
         if (isSWR) {
           dataHookBodyStr += `
         ${
           likeGET
             ? `
 /** 
- * ${description}
+ * ${description || 'No description provided'}
  * 
  * @category ${category}
  */
 export function use${name}(
-payload?: ${name}Req,
-options?: SWRConfiguration<${name}Res | undefined>,
-requestConfig?: AxiosRequestConfig<${name}Req>,
-customHandler?: Handler,
+  payload?: ${name}Req,
+  options?: SWRConfiguration<${name}Res | undefined>,
+  requestConfig?: AxiosRequestConfig<${name}Req>,
+  customHandler?: Handler,
 ) {
-return useSWR(
-  () => ({ url: ${name}.config.path, arg: payload }),
-  ({ arg }) => {
-    if (typeof arg === 'undefined') return undefined;
-    return ${name}(arg, requestConfig, customHandler);
-  },
-  options
-);
+  return useSWR(
+    () => payload ? { url: ${name}.config.path, arg: payload } : null,
+    ({ arg }) => {
+      return ${name}(arg, requestConfig, customHandler);
+    },
+    options
+  );
 }
         `
             : `
-            /** 
-             * ${description}
-             * 
-             * @category ${category}
-             */
-            export function use${name}(
-              options?: SWRMutationConfiguration<
-                ${name}Res,
-                Error,
-                string,
-                ${name}Req | FormData
-              >,
-              requestConfig?: AxiosRequestConfig<${name}Req | FormData>,
-              customHandler?: Handler,
-            ) {
-              return useSWRMutation(
-                ${name}.config.path,
-                (url, { arg }: { arg: ${name}Req | FormData }) => {
-                  return ${name}(arg, requestConfig, customHandler);
-                },
-                options
-              );
-            }`
+/** 
+ * ${description || 'No description provided'}
+ * 
+ * @category ${category}
+ */
+export function use${name}(
+  options?: SWRMutationConfiguration<
+    ${name}Res,
+    Error,
+    string,
+    ${name}Req | FormData
+  >,
+  requestConfig?: AxiosRequestConfig<${name}Req | FormData>,
+  customHandler?: Handler,
+) {
+  return useSWRMutation(
+    ${name}.config.path,
+    (url, { arg }: { arg: ${name}Req | FormData }) => {
+      return ${name}(arg, requestConfig, customHandler);
+    },
+    options
+  );
+}`
         }
         
         `;
@@ -243,61 +245,61 @@ return useSWR(
           ${
             likeGET
               ? `
-          /** 
-           * ${description}
-           * 
-           * @category ${category}
-           */
-          export function use${name}(
-            payload?: ${name}Req,
-            options?: Omit<${
-              isReactQuery ? `UndefinedInitialDataOptions` : `UndefinedInitialQueryOptions`
-            }<${name}Res | undefined, Error>, 'queryKey' | 'queryFn'>,
-            queryClient?: QueryClient,
-            requestConfig?: AxiosRequestConfig<${name}Req>,
-            customHandler?: Handler,
-          ) {
-            return useQuery(
-              {
-                ...(options || {}),
-                queryKey: [${name}.config.path, payload],
-                queryFn() {
-                  if (typeof payload === 'undefined') {
-                    return undefined;
-                  }
-                  return ${name}(payload, requestConfig, customHandler);
-                },
-              },
-              queryClient || _queryClient
-            );
-          }`
+/** 
+ * ${description || 'No description provided'}
+ * 
+ * @category ${category}
+ */
+export function use${name}(
+  payload?: ${name}Req,
+  options?: Omit<${
+    isReactQuery ? `UndefinedInitialDataOptions` : `UndefinedInitialQueryOptions`
+  }<${name}Res | undefined, Error>, 'queryKey' | 'queryFn'>,
+  queryClient?: QueryClient,
+  requestConfig?: AxiosRequestConfig<${name}Req>,
+  customHandler?: Handler,
+) {
+  return useQuery(
+    {
+      ...(options || {}),
+      queryKey: [${name}.config.path, payload],
+      queryFn() {
+        if (typeof payload === 'undefined') {
+          return undefined;
+        }
+        return ${name}(payload, requestConfig, customHandler);
+      },
+    },
+    queryClient || _queryClient
+  );
+}`
               : `
-              /** 
-               * ${description}
-               * 
-               * @category ${category}
-               */
-              export function use${name}(
-                options?: UseMutationOptions<
-                  ${name}Res,
-                  Error,
-                  ${name}Req | FormData,
-                  unknown
-                >,
-                queryClient?: QueryClient,
-                requestConfig?: AxiosRequestConfig<${name}Req | FormData>,
-                customHandler?: Handler,
-              ) {
-                return useMutation(
-                  {
-                    ...(options || {}),
-                    mutationFn(payload) {
-                      return ${name}(payload, requestConfig, customHandler);
-                    },
-                  },
-                  queryClient || _queryClient
-                );
-              }
+/** 
+ * ${description || 'No description provided'}
+ * 
+ * @category ${category}
+ */
+export function use${name}(
+  options?: UseMutationOptions<
+    ${name}Res,
+    Error,
+    ${name}Req | FormData,
+    unknown
+  >,
+  queryClient?: QueryClient,
+  requestConfig?: AxiosRequestConfig<${name}Req | FormData>,
+  customHandler?: Handler,
+) {
+  return useMutation(
+    {
+      ...(options || {}),
+      mutationFn(payload) {
+        return ${name}(payload, requestConfig, customHandler);
+      },
+    },
+    queryClient || _queryClient
+  );
+}
               `
           }
           `;
@@ -305,7 +307,7 @@ return useSWR(
 
         hasContentCount++;
       }
-    });
+    }
 
     if (hasContentCount > 0) {
       const content = `
@@ -321,7 +323,7 @@ return useSWR(
       ${bodyStr}
     `;
 
-      fsExtra.writeFileSync(path.join(ensureDir, `src`, `${apiType}-api.ts`), content);
+      await fsExtra.writeFile(path.join(ensureDir, `src`, `${apiType}-api.ts`), content);
 
       const dataHookContent = `
     ${dataHookHeadStr}
@@ -343,12 +345,12 @@ return useSWR(
     ${dataHookBodyStr}
     `;
 
-      fsExtra.writeFileSync(
+      await fsExtra.writeFile(
         path.join(ensureDir, `src`, `${apiType}-api-hooks.ts`),
         dataHookContent
       );
     }
-  });
+  }
 
   console.log(symbols.success, 'generated APIs');
 
@@ -356,31 +358,36 @@ return useSWR(
     [key: string]: any[];
   } = {};
 
-  keys.forEach((k) => {
+  for (const k of keys) {
     const item = apiconfs[k];
-    if (typeof item !== 'object') return;
+    if (typeof item !== 'object') continue;
+
     item.name = item.name || k.replace(/Config$/, '');
+
     if (!exportPermissions[item.type]) {
       exportPermissions[item.type] = [];
     }
+
     if (item.schema) {
       item.schema = {};
     }
+
     exportPermissions[item.type].push(item);
-  });
+  }
 
   await fsExtra.writeFile(
     path.join(ensureDir, 'src', `permissions.json`),
     JSON.stringify(exportPermissions, null, 2)
   );
 
-  console.log(symbols.bullet, 'Docs config');
+  console.log(symbols.bullet, 'Generating documentation');
   // sync APIs docs
   const links: string[] = [];
-  types.forEach((apiType) => {
-    if (apiType === 'common') return;
+
+  for (const apiType of types) {
+    if (apiType === 'common') continue;
     links.push(`- [${apiType} APIs](/modules/${apiType}_api)`);
-  });
+  }
 
   const projectName = `%PROJECT NAME%`;
   try {
@@ -392,17 +399,17 @@ return useSWR(
       .replace(new RegExp(projectName, 'g'), config.packageName)
       .replace('%API_REFERENCE%', links.join('\n'));
     await fsExtra.writeFile(path.join(ensureDir, 'README.md'), getStartedContent);
-    console.log(symbols.success, 'Docs config');
+    console.log(symbols.success, 'Documentation generated');
   } catch (e: unknown) {
     if (e instanceof Error) {
-      console.log(symbols.error, 'Docs config error', e.message);
+      console.log(symbols.error, 'Documentation generation error', e.message);
     }
   }
 }
 
-export function copyPermissionsJSON() {
+export async function copyPermissionsJSON() {
   const dist = path.join(ensureDir, `lib`, `permissions.json`);
-  console.log(symbols.info, `copy \`permission.json\` to \`${dist}\``);
+  console.log(symbols.info, `copying \`permissions.json\` to \`${dist}\``);
   return fsExtra.copy(path.join(ensureDir, `src`, `permissions.json`), dist, {
     overwrite: true,
   });

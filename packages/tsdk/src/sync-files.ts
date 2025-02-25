@@ -1,5 +1,5 @@
 import { execSync } from 'child_process';
-import glob = require('fast-glob');
+import glob from 'fast-glob';
 import fsExtra from 'fs-extra';
 import path from 'path';
 
@@ -19,7 +19,7 @@ import { transformImportPath } from './transform-import-path';
 export async function syncFiles(noOverwrite = false) {
   await copySDK(noOverwrite);
   await parseDeps();
-  await syncAddtionShareFiles();
+  await syncAdditionalSharedFiles();
   await syncAPIConf();
   await syncEntityFiles();
   await syncSharedFiles();
@@ -41,19 +41,20 @@ export async function addDepsIfNone() {
   const contentJSON = JSON.parse(content);
   const npmCMDs = await getNpmCommand(cwd);
   let needRunInstall = false;
+
   await Promise.all(
     [
       ['zod', '^3'],
       ['change-case', '^4.1.2'],
-    ].map(async ([i, version]) => {
-      if (!contentJSON.dependencies[i]) {
-        contentJSON.dependencies[i] = version;
+    ].map(async ([dependency, version]) => {
+      if (!contentJSON.dependencies[dependency]) {
+        contentJSON.dependencies[dependency] = version;
         await fsExtra.writeFile(pkgPath, JSON.stringify(contentJSON, null, 2));
         needRunInstall = true;
         console.log('');
         console.log(
           symbols.warning,
-          `\`tsdk\` depends on \`${i}\`, so automatic add \`${i}\` to dependencies`
+          `\`tsdk\` depends on \`${dependency}\`, so automatically adding \`${dependency}\` to dependencies`
         );
         console.log(
           symbols.info,
@@ -64,6 +65,7 @@ export async function addDepsIfNone() {
       return 1;
     })
   );
+
   if (needRunInstall) {
     execSync(`${npmCMDs.installCmd}`);
   }
@@ -92,6 +94,7 @@ async function reconfigPkg() {
   const pkgContent = JSON.parse(content);
 
   pkgContent.name = config.packageName;
+
   if (
     (Array.isArray(config.entityLibName)
       ? config.entityLibName
@@ -100,6 +103,7 @@ async function reconfigPkg() {
   ) {
     pkgContent.dependencies.kysely = '^0.27.5';
   }
+
   const dataHookLib = config.dataHookLib?.toLowerCase();
   if (dataHookLib === 'swr') {
     pkgContent.dependencies.swr = '^2.3.2';
@@ -115,12 +119,14 @@ async function reconfigPkg() {
       ...config.dependencies,
     };
   }
+
   if (config.devDependencies) {
     pkgContent.devDependencies = {
       ...pkgContent.devDependencies,
       ...config.devDependencies,
     };
   }
+
   if (config.scripts) {
     pkgContent.scripts = {
       ...pkgContent.scripts,
@@ -128,8 +134,7 @@ async function reconfigPkg() {
     };
   }
 
-  await Promise.all([fsExtra.writeFile(pkgPath, JSON.stringify(pkgContent, null, 2))]);
-
+  await fsExtra.writeFile(pkgPath, JSON.stringify(pkgContent, null, 2));
   await Promise.all([copyShared(), copySnippet()]);
 
   const content2 = await fsExtra.readFile('./package.json', 'utf-8');
@@ -159,7 +164,7 @@ export async function copySDK(noOverwrite: boolean) {
         process.cwd(),
         config.packageDir,
         packageFolder
-      )}\` already exist`
+      )}\` already exists`
     );
     return;
   }
@@ -196,7 +201,7 @@ export async function syncExtFiles(ext: string, isEntity = false) {
 
   const indexContentMap: { [key: string]: string } = {};
   await Promise.all(
-    files.map(async (file, idx) => {
+    files.map(async (file) => {
       const filePath = path.join(ensureDir, file.replace(`${config.baseDir}/`, 'src/'));
       const content: string = await transformImportPath(file, isEntity);
 
@@ -212,6 +217,7 @@ export async function syncExtFiles(ext: string, isEntity = false) {
       return fsExtra.writeFile(filePath, content);
     })
   );
+
   const indexContent =
     files.length > 0 ? files.map((file) => indexContentMap[file]).join('') : getDefaultContent();
 
@@ -228,8 +234,8 @@ export async function syncAPIConf() {
   return syncExtFiles(config.apiconfExt);
 }
 
-/** sync apiconf files */
-export async function syncAddtionShareFiles() {
+/** sync additional shared files */
+export async function syncAdditionalSharedFiles() {
   return syncExtFiles(config.shareExt || 'shared');
 }
 
@@ -262,7 +268,8 @@ export async function syncSharedFiles() {
       return fsExtra.writeFile(filePath, content);
     })
   );
-  const indexContent = files.map((file) => indexContentMap[file]).join('\n');
+
+  const indexContent = Object.values(indexContentMap).join('');
   await fsExtra.writeFile(
     path.join(ensureDir, `src`, `shared-refs.ts`),
     `${comment}${indexContent}`
