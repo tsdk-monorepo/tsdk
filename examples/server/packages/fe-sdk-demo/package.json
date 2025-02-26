@@ -5,7 +5,8 @@
   "types": "./lib/index.d.ts",
   "require": "./lib/index.js",
   "scripts": {
-    "tsc:build": "tsc --project tsconfig.json && npm run tsc:build:esm",
+    "tsc:build": "concurrently \"npm run tsc:build:cjs\"  \"npm run tsc:build:esm\"",
+    "tsc:build:cjs": "tsc --project tsconfig.json",
     "tsc:build:esm": "tsc --project tsconfig.esm.json",
     "doc:build": "typedoc src/**.ts --plugin ./hover.mjs && node write-popover.mjs",
     "serve": "serve docs"
@@ -24,7 +25,8 @@
   "devDependencies": {
     "typescript": "^5.7.3",
     "typedoc": "^0.27.8",
-    "@tsconfig/recommended": "^1.0.8"
+    "@tsconfig/recommended": "^1.0.8",
+    "concurrently": "^9.1.2"
   },
   "peerDependencies": {
     "socket.io-client": "^4.8.0"

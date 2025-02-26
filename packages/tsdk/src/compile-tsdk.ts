@@ -3,6 +3,16 @@ import { execSync } from 'child_process';
 import { ensureDir } from './config';
 import { getNpmCommand } from './get-pkg-manager';
 
+export async function buildConfigs(needInstall = false) {
+  const CMDs = getNpmCommand(process.cwd());
+  execSync(
+    `cd ${ensureDir} ${needInstall ? `&& ${CMDs.installCmd} ` : ``}&& ${CMDs.runCmd} tsc:build:cjs`,
+    {
+      stdio: 'inherit',
+    }
+  );
+}
+
 export async function buildSDK(needInstall = false) {
   const CMDs = getNpmCommand(process.cwd());
   execSync(

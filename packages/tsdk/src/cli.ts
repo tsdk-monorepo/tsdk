@@ -1,4 +1,4 @@
-import { buildSDK } from './compile-tsdk';
+import { buildConfigs, buildSDK } from './compile-tsdk';
 import { tsconfigExists, parsePkg } from './config';
 import { getNpmCommand } from './get-pkg-manager';
 import { runPrettier } from './prettier';
@@ -68,7 +68,7 @@ async function handleSyncCommand(noOverwrite: boolean): Promise<void> {
     await measureExecutionTime('Add dependencies if none', () => addDepsIfNone());
     await measureExecutionTime('Sync files', () => syncFiles(noOverwrite));
 
-    await measureExecutionTime('Build SDK (configs)', () => buildSDK(true));
+    await measureExecutionTime('Build SDK (configs)', () => buildConfigs(true));
 
     await measureExecutionTime('Sync API', () => syncAPI());
 

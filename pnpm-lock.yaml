@@ -166,6 +166,9 @@ importers:
       '@tsconfig/recommended':
         specifier: ^1.0.8
         version: 1.0.8
+      concurrently:
+        specifier: ^9.1.2
+        version: 9.1.2
       typedoc:
         specifier: ^0.27.8
         version: 0.27.8(typescript@5.7.3)
@@ -357,6 +360,9 @@ importers:
       '@tsconfig/recommended':
         specifier: ^1.0.8
         version: 1.0.8
+      concurrently:
+        specifier: ^9.1.2
+        version: 9.1.2
       typedoc:
         specifier: ^0.27.8
         version: 0.27.8(typescript@5.7.3)
