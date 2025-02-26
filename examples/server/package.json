@@ -41,12 +41,12 @@
     "intl-pluralrules": "^2.0.1"
   },
   "devDependencies": {
-    "@nestjs/cli": "^11.0.4",
+    "@nestjs/cli": "^11.0.5",
     "@types/express": "^4.17.21",
     "@types/ws": "^8.5.5",
     "socket.io-client": "^4.8.1",
     "tsdk": "workspace:*",
-    "vitest": "^3.0.6",
+    "vitest": "^3.0.7",
     "cross-env": "^7.0.3",
     "vite-tsconfig-paths": "^5.1.4",
     "unplugin-swc": "^1.5.1",

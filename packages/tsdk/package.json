@@ -59,6 +59,6 @@
     "webpack-node-externals": "^3.0.0",
     "typescript": "^5.7.3",
     "@tsconfig/recommended": "^1.0.8",
-    "vitest": "^3.0.6"
+    "vitest": "^3.0.7"
   }
 }
