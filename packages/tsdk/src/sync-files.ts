@@ -15,6 +15,7 @@ import {
 import { getNpmCommand } from './get-pkg-manager';
 import symbols from './symbols';
 import { transformImportPath } from './transform-import-path';
+import { replaceWindowsPath } from './utils';
 
 export async function syncFiles(noOverwrite = false) {
   await copySDK(noOverwrite);
@@ -203,9 +204,9 @@ export async function copySDK(noOverwrite: boolean) {
 export async function syncExtFiles(ext: string, isEntity = false) {
   console.log(symbols.bullet, `sync *.${ext}.ts files`);
 
-  const pattern = path
-    .join(`${path.join(...config.baseDir.split('/'))}`, `**`, `*.${ext}.ts`)
-    .replace(/\\/g, '/');
+  const pattern = replaceWindowsPath(
+    path.join(`${path.join(...config.baseDir.split('/'))}`, `**`, `*.${ext}.ts`)
+  );
   const files = await glob(pattern);
 
   files.sort();
@@ -219,12 +220,12 @@ export async function syncExtFiles(ext: string, isEntity = false) {
       await fsExtra.ensureDir(path.dirname(filePath));
 
       let fromPath = path.relative(
-        `${ensureDir}/src/`.replace(/\\/g, '/'),
+        replaceWindowsPath(`${ensureDir}/src/`),
         filePath.replace('.ts', '')
       );
       fromPath = path.normalize(fromPath);
       fromPath = fromPath.startsWith('.') ? fromPath : './' + fromPath;
-      indexContentMap[file] = `export * from '${fromPath.replace(/\\/g, '/')}';\n`;
+      indexContentMap[file] = `export * from '${replaceWindowsPath(fromPath)}';\n`;
       return fsExtra.writeFile(filePath, content);
     })
   );
@@ -255,8 +256,8 @@ export async function syncSharedFiles() {
   console.log(symbols.bullet, `sync shared files`);
 
   const files = await glob([
-    ...config.sharedDirs.map((i) => path.join(i, `**/*.*`).replace(/\\/g, '/')),
-    path.join(config.baseDir, `**/*.${config.shareExt || 'shared'}.*`).replace(/\\/g, '/'),
+    ...config.sharedDirs.map((i) => replaceWindowsPath(path.join(i, `**/*.*`))),
+    replaceWindowsPath(path.join(config.baseDir, `**/*.${config.shareExt || 'shared'}.*`)),
   ]);
   files.sort();
 
@@ -268,13 +269,13 @@ export async function syncSharedFiles() {
       await fsExtra.ensureDir(path.dirname(filePath));
 
       let fromPath = path.relative(
-        `${ensureDir}/src/`.replace(/\\/g, '/'),
+        replaceWindowsPath(`${ensureDir}/src/`),
         filePath.replace('.ts', '')
       );
       fromPath = path.normalize(fromPath);
       fromPath = fromPath.startsWith('.') ? fromPath : './' + fromPath;
       if (fromPath.indexOf('tsdk-types') < 0 && filePath.endsWith('.ts')) {
-        indexContentMap[file] = `export * from '${fromPath.replace(/\\/g, '/')}';\n`;
+        indexContentMap[file] = `export * from '${replaceWindowsPath(fromPath)}';\n`;
       }
       return fsExtra.writeFile(filePath, content);
     })

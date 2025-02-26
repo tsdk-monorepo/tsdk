@@ -3,14 +3,15 @@ import fsExtra from 'fs-extra';
 import path from 'path';
 
 import { config, ensureDir } from './config';
+import { replaceWindowsPath } from './utils';
 
 export async function removeFields() {
   if (!config.removeFields || config.removeFields.length === 0) return;
 
-  const jsPattern = path.join(ensureDir, `lib/**/*.${config.apiconfExt}.js`).replace(/\\/g, '/');
-  const jsPatternForEsm = path
-    .join(ensureDir, `esm/**/*.${config.apiconfExt}.js`)
-    .replace(/\\/g, '/');
+  const jsPattern = replaceWindowsPath(path.join(ensureDir, `lib/**/*.${config.apiconfExt}.js`));
+  const jsPatternForEsm = replaceWindowsPath(
+    path.join(ensureDir, `esm/**/*.${config.apiconfExt}.js`)
+  );
 
   const removeFields = config.removeFields ?? ['needAuth', 'category', 'description', 'type'];
 

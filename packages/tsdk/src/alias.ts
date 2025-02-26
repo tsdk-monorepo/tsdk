@@ -1,4 +1,5 @@
 import path from 'path';
+import { replaceWindowsPath } from './utils';
 
 export interface AliasToRelativePathOptions {
   filePath: string;
@@ -58,7 +59,7 @@ export function aliasToRelativePath({
     const current = path.dirname(filePath);
     const target = path.join(base, resolved);
 
-    let relative = path.relative(current, target).replace(/\\/g, '/');
+    let relative = replaceWindowsPath(path.relative(current, target));
 
     // Ensure proper path format
     if (!relative.startsWith('../') && !relative.startsWith('./')) {
