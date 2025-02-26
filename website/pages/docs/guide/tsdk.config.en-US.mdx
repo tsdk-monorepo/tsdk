@@ -30,7 +30,7 @@ module.exports = {
 - `sharedDirs` - shared dir, default is `["./src/shared"]`
 - `monorepoRoot` - monorepo root folder, default is `./`
 - `httpLib` - `xior` | `axios`, default is `axios`; `xior` use fetch, and have similiar API with axios
-- `dataHookLib` - `SWR` | `ReactQuery`，Generate `SWR` or `React Query` hooks;dependencies version: `swr@^2.3.0`; `@tanstack/react-query@^5.10.0`
+- `dataHookLib` - `SWR` | `ReactQuery` | `VueQuery` | string[]，Generate `SWR`, `React Query` or `Vue Query` hooks;dependencies version: `swr@^2.3.2`; `@tanstack/react-query@^5.66.9`
 - `dependencies` - custom dependencies，will combine to `fe-sdk/package.json ` dependencies. This can custom dependencies and override fe-sdk's default version
 - `devDependencies` - custom devDependencies.
 
@@ -74,7 +74,7 @@ Generate API SDK which request library to use.
 
 ### dataHookLib
 
-`dataHookLib` - `SWR` | `ReactQuery`; Generate `SWR` or `React Query` hooks;dependencies version: `swr@^2.3.0`; `@tanstack/react-query@^5.64.1`
+`dataHookLib` - `SWR` | `ReactQuery` | `VueQuery` | string[]; Generate `SWR`, `React Query` or `Vue Query` hooks;dependencies version: `swr@^2.3.2`; `@tanstack/react-query@^5.66.9`
 
 ### dependencies
 

@@ -16,6 +16,8 @@
     "xior": "^0.6.3",
     "change-case": "^4.1.2",
     "kysely": "^0.27.5",
+    "swr": "^2.3.2",
+    "@tanstack/react-query": "^5.66.9",
     "@tanstack/vue-query": "^5.66.9",
     "i18next": "^23.10.1",
     "intl-pluralrules": "^2.0.1"

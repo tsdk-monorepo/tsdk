@@ -104,12 +104,23 @@ async function reconfigPkg() {
     pkgContent.dependencies.kysely = '^0.27.5';
   }
 
-  const dataHookLib = config.dataHookLib?.toLowerCase();
-  if (dataHookLib === 'swr') {
+  const _hookLibs = (
+    Array.isArray(config.dataHookLib) ? config.dataHookLib : [config.dataHookLib || 'SWR']
+  ).map((i) => (i as string).toLowerCase());
+
+  const hookLibs = Array.from(new Set(_hookLibs));
+
+  const isSWR = hookLibs?.includes('swr');
+  const isReactQuery = hookLibs?.includes('reactquery');
+  const isVueQuery = hookLibs?.includes('vuequery');
+
+  if (isSWR) {
     pkgContent.dependencies.swr = '^2.3.2';
-  } else if (dataHookLib === 'reactquery') {
+  }
+  if (isReactQuery) {
     pkgContent.dependencies['@tanstack/react-query'] = '^5.66.9';
-  } else if (dataHookLib === 'vuereactquery') {
+  }
+  if (isVueQuery) {
     pkgContent.dependencies['@tanstack/vue-query'] = '^5.66.9';
   }
 
