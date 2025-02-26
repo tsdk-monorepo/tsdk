@@ -34,9 +34,9 @@ export async function syncAPI() {
 
   const hookLibs = Array.from(new Set(_hookLibs));
 
-  const isSWR = hookLibs?.includes('swr');
-  const isReactQuery = hookLibs?.includes('reactquery');
-  const isVueQuery = hookLibs?.includes('vuequery');
+  // const isSWR = hookLibs?.includes('swr');
+  // const isReactQuery = hookLibs?.includes('reactquery');
+  // const isVueQuery = hookLibs?.includes('vuequery');
 
   for (const apiType of types) {
     const hooksContentMap: Record<
@@ -76,14 +76,13 @@ export async function syncAPI() {
          import { Handler } from './gen-api';
     `;
 
-    if (isSWR) {
-      hooksContentMap['swr'].dataHookHeadStr = `import useSWR, { SWRConfiguration } from "swr";
+    // isSWR
+    hooksContentMap['swr'].dataHookHeadStr = `import useSWR, { SWRConfiguration } from "swr";
       import useSWRMutation, { SWRMutationConfiguration } from "swr/mutation";
       ${commonDataHookHeadStr}
     `;
-    }
-    if (isReactQuery) {
-      hooksContentMap['reactquery'].dataHookHeadStr = `
+    // isReactQuery
+    hooksContentMap['reactquery'].dataHookHeadStr = `
       import {
         useQuery,
         useMutation,
@@ -93,9 +92,8 @@ export async function syncAPI() {
       } from "@tanstack/react-query";
       ${commonDataHookHeadStr}
     `;
-    }
-    if (isVueQuery) {
-      hooksContentMap['vuequery'].dataHookHeadStr = `
+    // isVueQuery
+    hooksContentMap['vuequery'].dataHookHeadStr = `
       import {
         useQueryClient,
         useQuery,
@@ -106,12 +104,9 @@ export async function syncAPI() {
       } from "@tanstack/vue-query";
       ${commonDataHookHeadStr}
     `;
-    }
 
-    if (isReactQuery || isVueQuery) {
-      hooksContentMap['reactquery'].dataHookBodyStr = hooksContentMap[
-        'vuequery'
-      ].dataHookBodyStr = `
+    // isReactQuery isVueQuery) {
+    hooksContentMap['reactquery'].dataHookBodyStr = hooksContentMap['vuequery'].dataHookBodyStr = `
         let _queryClient: QueryClient;
 
         ${
@@ -124,7 +119,6 @@ export async function syncAPI() {
             : ``
         }
         `;
-    }
 
     const hasCommon = keys.find((k) => {
       const item = apiconfs[k];
@@ -179,62 +173,61 @@ export async function syncAPI() {
 
     let contentCount = 0;
 
-    for (const k of keys) {
-      const {
-        name: _name,
-        path,
-        description,
-        method,
-        type: _type,
-        category = 'others',
-      } = apiconfs[k];
-      const name = _name || k.replace(/Config$/, '');
-      const type = _type === 'common' || !_type ? 'common' : _type;
+    await Promise.all(
+      keys.map((k) => {
+        const {
+          name: _name,
+          path,
+          description,
+          method,
+          type: _type,
+          category = 'others',
+        } = apiconfs[k];
+        const name = _name || k.replace(/Config$/, '');
+        const type = _type === 'common' || !_type ? 'common' : _type;
 
-      const isGET = !method || method?.toLowerCase() === 'get';
+        const isGET = !method || method?.toLowerCase() === 'get';
 
-      if (type === apiType && path) {
-        importStr += `
-          ${name}Config,
-          type ${name}Req,
-          type ${name}Res,
-        `;
-        bodyStr += `
-          /** 
-           * ${description || name}
-           * 
-           * @category ${category}
-           */
-          export const ${name} = genApi<Expand<${name}Req>${
-          isGET ? '' : ' | FormData'
-        }, Expand<${name}Res>>(${name}Config);
-        `;
+        if (type === apiType && path) {
+          importStr += `
+            ${name}Config,
+            type ${name}Req,
+            type ${name}Res,
+          `;
+          bodyStr += `
+            /** 
+             * ${description || name}
+             * 
+             * @category ${category}
+             */
+            export const ${name} = genApi<Expand<${name}Req>${
+            isGET ? '' : ' | FormData'
+          }, Expand<${name}Res>>(${name}Config);
+          `;
 
-        if (isSWR) {
+          // isSWR
           hooksContentMap['swr'].dataHookImportStr += `
-            ${name},
-          `;
+              ${name},
+            `;
           hooksContentMap['swr'].dataHookBodyStr += generateSWRHook(name, apiconfs[k]);
-        }
-        if (isReactQuery) {
+          // isReactQuery
           hooksContentMap['reactquery'].dataHookImportStr += `
-            ${name},
-          `;
+              ${name},
+            `;
           hooksContentMap['reactquery'].dataHookBodyStr += generateReactQueryHook(
             name,
             apiconfs[k]
           );
-        }
-        if (isVueQuery) {
+          // isVueQuery
           hooksContentMap['vuequery'].dataHookImportStr += `
-            ${name},
-          `;
+              ${name},
+            `;
           hooksContentMap['vuequery'].dataHookBodyStr += generateVueQueryHook(name, apiconfs[k]);
-        }
 
-        contentCount++;
-      }
-    }
+          contentCount++;
+        }
+      })
+    );
 
     if (contentCount > 0) {
       const content = `
@@ -283,9 +276,7 @@ export async function syncAPI() {
       );
       await fsExtra.writeFile(
         path.join(ensureDir, `src`, `${apiType}-api-hooks.ts`),
-        `
-      export * from './${apiType}-api-${hookLibs[0]}-hooks'
-      `
+        `export * from './${apiType}-api-${hookLibs[0]}-hooks';`
       );
     }
   }
