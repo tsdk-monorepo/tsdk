@@ -13,8 +13,7 @@
   "dependencies": {
     "zod": "^3.24.2",
     "axios": "^1.7.9",
-    "xior": "^0.6.3",
-    "change-case": "^4.1.2"
+    "xior": "^0.6.3"
   },
   "devDependencies": {
     "typescript": "^5.7.3",

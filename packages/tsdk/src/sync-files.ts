@@ -44,10 +44,7 @@ export async function addDepsIfNone() {
   let needRunInstall = false;
 
   await Promise.all(
-    [
-      ['zod', '^3'],
-      ['change-case', '^4.1.2'],
-    ].map(async ([dependency, version]) => {
+    [['zod', '^3']].map(async ([dependency, version]) => {
       if (!contentJSON.dependencies[dependency]) {
         contentJSON.dependencies[dependency] = version;
         await fsExtra.writeFile(pkgPath, JSON.stringify(contentJSON, null, 2));

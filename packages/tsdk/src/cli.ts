@@ -1,5 +1,5 @@
 import { buildSDK } from './compile-tsdk';
-import { tsconfigExists, parsePkg, pkg } from './config';
+import { tsconfigExists, parsePkg } from './config';
 import { getNpmCommand } from './get-pkg-manager';
 import { runPrettier } from './prettier';
 import { removeFields } from './remove-fields';
@@ -47,7 +47,7 @@ async function handleCommand(params: string[]) {
       console.log(symbols.warning, validProjectMsg, '\n');
     }
   } else if (params[0] === '--version') {
-    await parsePkg();
+    const pkg = await parsePkg();
     console.log(`${pkg.name}@${pkg.version}`);
   } else if (!tsconfigExists) {
     console.log(`\nError: >> ${symbols.error} ${validProjectMsg}\n`);

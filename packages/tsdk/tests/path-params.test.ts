@@ -1,5 +1,4 @@
 import { expect, it, describe } from 'vitest';
-// import { paramCase } from 'change-case';
 
 import { parseParams, pathParams, parseBracesParams } from '../fe-sdk-template/src/path-params';
 

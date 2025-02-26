@@ -16,7 +16,6 @@
   },
   "dependencies": {
     "tsdk-server-adapters": "^0.3.0",
-    "change-case": "^4.1.2",
     "express": "^4.21.2",
     "zod": "^3.24.2",
     "hono": "^4.7.2",
