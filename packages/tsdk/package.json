@@ -12,7 +12,7 @@
   },
   "scripts": {
     "start": "npm run test && npm run build && pnpm --filter server-example sync && pnpm --filter server-example build && pnpm --filter server-example example",
-    "start-publish": "npm run build && npm publish --access public --no-git-checks --provenance --registry=https://registry.npmjs.org",
+    "start-publish": "node ../../scripts/purge-pkg-for-publish.mjs && npm run build && npm publish --access public --no-git-checks --provenance --registry=https://registry.npmjs.org",
     "build": "rm -rf lib && tsc --project tsconfig.json",
     "start-website": "cd website && yarn && npm run start",
     "build-website": "cd website && yarn && npm run build",
