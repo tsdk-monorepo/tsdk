@@ -1,6 +1,6 @@
 /** @type {import('tsdk').TSDKConfig} */
 module.exports = {
-  packageDir: 'packages/',
+  packageDir: './',
   packageName: 'fe-sdk-demo',
   baseDir: './src',
   monorepoRoot: '../../',
