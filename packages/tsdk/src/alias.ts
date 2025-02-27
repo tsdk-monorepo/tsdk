@@ -17,6 +17,10 @@ export function aliasToRelativePath({
   config: inputConfig,
   cwd = process.cwd(),
 }: AliasToRelativePathOptions): string[] {
+  if (cwd === './') {
+    cwd = process.cwd();
+  }
+
   // Initialize config with defaults
   const config = {
     baseUrl: inputConfig?.baseUrl || './',
@@ -26,8 +30,8 @@ export function aliasToRelativePath({
   // Create alias mapping with resolved paths
   const aliasMap = Object.entries(config.paths).reduce<Record<string, string[]>>(
     (acc, [alias, paths]) => {
-      const resolvedAlias = alias.endsWith('/*') ? alias.replace('/*', '/') : alias;
-      acc[resolvedAlias] = paths;
+      // Store original alias patterns for matching
+      acc[alias] = paths.map((p) => p);
       return acc;
     },
     {}
@@ -35,37 +39,58 @@ export function aliasToRelativePath({
 
   // Process each import
   return imports.map((importPath) => {
-    // Find matching alias
-    const matchingAlias = Object.entries(aliasMap).find(([alias]) => importPath.startsWith(alias));
+    // Find matching alias - handle wildcard patterns correctly
+    const matchingAlias = Object.keys(aliasMap).find((alias) => {
+      if (alias.endsWith('/*')) {
+        const prefix = alias.slice(0, -2); // Remove the '/*'
+        return importPath === prefix || importPath.startsWith(prefix + '/');
+      }
+      return importPath === alias || importPath.startsWith(alias + '/');
+    });
 
     if (!matchingAlias) {
       return importPath;
     }
 
-    const [alias, choices] = matchingAlias;
+    const choices = aliasMap[matchingAlias];
     if (!choices?.[0]) {
       return importPath;
     }
 
-    // Resolve the path
-    let resolved = choices[0];
-    if (resolved.endsWith('/*')) {
-      resolved = resolved.replace('/*', '/');
+    // Handle the replacement correctly for wildcards
+    let resolved;
+    if (matchingAlias.endsWith('/*')) {
+      const baseAlias = matchingAlias.slice(0, -2);
+      const restOfImport = importPath.slice(baseAlias.length);
+
+      let choice = choices[0];
+      if (choice.endsWith('/*')) {
+        choice = choice.slice(0, -2);
+      }
+
+      resolved = choice + restOfImport;
+    } else {
+      const restOfImport = importPath.slice(matchingAlias.length);
+      let choice = choices[0];
+      if (choice.endsWith('/*')) {
+        choice = choice.slice(0, -2);
+      }
+
+      resolved = choice + restOfImport;
     }
-    resolved = importPath.replace(alias, resolved);
 
     // Calculate relative path
-    const base = path.join(cwd, path.relative(cwd, config.baseUrl));
-    const current = path.dirname(filePath);
-    const target = path.join(base, resolved);
+    const baseUrlPath = path.resolve(cwd, config.baseUrl);
+    const targetPath = path.resolve(baseUrlPath, resolved);
+    const currentDirPath = path.dirname(path.resolve(cwd, filePath));
 
-    let relative = replaceWindowsPath(path.relative(current, target));
+    let relativePath = replaceWindowsPath(path.relative(currentDirPath, targetPath));
 
     // Ensure proper path format
-    if (!relative.startsWith('../') && !relative.startsWith('./')) {
-      relative = './' + relative;
+    if (!relativePath.startsWith('../') && !relativePath.startsWith('./')) {
+      relativePath = './' + relativePath;
     }
 
-    return relative;
+    return relativePath;
   });
 }
