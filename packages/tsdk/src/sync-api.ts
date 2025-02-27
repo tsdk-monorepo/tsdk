@@ -201,8 +201,8 @@ export async function syncAPI() {
              * @category ${category}
              */
             export const ${name} = genApi<Expand<${name}Req>${
-            isGET ? '' : ' | FormData'
-          }, Expand<${name}Res>>(${name}Config);
+              isGET ? '' : ' | FormData'
+            }, Expand<${name}Res>>(${name}Config);
           `;
 
           // isSWR
@@ -315,7 +315,7 @@ export async function syncAPI() {
 
   for (const apiType of types) {
     if (apiType === 'common') continue;
-    links.push(`- [${apiType} APIs](/modules/${apiType}_api)`);
+    links.push(`- [${apiType} APIs](/modules/${apiType}-api)`);
   }
 
   const projectName = `%PROJECT NAME%`;
