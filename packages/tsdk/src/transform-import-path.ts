@@ -1,4 +1,4 @@
-import fsExtra from 'fs-extra';
+import fs from 'fs';
 import path from 'path';
 
 import { aliasToRelativePath } from './alias';
@@ -76,7 +76,7 @@ export function processImportPath(_importString: string, _filePath: string) {
 
 /** parse import alias path and transform */
 export async function transformImportPath(filePath: string, isEntity?: boolean) {
-  let res = await fsExtra.readFile(filePath, 'utf-8');
+  let res = await fs.promises.readFile(filePath, 'utf-8');
 
   if (isEntity) {
     res = config.entityLibName?.includes('typeorm') ? transformTypeormEntity(res, 'typeorm') : res;

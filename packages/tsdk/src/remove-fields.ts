@@ -1,5 +1,5 @@
 import glob from 'fast-glob';
-import fsExtra from 'fs-extra';
+import fs from 'fs';
 import path from 'path';
 
 import { config, ensureDir } from './config';
@@ -18,7 +18,7 @@ export async function removeFields() {
   const files = await glob([jsPattern, jsPatternForEsm]);
   await Promise.all(
     files.map(async (file) => {
-      const content = await fsExtra.readFile(file, 'utf8');
+      const content = await fs.promises.readFile(file, 'utf8');
       const arr = content.split('\n');
       const result: string[] = [];
       let nextIndex = -1;
@@ -42,7 +42,7 @@ export async function removeFields() {
           result.push(line);
         }
       });
-      await fsExtra.writeFile(file, result.join('\n'));
+      await fs.promises.writeFile(file, result.join('\n'));
     })
   );
 }
