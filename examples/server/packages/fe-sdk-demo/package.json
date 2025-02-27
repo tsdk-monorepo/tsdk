@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "zod": "^3.24.2",
-    "axios": "^1.7.9",
+    "axios": "^1.8.1",
     "xior": "^0.6.3",
     "kysely": "^0.27.5",
     "swr": "^2.3.2",
@@ -24,11 +24,11 @@
   },
   "devDependencies": {
     "typescript": "^5.7.3",
-    "typedoc": "^0.27.8",
+    "typedoc": "^0.27.9",
     "concurrently": "^9.1.2"
   },
   "peerDependencies": {
-    "socket.io-client": "^4.8.0"
+    "socket.io-client": "^4.8.1"
   },
   "peerDependenciesMeta": {
     "socket.io-client": {

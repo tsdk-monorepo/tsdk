@@ -14,6 +14,7 @@
     "start:prod": "node dist/main",
     "sync-sdk": "npx tsdk --sync",
     "sync": "node ./node_modules/tsdk/bin/tsdk.js --sync",
+    "bun:sync": "bun ./node_modules/tsdk/bin/tsdk.js --sync",
     "test": "vitest --run ./src/",
     "lint": "eslint . --ext .ts,.tsx --fix ./src",
     "checktype": "tsc --noEmit"

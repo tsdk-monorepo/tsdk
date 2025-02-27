@@ -29,27 +29,17 @@ jobs:
           # version: 9.1.2
           run_install: false
 
-      # - name: Get pnpm store directory
-      #   id: pnpm-cache
-      #   shell: bash
-      #   run: |
-      #     echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
-
-      # - uses: actions/cache@v3
-      #   name: Setup pnpm cache
-      #   with:
-      #     path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-      #     key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-pnpm-store-
-
       - name: Install dependencies
         run: pnpm install
 
       - run: pnpm -v
       - run: dir
       # - run: pnpm lint
-      # - run: pnpm --filter app-example test
       - run: pnpm start:tsdk
+
+      - uses: oven-sh/setup-bun@v2
+      - run: pnpm start:bun
+
       - run: pnpm --filter fe-sdk-demo-docs build
       - run: dir
+      

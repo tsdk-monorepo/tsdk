@@ -139,8 +139,8 @@ importers:
         specifier: ^5.66.9
         version: 5.66.9(vue@3.5.13(typescript@5.7.3))
       axios:
-        specifier: ^1.7.9
-        version: 1.7.9
+        specifier: ^1.8.1
+        version: 1.8.1
       i18next:
         specifier: ^23.10.1
         version: 23.15.1
@@ -151,8 +151,8 @@ importers:
         specifier: ^0.27.5
         version: 0.27.5
       socket.io-client:
-        specifier: ^4.8.0
-        version: 4.8.0(bufferutil@4.0.9)(utf-8-validate@6.0.5)
+        specifier: ^4.8.1
+        version: 4.8.1(bufferutil@4.0.9)(utf-8-validate@6.0.5)
       swr:
         specifier: ^2.3.2
         version: 2.3.2(react@19.0.0)
@@ -167,8 +167,8 @@ importers:
         specifier: ^9.1.2
         version: 9.1.2
       typedoc:
-        specifier: ^0.27.8
-        version: 0.27.8(typescript@5.7.3)
+        specifier: ^0.27.9
+        version: 0.27.9(typescript@5.7.3)
       typescript:
         specifier: ^5.7.3
         version: 5.7.3
@@ -342,11 +342,11 @@ importers:
   packages/tsdk/fe-sdk-template:
     dependencies:
       axios:
-        specifier: ^1.7.9
-        version: 1.7.9
+        specifier: ^1.8.1
+        version: 1.8.1
       socket.io-client:
-        specifier: ^4.8.0
-        version: 4.8.0(bufferutil@4.0.9)(utf-8-validate@6.0.5)
+        specifier: ^4.8.1
+        version: 4.8.1(bufferutil@4.0.9)(utf-8-validate@6.0.5)
       xior:
         specifier: ^0.6.3
         version: 0.6.3
@@ -358,8 +358,8 @@ importers:
         specifier: ^9.1.2
         version: 9.1.2
       typedoc:
-        specifier: ^0.27.8
-        version: 0.27.8(typescript@5.7.3)
+        specifier: ^0.27.9
+        version: 0.27.9(typescript@5.7.3)
       typescript:
         specifier: ^5.7.3
         version: 5.7.3
@@ -2078,6 +2078,9 @@ packages:
 
   axios@1.7.9:
     resolution: {integrity: sha512-LhLcE7Hbiryz8oMDdDptSrWowmB4Bl6RCt6sIJKpRB4XtVf0iEgewX3au/pJqm+Py1kCASkb/FFKjxQaLtxJvw==}
+
+  axios@1.8.1:
+    resolution: {integrity: sha512-NN+fvwH/kV01dYUQ3PTOZns4LWtWhOFCAhQ/pHb88WQ1hNe5V/dvFwc4VJcDL11LT9xSX0QtsR8sWUuyOuOq7g==}
 
   babel-dead-code-elimination@1.0.9:
     resolution: {integrity: sha512-JLIhax/xullfInZjtu13UJjaLHDeTzt3vOeomaSUdO/nAMEL/pWC/laKrSvWylXMnVWyL5bpmG9njqBZlUQOdg==}
@@ -4124,10 +4127,6 @@ packages:
   socket.io-adapter@2.5.4:
     resolution: {integrity: sha512-wDNHGXGewWAjQPt3pyeYBtpWSq9cLE5UW1ZUPL/2eGK9jtse/FpXib7epSTsz0Q0m+6sg6Y4KtcFTlah1bdOVg==}
 
-  socket.io-client@4.8.0:
-    resolution: {integrity: sha512-C0jdhD5yQahMws9alf/yvtsMGTaIDBnZ8Rb5HU56svyq0l5LIrGzIDZZD5pHQlmzxLuU91Gz+VpQMKgCTNYtkw==}
-    engines: {node: '>=10.0.0'}
-
   socket.io-client@4.8.1:
     resolution: {integrity: sha512-hJVXfu3E28NmzGk8o1sHhN3om52tRvwYeidbj7xKy2eIIse5IoKX3USlS6Tqt3BHAtflLIkCQBkzVrEEfWUyYQ==}
     engines: {node: '>=10.0.0'}
@@ -4438,12 +4437,12 @@ packages:
   typedarray@0.0.6:
     resolution: {integrity: sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==}
 
-  typedoc@0.27.8:
-    resolution: {integrity: sha512-q0/2TUunNEDmWkn23ULKGXieK8cgGuAmBUXC/HcZ/rgzMI9Yr4Nq3in1K1vT1NZ9zx6M78yTk3kmIPbwJgK5KA==}
+  typedoc@0.27.9:
+    resolution: {integrity: sha512-/z585740YHURLl9DN2jCWe6OW7zKYm6VoQ93H0sxZ1cwHQEQrUn5BJrEnkWhfzUdyO+BLGjnKUZ9iz9hKloFDw==}
     engines: {node: '>= 18'}
     hasBin: true
     peerDependencies:
-      typescript: 5.0.x || 5.1.x || 5.2.x || 5.3.x || 5.4.x || 5.5.x || 5.6.x || 5.7.x
+      typescript: 5.0.x || 5.1.x || 5.2.x || 5.3.x || 5.4.x || 5.5.x || 5.6.x || 5.7.x || 5.8.x
 
   typeorm-cursor-pagination@0.10.1:
     resolution: {integrity: sha512-ezMx9giREI8aBVUpOs7RPn5/uIdygqlduuXJcKiny9UnUXev3zIJaoXCHlrenT6pgcR1cx3baHG/HImPEgeVgA==}
@@ -6732,6 +6731,14 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
+  axios@1.8.1:
+    dependencies:
+      follow-redirects: 1.15.6
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+
   babel-dead-code-elimination@1.0.9:
     dependencies:
       '@babel/core': 7.26.9
@@ -8846,17 +8853,6 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  socket.io-client@4.8.0(bufferutil@4.0.9)(utf-8-validate@6.0.5):
-    dependencies:
-      '@socket.io/component-emitter': 3.1.2
-      debug: 4.3.4
-      engine.io-client: 6.6.1(bufferutil@4.0.9)(utf-8-validate@6.0.5)
-      socket.io-parser: 4.2.4
-    transitivePeerDependencies:
-      - bufferutil
-      - supports-color
-      - utf-8-validate
-
   socket.io-client@4.8.1(bufferutil@4.0.9)(utf-8-validate@6.0.5):
     dependencies:
       '@socket.io/component-emitter': 3.1.2
@@ -9160,7 +9156,7 @@ snapshots:
 
   typedarray@0.0.6: {}
 
-  typedoc@0.27.8(typescript@5.7.3):
+  typedoc@0.27.9(typescript@5.7.3):
     dependencies:
       '@gerrit0/mini-shiki': 1.27.2
       lunr: 2.3.9

@@ -49,7 +49,10 @@ jobs:
       - run: pnpm -v
       - run: dir
       - run: pnpm lint
-      # - run: pnpm --filter app-example test
       - run: pnpm start:tsdk
+
+      - uses: oven-sh/setup-bun@v2
+      - run: pnpm start:bun
+
       - run: pnpm --filter fe-sdk-demo-docs build
       - run: dir
