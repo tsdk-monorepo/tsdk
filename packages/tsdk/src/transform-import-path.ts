@@ -13,11 +13,10 @@ export function processImportPath(_importString: string, _filePath: string) {
   const commentString = importString.slice(0, 2);
   const hasComment = commentString === '//' || commentString === '/*';
 
-  const arr = _filePath.split('/');
-  arr.pop();
-  const filePath = arr.join('/');
+  const filePath = path.dirname(_filePath);
   const isDoubleSemicolon = importString.indexOf('from "') > -1;
   const matched = importString.match(isDoubleSemicolon ? /from "(.*)";/ : /from '(.*)';/);
+
   if (matched) {
     // path alias check and replace path
     const fromPath = aliasToRelativePath({
@@ -27,7 +26,7 @@ export function processImportPath(_importString: string, _filePath: string) {
       filePath: _filePath,
     })[0];
 
-    importString = _importString.replace(matched[1], fromPath);
+    importString = importString.replace(matched[1], fromPath);
 
     const firstLevelPath = fromPath.split('/')[0];
 
@@ -52,17 +51,14 @@ export function processImportPath(_importString: string, _filePath: string) {
       importString.indexOf(`.${config.apiconfExt}`) > -1 ||
       importString.indexOf(`.${config.shareExt}`) > -1;
 
-    // if (isEntityOrApiconf) {
-    //   console.log(_importString);
-    // }
-
     if (!hasComment) {
       const findDir =
         isEntityOrApiconf ||
-        config.sharedDirs.find((dir) => {
+        config.sharedDirs.some((dir) => {
           const currentShareDir = path.normalize(dir);
           return finalPath.indexOf(currentShareDir) === 0;
         });
+
       if (!findDir) {
         console.log(
           symbols.space,
@@ -91,6 +87,7 @@ export async function transformImportPath(filePath: string, isEntity?: boolean) 
   const imports: string[] = [];
   const otherContent: string[] = [];
   let importArr: string[] = [];
+
   result.forEach((i) => {
     const inlineImport = i.indexOf("import '") > -1 || i.indexOf('import "') > -1;
     const hasImport = i.indexOf('import ') > -1;
@@ -113,7 +110,16 @@ export async function transformImportPath(filePath: string, isEntity?: boolean) 
     }
   });
 
-  const fileContent = imports.join('\n') + otherContent.join('\n');
+  // Handle any remaining import statements that weren't processed
+  if (importArr.length > 0) {
+    imports.push(importArr.join(''));
+  }
+
+  // Ensure proper line breaks between imports and other content
+  const fileContent =
+    imports.length > 0 && otherContent.length > 0
+      ? imports.join('\n') + '\n' + otherContent.join('\n')
+      : imports.join('\n') + otherContent.join('\n');
 
   return fileContent;
 }
