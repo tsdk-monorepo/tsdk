@@ -1,6 +1,7 @@
 import { execSync } from 'child_process';
 import glob from 'fast-glob';
 import fsExtra from 'fs-extra';
+import fs from 'fs';
 import path from 'path';
 
 import {
@@ -38,7 +39,7 @@ export async function copyTsdkConfig() {
 export async function addDepsIfNone() {
   const cwd = process.cwd();
   const pkgPath = path.resolve(cwd, 'package.json');
-  const content = await fsExtra.readFile(pkgPath, 'utf8');
+  const content = await fs.promises.readFile(pkgPath, 'utf8');
   const contentJSON = JSON.parse(content);
   const npmCMDs = await getNpmCommand(cwd);
   let needRunInstall = false;
@@ -47,7 +48,7 @@ export async function addDepsIfNone() {
     [['zod', '^3']].map(async ([dependency, version]) => {
       if (!contentJSON.dependencies[dependency]) {
         contentJSON.dependencies[dependency] = version;
-        await fsExtra.writeFile(pkgPath, JSON.stringify(contentJSON, null, 2));
+        await fs.promises.writeFile(pkgPath, JSON.stringify(contentJSON, null, 2));
         needRunInstall = true;
         console.log('');
         console.log(
@@ -88,7 +89,7 @@ export async function copyShared() {
 async function reconfigPkg() {
   // rename package name
   const pkgPath = path.resolve(process.cwd(), config.packageDir, packageFolder, 'package.json');
-  const [content] = await Promise.all([fsExtra.readFile(pkgPath, 'utf-8')]);
+  const [content] = await Promise.all([fs.promises.readFile(pkgPath, 'utf-8')]);
   const pkgContent = JSON.parse(content);
 
   pkgContent.name = config.packageName;
@@ -143,16 +144,16 @@ async function reconfigPkg() {
     };
   }
 
-  await fsExtra.writeFile(pkgPath, JSON.stringify(pkgContent, null, 2));
+  await fs.promises.writeFile(pkgPath, JSON.stringify(pkgContent, null, 2));
   await Promise.all([copyShared(), copySnippet()]);
 
-  const content2 = await fsExtra.readFile('./package.json', 'utf-8');
+  const content2 = await fs.promises.readFile('./package.json', 'utf-8');
   const pkgJSON = JSON.parse(content2);
   pkgJSON.scripts = {
     ...(pkgJSON.scripts || {}),
     'sync-sdk': pkgJSON.scripts?.['sync-sdk'] || `tsdk --sync`,
   };
-  await fsExtra.writeFile('./package.json', JSON.stringify(pkgJSON, null, 2));
+  await fs.promises.writeFile('./package.json', JSON.stringify(pkgJSON, null, 2));
 }
 
 export async function copySDK(noOverwrite: boolean) {
@@ -223,14 +224,17 @@ export async function syncExtFiles(ext: string, isEntity = false) {
       fromPath = path.normalize(fromPath);
       fromPath = fromPath.startsWith('.') ? fromPath : './' + fromPath;
       indexContentMap[file] = `export * from '${replaceWindowsPath(fromPath)}';\n`;
-      return fsExtra.writeFile(filePath, content);
+      return fs.promises.writeFile(filePath, content);
     })
   );
 
   const indexContent =
     files.length > 0 ? files.map((file) => indexContentMap[file]).join('') : getDefaultContent();
 
-  await fsExtra.writeFile(path.join(ensureDir, `src/${ext}-refs.ts`), `${comment}${indexContent}`);
+  await fs.promises.writeFile(
+    path.join(ensureDir, `src/${ext}-refs.ts`),
+    `${comment}${indexContent}`
+  );
 }
 
 /** sync entity files  */
@@ -274,12 +278,12 @@ export async function syncSharedFiles() {
       if (fromPath.indexOf('tsdk-types') < 0 && filePath.endsWith('.ts')) {
         indexContentMap[file] = `export * from '${replaceWindowsPath(fromPath)}';\n`;
       }
-      return fsExtra.writeFile(filePath, content);
+      return fs.promises.writeFile(filePath, content);
     })
   );
 
   const indexContent = Object.values(indexContentMap).join('');
-  await fsExtra.writeFile(
+  await fs.promises.writeFile(
     path.join(ensureDir, `src`, `shared-refs.ts`),
     `${comment}${indexContent}`
   );

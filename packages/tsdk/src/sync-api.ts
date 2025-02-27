@@ -1,4 +1,5 @@
 import fsExtra from 'fs-extra';
+import fs from 'fs';
 import path from 'path';
 
 import { config, ensureDir, packageFolder } from './config';
@@ -243,7 +244,7 @@ export async function syncAPI() {
       ${bodyStr}
     `;
 
-      await fsExtra.writeFile(path.join(ensureDir, `src`, `${apiType}-api.ts`), content);
+      await fs.promises.writeFile(path.join(ensureDir, `src`, `${apiType}-api.ts`), content);
 
       await Promise.all(
         hookLibs.map((hook) => {
@@ -268,13 +269,13 @@ export async function syncAPI() {
             ${dataHookExportStr}
             ${dataHookBodyStr}
             `;
-          return fsExtra.writeFile(
+          return fs.promises.writeFile(
             path.join(ensureDir, `src`, `${apiType}-api-${hook}-hooks.ts`),
             dataHookContent
           );
         })
       );
-      await fsExtra.writeFile(
+      await fs.promises.writeFile(
         path.join(ensureDir, `src`, `${apiType}-api-hooks.ts`),
         `export * from './${apiType}-api-${hookLibs[0]}-hooks';`
       );
@@ -304,7 +305,7 @@ export async function syncAPI() {
     exportPermissions[item.type].push(item);
   }
 
-  await fsExtra.writeFile(
+  await fs.promises.writeFile(
     path.join(ensureDir, 'src', `permissions.json`),
     JSON.stringify(exportPermissions, null, 2)
   );
@@ -320,14 +321,14 @@ export async function syncAPI() {
 
   const projectName = `%PROJECT NAME%`;
   try {
-    let getStartedContent = await fsExtra.readFile(
+    let getStartedContent = await fs.promises.readFile(
       path.join(__dirname, '..', 'fe-sdk-template', 'README.md'),
       'utf-8'
     );
     getStartedContent = getStartedContent
       .replace(new RegExp(projectName, 'g'), config.packageName)
       .replace('%API_REFERENCE%', links.join('\n'));
-    await fsExtra.writeFile(path.join(ensureDir, 'README.md'), getStartedContent);
+    await fs.promises.writeFile(path.join(ensureDir, 'README.md'), getStartedContent);
     console.log(symbols.success, 'Documentation generated');
   } catch (e: unknown) {
     if (e instanceof Error) {
@@ -347,8 +348,8 @@ export async function copyPermissionsJSON() {
 export async function checkRepkaceAxiosWithXior() {
   if (config.httpLib !== 'xior') return;
   const genAPIfile = path.join(ensureDir, 'src', 'gen-api.ts');
-  const res = await fsExtra.readFile(genAPIfile, 'utf-8');
-  return fsExtra.writeFile(
+  const res = await fs.promises.readFile(genAPIfile, 'utf-8');
+  return fs.promises.writeFile(
     genAPIfile,
     res
       .replace('= AxiosRequestConfig<T>', '= XiorRequestConfig<T>')
