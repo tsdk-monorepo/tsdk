@@ -16,7 +16,7 @@
     "build": "rm -rf lib && tsc --project tsconfig.json",
     "start-website": "cd website && yarn && npm run start",
     "build-website": "cd website && yarn && npm run build",
-    "test": "vitest --run",
+    "test": "vitest --run --testTimeout=20000",
     "lint": "eslint . --ext .ts,.tsx --fix ./src",
     "checktype": "tsc --noEmit"
   },

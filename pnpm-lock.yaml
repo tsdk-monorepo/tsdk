@@ -39,8 +39,8 @@ importers:
         specifier: ^1.13.8
         version: 1.13.8(hono@4.7.2)
       better-sqlite3:
-        specifier: 9.0.0
-        version: 9.0.0
+        specifier: 11.8.1
+        version: 11.8.1
       bufferutil:
         specifier: ^4.0.9
         version: 4.0.9
@@ -76,10 +76,10 @@ importers:
         version: link:../../packages/tsdk-server-adapters
       typeorm:
         specifier: ^0.3.20
-        version: 0.3.20(better-sqlite3@9.0.0)(ts-node@10.9.2(@swc/core@1.10.18)(@types/node@20.17.19)(typescript@5.7.3))
+        version: 0.3.20(better-sqlite3@11.8.1)(ts-node@10.9.2(@swc/core@1.10.18)(@types/node@20.17.19)(typescript@5.7.3))
       typeorm-cursor-pagination:
         specifier: ^0.10.1
-        version: 0.10.1(typeorm@0.3.20(better-sqlite3@9.0.0)(ts-node@10.9.2(@swc/core@1.10.18)(@types/node@20.17.19)(typescript@5.7.3)))
+        version: 0.10.1(typeorm@0.3.20(better-sqlite3@11.8.1)(ts-node@10.9.2(@swc/core@1.10.18)(@types/node@20.17.19)(typescript@5.7.3)))
       utf-8-validate:
         specifier: ^6.0.5
         version: 6.0.5
@@ -2107,8 +2107,8 @@ packages:
     resolution: {integrity: sha512-1iF6Ey2qxDkm6bPgKcoXUmwFDpoRi5IgwefQDDQBRLxlZAAYwcULoQ2IdBArXZuSsuL7AT+KvZI9xZVLeUZPRg==}
     hasBin: true
 
-  better-sqlite3@9.0.0:
-    resolution: {integrity: sha512-lDxQ9qg/XuUHZG6xzrQaMHkNWl37t35/LPB/VJGV8DdScSuGFNfFSqgscXEd8UIuyk/d9wU8iaMxQa4If5Wqog==}
+  better-sqlite3@11.8.1:
+    resolution: {integrity: sha512-9BxNaBkblMjhJW8sMRZxnxVTRgbRmssZW0Oxc1MPBTfiR+WW21e2Mk4qu8CzrcZb1LwPCnFsfDEzq+SNcBU8eg==}
 
   binary-extensions@2.3.0:
     resolution: {integrity: sha512-Ceh+7ox5qe7LJuLHoY0feh3pHuUDHAcRUeyL2VYghZwfpkNIy/+8Ocg0a3UuSoYzavmylwuLWQOf3hl0jjMMIw==}
@@ -6770,7 +6770,7 @@ snapshots:
       html: 1.0.0
       js-beautify: 1.15.3
 
-  better-sqlite3@9.0.0:
+  better-sqlite3@11.8.1:
     dependencies:
       bindings: 1.5.0
       prebuild-install: 7.1.2
@@ -9165,11 +9165,11 @@ snapshots:
       typescript: 5.7.3
       yaml: 2.7.0
 
-  typeorm-cursor-pagination@0.10.1(typeorm@0.3.20(better-sqlite3@9.0.0)(ts-node@10.9.2(@swc/core@1.10.18)(@types/node@20.17.19)(typescript@5.7.3))):
+  typeorm-cursor-pagination@0.10.1(typeorm@0.3.20(better-sqlite3@11.8.1)(ts-node@10.9.2(@swc/core@1.10.18)(@types/node@20.17.19)(typescript@5.7.3))):
     dependencies:
-      typeorm: 0.3.20(better-sqlite3@9.0.0)(ts-node@10.9.2(@swc/core@1.10.18)(@types/node@20.17.19)(typescript@5.7.3))
+      typeorm: 0.3.20(better-sqlite3@11.8.1)(ts-node@10.9.2(@swc/core@1.10.18)(@types/node@20.17.19)(typescript@5.7.3))
 
-  typeorm@0.3.20(better-sqlite3@9.0.0)(ts-node@10.9.2(@swc/core@1.10.18)(@types/node@20.17.19)(typescript@5.7.3)):
+  typeorm@0.3.20(better-sqlite3@11.8.1)(ts-node@10.9.2(@swc/core@1.10.18)(@types/node@20.17.19)(typescript@5.7.3)):
     dependencies:
       '@sqltools/formatter': 1.2.5
       app-root-path: 3.1.0
@@ -9187,7 +9187,7 @@ snapshots:
       uuid: 9.0.1
       yargs: 17.7.2
     optionalDependencies:
-      better-sqlite3: 9.0.0
+      better-sqlite3: 11.8.1
       ts-node: 10.9.2(@swc/core@1.10.18)(@types/node@20.17.19)(typescript@5.7.3)
     transitivePeerDependencies:
       - supports-color

@@ -17,6 +17,7 @@ Usage
 Options
   --help help
   --init initialize \`tsdk\` config file
+  --init --no-vscode skip copy \`.vscode/\`
   --sync sync files and generate api
   --sync --no-overwrite default is overwrite with template files(no overwrite for create custom files)
   --nest run nest command, only support build

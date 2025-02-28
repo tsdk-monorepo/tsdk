@@ -82,6 +82,7 @@ export async function addDepsIfNone() {
 }
 
 export async function copySnippet() {
+  if (process.argv.find((i) => i.indexOf('--no-vscode') > -1)) return Promise.resolve(0);
   await fsExtra.copy(
     path.join(__dirname, '../fe-sdk-template', './config/.vscode'),
     path.resolve(process.cwd(), config.monorepoRoot || './', '.vscode'),
@@ -155,8 +156,11 @@ async function reconfigPkg() {
     };
   }
 
-  await fs.promises.writeFile(pkgPath, JSON.stringify(pkgContent, null, 2));
-  await Promise.all([copyShared(), copySnippet()]);
+  await Promise.all([
+    fs.promises.writeFile(pkgPath, JSON.stringify(pkgContent, null, 2)),
+    copyShared(),
+    copySnippet(),
+  ]);
 
   const content2 = await fs.promises.readFile('./package.json', 'utf-8');
   const pkgJSON = JSON.parse(content2);
@@ -168,9 +172,7 @@ async function reconfigPkg() {
 }
 
 export async function copySDK(noOverwrite: boolean) {
-  if (!isConfigExist) {
-    await copyTsdkConfig();
-  }
+  if (!isConfigExist) await copyTsdkConfig();
 
   const existPath = path.resolve(process.cwd(), config.packageDir, packageFolder, `package.json`);
   const isExist = await fsExtra.pathExists(existPath);
