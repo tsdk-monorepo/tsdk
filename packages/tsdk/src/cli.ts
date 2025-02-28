@@ -48,13 +48,11 @@ async function handleSyncCommand(noOverwrite: boolean): Promise<void> {
   try {
     await measureExecutionTime('Delete SDK folder', () => deleteSDKFolder());
     await measureExecutionTime('Add dependencies if none', () => addDepsIfNone());
+
     await measureExecutionTime('Sync files', () => syncFiles(noOverwrite));
-
-    await measureExecutionTime('Build SDK (configs)', () => buildConfigs(true));
-
+    await measureExecutionTime('Build SDK (Configs):', () => buildConfigs(true));
     await measureExecutionTime('Sync API', () => syncAPI());
-
-    await measureExecutionTime('Build SDK (files)', () => buildSDK());
+    await measureExecutionTime('Build SDK (Files):', () => buildSDK());
 
     // Execute these tasks in parallel
     await measureExecutionTime('Post-processing', async () => {

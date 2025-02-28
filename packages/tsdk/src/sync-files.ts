@@ -19,19 +19,23 @@ import { transformImportPath } from './transform-import-path';
 import { replaceWindowsPath, measureExecutionTime } from './utils';
 
 export async function syncFiles(noOverwrite = false) {
-  const indent = '    ';
-  await measureExecutionTime(`init ${ensureDir}`, () => copySDK(noOverwrite), indent);
-  await measureExecutionTime(`parse deps`, () => parseDeps(), indent);
+  const indent = '   ';
+  await measureExecutionTime(`Init ${ensureDir}`, () => copySDK(noOverwrite), indent);
+  await measureExecutionTime(`Parse deps`, () => parseDeps(), indent);
   await measureExecutionTime(
     `sync *.${config.shareExt || 'share'}.ts files`,
     () => syncAdditionalSharedFiles(),
     indent
   );
   await Promise.all([
-    measureExecutionTime(`sync *.${config.apiconfExt}.ts`, () => syncAPIConf(), indent),
-    measureExecutionTime(`sync *.${config.entityExt}.ts`, () => syncEntityFiles(), indent),
+    measureExecutionTime(`Sync *.${config.apiconfExt}.ts`, () => syncAPIConf(), indent),
+    measureExecutionTime(`Sync *.${config.entityExt}.ts`, () => syncEntityFiles(), indent),
   ]);
-  await measureExecutionTime(`sync shared folders`, () => syncSharedFolders(), indent);
+  await measureExecutionTime(
+    `Sync shared folders: ${config.sharedDirs.join(', ')}`,
+    () => syncSharedFolders(),
+    indent
+  );
 }
 
 export async function copyTsdkConfig() {
@@ -185,7 +189,7 @@ export async function copySDK(noOverwrite: boolean) {
   }
 
   await fsExtra.ensureDir(ensureDir);
-  console.log(symbols.success, `mkdir -p ${ensureDir}`);
+  console.log(`   ${symbols.success} mkdir -p ${ensureDir}`);
   await fsExtra.copy(
     path.join(__dirname, '../fe-sdk-template'),
     path.resolve(process.cwd(), config.packageDir, packageFolder),

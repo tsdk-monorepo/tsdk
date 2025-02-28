@@ -6,7 +6,7 @@ const main = {
   success: '✅',
   warning: '⚠️',
   error: '❌',
-  bullet: '⏱️',
+  bullet: '⏰',
   folder,
   space,
 };

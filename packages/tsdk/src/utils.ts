@@ -70,7 +70,7 @@ export const measureExecutionTime = async <T>(
   const startTime = Date.now();
 
   try {
-    console.log(`${indent}⏱️ ${task}`);
+    console.log(`${indent}⏰ ${task}`);
     const result = await fn();
     const endTime = Date.now();
     const duration = (endTime - startTime).toFixed(2);

@@ -34,7 +34,7 @@ describe('measureExecutionTime', () => {
     await measureExecutionTime('Test Task', mockFn);
 
     expect(console.log).toHaveBeenCalledTimes(2);
-    expect(console.log).toHaveBeenNthCalledWith(1, '⏱️ Test Task');
+    expect(console.log).toHaveBeenNthCalledWith(1, '⏰ Test Task');
     expect(console.log).toHaveBeenNthCalledWith(2, '✅ Test Task 500.00ms');
   });
 
@@ -50,7 +50,7 @@ describe('measureExecutionTime', () => {
     await expect(measureExecutionTime('Test Task', mockFn)).rejects.toThrow(testError);
 
     expect(console.log).toHaveBeenCalledTimes(2);
-    expect(console.log).toHaveBeenNthCalledWith(1, '⏱️ Test Task');
+    expect(console.log).toHaveBeenNthCalledWith(1, '⏰ Test Task');
     expect(console.log).toHaveBeenNthCalledWith(2, '❌ Test Task 800ms');
   });
 
@@ -65,7 +65,7 @@ describe('measureExecutionTime', () => {
     await measureExecutionTime('Test Task', mockFn, '  ');
 
     expect(console.log).toHaveBeenCalledTimes(2);
-    expect(console.log).toHaveBeenNthCalledWith(1, '  ⏱️ Test Task');
+    expect(console.log).toHaveBeenNthCalledWith(1, '  ⏰ Test Task');
     expect(console.log).toHaveBeenNthCalledWith(2, '  ✅ Test Task 300.00ms');
   });
 
@@ -85,8 +85,8 @@ describe('measureExecutionTime', () => {
     await measureExecutionTime('Outer Task', outerFn);
 
     expect(console.log).toHaveBeenCalledTimes(4);
-    expect(console.log).toHaveBeenNthCalledWith(1, '⏱️ Outer Task');
-    expect(console.log).toHaveBeenNthCalledWith(2, '  ⏱️ Inner Task');
+    expect(console.log).toHaveBeenNthCalledWith(1, '⏰ Outer Task');
+    expect(console.log).toHaveBeenNthCalledWith(2, '  ⏰ Inner Task');
     expect(console.log).toHaveBeenNthCalledWith(3, '  ✅ Inner Task 200.00ms');
     expect(console.log).toHaveBeenNthCalledWith(4, '✅ Outer Task 500.00ms');
   });
