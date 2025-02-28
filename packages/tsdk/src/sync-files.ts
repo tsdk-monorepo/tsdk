@@ -48,6 +48,7 @@ export async function copyTsdkConfig() {
 }
 
 export async function addDepsIfNone() {
+  if (process.argv.find((i) => i.indexOf('--no-zod') > -1)) return Promise.resolve(0);
   const cwd = process.cwd();
   const pkgPath = path.resolve(cwd, 'package.json');
   const content = await fs.promises.readFile(pkgPath, 'utf8');
@@ -56,7 +57,7 @@ export async function addDepsIfNone() {
   let needRunInstall = false;
 
   await Promise.all(
-    [['zod', '^3']].map(async ([dependency, version]) => {
+    [['zod', '^3.24.2']].map(async ([dependency, version]) => {
       if (!contentJSON.dependencies) contentJSON.dependencies = {};
       if (!contentJSON.dependencies[dependency]) {
         contentJSON.dependencies[dependency] = version;

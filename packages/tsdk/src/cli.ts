@@ -17,8 +17,10 @@ Usage
 Options
   --help Help
   --init Initialize \`tsdk\` config file
+  --init --no-zod Don't add \`zod\` to deps
   --sync Sync files and generate api
   --sync --no-vscode Skip copy \`.vscode/\`
+  --sync --no-zod Don't add \`zod\` to deps
   --sync --no-overwrite Default is overwrite with template files(no overwrite for create custom files)
   --nest Run nest command, only support build
   --version The version info
