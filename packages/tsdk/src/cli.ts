@@ -15,13 +15,13 @@ Usage
   $ tsdk
 
 Options
-  --help help
-  --init initialize \`tsdk\` config file
-  --init --no-vscode skip copy \`.vscode/\`
-  --sync sync files and generate api
-  --sync --no-overwrite default is overwrite with template files(no overwrite for create custom files)
-  --nest run nest command, only support build
-  --version the version info
+  --help Help
+  --init Initialize \`tsdk\` config file
+  --sync Sync files and generate api
+  --sync --no-vscode Skip copy \`.vscode/\`
+  --sync --no-overwrite Default is overwrite with template files(no overwrite for create custom files)
+  --nest Run nest command, only support build
+  --version The version info
 
 Examples
   $ tsdk --version
@@ -39,7 +39,7 @@ Examples
   nest: `@nestjs/cli enchance`,
 };
 
-const VALID_PROJECT_MSG = `Please run \`tsdk\` in a valid TypeScript project's root directory.`;
+const VALID_PROJECT_MSG = `Please run \`tsdk\` in a valid TypeScript project.`;
 
 /**
  * Handles sync command with parallelization where possible
@@ -87,7 +87,7 @@ async function handleCommand(params: string[]): Promise<void> {
     }
 
     if (params[0] === '--version') {
-      const pkg = await measureExecutionTime('Parse package.json', parsePkg);
+      const pkg = await parsePkg();
       console.log(`${pkg.name}@${pkg.version}`);
       return;
     }
@@ -100,12 +100,12 @@ async function handleCommand(params: string[]): Promise<void> {
 
     switch (params[0]) {
       case '--init': {
-        await measureExecutionTime('Copy `tsdk.config.js`', copyTsdkConfig);
+        await copyTsdkConfig();
         const npmCommand = getNpmCommand(process.cwd());
         console.log(
           `${symbols.info} You can edit and generate the SDK package with \`${npmCommand.npxCmd} tsdk --sync\``
         );
-        await measureExecutionTime('Add dependencies if none', addDepsIfNone);
+        await addDepsIfNone();
         break;
       }
 
@@ -116,7 +116,7 @@ async function handleCommand(params: string[]): Promise<void> {
       }
 
       case '--nest':
-        await measureExecutionTime('Run Nest command', runNestCommand);
+        await runNestCommand();
         break;
 
       default:

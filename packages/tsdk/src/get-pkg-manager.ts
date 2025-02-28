@@ -57,9 +57,9 @@ export function getPkgManager(baseDir: string): PackageManager {
     }
 
     // Check installed package managers
+    if (checkPackageManagerVersion('pnpm')) return 'pnpm';
     if (checkPackageManagerVersion('bun')) return 'bun';
     if (checkPackageManagerVersion('yarn')) return 'yarn';
-    if (checkPackageManagerVersion('pnpm')) return 'pnpm';
 
     return 'npm';
   } catch {

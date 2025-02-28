@@ -2,11 +2,10 @@ packages:
   # packages
   - 'packages/**'
 
-  # configs
-  - 'configs/*'
-
   # examples
   - 'examples/**'
-  # exclude projects in dist folder 
+
+  # exclude projects in dist folder
   - '!**/dist*/**'
   - '!**/.next/**'
+  - '!packages/tsdk/fe-sdk-template'

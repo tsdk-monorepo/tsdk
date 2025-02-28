@@ -20,8 +20,8 @@ export async function runPrettier() {
         stdio: 'pipe',
       });
       return true;
-    } catch (error) {
-      console.error('Failed to run Prettier:', (error as Error)?.message);
+    } catch (error2) {
+      console.error('Failed to run Prettier:');
       return false;
     }
   }

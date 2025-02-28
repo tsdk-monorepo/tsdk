@@ -57,6 +57,7 @@ export async function addDepsIfNone() {
 
   await Promise.all(
     [['zod', '^3']].map(async ([dependency, version]) => {
+      if (!contentJSON.dependencies) contentJSON.dependencies = {};
       if (!contentJSON.dependencies[dependency]) {
         contentJSON.dependencies[dependency] = version;
         await fs.promises.writeFile(pkgPath, JSON.stringify(contentJSON, null, 2));
