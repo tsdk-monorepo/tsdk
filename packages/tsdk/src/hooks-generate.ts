@@ -1,12 +1,12 @@
 export function generateSWRHook(name: string, apiConf: APIConfig) {
-  const { description = '', category = 'others', isGet } = apiConf;
+  const { description = '', category = 'others', isGet, method, path } = apiConf;
   const isGetMethod = isGet ?? (!apiConf.method || apiConf.method.toLowerCase() === 'get');
   if (isGetMethod) {
     // Query hook
     return `
       /** 
        * ${description || name}
-       * 
+       * ${method?.toUpperCase() ?? 'GET'} ${path}
        * @category ${category}
        */
       export function use${name}(
@@ -28,7 +28,7 @@ export function generateSWRHook(name: string, apiConf: APIConfig) {
     return `
       /** 
        * ${description || name}
-       * 
+       * ${method?.toUpperCase() ?? 'GET'} ${path}
        * @category ${category}
        */
       export function use${name}(
@@ -53,14 +53,14 @@ export function generateSWRHook(name: string, apiConf: APIConfig) {
 }
 
 export function generateReactQueryHook(name: string, apiConf: APIConfig) {
-  const { description = '', category = 'others', isGet } = apiConf;
+  const { description = '', category = 'others', isGet, method, path } = apiConf;
   const isGetMethod = isGet ?? (!apiConf.method || apiConf.method.toLowerCase() === 'get');
 
   if (isGetMethod) {
     return `
       /** 
        * ${description || name}
-       * 
+       * ${method?.toUpperCase() ?? 'GET'} ${path}
        * @category ${category}
        */
       export function use${name}(
@@ -88,7 +88,7 @@ export function generateReactQueryHook(name: string, apiConf: APIConfig) {
     return `
     /** 
      * ${description || name}
-     * 
+     * ${method?.toUpperCase() ?? 'GET'} ${path}
      * @category ${category}
      */
     export function use${name}(
@@ -116,14 +116,14 @@ export function generateReactQueryHook(name: string, apiConf: APIConfig) {
 }
 
 export function generateVueQueryHook(name: string, apiConf: APIConfig) {
-  const { description = '', category = 'others', isGet } = apiConf;
+  const { description = '', category = 'others', isGet, method, path } = apiConf;
   const isGetMethod = isGet ?? (!apiConf.method || apiConf.method.toLowerCase() === 'get');
 
   if (isGetMethod) {
     return `
         /** 
          * ${description || name}
-         * 
+         * ${method?.toUpperCase() ?? 'GET'} ${path}
          * @category ${category}
          */
         export function use${name}(
@@ -151,7 +151,7 @@ export function generateVueQueryHook(name: string, apiConf: APIConfig) {
     return `
       /** 
        * ${description || name}
-       * 
+       * ${method?.toUpperCase() ?? 'GET'} ${path}
        * @category ${category}
        */
       export function use${name}(

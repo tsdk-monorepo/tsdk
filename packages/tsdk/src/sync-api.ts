@@ -198,7 +198,7 @@ export async function syncAPI() {
           bodyStr += `
             /** 
              * ${description || name}
-             * 
+             * ${method?.toUpperCase() ?? 'GET'} ${path}
              * @category ${category}
              */
             export const ${name} = genApi<Expand<${name}Req>${
