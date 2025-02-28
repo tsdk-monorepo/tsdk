@@ -55,3 +55,31 @@ export function replaceWindowsPath(path: string, isWin = isWindows) {
   if (!isWin) return path;
   return path.replace(/\\/g, '/');
 }
+
+/**
+ * Helper function to measure execution time of async tasks
+ * @param task The task name to be displayed
+ * @param fn The async function to execute and measure
+ * @returns The result of the executed function
+ */
+export const measureExecutionTime = async <T>(
+  task: string,
+  fn: () => Promise<T>,
+  indent = ''
+): Promise<T> => {
+  const startTime = Date.now();
+
+  try {
+    console.log(`${indent}⏱️ ${task}`);
+    const result = await fn();
+    const endTime = Date.now();
+    const duration = (endTime - startTime).toFixed(2);
+    console.log(`${indent}✅ ${task} ${duration}ms`);
+    return result;
+  } catch (error) {
+    const endTime = Date.now();
+    const duration = endTime - startTime;
+    console.log(`${indent}❌ ${task} ${duration}ms`);
+    throw error;
+  }
+};

@@ -16,15 +16,22 @@ import {
 import { getNpmCommand } from './get-pkg-manager';
 import symbols from './symbols';
 import { transformImportPath } from './transform-import-path';
-import { replaceWindowsPath } from './utils';
+import { replaceWindowsPath, measureExecutionTime } from './utils';
 
 export async function syncFiles(noOverwrite = false) {
-  await copySDK(noOverwrite);
-  await parseDeps();
-  await syncAdditionalSharedFiles();
-  await syncAPIConf();
-  await syncEntityFiles();
-  await syncSharedFiles();
+  const indent = '    ';
+  await measureExecutionTime(`init ${ensureDir}`, () => copySDK(noOverwrite), indent);
+  await measureExecutionTime(`parse deps`, () => parseDeps(), indent);
+  await measureExecutionTime(
+    `sync *.${config.shareExt || 'share'}.ts files`,
+    () => syncAdditionalSharedFiles(),
+    indent
+  );
+  await Promise.all([
+    measureExecutionTime(`sync *.${config.apiconfExt}.ts`, () => syncAPIConf(), indent),
+    measureExecutionTime(`sync *.${config.entityExt}.ts`, () => syncEntityFiles(), indent),
+  ]);
+  await measureExecutionTime(`sync shared folders`, () => syncSharedFolders(), indent);
 }
 
 export async function copyTsdkConfig() {
@@ -157,8 +164,6 @@ async function reconfigPkg() {
 }
 
 export async function copySDK(noOverwrite: boolean) {
-  console.log(symbols.bullet, `init ${ensureDir}`);
-
   if (!isConfigExist) {
     await copyTsdkConfig();
   }
@@ -194,14 +199,10 @@ export async function copySDK(noOverwrite: boolean) {
       return fsExtra.remove(path.join(ensureDir, folder));
     })
   );
-
-  console.log(symbols.success, `init ${ensureDir}`);
 }
 
 /** sync files base extension config */
 export async function syncExtFiles(ext: string, isEntity = false) {
-  console.log(symbols.bullet, `sync *.${ext}.ts files`);
-
   const pattern = replaceWindowsPath(
     path.join(`${path.join(...config.baseDir.split('/'))}`, `**`, `*.${ext}.ts`)
   );
@@ -253,9 +254,7 @@ export async function syncAdditionalSharedFiles() {
 }
 
 /** sync shared files */
-export async function syncSharedFiles() {
-  console.log(symbols.bullet, `sync shared files`);
-
+export async function syncSharedFolders() {
   const files = await glob([
     ...config.sharedDirs.map((i) => replaceWindowsPath(path.join(i, `**/*.*`))),
     replaceWindowsPath(path.join(config.baseDir, `**/*.${config.shareExt || 'shared'}.*`)),
@@ -287,6 +286,4 @@ export async function syncSharedFiles() {
     path.join(ensureDir, `src`, `shared-refs.ts`),
     `${comment}${indexContent}`
   );
-
-  console.log(symbols.success, `sync shared files`);
 }

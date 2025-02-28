@@ -29,7 +29,6 @@ export interface TSDKConfig {
       'needAuth',
       'category',
       'description',
-      'type',
     ]
    */
   removeFields?: string[];

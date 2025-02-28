@@ -7,6 +7,7 @@ import { runNestCommand } from './run-nest-command';
 import symbols from './symbols';
 import { copyPermissionsJSON, deleteSDKFolder, syncAPI } from './sync-api';
 import { addDepsIfNone, copyTsdkConfig, syncFiles } from './sync-files';
+import { measureExecutionTime } from './utils';
 
 const CLI_COMMANDS = {
   help: `
@@ -38,25 +39,6 @@ Examples
 };
 
 const VALID_PROJECT_MSG = `Please run \`tsdk\` in a valid TypeScript project's root directory.`;
-
-/**
- * Helper function to measure execution time of async tasks
- * @param task The task name to be displayed
- * @param fn The async function to execute and measure
- * @returns The result of the executed function
- */
-const measureExecutionTime = async <T>(task: string, fn: () => Promise<T>): Promise<T> => {
-  const taskLabel = `⏱️ ${task}`;
-  console.time(taskLabel);
-  try {
-    const result = await fn();
-    console.timeEnd(taskLabel);
-    return result;
-  } catch (error) {
-    console.timeEnd(taskLabel);
-    throw error;
-  }
-};
 
 /**
  * Handles sync command with parallelization where possible
