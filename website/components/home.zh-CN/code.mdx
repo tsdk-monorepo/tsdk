@@ -60,12 +60,12 @@ import { Tabs } from 'nextra-theme-docs';
       import {
         GetHelloConfig, GetHelloReq, GetHelloRes
       } from './Hello.apiconf';
-      import { genRoute, type RequestInfo } from './gen-route';
+      import { genRoute } from './gen-route';
 
       export function setupHelloAPI() {
         genRoute<GetHelloReq, GetHelloRes>(
           GetHelloConfig,
-          async (data, reqInfo: Readonly<RequestInfo>) => {
+          async (data, reqInfo) => {
             return { result: `Hello ${data.world}` };
           }
         );

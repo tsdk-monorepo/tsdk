@@ -1,17 +1,18 @@
 /** @type {import('tsdk').TSDKConfig} */
 module.exports = {
-  packageDir: 'packages/',
+  monorepoRoot: './',
+  packageDir: './',
   packageName: 'fe-sdk',
   baseDir: './src',
-  monorepoRoot: './',
   entityLibName: 'typeorm',
-  entityExt: 'entity',
-  apiconfExt: 'apiconf',
-  shareExt: 'shared',
+  entityExt: 'entity', // *.entity.ts
+  apiconfExt: 'apiconf', // *.apiconf.ts
+  shareExt: 'shared', // *.shared.ts
   sharedDirs: ['./src/shared'],
   removeFields: [],
   /** 'xior' | 'axios'. More: https://tsdk.dev/docs/guide/tsdk.config#httplib */
   httpLib: 'xior',
+  dataHookLib: ['SWR'], // Support ['SWR', 'ReactQuery', 'VueQuery']
   dependencies: {
     xior: '^0.6.3',
   },

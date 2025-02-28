@@ -226,7 +226,7 @@ export type UpdateHelloRes = {
 ### Combine the API with config in `src/Hello.api.ts`
 
 ```ts copy filename="server/src/Hello.api.ts"
-import { genRoute, type RequestInfo } from './gen-route';
+import { genRoute } from './gen-route';
 import {
   GetHelloReq,
   GetHelloRes,
@@ -243,14 +243,14 @@ const DB = {
 export function setupHelloAPI() {
   genRoute<GetHelloReq, GetHelloRes>(
     GetHelloConfig,
-    async (data, reqInfo: Readonly<RequestInfo>) => {
+    async (data, reqInfo) => {
       return { result: DB.data };
     }
   );
 
   genRoute<UpdateHelloReq, UpdateHelloRes>(
     UpdateHelloConfig,
-    async (data, reqInfo: Readonly<RequestInfo>) => {
+    async (data, reqInfo) => {
       DB.data = data.payload;
       return { result: data.payload };
     }

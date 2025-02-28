@@ -85,7 +85,7 @@ function onErrorHandler(
 ```ts filename="server/src/main.ts" copy
 import http from 'http';
 import express, { Request } from 'express';
-import multer from 'multer'
+import multer from 'multer';
 import { Server } from 'socket.io';
 import { socketIOAdapterFactory } from 'tsdk-server-adapters/lib/socket.io-adapter';
 import { expressAdapterFactory } from 'tsdk-server-adapters/lib/express-adapter';
@@ -226,7 +226,7 @@ export type UpdateHelloRes = {
 ### 编写接口 src/Hello.api.ts
 
 ```ts copy filename="server/src/Hello.api.ts"
-import { genRoute, type RequestInfo } from './gen-route';
+import { genRoute } from './gen-route';
 import {
   GetHelloReq,
   GetHelloRes,
@@ -241,20 +241,14 @@ const DB = {
 };
 
 export function setupHelloAPI() {
-  genRoute<GetHelloReq, GetHelloRes>(
-    GetHelloConfig,
-    async (data, reqInfo: Readonly<RequestInfo>) => {
-      return { result: DB.data };
-    }
-  );
+  genRoute<GetHelloReq, GetHelloRes>(GetHelloConfig, async (data, reqInfo) => {
+    return { result: DB.data };
+  });
 
-  genRoute<UpdateHelloReq, UpdateHelloRes>(
-    UpdateHelloConfig,
-    async (data, reqInfo: Readonly<RequestInfo>) => {
-      DB.data = data.payload;
-      return { result: data.payload };
-    }
-  );
+  genRoute<UpdateHelloReq, UpdateHelloRes>(UpdateHelloConfig, async (data, reqInfo) => {
+    DB.data = data.payload;
+    return { result: data.payload };
+  });
 }
 ```
 
