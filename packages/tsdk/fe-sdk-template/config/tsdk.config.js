@@ -12,7 +12,7 @@ module.exports = {
   removeFields: [],
   /** 'xior' | 'axios'. More: https://tsdk.dev/docs/guide/tsdk.config#httplib */
   httpLib: 'xior',
-  dataHookLib: ['SWR'], // Support ['SWR', 'ReactQuery', 'VueQuery']
+  dataHookLib: ['SWR', 'ReactQuery', 'VueQuery'],
   dependencies: {
     xior: '^0.6.3',
   },
