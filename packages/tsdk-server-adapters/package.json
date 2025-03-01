@@ -7,7 +7,9 @@
   "homepage": "https://tsdk.dev",
   "scripts": {
     "start-publish": "node ../../scripts/purge-pkg-for-publish.mjs && npm run build && npm publish --access public --no-git-checks --provenance --registry=https://registry.npmjs.org",
-    "build": "rm -rf lib && tsc --project tsconfig.json && rm -rf lib/tests",
+    "build": "concurrently \"npm run build:cjs\"  \"npm run build:esm\"",
+    "build:cjs": "rm -rf lib && tsc --project tsconfig.json && rm -rf lib/tests",
+    "build:esm": "rm -rf esm && tsc --project tsconfig.esm.json && rm -rf esm/tests",
     "lint": "eslint ./src --ext .ts,.tsx --fix",
     "checktype": "tsc --noEmit",
     "test": "vitest"
@@ -32,7 +34,8 @@
     "@types/express": "^4.17.21",
     "typescript": "^5.7.3",
     "@tsconfig/recommended": "^1.0.8",
-    "vitest": "^3.0.7"
+    "vitest": "^3.0.7",
+    "concurrently": "^9.1.2"
   },
   "peerDependencies": {
     "express": "^4.21.2",

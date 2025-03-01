@@ -1,6 +1,7 @@
 import { serve } from '@hono/node-server';
 import { Hono, HonoRequest } from 'hono';
 import { honoAdapterFactory } from 'tsdk-server-adapters/lib/hono-adapter';
+// import { honoAdapterFactory } from 'tsdk-server-adapters/esm/hono-adapter';
 
 import { setupHelloAPI } from './Hello.api';
 import { RequestInfo, routeBus } from './gen-route';

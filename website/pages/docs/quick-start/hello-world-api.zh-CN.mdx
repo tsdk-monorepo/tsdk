@@ -89,6 +89,7 @@ import multer from 'multer';
 import { Server } from 'socket.io';
 import { socketIOAdapterFactory } from 'tsdk-server-adapters/lib/socket.io-adapter';
 import { expressAdapterFactory } from 'tsdk-server-adapters/lib/express-adapter';
+
 import { checkMethodHasBody, ProtocolTypes } from '@/src/shared/tsdk-helper';
 import { RequestInfo, routeBus } from './gen-route';
 
@@ -259,9 +260,13 @@ export function setupHelloAPI() {
 ```ts filename="server/src/main.ts" {7, 67}
 import http from 'http';
 import { socketIOAdapterFactory } from 'tsdk-server-adapters/lib/socket.io-adapter';
+// import { socketIOAdapterFactory } from 'tsdk-server-adapters/esm/socket.io-adapter';
+
+import { expressAdapterFactory } from 'tsdk-server-adapters/lib/express-adapter';
+// import { expressAdapterFactory } from 'tsdk-server-adapters/esm/express-adapter';
+
 import express from 'express';
 import multer from 'multer';
-import { expressAdapterFactory } from 'tsdk-server-adapters/lib/express-adapter';
 import { checkMethodHasBody, ProtocolTypes } from '@/src/shared/tsdk-helper';
 import { RequestInfo, routeBus } from './gen-route';
 import { setupHelloAPI } from './Hello.api';
