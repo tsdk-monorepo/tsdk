@@ -11,7 +11,7 @@
     "module": "ES2015",
     "target": "ES2015",
     "outDir": "esm",
-    "lib": ["ES2015", "ES2019"],
+    "lib": ["ES2015", "ES2019", "DOM"],
     "incremental": true,
     "skipLibCheck": true,
     "moduleResolution": "bundler",
