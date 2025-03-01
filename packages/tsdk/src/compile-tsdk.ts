@@ -14,7 +14,7 @@ export async function buildConfigs(needInstall = false) {
     });
     const isNodeModulesExists = await fsExtra.exists(`${ensureDir}/node_modules`);
     if (!isNodeModulesExists) {
-      console.log(`\nRun \`npm install\``);
+      console.log(`\nRun \`npm install\` in dir: ${ensureDir}`);
       execSync(`npm install`, {
         cwd: ensureDir,
         stdio: 'inherit',

@@ -21,7 +21,7 @@ export async function runPrettier() {
       });
       return true;
     } catch (error2) {
-      console.error('Failed to run Prettier:');
+      console.error('Failed to run Prettier');
       return false;
     }
   }
