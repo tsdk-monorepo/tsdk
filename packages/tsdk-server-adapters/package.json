@@ -16,6 +16,7 @@
   },
   "files": [
     "lib/*",
+    "esm/*",
     "README.md"
   ],
   "keywords": [
