@@ -79,7 +79,7 @@ export async function addDepsIfNone() {
   );
 
   if (needRunInstall) {
-    execSync(`${npmCMDs.installCmd}`, { stdio: 'inherit' });
+    execSync(`${npmCMDs.installCmd}`, { stdio: 'inherit', env: process.env });
   }
 }
 

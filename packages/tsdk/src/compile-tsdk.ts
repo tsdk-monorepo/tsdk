@@ -11,6 +11,7 @@ export async function buildConfigs(needInstall = false) {
     execSync(cmd, {
       cwd: ensureDir,
       stdio: 'inherit',
+      env: process.env,
     });
     const isNodeModulesExists = await fsExtra.exists(`${ensureDir}/node_modules`);
     if (!isNodeModulesExists) {
@@ -18,6 +19,7 @@ export async function buildConfigs(needInstall = false) {
       execSync(`npm install`, {
         cwd: ensureDir,
         stdio: 'inherit',
+        env: process.env,
       });
     }
     execSync(`${CMDs.runCmd} tsc:build:cjs`, {
@@ -33,6 +35,7 @@ export async function buildSDK(needInstall = false) {
     `cd ${ensureDir} ${needInstall ? `&& ${CMDs.installCmd} ` : ``}&& ${CMDs.runCmd} tsc:build`,
     {
       stdio: 'inherit',
+      env: process.env,
     }
   );
 }
