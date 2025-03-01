@@ -3,6 +3,25 @@
 ### Setup for xior.js and socket.io
 
 ```ts
+import {
+  setHandler,
+  setSocketIOInstance,
+  socketIOHandler,
+  setXiorInstance,
+  xiorHandler,
+  getHandler,
+} from '%PROJECT NAME%/esm/index';
+import type { QueryTodoRes } from '%PROJECT NAME%/esm/apiconf-refs';
+import { QueryTodo } from '%PROJECT NAME%/esm/user-api';
+
+export * from '%PROJECT NAME%/esm/user-api';
+export * from '%PROJECT NAME%/esm/user-api-swr-hooks';
+// export * from '%PROJECT NAME%/esm/user-api-reactquery-hooks';
+// export * from '%PROJECT NAME%/esm/user-api-vuequery-hooks';
+export * from '%PROJECT NAME%/esm/apiconf-refs';
+export * from '%PROJECT NAME%/esm/entity-refs';
+export * from '%PROJECT NAME%/esm/shared-refs';
+
 /*
 // For CommonJs
 import {
@@ -24,26 +43,9 @@ export * from '%PROJECT NAME%/lib/apiconf-refs';
 export * from '%PROJECT NAME%/lib/entity-refs';
 export * from '%PROJECT NAME%/lib/shared-refs';
 */
-import {
-  setHandler,
-  setSocketIOInstance,
-  socketIOHandler,
-  setXiorInstance,
-  xiorHandler,
-  getHandler,
-} from '%PROJECT NAME%/esm/index';
-import type { QueryTodoRes } from '%PROJECT NAME%/esm/apiconf-refs';
-import { QueryTodo } from '%PROJECT NAME%/esm/user-api';
+
 import { io as SocketIO } from 'socket.io-client';
 import axios from 'xior';
-
-export * from '%PROJECT NAME%/esm/user-api';
-export * from '%PROJECT NAME%/esm/user-api-swr-hooks';
-// export * from '%PROJECT NAME%/esm/user-api-reactquery-hooks';
-// export * from '%PROJECT NAME%/esm/user-api-vuequery-hooks';
-export * from '%PROJECT NAME%/esm/apiconf-refs';
-export * from '%PROJECT NAME%/esm/entity-refs';
-export * from '%PROJECT NAME%/esm/shared-refs';
 
 const apiType = 'user';
 const baseURL = 'https://example.com';
@@ -81,6 +83,25 @@ io.on('connect', async function () {
 ### Setup for axios and socket.io
 
 ```ts
+import {
+  setHandler,
+  setSocketIOInstance,
+  socketIOHandler,
+  setAxiosInstance,
+  axiosHandler,
+  getHandler,
+} from '%PROJECT NAME%/esm/index';
+import type { QueryTodoRes } from '%PROJECT NAME%/esm/apiconf-refs';
+import { QueryTodo } from '%PROJECT NAME%/esm/user-api';
+
+export * from '%PROJECT NAME%/esm/user-api';
+export * from '%PROJECT NAME%/esm/user-api-swr-hooks';
+// export * from '%PROJECT NAME%/esm/user-api-reactquery-hooks';
+// export * from '%PROJECT NAME%/esm/user-api-vuequery-hooks';
+export * from '%PROJECT NAME%/esm/apiconf-refs';
+export * from '%PROJECT NAME%/esm/entity-refs';
+export * from '%PROJECT NAME%/esm/shared-refs';
+
 /*
 // For CommonJS
 import {
@@ -102,26 +123,9 @@ export * from '%PROJECT NAME%/lib/apiconf-refs';
 export * from '%PROJECT NAME%/lib/entity-refs';
 export * from '%PROJECT NAME%/lib/shared-refs';
 */
-import {
-  setHandler,
-  setSocketIOInstance,
-  socketIOHandler,
-  setAxiosInstance,
-  axiosHandler,
-  getHandler,
-} from '%PROJECT NAME%/esm/index';
-import type { QueryTodoRes } from '%PROJECT NAME%/esm/apiconf-refs';
-import { QueryTodo } from '%PROJECT NAME%/esm/user-api';
+
 import { io as SocketIO } from 'socket.io-client';
 import axios from 'axios';
-
-export * from '%PROJECT NAME%/esm/user-api';
-export * from '%PROJECT NAME%/esm/user-api-swr-hooks';
-// export * from '%PROJECT NAME%/esm/user-api-reactquery-hooks';
-// export * from '%PROJECT NAME%/esm/user-api-vuequery-hooks';
-export * from '%PROJECT NAME%/esm/apiconf-refs';
-export * from '%PROJECT NAME%/esm/entity-refs';
-export * from '%PROJECT NAME%/esm/shared-refs';
 
 const apiType = 'user';
 const baseURL = 'https://example.com';
