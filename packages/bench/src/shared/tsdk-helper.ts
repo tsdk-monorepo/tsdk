@@ -1,7 +1,3 @@
-import { paramCase } from 'change-case';
-
-import { ObjectLiteral } from '@/src/shared/tsdk-types';
-
 export * from '@/src/shared/tsdk-types';
 
 export const hasBodyMethods: { [key: string]: boolean | undefined } = {
@@ -16,6 +12,13 @@ export function checkMethodHasBody(method: string) {
 
 export function transformPath(path: string) {
   return `/${paramCase(path)}`;
+}
+
+export function paramCase(input: string): string {
+  return input
+    .replace(/([a-z0-9])([A-Z])/g, '$1-$2') // Add a hyphen between lower and upper case letters
+    .replace(/\s+/g, '-') // Replace spaces with hyphens
+    .toLowerCase(); // Convert all characters to lowercase
 }
 
 export function isObject<T = any>(data: T) {

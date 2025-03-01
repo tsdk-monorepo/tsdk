@@ -8,6 +8,8 @@ import { Callout } from 'nextra/components';
 import { Hono, HonoRequest } from 'hono';
 import { serve } from '@hono/node-server';
 import { honoAdapterFactory } from 'tsdk-server-adapters/lib/hono-adapter';
+// import { honoAdapterFactory } from 'tsdk-server-adapters/esm/hono-adapter';
+
 import { checkMethodHasBody, ProtocolTypes } from '@/src/shared/tsdk-helper';
 import { RequestInfo, routeBus } from './gen-route';
 

@@ -3,6 +3,8 @@
 ### Setup for xior.js and socket.io
 
 ```ts
+/*
+// For CommonJs
 import {
   setHandler,
   setSocketIOInstance,
@@ -10,19 +12,46 @@ import {
   setXiorInstance,
   xiorHandler,
   getHandler,
-} from '%PROJECT NAME%';
+} from '%PROJECT NAME%/lib/index';
 import type { QueryTodoRes } from '%PROJECT NAME%/lib/apiconf-refs';
 import { QueryTodo } from '%PROJECT NAME%/lib/user-api';
+
+export * from '%PROJECT NAME%/lib/user-api';
+export * from '%PROJECT NAME%/lib/user-api-swr-hooks';
+// export * from '%PROJECT NAME%/lib/user-api-reactquery-hooks';
+// export * from '%PROJECT NAME%/lib/user-api-vuequery-hooks';
+export * from '%PROJECT NAME%/lib/apiconf-refs';
+export * from '%PROJECT NAME%/lib/entity-refs';
+export * from '%PROJECT NAME%/lib/shared-refs';
+*/
+import {
+  setHandler,
+  setSocketIOInstance,
+  socketIOHandler,
+  setXiorInstance,
+  xiorHandler,
+  getHandler,
+} from '%PROJECT NAME%/esm/index';
+import type { QueryTodoRes } from '%PROJECT NAME%/esm/apiconf-refs';
+import { QueryTodo } from '%PROJECT NAME%/esm/user-api';
 import { io as SocketIO } from 'socket.io-client';
 import axios from 'xior';
 
+export * from '%PROJECT NAME%/esm/user-api';
+export * from '%PROJECT NAME%/esm/user-api-swr-hooks';
+// export * from '%PROJECT NAME%/esm/user-api-reactquery-hooks';
+// export * from '%PROJECT NAME%/esm/user-api-vuequery-hooks';
+export * from '%PROJECT NAME%/esm/apiconf-refs';
+export * from '%PROJECT NAME%/esm/entity-refs';
+export * from '%PROJECT NAME%/esm/shared-refs';
+
 const apiType = 'user';
 const baseURL = 'https://example.com';
-const socketURL = baseURL;
 const apiURL = `${baseURL}/api/${apiType}`;
 
 // use HTTP protocol
-setXiorInstance(axios.create({ baseURL: apiURL }));
+export const http = axios.create({ baseURL: apiURL });
+setXiorInstance(http);
 setHandler(xiorHandler);
 
 // Usage
@@ -32,6 +61,7 @@ setHandler(xiorHandler);
 })();
 
 // or use socket.io protocol
+const socketURL = baseURL;
 const io = SocketIO(socketURL, {
   transports: ['websocket'],
   query: {
@@ -51,6 +81,8 @@ io.on('connect', async function () {
 ### Setup for axios and socket.io
 
 ```ts
+/*
+// For CommonJS
 import {
   setHandler,
   setSocketIOInstance,
@@ -58,19 +90,46 @@ import {
   setAxiosInstance,
   axiosHandler,
   getHandler,
-} from '%PROJECT NAME%';
+} from '%PROJECT NAME%/lib/index';
 import type { QueryTodoRes } from '%PROJECT NAME%/lib/apiconf-refs';
 import { QueryTodo } from '%PROJECT NAME%/lib/user-api';
+
+export * from '%PROJECT NAME%/lib/user-api';
+export * from '%PROJECT NAME%/lib/user-api-swr-hooks';
+// export * from '%PROJECT NAME%/lib/user-api-reactquery-hooks';
+// export * from '%PROJECT NAME%/lib/user-api-vuequery-hooks';
+export * from '%PROJECT NAME%/lib/apiconf-refs';
+export * from '%PROJECT NAME%/lib/entity-refs';
+export * from '%PROJECT NAME%/lib/shared-refs';
+*/
+import {
+  setHandler,
+  setSocketIOInstance,
+  socketIOHandler,
+  setAxiosInstance,
+  axiosHandler,
+  getHandler,
+} from '%PROJECT NAME%/esm/index';
+import type { QueryTodoRes } from '%PROJECT NAME%/esm/apiconf-refs';
+import { QueryTodo } from '%PROJECT NAME%/esm/user-api';
 import { io as SocketIO } from 'socket.io-client';
 import axios from 'axios';
 
+export * from '%PROJECT NAME%/esm/user-api';
+export * from '%PROJECT NAME%/esm/user-api-swr-hooks';
+// export * from '%PROJECT NAME%/esm/user-api-reactquery-hooks';
+// export * from '%PROJECT NAME%/esm/user-api-vuequery-hooks';
+export * from '%PROJECT NAME%/esm/apiconf-refs';
+export * from '%PROJECT NAME%/esm/entity-refs';
+export * from '%PROJECT NAME%/esm/shared-refs';
+
 const apiType = 'user';
 const baseURL = 'https://example.com';
-const socketURL = baseURL;
 const apiURL = `${baseURL}/api/${apiType}`;
 
 // use HTTP protocol
-setAxiosInstance(axios.create({ baseURL: apiURL }));
+const http = axios.create({ baseURL: apiURL });
+setAxiosInstance(http);
 setHandler(axiosHandler);
 
 // Usage
@@ -80,6 +139,7 @@ setHandler(axiosHandler);
 })();
 
 // or use socket.io protocol
+const socketURL = baseURL;
 const io = SocketIO(socketURL, {
   transports: ['websocket'],
   query: {

@@ -2,6 +2,7 @@ import { serve } from '@hono/node-server';
 import { Hono, HonoRequest } from 'hono';
 import { cors } from 'hono/cors';
 import { honoAdapterFactory } from 'tsdk-server-adapters/lib/hono-adapter';
+// import { honoAdapterFactory } from 'tsdk-server-adapters/esm/hono-adapter';
 
 import { setupRoutes } from '../setup-routes';
 import { routeBus } from '../todo/gen-route';

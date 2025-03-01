@@ -66,3 +66,4 @@ build-*
 *.db-shm
 *.db-wal
 *.zip
+test-project
