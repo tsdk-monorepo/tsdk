@@ -37,6 +37,7 @@
   },
   "files": [
     "lib",
+    "esm",
     "src"
   ]
 }

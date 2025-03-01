@@ -26,6 +26,9 @@ importers:
       prettier:
         specifier: ^3.5.2
         version: 3.5.2
+      typescript:
+        specifier: ^5.7.3
+        version: 5.7.3
       typescript-eslint:
         specifier: ^8.24.1
         version: 8.24.1(eslint@9.21.0(jiti@2.4.2))(typescript@5.7.3)
@@ -332,6 +335,9 @@ importers:
       '@types/express':
         specifier: ^4.17.21
         version: 4.17.21
+      concurrently:
+        specifier: ^9.1.2
+        version: 9.1.2
       typescript:
         specifier: ^5.7.3
         version: 5.7.3
