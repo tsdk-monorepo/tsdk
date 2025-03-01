@@ -7,7 +7,7 @@ import { getID } from './utils';
 
 let socketIOInstance: Socket;
 
-const QUEUEs: ObjectLiteral = {};
+const QUEUES: ObjectLiteral = {};
 
 /**
  * Set the io instance
@@ -38,13 +38,13 @@ export const setSocketIOInstance = (instance: Socket): void => {
       result?: unknown;
       [key: string]: unknown;
     }) => {
-      if (msgId && QUEUEs[msgId]) {
+      if (msgId && QUEUES[msgId]) {
         if (!status || status === 200) {
-          QUEUEs[msgId].resolve(result);
+          QUEUES[msgId].resolve(result);
         } else {
-          QUEUEs[msgId].reject(result);
+          QUEUES[msgId].reject(result);
         }
-        delete QUEUEs[msgId];
+        delete QUEUES[msgId];
       }
     }
   );
@@ -53,10 +53,9 @@ export const setSocketIOInstance = (instance: Socket): void => {
 /**
  * Get socket.io-client instance
  *
- * @param instance - socekt.io-client instance
  * @returns The io
  */
-export const getSocketIOInstance: () => Socket = () => {
+export const getSocketIOInstance = (): Socket => {
   return socketIOInstance;
 };
 
@@ -88,12 +87,12 @@ export function socketIOHandler(
 
     const timer = requestConfig?.timeout
       ? setTimeout(() => {
-          delete QUEUEs[msgId];
+          delete QUEUES[msgId];
           reject(new TimeoutError('Request Timeout'));
         }, requestConfig.timeout)
       : -1;
 
-    QUEUEs[msgId] = {
+    QUEUES[msgId] = {
       resolve(res: any) {
         clearTimeout(timer);
         resolve(res);

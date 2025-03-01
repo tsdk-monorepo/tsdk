@@ -1,5 +1,4 @@
 import { AxiosRequestConfig, AxiosInstance } from 'axios';
-
 import { NoHandlerError } from './error';
 import { pathParams } from './path-params';
 import { APIConfig, checkMethodHasBody } from './shared/tsdk-helper';
@@ -18,10 +17,9 @@ export const setAxiosInstance = (instance: AxiosInstance): void => {
 /**
  * Get the AxiosInstance
  *
- * @param instance - AxiosInstance
  * @returns The AxiosInstance
  */
-export const getAxiosInstance = () => {
+export const getAxiosInstance = (): AxiosInstance => {
   return axiosInstance;
 };
 
@@ -29,15 +27,24 @@ export type RequestConfig<ReqPayload> = Omit<AxiosRequestConfig, 'data'> & {
   data?: ReqPayload;
 };
 
+/**
+ * Handler for making HTTP requests using Axios
+ *
+ * @param apiConfig - API configuration including path, method, and headers
+ * @param requestData - Request payload data
+ * @param requestConfig - Optional Axios-specific request configuration
+ * @returns Promise resolving to the response data
+ */
 export async function axiosHandler(
   apiConfig: APIConfig,
   requestData: any,
   requestConfig?: RequestConfig<any>
-) {
+): Promise<any> {
   const instance = getAxiosInstance();
-  if (!axiosInstance) {
+  if (!instance) {
     throw new NoHandlerError(`Call \`setAxiosInstance\` first`);
   }
+
   const { path, headers } = apiConfig;
   const method = apiConfig.method.toLowerCase();
 
@@ -55,17 +62,19 @@ export async function axiosHandler(
   }
 
   if (requestData) {
-    const data = requestData;
     if (checkMethodHasBody(method)) {
-      payload.data = data;
+      payload.data = requestData;
       if (requestConfig?.params) {
         payload.params = requestConfig.params;
       }
     } else {
-      payload.params = requestConfig?.params ? { ...requestConfig.params, ...data } : data;
+      payload.params = requestConfig?.params
+        ? { ...requestConfig.params, ...requestData }
+        : requestData;
     }
   }
-  if (requestData && (apiConfig as any).paramsInUrl) {
+
+  if (requestData && 'paramsInUrl' in apiConfig) {
     payload.url = pathParams(path, requestData, (apiConfig as any).paramsInUrl);
   }
 
