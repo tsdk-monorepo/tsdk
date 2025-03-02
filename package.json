@@ -8,7 +8,7 @@
     "test": "pnpm -r test",
     "build": "pnpm -r build",
     "dev": "pnpm -r dev",
-    "start:tsdk": "pnpm build:tsdk && pnpm --filter tsdk start",
+    "start:tsdk": "pnpm build:tsdk && pnpm --filter tsdk start && pnpm --filter tsdk-server-adapters test",
     "start:bun": "pnpm --filter server-example bun:sync",
     "build:tsdk": "pnpm --filter tsdk-server-adapters --filter tsdk build",
     "dev:web-example": "pnpm --filter server-example --filter web-example dev",
