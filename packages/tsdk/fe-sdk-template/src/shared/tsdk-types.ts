@@ -11,8 +11,8 @@ export const APITypesKey = Object.keys(APITypes).filter((item) => item !== APITy
 export type APIType = keyof typeof APITypes;
 
 export interface APIConfig {
-  /** The API type. Like: user side or admin side. */
-  type: APIType;
+  /** The API type. Like: user side or admin side. default is `user` */
+  type?: APIType;
   /** The API path */
   path: string;
   method: 'get' | 'post' | 'delete' | 'put' | 'patch' | 'head' | 'options';

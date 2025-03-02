@@ -42,7 +42,7 @@ export const setSocketIOInstance = (instance: Socket): void => {
         if (!status || status === 200) {
           QUEUES[msgId].resolve(result);
         } else {
-          QUEUES[msgId].reject(result);
+          QUEUES[msgId].reject({ status, result });
         }
         delete QUEUES[msgId];
       }
@@ -85,12 +85,10 @@ export function socketIOHandler(
           : data,
     });
 
-    const timer = requestConfig?.timeout
-      ? setTimeout(() => {
-          delete QUEUES[msgId];
-          reject(new TimeoutError('Request Timeout'));
-        }, requestConfig.timeout)
-      : -1;
+    const timer = setTimeout(() => {
+      delete QUEUES[msgId];
+      reject(new TimeoutError('Request Timeout'));
+    }, requestConfig?.timeout || 10e3);
 
     QUEUES[msgId] = {
       resolve(res: any) {

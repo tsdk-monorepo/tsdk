@@ -1,5 +1,6 @@
 import fastifyExpress from '@fastify/express';
 import Fastify from 'fastify';
+import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
 import { expressAdapterFactory } from 'tsdk-server-adapters/lib/express-adapter';
@@ -34,6 +35,9 @@ const port = 3014;
   const app = Fastify({ serverFactory });
 
   await app.register(fastifyExpress);
+
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
   app.use((req, res, next) => {
     res.setHeader('X-Powered-By', 'tsdk');
     next();

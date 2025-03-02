@@ -43,8 +43,7 @@ export function socketIOAdapterFactory<ReqInfo>({
         const [methodIdx, path] = data._id.split(':');
         const method = methodsMap[methodIdx] || methodIdx || 'get';
         const eventName = getRouteEventName({ protocol: 'socket.io', type, method, path });
-
-        if ((routeBus as ObjectLiteral)._events[eventName]) {
+        if (eventName in (routeBus as ObjectLiteral)._events) {
           routeBus.emit(eventName, reqInfo, socket, getData ? await getData(data) : data);
         }
       }

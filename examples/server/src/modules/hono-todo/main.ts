@@ -40,7 +40,7 @@ const port = 3013;
           ip: '',
           lang: 'zh-CN',
           type: (req.param() as { type: string }).type,
-          token: req.header['authorization'],
+          token: req.header('authorization'),
         };
         return params;
       },
@@ -48,8 +48,12 @@ const port = 3013;
         return reqInfo.type;
       },
       async getData(req: HonoRequest) {
-        // maybe decode here?(e.g.: decryption)
-        return checkMethodHasBody(req.method) ? req.raw.body : req.query();
+        const data = checkMethodHasBody(req.method)
+          ? req.header('Content-Type')?.startsWith('application/json')
+            ? req.json()
+            : req.raw.body
+          : req.query();
+        return data;
       },
     })
   );
