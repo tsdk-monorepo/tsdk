@@ -30,7 +30,7 @@ module.exports = {
 - `sharedDirs` - 共享文件夹，默认 `["./src/shared"]`
 - `monorepoRoot` - monorepo 根路径，默认当前路径 `./`
 - `httpLib` - 可选值有 `xior` | `axios`，默认 `axios`; `xior` 和 `axios` 什么区别？`xior` 使用 fetch，API 和 `axios` 类似
-- `dataHookLib` - 可选值有 `SWR` | `ReactQuery`，生成 `SWR` 或者 `React Query` 钩子；get 方法的接口将生成获取钩子，非 get 的将生成更新钩子。默认不生成。依赖版本：swr@^2.2.4；@tanstack/react-query@^5.10.0
+- `dataHookLib` - 可选值有 `SWR` | `ReactQuery` | `VueQuery` | string[]，生成 `SWR` 或者 `React Query` 钩子；get 方法的接口将生成获取钩子，非 get 的将生成更新钩子。默认不生成。依赖版本：swr@^2.3.2；@tanstack/react-query@^5.66.9
 - `dependencies` - 自定义依赖，将会和 **fe-sdk/package.json** dependencies 进行合并。作用：添加自定义依赖，以及覆盖默认的依赖版本号
 - `devDependencies` - 自定义依赖，将会和 **fe-sdk/package.json** devDependencies 进行合并。
 
@@ -66,8 +66,7 @@ module.exports = {
 
 `monorepoRoot` - monorepo 根路径，默认当前路径 `./`
 
-
-### `httpLib` 
+### `httpLib`
 
 可选值有 `xior` | `axios`，默认 `axios`；
 
@@ -75,7 +74,7 @@ module.exports = {
 
 ### dataHookLib
 
-`dataHookLib` - 可选值有 `SWR` | `ReactQuery`，生成 `SWR` 或者 `React Query` 钩子；get 方法的接口将生成获取钩子，非 get 的将生成更新钩子。默认不生成。依赖版本：swr@^2.2.4；@tanstack/react-query@^5.10.0
+`dataHookLib` - 可选值有 `SWR` | `ReactQuery` | `VueQuery` | string[]，生成 `SWR`， `React Query` 或者 `Vue Query` 钩子；get 方法的接口将生成获取钩子，非 get 的将生成更新钩子。默认不生成。依赖版本：swr@^2.3.2；@tanstack/react-query@^5.66.9
 
 ### dependencies
 

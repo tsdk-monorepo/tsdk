@@ -1,9 +1,9 @@
-import { expect } from 'chai';
+import { expect, it, describe, beforeAll, afterAll, beforeEach, afterEach } from 'vitest';
 
 import { TodoStatus } from '../Todo.entity';
 import { addTodoSchema, updateTodoSchema, deleteTodoSchema } from '../apiconf/TodoSchema.shared';
 
-import { IDSchema } from '@/src/shared/utils';
+import { IDSchema } from '../../../shared/utils';
 
 describe('TodoSchema tests', () => {
   describe('IDSchema tests', () => {

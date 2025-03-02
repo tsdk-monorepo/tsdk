@@ -4,6 +4,8 @@ import http from 'http';
 import { Server } from 'socket.io';
 import { expressAdapterFactory } from 'tsdk-server-adapters/lib/express-adapter';
 import { socketIOAdapterFactory } from 'tsdk-server-adapters/lib/socket.io-adapter';
+// import { expressAdapterFactory } from 'tsdk-server-adapters/esm/express-adapter';
+// import { socketIOAdapterFactory } from 'tsdk-server-adapters/esm/socket.io-adapter';
 
 import { setupRoutes } from '../setup-routes';
 import { routeBus } from '../todo/gen-route';
