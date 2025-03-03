@@ -45,8 +45,13 @@ export async function xiorHandler(
     throw new NoHandlerError(`Call \`setXiorInstance\` first`);
   }
 
-  const { path, headers, isGet } = apiConfig;
+  const { path, headers, isGet, onRequest, onResponse } = apiConfig;
   const method = apiConfig.method.toLowerCase();
+
+  // Apply onRequest hook if available
+  if (onRequest) {
+    requestData = await onRequest(requestData);
+  }
 
   const payload: _XiorRequestConfig = {
     method: method === 'patch' ? method.toUpperCase() : method,
@@ -80,5 +85,7 @@ export async function xiorHandler(
   }
 
   const { data } = await instance.request(payload);
-  return data;
+
+  // Apply onResponse hook if available
+  return onResponse ? await onResponse(data) : data;
 }

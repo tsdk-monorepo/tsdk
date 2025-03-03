@@ -45,8 +45,13 @@ export async function axiosHandler(
     throw new NoHandlerError(`Call \`setAxiosInstance\` first`);
   }
 
-  const { path, headers } = apiConfig;
+  const { path, headers, onRequest, onResponse } = apiConfig;
   const method = apiConfig.method.toLowerCase();
+
+  // Apply onRequest hook if available
+  if (onRequest) {
+    requestData = await onRequest(requestData);
+  }
 
   const payload: AxiosRequestConfig = {
     method: method === 'patch' ? method.toUpperCase() : method,
@@ -79,5 +84,7 @@ export async function axiosHandler(
   }
 
   const { data } = await instance.request(payload);
-  return data;
+
+  // Apply onResponse hook if available
+  return onResponse ? await onResponse(data) : data;
 }

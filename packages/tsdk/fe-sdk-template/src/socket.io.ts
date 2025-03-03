@@ -61,7 +61,7 @@ export const getSocketIOInstance = (): Socket => {
 
 type ParamsOfFromEntries = Parameters<typeof Object.fromEntries>[0];
 
-export function socketIOHandler(
+export async function socketIOHandler(
   apiConfig: APIConfig,
   data: any,
   requestConfig?: ObjectLiteral & { timeout?: number }
@@ -70,19 +70,25 @@ export function socketIOHandler(
   if (!ioInstance) {
     throw new NoHandlerError(`Call \`setSocketIOInstance\` first`);
   }
-  return new Promise((resolve, reject) => {
-    if (!ioInstance.connected) {
-      return reject(new NoConnectionError('No Connection'));
-    }
+  if (!ioInstance.connected) {
+    throw new NoConnectionError('No Connection');
+  }
 
-    const msgId = getID(apiConfig.method, apiConfig.path);
+  const { method, path, onRequest, onResponse } = apiConfig;
+
+  let requestData =
+    data instanceof FormData ? Object.fromEntries(data as unknown as ParamsOfFromEntries) : data;
+  // Apply onRequest hook if available
+  if (onRequest) {
+    requestData = await onRequest(requestData);
+  }
+
+  return new Promise((resolve, reject) => {
+    const msgId = getID(method, path);
 
     ioInstance.emit(ProtocolTypes.request, {
       _id: msgId,
-      payload:
-        data instanceof FormData
-          ? Object.fromEntries(data as unknown as ParamsOfFromEntries)
-          : data,
+      payload: requestData,
     });
 
     const timer = setTimeout(() => {
@@ -91,9 +97,9 @@ export function socketIOHandler(
     }, requestConfig?.timeout || 10e3);
 
     QUEUES[msgId] = {
-      resolve(res: any) {
+      async resolve(res: unknown) {
         clearTimeout(timer);
-        resolve(res);
+        resolve(onResponse ? await onResponse(res) : res);
       },
       reject(e: Error) {
         clearTimeout(timer);
