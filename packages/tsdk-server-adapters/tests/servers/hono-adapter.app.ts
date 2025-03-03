@@ -60,7 +60,7 @@ app.all(
       return reqInfo.type;
     },
     async getData(req: HonoRequest) {
-      if (checkMethodHasBody(req.method)) {
+      if (!checkMethodHasBody(req.method)) {
         return req.query();
       }
       const contentType = req.header('content-type') || '';
