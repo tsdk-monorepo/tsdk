@@ -26,7 +26,10 @@ jobs:
         name: Install pnpm
         id: pnpm-install
         with:
-          # version: 9.1.2
+          run_install: false
+
+      - uses: oven-sh/setup-bun@v2
+        with:
           run_install: false
 
       - name: Install dependencies
@@ -34,12 +37,9 @@ jobs:
 
       - run: pnpm -v
       - run: dir
-      # - run: pnpm lint
       - run: pnpm start:tsdk
 
-      - uses: oven-sh/setup-bun@v2
       - run: pnpm start:bun
 
       - run: pnpm --filter fe-sdk-demo-docs build
       - run: dir
-      

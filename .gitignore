@@ -67,3 +67,6 @@ build-*
 *.db-wal
 *.zip
 test-project
+test-project-bun
+test-project-yarn
+test-project-npm
