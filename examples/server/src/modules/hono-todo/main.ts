@@ -48,12 +48,30 @@ const port = 3013;
         return reqInfo.type;
       },
       async getData(req: HonoRequest) {
-        const data = checkMethodHasBody(req.method)
-          ? req.header('Content-Type')?.startsWith('application/json')
-            ? req.json()
-            : req.raw.body
-          : req.query();
-        return data;
+        if (checkMethodHasBody(req.method)) {
+          return req.query();
+        }
+        const contentType = req.header('content-type') || '';
+        try {
+          if (contentType.includes('application/json')) {
+            const bodyText = await req.text(); // Read raw body first
+
+            if (!bodyText.trim()) {
+              return null; // Handle empty JSON body
+            }
+
+            return JSON.parse(bodyText); // Manually parse to catch errors
+          } else if (contentType.includes('text/plain')) {
+            return await req.text();
+          } else if (
+            contentType.includes('multipart/form-data') ||
+            contentType.includes('application/x-www-form-urlencoded')
+          ) {
+            return await req.parseBody();
+          }
+        } catch (error) {
+          return null; // Gracefully handle unexpected errors
+        }
       },
     })
   );
