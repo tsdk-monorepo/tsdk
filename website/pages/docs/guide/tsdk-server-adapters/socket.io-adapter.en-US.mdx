@@ -6,6 +6,8 @@
 import http from 'http';
 import { Server } from 'socket.io';
 import { socketIOAdapterFactory } from 'tsdk-server-adapters/lib/socket.io-adapter';
+// import { socketIOAdapterFactory } from 'tsdk-server-adapters/esm/socket.io-adapter';
+
 import { ProtocolTypes } from '@/src/shared/tsdk-helper';
 import { RequestInfo, routeBus } from './gen-route';
 

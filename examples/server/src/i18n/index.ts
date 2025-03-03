@@ -1,10 +1,10 @@
 import 'intl-pluralrules';
-import i18next from 'i18next';
+import i18next, { i18n as I18n } from 'i18next';
 
 import helloJSON from './index.json';
 
 const translation = helloJSON;
-export const i18n = i18next.createInstance(
+export const i18n: I18n = i18next.createInstance(
   {
     fallbackLng: 'en',
     debug: true,

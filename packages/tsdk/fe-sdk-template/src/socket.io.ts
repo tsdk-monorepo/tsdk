@@ -1,13 +1,12 @@
 // @ts-ignore
 import type { Socket } from 'socket.io-client';
-
 import { NoConnectionError, NoHandlerError, TimeoutError } from './error';
 import { APIConfig, ObjectLiteral, ProtocolTypes } from './shared/tsdk-helper';
-import { getID } from './utils';
+import { RequestError, getID } from './utils';
 
 let socketIOInstance: Socket;
 
-const QUEUEs: ObjectLiteral = {};
+const QUEUES: ObjectLiteral = {};
 
 /**
  * Set the io instance
@@ -38,13 +37,14 @@ export const setSocketIOInstance = (instance: Socket): void => {
       result?: unknown;
       [key: string]: unknown;
     }) => {
-      if (msgId && QUEUEs[msgId]) {
+      if (msgId && QUEUES[msgId]) {
         if (!status || status === 200) {
-          QUEUEs[msgId].resolve(result);
+          QUEUES[msgId].resolve(result);
         } else {
-          QUEUEs[msgId].reject(result);
+          const _result = result as RequestError;
+          QUEUES[msgId].reject({ status, errors: _result?.errors, message: _result?.message });
         }
-        delete QUEUEs[msgId];
+        delete QUEUES[msgId];
       }
     }
   );
@@ -53,16 +53,15 @@ export const setSocketIOInstance = (instance: Socket): void => {
 /**
  * Get socket.io-client instance
  *
- * @param instance - socekt.io-client instance
  * @returns The io
  */
-export const getSocketIOInstance: () => Socket = () => {
+export const getSocketIOInstance = (): Socket => {
   return socketIOInstance;
 };
 
 type ParamsOfFromEntries = Parameters<typeof Object.fromEntries>[0];
 
-export function socketIOHandler(
+export async function socketIOHandler(
   apiConfig: APIConfig,
   data: any,
   requestConfig?: ObjectLiteral & { timeout?: number }
@@ -71,32 +70,36 @@ export function socketIOHandler(
   if (!ioInstance) {
     throw new NoHandlerError(`Call \`setSocketIOInstance\` first`);
   }
-  return new Promise((resolve, reject) => {
-    if (!ioInstance.connected) {
-      return reject(new NoConnectionError('No Connection'));
-    }
+  if (!ioInstance.connected) {
+    throw new NoConnectionError('No Connection');
+  }
 
-    const msgId = getID(apiConfig.method, apiConfig.path);
+  const { method, path, onRequest, onResponse } = apiConfig;
+
+  let requestData =
+    data instanceof FormData ? Object.fromEntries(data as unknown as ParamsOfFromEntries) : data;
+  // Apply onRequest hook if available
+  if (onRequest) {
+    requestData = await onRequest(requestData);
+  }
+
+  return new Promise((resolve, reject) => {
+    const msgId = getID(method, path);
 
     ioInstance.emit(ProtocolTypes.request, {
       _id: msgId,
-      payload:
-        data instanceof FormData
-          ? Object.fromEntries(data as unknown as ParamsOfFromEntries)
-          : data,
+      payload: requestData,
     });
 
-    const timer = requestConfig?.timeout
-      ? setTimeout(() => {
-          delete QUEUEs[msgId];
-          reject(new TimeoutError('Request Timeout'));
-        }, requestConfig.timeout)
-      : -1;
+    const timer = setTimeout(() => {
+      delete QUEUES[msgId];
+      reject(new TimeoutError('Request Timeout'));
+    }, requestConfig?.timeout || 10e3);
 
-    QUEUEs[msgId] = {
-      resolve(res: any) {
+    QUEUES[msgId] = {
+      async resolve(res: unknown) {
         clearTimeout(timer);
-        resolve(res);
+        resolve(onResponse ? await onResponse(res) : res);
       },
       reject(e: Error) {
         clearTimeout(timer);

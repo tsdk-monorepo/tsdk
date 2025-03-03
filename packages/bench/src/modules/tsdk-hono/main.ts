@@ -1,6 +1,7 @@
 import { serve } from '@hono/node-server';
 import { Hono, HonoRequest } from 'hono';
 import { honoAdapterFactory } from 'tsdk-server-adapters/lib/hono-adapter';
+// import { honoAdapterFactory } from 'tsdk-server-adapters/esm/hono-adapter';
 
 import { setupHelloAPI } from './Hello.api';
 import { RequestInfo, routeBus } from './gen-route';
@@ -30,8 +31,31 @@ app.all(
     getType(reqInfo) {
       return reqInfo.type;
     },
-    async getData(req) {
-      return checkMethodHasBody(req.method) ? req.raw.body : req.query();
+    async getData(req: HonoRequest) {
+      if (!checkMethodHasBody(req.method)) {
+        return req.query();
+      }
+      const contentType = req.header('content-type') || '';
+      try {
+        if (contentType.includes('application/json')) {
+          const bodyText = await req.text(); // Read raw body first
+
+          if (!bodyText.trim()) {
+            return null; // Handle empty JSON body
+          }
+
+          return JSON.parse(bodyText); // Manually parse to catch errors
+        } else if (contentType.includes('text/plain')) {
+          return await req.text();
+        } else if (
+          contentType.includes('multipart/form-data') ||
+          contentType.includes('application/x-www-form-urlencoded')
+        ) {
+          return await req.parseBody();
+        }
+      } catch (error) {
+        return null; // Gracefully handle unexpected errors
+      }
     },
   })
 );

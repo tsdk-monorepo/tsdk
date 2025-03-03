@@ -1,14 +1,15 @@
-// @ts-ignore
 import EventEmitter from 'eventemitter3';
 // @ts-ignore
 import type { Response } from 'express';
 // @ts-ignore
 import type { Context } from 'hono';
+// @ts-ignore
 import { StatusCode } from 'hono/utils/http-status';
 // @ts-ignore
 import type { Socket } from 'socket.io';
 // @ts-ignore
 import type { WebSocket } from 'ws';
+// @ts-ignore
 import type { ZodTypeAny } from 'zod';
 
 export const PROTOCOLs = {
@@ -30,7 +31,7 @@ type ResponseSocket = Response | Context | Socket | WebSocket;
 interface BasicAPIConfig {
   method: string;
   path: string;
-  type: string;
+  type?: string;
   schema?: ZodTypeAny;
 }
 
@@ -46,21 +47,21 @@ export interface ProtocolType {
 export function getRouteEventName(
   config: Pick<BasicAPIConfig, 'type' | 'method' | 'path'> & { protocol: Protocol }
 ) {
-  return `${PROTOCOLs[config.protocol]}:${config.type}:${config.method}:${config.path}`;
+  return `${PROTOCOLs[config.protocol]}:${config.type || 'user'}:${config.method}:${config.path}`;
 }
 
 function sendFactory(
   protocol: Protocol,
   response: ResponseSocket,
   protocolType: ProtocolType,
-  callback?: (result: any) => void
+  callback?: (result: unknown) => void
 ) {
   return function send(payload: {
     _id: string;
     status?: number;
     result?: unknown;
     // [key: string]: unknown;
-    callback?: Function;
+    callback?: () => void;
   }) {
     // default http is express.js
     if (protocol === 'express') {
@@ -88,7 +89,7 @@ function sendFactory(
 
 export function genRouteFactory<APIConfig, RequestInfo>(
   onErrorHandler: (
-    error: unknown,
+    error: Error,
     params: {
       protocol: Protocol;
       msgId: string;
@@ -122,7 +123,7 @@ export function genRouteFactory<APIConfig, RequestInfo>(
       reqInfo: Readonly<RequestInfo>,
       response: ResponseSocket,
       { _id: msgId, payload }: { _id: string; payload: ReqData },
-      callback?: (result: any) => void
+      callback?: () => void
     ) {
       const send = sendFactory(protocol, response, protocolType, callback);
 
@@ -134,11 +135,11 @@ export function genRouteFactory<APIConfig, RequestInfo>(
             return previousPromise.then(() => nextMiddleware(protocol, apiConfig, reqInfo));
           }, Promise.resolve());
         }
-        const data = apiConfig.schema ? apiConfig.schema.parse(payload) : payload;
+        const data = apiConfig.schema ? apiConfig.schema.parse(payload || {}) : payload;
         const result = await cb(data, reqInfo, response);
         send({ result, _id: msgId, callback });
       } catch (e) {
-        onErrorHandler(e, {
+        onErrorHandler(e as Error, {
           protocol,
           msgId,
           send,
@@ -168,7 +169,7 @@ export function genRouteFactory<APIConfig, RequestInfo>(
           reqInfo: Readonly<RequestInfo>,
           resOrSocket: ResponseSocket,
           body: { _id: string; payload: ReqData },
-          callback?: (result: any) => void
+          callback?: () => void
         ) => {
           onEvent(i as Protocol, reqInfo, resOrSocket, body, callback);
         }
@@ -186,7 +187,7 @@ export function genRouteFactory<APIConfig, RequestInfo>(
         resOrSocket?: ResponseSocket
       ) => Promise<ResData>
     ) {
-      if (apiConfig.type === 'common' || !apiConfig.type) {
+      if (apiConfig.type === 'common') {
         if (!types || types?.length === 0) {
           throw new Error(`\`genRouteFactory\` \`types\` param is required`);
         }

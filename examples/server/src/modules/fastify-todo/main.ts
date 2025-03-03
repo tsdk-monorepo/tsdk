@@ -1,9 +1,12 @@
 import fastifyExpress from '@fastify/express';
 import Fastify from 'fastify';
+import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
 import { expressAdapterFactory } from 'tsdk-server-adapters/lib/express-adapter';
 import { socketIOAdapterFactory } from 'tsdk-server-adapters/lib/socket.io-adapter';
+// import { expressAdapterFactory } from 'tsdk-server-adapters/esm/express-adapter';
+// import { socketIOAdapterFactory } from 'tsdk-server-adapters/esm/socket.io-adapter';
 
 import { setupRoutes } from '../setup-routes';
 import { routeBus } from '../todo/gen-route';
@@ -32,6 +35,9 @@ const port = 3014;
   const app = Fastify({ serverFactory });
 
   await app.register(fastifyExpress);
+
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
   app.use((req, res, next) => {
     res.setHeader('X-Powered-By', 'tsdk');
     next();
