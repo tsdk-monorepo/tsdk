@@ -68,10 +68,10 @@ export async function addDepsIfNone() {
           symbols.warning,
           `\`tsdk\` depends on \`${dependency}\`, so automatically adding \`${dependency}\` to dependencies`
         );
-        console.log(
-          symbols.info,
-          `You can run \`${npmCMDs.installCmd}\` to install new dependencies`
-        );
+        // console.log(
+        //   symbols.info,
+        //   `You can run \`${npmCMDs.installCmd}\` to install new dependencies`
+        // );
         console.log('');
       }
       return 1;

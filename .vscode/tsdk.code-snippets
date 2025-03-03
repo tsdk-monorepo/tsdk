@@ -64,7 +64,7 @@
       "// --------- ${1:ApiName} END ---------"
     ],
     "description": "API Config snippet but more simple"
-  },  
+  },
   "importApiConf": {
     "scope": "typescriptreact,typescript",
     "prefix": "apin",
