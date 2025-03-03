@@ -1,3 +1,4 @@
+import * as z from 'zod';
 import { Hono, HonoRequest } from 'hono';
 
 import { honoAdapterFactory } from '../../src/hono-adapter';
@@ -6,12 +7,36 @@ import { checkMethodHasBody, RequestInfo } from './utils';
 
 export const app = new Hono();
 
-genRoute({ method: 'get', path: '/hello' }, async (data) => {
-  return { msg: 'hello get', data };
-});
-genRoute({ method: 'post', path: '/hello' }, async (data) => {
-  return { msg: 'hello post', data };
-});
+genRoute(
+  {
+    method: 'get',
+    path: '/hello',
+    schema: z
+      .object({
+        a: z.string().optional(),
+        b: z.string().optional(),
+      })
+      .strict(),
+  },
+  async (data) => {
+    return { msg: 'hello get', data };
+  }
+);
+genRoute(
+  {
+    method: 'post',
+    path: '/hello',
+    schema: z
+      .object({
+        a: z.string().optional(),
+        b: z.string().optional(),
+      })
+      .strict(),
+  },
+  async (data) => {
+    return { msg: 'hello post', data };
+  }
+);
 
 genRoute({ method: 'get', path: '/auth', needAuth: true }, async (data) => {
   return { msg: 'ok', data };
@@ -35,12 +60,17 @@ app.all(
       return reqInfo.type;
     },
     async getData(req: HonoRequest) {
-      const data = checkMethodHasBody(req.method)
-        ? req.header('Content-Type')?.startsWith('application/json')
-          ? req.json()
-          : req.raw.body
-        : req.query();
-      return data;
+      if (checkMethodHasBody(req.method)) {
+        let result = await req.text();
+        try {
+          result = JSON.parse(result);
+        } catch (_e) {
+          //
+        }
+        return result || {};
+      }
+
+      return req.query();
     },
   })
 );

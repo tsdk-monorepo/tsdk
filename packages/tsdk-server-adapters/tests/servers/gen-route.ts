@@ -11,7 +11,7 @@ function onErrorHandler(
       _id: msgId,
       status: 400,
       result: {
-        msg: e.issues,
+        msg: e.errors,
       },
     });
   }

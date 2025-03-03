@@ -1,7 +1,7 @@
 import { it, beforeAll, afterAll, describe, expect } from 'vitest';
 
 import SocketIOClient, { Socket } from 'socket.io-client';
-import { server } from './servers/socket.io.app';
+import { server } from './servers/socket.io-adapter.app';
 import { getID, ProtocolTypes } from './servers/utils';
 import { ObjectLiteral } from '../src/gen-route-factory';
 
@@ -32,7 +32,7 @@ beforeAll(async () => {
         if (!status || status === 200) {
           QUEUES[msgId].resolve(result);
         } else {
-          QUEUES[msgId].reject({ status });
+          QUEUES[msgId].reject({ status, msg: (result as any)?.msg });
         }
         delete QUEUES[msgId];
       }
@@ -141,6 +141,34 @@ describe('socket.io adapter tests', () => {
     expect(result.msg).toBe('hello post');
     expect(result.data.a).toBe('1');
     expect(result.data.b).toBe('2');
+  });
+
+  it('GET with not valid query data should throw error', async () => {
+    let error!: any;
+    try {
+      await send('get', '/hello', { a: 'a', b: 'b', c: 'd' });
+    } catch (e) {
+      error = e;
+    }
+    expect(error).toBeDefined();
+    expect(error.status).toBe(400);
+    const res = error;
+    expect(res.msg[0].code).toBe('unrecognized_keys');
+    expect(res.msg[1]).toBeUndefined();
+  });
+
+  it('POST with not valid data should throw error', async () => {
+    let error!: any;
+    try {
+      await send('post', '/hello', { a: 'a', b: 'b', c: 'd' });
+    } catch (e) {
+      error = e;
+    }
+    expect(error).toBeDefined();
+    expect(error.status).toBe(400);
+    const res = error;
+    expect(res.msg[0].code).toBe('unrecognized_keys');
+    expect(res.msg[1]).toBeUndefined();
   });
 });
 

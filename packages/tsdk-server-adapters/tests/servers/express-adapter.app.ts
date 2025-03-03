@@ -1,3 +1,4 @@
+import * as z from 'zod';
 import express from 'express';
 
 import { expressAdapterFactory } from '../../src/express-adapter';
@@ -9,12 +10,36 @@ export const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-genRoute({ method: 'get', path: '/hello' }, async (data) => {
-  return { msg: 'hello get', data };
-});
-genRoute({ method: 'post', path: '/hello' }, async (data) => {
-  return { msg: 'hello post', data };
-});
+genRoute(
+  {
+    method: 'get',
+    path: '/hello',
+    schema: z
+      .object({
+        a: z.string().optional(),
+        b: z.string().optional(),
+      })
+      .strict(),
+  },
+  async (data) => {
+    return { msg: 'hello get', data };
+  }
+);
+genRoute(
+  {
+    method: 'post',
+    path: '/hello',
+    schema: z
+      .object({
+        a: z.string().optional(),
+        b: z.string().optional(),
+      })
+      .strict(),
+  },
+  async (data) => {
+    return { msg: 'hello post', data };
+  }
+);
 
 genRoute({ method: 'get', path: '/auth', needAuth: true }, async (data) => {
   return { msg: 'ok', data };

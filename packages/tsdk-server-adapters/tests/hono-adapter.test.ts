@@ -61,9 +61,12 @@ describe('Hono adapter tests', () => {
   });
 
   it('POST should work', async () => {
-    const result = await fetch(`http://localhost:${port}/api/user/hello`, { method: 'post' }).then(
-      (res) => res.json()
-    );
+    const result = await fetch(`http://localhost:${port}/api/user/hello`, {
+      method: 'post',
+      headers: {
+        'content-type': 'application/json',
+      },
+    }).then((res) => res.json());
     expect(result.msg).toBe('hello post');
   });
 
@@ -129,5 +132,43 @@ describe('Hono adapter tests', () => {
     }
     expect(error).not.toBeUndefined();
     expect(error.status).toBe(404);
+  });
+
+  it('GET with not valid query data should throw error', async () => {
+    let error!: Response;
+    try {
+      await fetch(`http://localhost:${port}/api/user/hello?a=a&b=b&c=d`)
+        .then((res) => (res.ok ? res : Promise.reject(res)))
+        .then((res) => res.json());
+    } catch (e) {
+      error = e;
+    }
+    expect(error).toBeDefined();
+    expect(error.status).toBe(400);
+    const res = await error.json();
+    expect(res.msg[0].code).toBe('unrecognized_keys');
+    expect(res.msg[1]).toBeUndefined();
+  });
+
+  it('POST with not valid data should throw error', async () => {
+    let error!: Response;
+    try {
+      await fetch(`http://localhost:${port}/api/user/hello`, {
+        method: 'post',
+        body: JSON.stringify({ a: '1', b: '2', c: 'd' }),
+        headers: {
+          'content-type': 'application/json',
+        },
+      })
+        .then((res) => (res.ok ? res : Promise.reject(res)))
+        .then((res) => res.json());
+    } catch (e) {
+      error = e;
+    }
+    expect(error).toBeDefined();
+    expect(error.status).toBe(400);
+    const res = await error.json();
+    expect(res.msg[0].code).toBe('unrecognized_keys');
+    expect(res.msg[1]).toBeUndefined();
   });
 });

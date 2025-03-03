@@ -1,3 +1,4 @@
+import * as z from 'zod';
 import http from 'http';
 import { Server } from 'socket.io';
 
@@ -5,12 +6,36 @@ import { socketIOAdapterFactory } from '../../src/socket.io-adapter';
 import genRoute, { routeBus } from './gen-route';
 import { ProtocolTypes, RequestInfo } from './utils';
 
-genRoute({ method: 'get', path: '/hello' }, async (data) => {
-  return { msg: 'hello get', data };
-});
-genRoute({ method: 'post', path: '/hello' }, async (data) => {
-  return { msg: 'hello post', data };
-});
+genRoute(
+  {
+    method: 'get',
+    path: '/hello',
+    schema: z
+      .object({
+        a: z.string().optional(),
+        b: z.string().optional(),
+      })
+      .strict(),
+  },
+  async (data) => {
+    return { msg: 'hello get', data };
+  }
+);
+genRoute(
+  {
+    method: 'post',
+    path: '/hello',
+    schema: z
+      .object({
+        a: z.string().optional(),
+        b: z.string().optional(),
+      })
+      .strict(),
+  },
+  async (data) => {
+    return { msg: 'hello post', data };
+  }
+);
 
 genRoute({ method: 'get', path: '/auth', needAuth: true }, async (data) => {
   return { msg: 'ok', data };

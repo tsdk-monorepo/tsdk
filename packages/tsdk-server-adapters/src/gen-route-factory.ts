@@ -135,7 +135,7 @@ export function genRouteFactory<APIConfig, RequestInfo>(
             return previousPromise.then(() => nextMiddleware(protocol, apiConfig, reqInfo));
           }, Promise.resolve());
         }
-        const data = apiConfig.schema ? apiConfig.schema.parse(payload) : payload;
+        const data = apiConfig.schema ? apiConfig.schema.parse(payload || {}) : payload;
         const result = await cb(data, reqInfo, response);
         send({ result, _id: msgId, callback });
       } catch (e) {
