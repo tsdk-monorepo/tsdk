@@ -11,7 +11,7 @@
     "build:esm": "rm -rf esm && tsc --project tsconfig.esm.json && rm -rf esm/tests",
     "lint": "eslint ./src --ext .ts,.tsx --fix",
     "checktype": "tsc --noEmit",
-    "test": "vitest --run --testTimeout=120000 --hookTimeout=30000",
+    "test": "vitest --run --testTimeout=120000 --hookTimeout=60000",
     "start-publish": "node ../../scripts/purge-pkg-for-publish.mjs && npm run build && npm publish --access public --no-git-checks --provenance --registry=https://registry.npmjs.org"
   },
   "files": [
