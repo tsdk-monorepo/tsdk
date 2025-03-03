@@ -1,3 +1,6 @@
+// @ts-ignore
+import type { ZodIssue } from 'zod';
+
 /**
  * The `methods` sort order should same with
  * `packages/tsdk-server-adapters/src/socket.io-adapter.ts`
@@ -29,3 +32,8 @@ export function getID(method: string, path: string): string {
     Date.now().toString(36).slice(-4) + Math.random().toString(36).slice(-4)
   }`;
 }
+
+export type RequestError = {
+  errors?: ZodIssue[];
+  message?: string;
+};

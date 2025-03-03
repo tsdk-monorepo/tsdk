@@ -1,6 +1,11 @@
 import { genRouteFactory, getRouteEventName, Protocol } from '../../src';
-import { ZodError } from 'zod';
+import { ZodError, ZodIssue } from 'zod';
 import { APIConfig, ProtocolTypes, RequestInfo } from './utils';
+
+export type RequestError = {
+  errors?: ZodIssue[];
+  message?: string;
+};
 
 function onErrorHandler(
   e: unknown,
@@ -11,7 +16,7 @@ function onErrorHandler(
       _id: msgId,
       status: 400,
       result: {
-        msg: e.errors,
+        errors: e.errors,
       },
     });
   }
@@ -20,9 +25,8 @@ function onErrorHandler(
   if (e instanceof AuthError) {
     status = 401;
   }
-  const msg = (e as Error).message;
-
-  return send({ _id: msgId, status, result: { msg } });
+  const message = (e as Error).message;
+  return send({ _id: msgId, status, result: { message } });
 }
 
 class AuthError extends Error {

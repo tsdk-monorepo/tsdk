@@ -146,8 +146,8 @@ describe('Hono adapter tests', () => {
     expect(error).toBeDefined();
     expect(error.status).toBe(400);
     const res = await error.json();
-    expect(res.msg[0].code).toBe('unrecognized_keys');
-    expect(res.msg[1]).toBeUndefined();
+    expect(res.errors[0].code).toBe('unrecognized_keys');
+    expect(res.errors[1]).toBeUndefined();
   });
 
   it('POST with not valid data should throw error', async () => {
@@ -168,7 +168,7 @@ describe('Hono adapter tests', () => {
     expect(error).toBeDefined();
     expect(error.status).toBe(400);
     const res = await error.json();
-    expect(res.msg[0].code).toBe('unrecognized_keys');
-    expect(res.msg[1]).toBeUndefined();
+    expect(res.errors[0].code).toBe('unrecognized_keys');
+    expect(res.errors[1]).toBeUndefined();
   });
 });

@@ -1,6 +1,6 @@
 import * as z from 'zod';
 import express from 'express';
-
+import multer from 'multer';
 import { expressAdapterFactory } from '../../src/express-adapter';
 import genRoute, { routeBus } from './gen-route';
 import { checkMethodHasBody, RequestInfo } from './utils';
@@ -50,6 +50,12 @@ genRoute({ method: 'post', path: '/auth', needAuth: true }, async (data) => {
 
 app.use(
   '/api/:type',
+  (req, res, next) => {
+    // if ([UploadImageConfig.path].includes(req.url)) {
+    //   return next();
+    // }
+    multer().none()(req, res, next); // enable form data without upload
+  },
   expressAdapterFactory<RequestInfo>({
     routeBus,
     async getReqInfo(req) {

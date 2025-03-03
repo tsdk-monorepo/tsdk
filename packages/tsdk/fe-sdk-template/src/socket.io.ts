@@ -1,9 +1,8 @@
 // @ts-ignore
 import type { Socket } from 'socket.io-client';
-
 import { NoConnectionError, NoHandlerError, TimeoutError } from './error';
 import { APIConfig, ObjectLiteral, ProtocolTypes } from './shared/tsdk-helper';
-import { getID } from './utils';
+import { RequestError, getID } from './utils';
 
 let socketIOInstance: Socket;
 
@@ -42,7 +41,8 @@ export const setSocketIOInstance = (instance: Socket): void => {
         if (!status || status === 200) {
           QUEUES[msgId].resolve(result);
         } else {
-          QUEUES[msgId].reject({ status, result });
+          const _result = result as RequestError;
+          QUEUES[msgId].reject({ status, errors: _result?.errors, message: _result?.message });
         }
         delete QUEUES[msgId];
       }

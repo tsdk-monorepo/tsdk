@@ -59,6 +59,21 @@ describe('Fastify with `express-adapter` tests', () => {
     expect(error.status).toBe(401);
   });
 
+  // it('POST with FormData should work', async () => {
+  //   const formData = new FormData();
+  //   formData.append('a', '1');
+  //   formData.append('b', '2');
+  //   const result = await fetch(`http://localhost:${port}/api/user/hello`, {
+  //     method: 'post',
+  //     body: formData,
+  //   })
+  //     .then((res) => (res.ok ? res : Promise.reject(res)))
+  //     .then((res) => res.json());
+  //   expect(result.msg).toBe('hello post');
+  //   expect(result.data.a).toBe('1');
+  //   expect(result.data.b).toBe('2');
+  // });
+
   it('POST should work', async () => {
     const result = await fetch(`http://localhost:${port}/api/user/hello`, { method: 'post' }).then(
       (res) => res.json()
@@ -142,8 +157,8 @@ describe('Fastify with `express-adapter` tests', () => {
     expect(error).toBeDefined();
     expect(error.status).toBe(400);
     const res = await error.json();
-    expect(res.msg[0].code).toBe('unrecognized_keys');
-    expect(res.msg[1]).toBeUndefined();
+    expect(res.errors[0].code).toBe('unrecognized_keys');
+    expect(res.errors[1]).toBeUndefined();
   });
 
   it('POST with not valid data should throw error', async () => {
@@ -164,7 +179,7 @@ describe('Fastify with `express-adapter` tests', () => {
     expect(error).toBeDefined();
     expect(error.status).toBe(400);
     const res = await error.json();
-    expect(res.msg[0].code).toBe('unrecognized_keys');
-    expect(res.msg[1]).toBeUndefined();
+    expect(res.errors[0].code).toBe('unrecognized_keys');
+    expect(res.errors[1]).toBeUndefined();
   });
 });

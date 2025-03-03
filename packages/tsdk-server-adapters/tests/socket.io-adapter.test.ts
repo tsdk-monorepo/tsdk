@@ -4,6 +4,7 @@ import SocketIOClient, { Socket } from 'socket.io-client';
 import { server } from './servers/socket.io-adapter.app';
 import { getID, ProtocolTypes } from './servers/utils';
 import { ObjectLiteral } from '../src/gen-route-factory';
+import { RequestError } from './servers/gen-route';
 
 const port = 7004;
 const QUEUES: ObjectLiteral = {};
@@ -32,7 +33,8 @@ beforeAll(async () => {
         if (!status || status === 200) {
           QUEUES[msgId].resolve(result);
         } else {
-          QUEUES[msgId].reject({ status, msg: (result as any)?.msg });
+          const _result = result as RequestError;
+          QUEUES[msgId].reject({ status, errors: _result?.errors, message: _result?.message });
         }
         delete QUEUES[msgId];
       }
@@ -153,8 +155,8 @@ describe('socket.io adapter tests', () => {
     expect(error).toBeDefined();
     expect(error.status).toBe(400);
     const res = error;
-    expect(res.msg[0].code).toBe('unrecognized_keys');
-    expect(res.msg[1]).toBeUndefined();
+    expect(res.errors[0].code).toBe('unrecognized_keys');
+    expect(res.errors[1]).toBeUndefined();
   });
 
   it('POST with not valid data should throw error', async () => {
@@ -167,8 +169,8 @@ describe('socket.io adapter tests', () => {
     expect(error).toBeDefined();
     expect(error.status).toBe(400);
     const res = error;
-    expect(res.msg[0].code).toBe('unrecognized_keys');
-    expect(res.msg[1]).toBeUndefined();
+    expect(res.errors[0].code).toBe('unrecognized_keys');
+    expect(res.errors[1]).toBeUndefined();
   });
 });
 
