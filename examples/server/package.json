@@ -52,7 +52,7 @@
     "unplugin-swc": "^1.5.1",
     "fs-extra": "^11.3.0",
     "webpack": "^5.98.0",
-    "typescript": "^5.7.3",
+    "typescript": "^5.8.2",
     "webpack-node-externals": "^3.0.0"
   },
   "license": "MIT"
