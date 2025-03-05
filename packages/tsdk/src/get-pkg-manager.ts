@@ -4,16 +4,9 @@ import path from 'path';
 
 export type PackageManager = 'npm' | 'pnpm' | 'yarn' | 'bun';
 
-interface LockFileConfig {
+export interface LockFileConfig {
   lockFile: string;
   packageManager: PackageManager;
-}
-
-interface CommandConfig {
-  pkg: PackageManager;
-  npxCmd: string;
-  installCmd: string;
-  runCmd: string;
 }
 
 const LOCK_FILE_CONFIGS: LockFileConfig[] = [
@@ -22,13 +15,6 @@ const LOCK_FILE_CONFIGS: LockFileConfig[] = [
   { lockFile: 'pnpm-lock.yaml', packageManager: 'pnpm' },
   { lockFile: 'package-lock.json', packageManager: 'npm' },
 ];
-
-const DEFAULT_COMMANDS: CommandConfig = {
-  pkg: 'npm',
-  npxCmd: 'npx',
-  installCmd: 'npm install',
-  runCmd: 'npm run',
-};
 
 function checkPackageManagerVersion(command: string): boolean {
   try {
@@ -65,33 +51,4 @@ export function getPkgManager(baseDir: string): PackageManager {
   } catch {
     return 'npm';
   }
-}
-
-export function getNpmCommand(baseDir: string): CommandConfig {
-  const pkgManager = getPkgManager(baseDir);
-  const commands: CommandConfig = { ...DEFAULT_COMMANDS, pkg: pkgManager };
-
-  switch (pkgManager) {
-    case 'bun':
-      commands.npxCmd = 'bunx';
-      commands.installCmd = 'bun install';
-      commands.runCmd = 'bun run';
-      break;
-
-    case 'pnpm':
-      commands.npxCmd = 'pnpm';
-      commands.installCmd = 'pnpm install';
-      commands.runCmd = 'pnpm';
-      break;
-
-    case 'yarn':
-      if (checkPackageManagerVersion('yarn dlx')) {
-        commands.npxCmd = 'yarn';
-        commands.installCmd = 'yarn';
-        commands.runCmd = 'yarn';
-      }
-      break;
-  }
-
-  return commands;
 }

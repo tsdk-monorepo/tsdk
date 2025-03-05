@@ -13,7 +13,7 @@ import {
   parseDeps,
   packageFolder,
 } from './config';
-import { getNpmCommand } from './get-pkg-manager';
+import { getNpmCommand } from './get-npm-command';
 import symbols from './symbols';
 import { transformImportPath } from './transform-import-path';
 import { replaceWindowsPath, measureExecutionTime } from './utils';

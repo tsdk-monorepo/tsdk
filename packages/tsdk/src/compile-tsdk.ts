@@ -1,7 +1,7 @@
 import { execSync } from 'child_process';
 import fsExtra from 'fs-extra';
 import { ensureDir } from './config';
-import { getNpmCommand } from './get-pkg-manager';
+import { getNpmCommand } from './get-npm-command';
 
 export async function buildConfigs(needInstall = false) {
   const CMDs = getNpmCommand(process.cwd());

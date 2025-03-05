@@ -11,7 +11,7 @@ export async function runNestCommand() {
   if (command === 'build') {
     const cwd = process.cwd();
     const webpackDistFile = path.resolve(cwd, 'node_modules', 'nest-webpack.js');
-    const copyFiles = ['nest-webpack.js', 'get-pkg-manager.js'];
+    const copyFiles = ['nest-webpack.js', 'get-pkg-manager.js', 'get-npm-command.js'];
     await Promise.all(
       copyFiles.map((filename) => {
         return fsExtra.copy(

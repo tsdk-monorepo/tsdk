@@ -1,6 +1,6 @@
 import { buildConfigs, buildSDK } from './compile-tsdk';
 import { tsconfigExists, parsePkg } from './config';
-import { getNpmCommand } from './get-pkg-manager';
+import { getNpmCommand } from './get-npm-command';
 import { runPrettier } from './prettier';
 import { removeFields } from './remove-fields';
 import { runNestCommand } from './run-nest-command';
