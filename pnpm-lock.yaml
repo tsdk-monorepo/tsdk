@@ -160,8 +160,8 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2(react@19.0.0)
       xior:
-        specifier: ^0.7.1
-        version: 0.7.1
+        specifier: ^0.7.2
+        version: 0.7.2
       zod:
         specifier: ^3.24.2
         version: 3.24.2
@@ -200,8 +200,8 @@ importers:
         specifier: ^7.2.0
         version: 7.2.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       xior:
-        specifier: ^0.7.1
-        version: 0.7.1
+        specifier: ^0.7.2
+        version: 0.7.2
     devDependencies:
       '@react-router/dev':
         specifier: ^7.2.0
@@ -4844,8 +4844,8 @@ packages:
       utf-8-validate:
         optional: true
 
-  xior@0.7.1:
-    resolution: {integrity: sha512-Ry05xbrYYfwUasfovJnPDe7laDwtvIPqTX7l3DH3nBCnNIz5pvMwBiBvwwjtIJsuX6sMLvOP33B5Zfl3U8G/Kw==}
+  xior@0.7.2:
+    resolution: {integrity: sha512-+tfu9+Xm70LdwSvll2/t4Ow9JrZTu7Nj4XqT82VT/B0RdGg01mk9+3mkQ4JHFVzWkX22bPRiuBuoUhXOhDT06g==}
 
   xmlhttprequest-ssl@2.1.1:
     resolution: {integrity: sha512-ptjR8YSJIXoA3Mbv5po7RtSYHO6mZr8s7i5VGmEk7QY2pQWyT1o0N+W1gKbOyJPUCGXGnuw0wqe8f0L6Y0ny7g==}
@@ -9574,7 +9574,7 @@ snapshots:
       bufferutil: 4.0.9
       utf-8-validate: 6.0.5
 
-  xior@0.7.1:
+  xior@0.7.2:
     dependencies:
       tiny-lru: 11.2.11
 
