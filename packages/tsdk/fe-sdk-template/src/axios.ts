@@ -1,3 +1,4 @@
+// @ts-ignore
 import { AxiosRequestConfig, AxiosInstance } from 'axios';
 import { NoHandlerError } from './error';
 import { pathParams } from './path-params';

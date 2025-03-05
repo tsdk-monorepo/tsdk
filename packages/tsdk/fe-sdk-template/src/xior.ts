@@ -1,3 +1,4 @@
+// @ts-ignore
 import { XiorRequestConfig as _XiorRequestConfig, Xior as xior } from 'xior';
 import { NoHandlerError } from './error';
 import { pathParams } from './path-params';

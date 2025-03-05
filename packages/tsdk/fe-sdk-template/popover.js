@@ -3,58 +3,54 @@ window.onload = function () {
   let id = 0;
   let timer = 0;
 
-  $('body .col-content').delegate('a', 'mouseenter mouseleave', function (e) {
-    const $target = $(e.target);
+  document.querySelector('body .col-content').addEventListener('mouseover', handleMouseEvents);
+  document.querySelector('body .col-content').addEventListener('mouseout', handleMouseEvents);
+
+  function handleMouseEvents(e) {
+    // Check if target is a link
+    const target = e.target.closest('a');
+    if (!target) return;
 
     // Skip links without href attribute or internal page links
-    if (!$target.attr('href')) {
-      return;
-    }
-    if ($target.attr('href').indexOf('#') > -1) {
-      return;
-    }
+    if (!target.getAttribute('href')) return;
+    if (target.getAttribute('href').includes('#')) return;
 
     // Skip "Defined in" links
-    if (
-      $target.parent() &&
-      $target.parent().text() &&
-      $target.parent().text().startsWith('Defined in')
-    ) {
-      return;
-    }
+    const parentText = target.parentElement?.textContent || '';
+    if (parentText.startsWith('Defined in')) return;
 
     let currentId = id;
 
-    if (e.type === 'mouseenter') {
+    if (e.type === 'mouseover') {
       // Remove any existing popover
-      $(`[data-popover="${currentId}"]`).unbind().remove();
+      removePopover(currentId);
 
       // Increment ID for new popover
       id++;
       currentId = id;
 
-      fetch($target.attr('href'))
+      fetch(target.getAttribute('href'))
         .then((res) => res.text())
         .then((res) => {
-          const $html = $(res);
-          const $content = $html.find('.col-content');
-          const { top, left } = $target.offset();
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(res, 'text/html');
+          const content = doc.querySelector('.col-content');
+          const rect = target.getBoundingClientRect();
 
           // Calculate available space
-          const viewportHeight = $(window).height();
-          const viewportWidth = $(window).width();
+          const viewportHeight = window.innerHeight;
+          const viewportWidth = window.innerWidth;
           const popoverHeight = 400; // Max height of popover
           const popoverWidth = 400; // Width of popover
-          const linkHeight = $target.outerHeight();
+          const linkHeight = target.offsetHeight;
 
-          // Position the popover below AND with an offset to the right
-          // This ensures the link remains clickable
-          let topPos = top + linkHeight + 15; // 5px gap
-          let leftPos = left + 20; // Offset to the right
+          // Position calculations
+          let topPos = rect.top + linkHeight + window.scrollY + 15;
+          let leftPos = rect.left + window.scrollX + 20;
 
           // If there's not enough room below, position it above
           if (topPos + popoverHeight > viewportHeight) {
-            topPos = Math.max(10, top - popoverHeight - 25); // 15px gap above
+            topPos = Math.max(10, rect.top + window.scrollY - popoverHeight - 25);
           }
 
           // Ensure it doesn't go off-screen horizontally
@@ -63,45 +59,47 @@ window.onload = function () {
           }
 
           // Apply styles to popover
-          $content.attr(
-            'style',
-            `position: absolute; 
-             top: ${topPos}px; 
-             left: ${leftPos}px;
-             width: 400px;
-             padding: 10px;
-             border-radius: 10px;
-             max-width: 100%;
-             max-height: 400px;
-             overflow-y: auto;
-             font-size: 14px; 
-             background: #fff;
-             z-index: 9999;
-             box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;`
-          );
-
-          $content.attr('data-popover', currentId);
-          $content.find('.tsd-breadcrumb').remove();
-
-          // Handle mouse events on the popover itself
-          $content.on('mouseenter mouseleave', function (e) {
-            if (e.type === 'mouseenter') {
-              clearTimeout(timer);
-            } else {
-              $(`[data-popover="${currentId}"]`).unbind().remove();
-            }
+          Object.assign(content.style, {
+            position: 'absolute',
+            top: `${topPos}px`,
+            left: `${leftPos}px`,
+            width: '400px',
+            padding: '10px',
+            borderRadius: '10px',
+            maxWidth: '100%',
+            maxHeight: '400px',
+            overflowY: 'auto',
+            fontSize: '14px',
+            background: '#fff',
+            zIndex: '9999',
+            boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px',
           });
 
-          $('body').append($content);
+          content.setAttribute('data-popover', currentId);
+
+          // Remove breadcrumb if exists
+          const breadcrumb = content.querySelector('.tsd-breadcrumb');
+          if (breadcrumb) breadcrumb.remove();
+
+          // Handle mouse events on the popover itself
+          content.addEventListener('mouseenter', () => clearTimeout(timer));
+          content.addEventListener('mouseleave', () => removePopover(currentId));
+
+          document.body.appendChild(content);
         })
         .catch((error) => {
           console.error('Error fetching content:', error);
         });
     } else {
-      // On mouseleave, remove popover after delay
-      timer = setTimeout(function () {
-        $(`[data-popover="${currentId}"]`).unbind().remove();
-      }, 200);
+      // On mouseout, remove popover after delay
+      timer = setTimeout(() => removePopover(currentId), 200);
     }
-  });
+  }
+
+  function removePopover(popoverId) {
+    const popover = document.querySelector(`[data-popover="${popoverId}"]`);
+    if (popover) {
+      popover.remove();
+    }
+  }
 };
