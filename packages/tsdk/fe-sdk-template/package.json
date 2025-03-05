@@ -14,7 +14,7 @@
   "dependencies": {
     "zod": "^3.24.2",
     "axios": "^1.8.1",
-    "xior": "^0.6.3"
+    "xior": "^0.7.1"
   },
   "devDependencies": {
     "typescript": "^5.8.2",

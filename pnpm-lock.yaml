@@ -160,8 +160,8 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2(react@19.0.0)
       xior:
-        specifier: ^0.6.3
-        version: 0.6.3
+        specifier: ^0.7.1
+        version: 0.7.1
       zod:
         specifier: ^3.24.2
         version: 3.24.2
@@ -200,8 +200,8 @@ importers:
         specifier: ^7.2.0
         version: 7.2.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       xior:
-        specifier: ^0.6.3
-        version: 0.6.3
+        specifier: ^0.7.1
+        version: 0.7.1
     devDependencies:
       '@react-router/dev':
         specifier: ^7.2.0
@@ -4329,8 +4329,8 @@ packages:
   through2@2.0.5:
     resolution: {integrity: sha512-/mrRod8xqpA+IHSLyGCQ2s8SPHiCDEeQJSep1jqLYeEUClOFG2Qsh+4FU6G9VeqpZnGW/Su8LQGc4YKni5rYSQ==}
 
-  tiny-lru@11.2.6:
-    resolution: {integrity: sha512-0PU3c9PjMnltZaFo2sGYv/nnJsMjG0Cxx8X6FXHPPGjFyoo1SJDxvUXW1207rdiSxYizf31roo+GrkIByQeZoA==}
+  tiny-lru@11.2.11:
+    resolution: {integrity: sha512-27BIW0dIWTYYoWNnqSmoNMKe5WIbkXsc0xaCQHd3/3xT2XMuMJrzHdrO9QBFR14emBz1Bu0dOAs2sCBBrvgPQA==}
     engines: {node: '>=12'}
 
   tinybench@2.9.0:
@@ -4376,10 +4376,6 @@ packages:
     engines: {node: '>=18.12'}
     peerDependencies:
       typescript: '>=4.8.4'
-
-  ts-deepmerge@7.0.0:
-    resolution: {integrity: sha512-WZ/iAJrKDhdINv1WG6KZIGHrZDar6VfhftG1QJFpVbOYZMYJLJOvZOo1amictRXVdBXZIgBHKswMTXzElngprA==}
-    engines: {node: '>=14.13.1'}
 
   ts-node@10.9.2:
     resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==}
@@ -4848,8 +4844,8 @@ packages:
       utf-8-validate:
         optional: true
 
-  xior@0.6.3:
-    resolution: {integrity: sha512-WxDMGk7W2duFoCS0M59Pll/BIGfWiadZp4MMEY0/56K+3Vz400DUTiEZLpuaVcSnv+pCSz05MJz8kohn8wivhg==}
+  xior@0.7.1:
+    resolution: {integrity: sha512-Ry05xbrYYfwUasfovJnPDe7laDwtvIPqTX7l3DH3nBCnNIz5pvMwBiBvwwjtIJsuX6sMLvOP33B5Zfl3U8G/Kw==}
 
   xmlhttprequest-ssl@2.1.1:
     resolution: {integrity: sha512-ptjR8YSJIXoA3Mbv5po7RtSYHO6mZr8s7i5VGmEk7QY2pQWyT1o0N+W1gKbOyJPUCGXGnuw0wqe8f0L6Y0ny7g==}
@@ -9104,7 +9100,7 @@ snapshots:
       readable-stream: 2.3.8
       xtend: 4.0.2
 
-  tiny-lru@11.2.6: {}
+  tiny-lru@11.2.11: {}
 
   tinybench@2.9.0: {}
 
@@ -9133,8 +9129,6 @@ snapshots:
   ts-api-utils@2.0.1(typescript@5.8.2):
     dependencies:
       typescript: 5.8.2
-
-  ts-deepmerge@7.0.0: {}
 
   ts-node@10.9.2(@swc/core@1.10.18)(@types/node@20.17.19)(typescript@5.8.2):
     dependencies:
@@ -9580,10 +9574,9 @@ snapshots:
       bufferutil: 4.0.9
       utf-8-validate: 6.0.5
 
-  xior@0.6.3:
+  xior@0.7.1:
     dependencies:
-      tiny-lru: 11.2.6
-      ts-deepmerge: 7.0.0
+      tiny-lru: 11.2.11
 
   xmlhttprequest-ssl@2.1.1: {}
 
