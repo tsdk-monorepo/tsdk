@@ -4,7 +4,7 @@
   "description": "Server development example, `tsdk` export `fe-sdk-demo` package.",
   "version": "1.0.0",
   "scripts": {
-    "build": "node ./node_modules/tsdk/bin/tsdk.js --nest build all && pnpm sync",
+    "build": "node ../../packages/tsdk/bin/tsdk.js --nest build all && pnpm sync",
     "example": "cross-env IS_TEST=true node dist-projects/dist-express-todo/main && npm run test",
     "serve": "node dist-projects/dist-express-todo/main",
     "dev": "nest start express-todo --watch",
@@ -12,54 +12,48 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
-    "sync-sdk": "npx tsdk --sync",
-    "sync": "node ./node_modules/tsdk/bin/tsdk.js --sync",
-    "test": "cross-env NODE_ENV=test TS_CONFIG_PATHS=true ts-mocha -p tsconfig.json src/**/*.test.ts --parallel --timeout 30000",
-    "lint": "eslint . --ext .ts,.tsx --fix",
+    "sync-sdk": "node ../../packages/tsdk/bin/tsdk.js",
+    "sync": "node ../../packages/tsdk/bin/tsdk.js --sync",
+    "bun:sync": "bun ../../packages/tsdk/bin/tsdk.js --sync",
+    "test": "vitest --run ./src/",
+    "lint": "eslint . --ext .ts,.tsx --fix ./src",
     "checktype": "tsc --noEmit"
   },
   "dependencies": {
     "tsdk-server-adapters": "workspace:*",
-    "better-sqlite3": "^9.0.0",
-    "bufferutil": "^4.0.7",
-    "change-case": "^4.1.2",
+    "better-sqlite3": "11.8.1",
+    "bufferutil": "^4.0.9",
     "cors": "^2.8.5",
-    "express": "^4.21.0",
-    "reflect-metadata": "^0.2.1",
-    "socket.io": "^4.8.0",
+    "express": "^4.21.2",
+    "reflect-metadata": "^0.2.2",
+    "socket.io": "^4.8.1",
     "typeorm": "^0.3.20",
     "kysely": "^0.27.5",
     "typeorm-cursor-pagination": "^0.10.1",
-    "utf-8-validate": "^6.0.3",
+    "utf-8-validate": "^6.0.5",
     "ws": "^8.13.0",
-    "zod": "^3.23.8",
-    "hono": "^4.6.2",
-    "fastify": "^5.0.0",
-    "@fastify/express": "^3.0.0",
-    "@hono/node-server": "^1.11.1",
+    "zod": "^3.24.2",
+    "hono": "^4.7.2",
+    "fastify": "^5.2.1",
+    "@fastify/express": "^4.0.2",
+    "@hono/node-server": "^1.13.8",
     "i18next": "^23.15.1",
     "intl-pluralrules": "^2.0.1"
   },
   "devDependencies": {
-    "@configs/test-config": "workspace:*",
-    "@configs/ts-config": "workspace:*",
-    "@configs/eslint-config": "workspace:*",
-    "@nestjs/cli": "^10.3.2",
+    "@nestjs/cli": "^11.0.5",
     "@types/express": "^4.17.21",
     "@types/ws": "^8.5.5",
-    "socket.io-client": "^4.8.0",
-    "tsdk": "workspace:*"
-  },
-  "eslintConfig": {
-    "extends": [
-      "@configs/eslint-config/node"
-    ],
-    "rules": {
-      "@typescript-eslint/no-useless-constructor": 0
-    },
-    "ignorePatterns": [
-      "node_modules"
-    ]
+    "socket.io-client": "^4.8.1",
+    "tsdk": "workspace:*",
+    "vitest": "^3.0.7",
+    "cross-env": "^7.0.3",
+    "vite-tsconfig-paths": "^5.1.4",
+    "unplugin-swc": "^1.5.1",
+    "fs-extra": "^11.3.0",
+    "webpack": "^5.98.0",
+    "typescript": "^5.8.2",
+    "webpack-node-externals": "^3.0.0"
   },
   "license": "MIT"
 }

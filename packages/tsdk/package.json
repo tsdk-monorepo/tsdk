@@ -11,13 +11,13 @@
     "tsdk": "bin/tsdk.js"
   },
   "scripts": {
-    "start": "npm run build && pnpm --filter server-example sync && pnpm --filter server-example build && pnpm --filter server-example example",
-    "start-publish": "npm run build && npm publish --access public --no-git-checks --provenance --registry=https://registry.npmjs.org",
+    "start": "npm run test && pnpm --filter server-example sync && pnpm --filter server-example build && pnpm --filter server-example example",
+    "start-publish": "node ../../scripts/purge-pkg-for-publish.mjs && npm run build && npm publish --access public --no-git-checks --provenance --registry=https://registry.npmjs.org",
     "build": "rm -rf lib && tsc --project tsconfig.json",
     "start-website": "cd website && yarn && npm run start",
     "build-website": "cd website && yarn && npm run build",
-    "test": "cross-env NODE_ENV=test TS_CONFIG_PATHS=true ts-mocha -p tsconfig.json ./**/*.test.ts --parallel --timeout 30000",
-    "lint": "eslint . --ext .ts,.tsx --fix",
+    "test": "vitest --run --testTimeout=120000 --hookTimeout=60000",
+    "lint": "eslint . --ext .ts,.tsx --fix ./src",
     "checktype": "tsc --noEmit"
   },
   "files": [
@@ -43,32 +43,21 @@
     "ws",
     "socket.io",
     "cli",
-    "axios",
     "fetch",
-    "xior"
+    "xior",
+    "axios"
   ],
   "dependencies": {
-    "chalk": "4.1.2",
-    "fast-glob": "^3.3.2",
-    "fs-extra": "^11.2.0"
+    "fast-glob": "^3.3.3",
+    "fs-extra": "^11.3.0"
   },
   "devDependencies": {
-    "@configs/test-config": "workspace:*",
-    "@configs/eslint-config": "workspace:*",
-    "@configs/ts-config": "workspace:*",
     "@types/fs-extra": "^11.0.4",
     "@types/webpack-node-externals": "^3.0.0",
-    "webpack": "^5.97.1",
+    "webpack": "^5.98.0",
     "webpack-node-externals": "^3.0.0",
-    "typescript": "^5",
-    "@tsconfig/recommended": "^1.0.7"
-  },
-  "eslintConfig": {
-    "extends": [
-      "@configs/eslint-config/node"
-    ],
-    "ignorePatterns": [
-      "node_modules"
-    ]
+    "typescript": "^5.8.2",
+    "@tsconfig/recommended": "^1.0.8",
+    "vitest": "^3.0.7"
   }
 }

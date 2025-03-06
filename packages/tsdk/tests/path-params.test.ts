@@ -1,5 +1,4 @@
-import { expect } from 'chai';
-import { paramCase } from 'change-case';
+import { expect, it, describe } from 'vitest';
 
 import { parseParams, pathParams, parseBracesParams } from '../fe-sdk-template/src/path-params';
 
@@ -32,8 +31,8 @@ describe('path parms tests', () => {
     expect(result).to.equal('/1/b/2');
   });
 
-  it('test paramCase', () => {
-    const result = '/' + paramCase('TestPathParams') + '/:a/b/:c';
-    expect(result).to.equal('/test-path-params/:a/b/:c');
-  });
+  // it('test paramCase', () => {
+  //   const result = '/' + paramCase('TestPathParams') + '/:a/b/:c';
+  //   expect(result).to.equal('/test-path-params/:a/b/:c');
+  // });
 });

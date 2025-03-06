@@ -28,27 +28,52 @@
       " *",
       " * @category ${3:Category}",
       " */",
-      "export type ${2:ApiName}Req = ${8:{\\}};",
+      "export type ${2:ApiName}Req = ${8:{}};",
       "",
       "/**",
       " *",
       " * @category ${3:Category}",
       " */",
-      "export type ${2:ApiName}Res = ${9:{\\}};",
+      "export type ${2:ApiName}Res = ${9:{}};",
       "// --------- ${2:ApiName} END ---------",
       ""
     ],
-    "description": "apic onfig snippet"
+    "description": "api config snippet"
+  },
+  "simple apiconf": {
+    "prefix": "sapic",
+    "body": [
+      "/**",
+      " * ${5:Description} ({@link APIConfig})",
+      " * @category ",
+      " */",
+      "export const ${1:ApiName}Config: APIConfig = {",
+      "  // type: 'user',",
+      "  method: '${2|get,post,delete,put,patch,head,options|}',",
+      "  path: transformPath('${1:ApiName}'),",
+      "};",
+      "/**",
+      " * @category ",
+      " */",
+      "export type ${1:ApiName}Req = {${3}};",
+      "",
+      "/**",
+      " * @category ",
+      " */",
+      "export type ${1:ApiName}Res = {${4}};",
+      "// --------- ${1:ApiName} END ---------"
+    ],
+    "description": "API Config snippet but more simple"
   },
   "importApiConf": {
-    "scope": "typescript",
+    "scope": "typescriptreact,typescript",
     "prefix": "apin",
     "body": [
       "${1:name}Config,",
       "${1:name}Req,",
-      "${1:name}Res,",
+      "${1:name}Res,"
     ],
-    "description": "apic onfig name snippet"
+    "description": "api config name snippet"
   },
   "genRoute": {
     "scope": "typescript",

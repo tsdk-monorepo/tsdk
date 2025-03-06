@@ -5,7 +5,7 @@ import ts from 'typescript';
 import webpack from 'webpack';
 import nodeExternals from 'webpack-node-externals';
 
-import { getNpmCommand } from './get-pkg-manager';
+import { getNpmCommand } from './get-npm-command';
 
 export const tsdkConfigFilePath = path.join(process.cwd(), 'tsdk.config.js');
 

@@ -2,6 +2,7 @@ import { serve } from '@hono/node-server';
 import { Hono, HonoRequest } from 'hono';
 import { cors } from 'hono/cors';
 import { honoAdapterFactory } from 'tsdk-server-adapters/lib/hono-adapter';
+// import { honoAdapterFactory } from 'tsdk-server-adapters/esm/hono-adapter';
 
 import { setupRoutes } from '../setup-routes';
 import { routeBus } from '../todo/gen-route';
@@ -39,7 +40,7 @@ const port = 3013;
           ip: '',
           lang: 'zh-CN',
           type: (req.param() as { type: string }).type,
-          token: req.header['authorization'],
+          token: req.header('authorization'),
         };
         return params;
       },
@@ -47,8 +48,30 @@ const port = 3013;
         return reqInfo.type;
       },
       async getData(req: HonoRequest) {
-        // maybe decode here?(e.g.: decryption)
-        return checkMethodHasBody(req.method) ? req.raw.body : req.query();
+        if (!checkMethodHasBody(req.method)) {
+          return req.query();
+        }
+        const contentType = req.header('content-type') || '';
+        try {
+          if (contentType.includes('application/json')) {
+            const bodyText = await req.text(); // Read raw body first
+
+            if (!bodyText.trim()) {
+              return null; // Handle empty JSON body
+            }
+
+            return JSON.parse(bodyText); // Manually parse to catch errors
+          } else if (contentType.includes('text/plain')) {
+            return await req.text();
+          } else if (
+            contentType.includes('multipart/form-data') ||
+            contentType.includes('application/x-www-form-urlencoded')
+          ) {
+            return await req.parseBody();
+          }
+        } catch (error) {
+          return null; // Gracefully handle unexpected errors
+        }
       },
     })
   );

@@ -1,8 +1,10 @@
 import fsExtra from 'fs-extra';
+import fs from 'fs';
 import path from 'path';
 
 import { config, ensureDir, packageFolder } from './config';
 import symbols from './symbols';
+import { generateSWRHook, generateReactQueryHook, generateVueQueryHook } from './hooks-generate';
 
 export const baseDir = path.join(path.relative(path.dirname(__filename), process.cwd()), ensureDir);
 
@@ -12,73 +14,148 @@ export function deleteSDKFolder() {
 
 export async function syncAPI() {
   console.log(symbols.bullet, 'generating APIs');
-  await replaceGenAPI();
+  await checkRepkaceAxiosWithXior();
   const pkgJSON = require(path.join(baseDir, 'package.json'));
   const apiconfs = require(path.join(baseDir, 'lib', `${config.apiconfExt}-refs`));
 
   const keys = Object.keys(apiconfs);
   keys.sort();
 
-  const types = [...new Set(keys.map((k) => apiconfs[k].type))].filter((i) => !!i);
+  const types = [...new Set(keys.map((k) => apiconfs[k].type))].filter(Boolean);
 
   if (!types.includes('common')) {
     types.push('common');
   }
 
   types.sort();
-  const isSWR = config.dataHookLib?.toLowerCase() === 'swr';
-  const isReactQuery = config.dataHookLib?.toLowerCase() === 'reactquery';
-  types.forEach((apiType) => {
-    const dataHookHeadStr = `
-    ${
-      !isSWR
-        ? ''
-        : `import useSWR, { SWRConfiguration } from "swr";
-      import useSWRMutation, { SWRMutationConfiguration } from "swr/mutation";
-      ${
-        config.httpLib !== 'xior'
-          ? `import type { AxiosRequestConfig } from "axios";`
-          : `import type { XiorRequestConfig as AxiosRequestConfig } from "xior";`
-      }
-    `
-    }
-    ${
-      !isReactQuery
-        ? ''
-        : `import {
-      useQuery,
-      useMutation,
-      QueryClient,
-      UndefinedInitialDataOptions,
-      UseMutationOptions,
-    } from "@tanstack/react-query";
-    ${
-      config.httpLib !== 'xior'
-        ? `import type { AxiosRequestConfig } from "axios";`
-        : `import type { XiorRequestConfig as AxiosRequestConfig } from "xior";`
-    }
-    `
-    }
-    import { Handler } from './gen-api';
-    `;
-    let dataHookImportStr = ``;
-    let dataHookBodyStr = isReactQuery
-      ? `
-    let _queryClient: QueryClient;
 
-    ${
-      apiType === 'common'
-        ? `
-    export function setQueryClientForCommon(queryClient: QueryClient) {
-      _queryClient = queryClient;
-    }
-    `
-        : `
-    
-    `
-    }
-    `
-      : ``;
+  const _hookLibs = (
+    Array.isArray(config.dataHookLib) ? config.dataHookLib : [config.dataHookLib || 'SWR']
+  ).map((i) => (i as string).toLowerCase());
+
+  const hookLibs = Array.from(new Set(_hookLibs));
+
+  // const isSWR = hookLibs?.includes('swr');
+  // const isReactQuery = hookLibs?.includes('reactquery');
+  // const isVueQuery = hookLibs?.includes('vuequery');
+
+  for (const apiType of types) {
+    const hooksContentMap: Record<
+      'swr' | 'reactquery' | 'vuequery',
+      {
+        dataHookHeadStr: string;
+        dataHookImportStr: string;
+        dataHookBodyStr: string;
+        dataHookExportStr: string;
+      }
+    > = {
+      swr: {
+        dataHookHeadStr: '',
+        dataHookImportStr: '',
+        dataHookBodyStr: '',
+        dataHookExportStr: '',
+      },
+      reactquery: {
+        dataHookHeadStr: '',
+        dataHookImportStr: '',
+        dataHookBodyStr: '',
+        dataHookExportStr: '',
+      },
+      vuequery: {
+        dataHookHeadStr: '',
+        dataHookImportStr: '',
+        dataHookBodyStr: '',
+        dataHookExportStr: '',
+      },
+    };
+    const commonDataHookHeadStr = `
+         ${
+           config.httpLib !== 'xior'
+             ? `import type { AxiosRequestConfig } from "axios";`
+             : `import type { XiorRequestConfig as AxiosRequestConfig } from "xior";`
+         }
+         import { Handler } from './gen-api';
+    `;
+
+    // isSWR
+    hooksContentMap['swr'].dataHookHeadStr = `import useSWR, { SWRConfiguration } from "swr";
+      import useSWRMutation, { SWRMutationConfiguration } from "swr/mutation";
+      ${commonDataHookHeadStr}
+    `;
+    // isReactQuery
+    hooksContentMap['reactquery'].dataHookHeadStr = `
+      import {
+        useQuery,
+        useMutation,
+        QueryClient,
+        UndefinedInitialDataOptions,
+        UseMutationOptions,
+      } from "@tanstack/react-query";
+      ${commonDataHookHeadStr}
+    `;
+    // isVueQuery
+    hooksContentMap['vuequery'].dataHookHeadStr = `
+      import {
+        useQueryClient,
+        useQuery,
+        useMutation,
+        QueryClient,
+        UndefinedInitialQueryOptions,
+        UseMutationOptions,
+      } from "@tanstack/vue-query";
+      ${commonDataHookHeadStr}
+    `;
+
+    // isReactQuery isVueQuery) {
+    hooksContentMap['reactquery'].dataHookBodyStr = hooksContentMap['vuequery'].dataHookBodyStr = `
+        let _queryClient: QueryClient;
+
+        ${
+          apiType === 'common'
+            ? `
+        export function setQueryClientForCommon(queryClient: QueryClient) {
+          _queryClient = queryClient;
+        }
+        `
+            : ``
+        }
+        `;
+
+    const hasCommon = keys.find((k) => {
+      const item = apiconfs[k];
+      return (item.type === 'common' || !item.type) && item.path;
+    });
+
+    hooksContentMap['swr'].dataHookExportStr =
+      apiType === 'common' || !hasCommon ? `` : `\nexport * from './common-api-swr-hooks';`;
+
+    hooksContentMap['reactquery'].dataHookExportStr =
+      apiType === 'common' || !hasCommon
+        ? `\nexport function setQueryClient(queryClient: QueryClient) {
+            _queryClient = queryClient;
+          }`
+        : `\nexport * from './common-api-reactquery-hooks';
+        import { setQueryClientForCommon } from './common-api-reactquery-hooks';
+        
+        export function setQueryClient(queryClient: QueryClient) {
+          _queryClient = queryClient;
+          setQueryClientForCommon(queryClient);
+        }
+      `;
+
+    hooksContentMap['vuequery'].dataHookExportStr =
+      apiType === 'common' || !hasCommon
+        ? `\nexport function setQueryClient(queryClient: QueryClient) {
+            _queryClient = queryClient;
+          }`
+        : `\nexport * from './common-api-vuequery-hooks';
+        import { setQueryClientForCommon } from './common-api-vuequery-hooks';
+        
+        export function setQueryClient(queryClient: QueryClient) {
+          _queryClient = queryClient;
+          setQueryClientForCommon(queryClient);
+        }
+      `;
 
     const headStr = `
       /** 
@@ -89,201 +166,71 @@ export async function syncAPI() {
        **/
 
       import genApi, { Expand } from './gen-api';
-     
-`;
-
-    let importStr = ``;
-    let bodyStr = ``;
-
-    const hasCommon = keys.find((k) => {
-      const item = apiconfs[k];
-      return (item.type === 'common' || !item.type) && item.path;
-    });
+      `;
+    let importStr = ``,
+      bodyStr = ``;
 
     const exportStr = apiType === 'common' || !hasCommon ? `` : `\nexport * from './common-api';\n`;
 
-    const dataHookExportStr =
-      apiType === 'common' || !hasCommon
-        ? ``
-        : `\nexport * from './common-api-hooks';
-        ${
-          isReactQuery
-            ? `
-      import { setQueryClientForCommon } from './common-api-hooks';
-      export function setQueryClient(queryClient: QueryClient) {
-        _queryClient = queryClient;
-        setQueryClientForCommon(queryClient);
-      }
-        `
-            : `${
-                isReactQuery
-                  ? `
-            export function setQueryClient(queryClient: QueryClient) {
-              _queryClient = queryClient;
-            }
-            `
-                  : ``
-              }`
-        }
-      `;
+    let contentCount = 0;
 
-    let hasContentCount = 0;
-    keys.forEach((k, idx) => {
-      const {
-        name: _name,
-        path,
-        description,
-        method,
-        type: _type,
-        category = 'others',
-      } = apiconfs[k];
-      const name = _name || k.replace(/Config$/, '');
-      const type = _type === 'common' || !_type ? 'common' : _type;
+    await Promise.all(
+      keys.map((k) => {
+        const {
+          name: _name,
+          path,
+          description,
+          method,
+          type: _type,
+          category = 'others',
+        } = apiconfs[k];
+        const name = _name || k.replace(/Config$/, '');
+        const type = _type === 'common' || !_type ? 'common' : _type;
 
-      const isGET = !method || method?.toLowerCase() === 'get';
-      const likeGET = apiconfs[k].isGet === false ? false : apiconfs[k].isGet === true || isGET;
+        const isGET = !method || method?.toLowerCase() === 'get';
 
-      if (type === apiType && path) {
-        importStr += `
-          ${name}Config,
-          type ${name}Req,
-          type ${name}Res,
-        `;
-        bodyStr += `
-          /** 
-           * ${description}
-           * 
-           * @category ${category}
-           */
-          export const ${name} = genApi<Expand<${name}Req>${
-          isGET ? '' : ' | FormData'
-        }, Expand<${name}Res>>(${name}Config);
-        `;
-
-        dataHookImportStr += `
-          ${name},
-        `;
-        if (isSWR) {
-          dataHookBodyStr += `
-        ${
-          likeGET
-            ? `
-/** 
- * ${description}
- * 
- * @category ${category}
- */
-export function use${name}(
-payload?: ${name}Req,
-options?: SWRConfiguration<${name}Res | undefined>,
-requestConfig?: AxiosRequestConfig<${name}Req>,
-customHandler?: Handler,
-) {
-return useSWR(
-  () => ({ url: ${name}.config.path, arg: payload }),
-  ({ arg }) => {
-    if (typeof arg === 'undefined') return undefined;
-    return ${name}(arg, requestConfig, customHandler);
-  },
-  options
-);
-}
-        `
-            : `
+        if (type === apiType && path) {
+          importStr += `
+            ${name}Config,
+            type ${name}Req,
+            type ${name}Res,
+          `;
+          bodyStr += `
             /** 
-             * ${description}
-             * 
+             * ${description || name}
+             * ${method?.toUpperCase() ?? 'GET'} ${path}
              * @category ${category}
              */
-            export function use${name}(
-              options?: SWRMutationConfiguration<
-                ${name}Res,
-                Error,
-                string,
-                ${name}Req | FormData
-              >,
-              requestConfig?: AxiosRequestConfig<${name}Req | FormData>,
-              customHandler?: Handler,
-            ) {
-              return useSWRMutation(
-                ${name}.config.path,
-                (url, { arg }: { arg: ${name}Req | FormData }) => {
-                  return ${name}(arg, requestConfig, customHandler);
-                },
-                options
-              );
-            }`
-        }
-        
-        `;
-        } else if (isReactQuery) {
-          dataHookBodyStr += `
-          ${
-            likeGET
-              ? `
-          /** 
-           * ${description}
-           * 
-           * @category ${category}
-           */
-          export function use${name}(
-            payload?: ${name}Req,
-            options?: UndefinedInitialDataOptions<${name}Res | undefined, Error>,
-            queryClient?: QueryClient,
-            requestConfig?: AxiosRequestConfig<${name}Req>,
-            customHandler?: Handler,
-          ) {
-            return useQuery(
-              {
-                ...(options || {}),
-                queryKey: [${name}.config.path, payload],
-                queryFn() {
-                  if (typeof payload === 'undefined') {
-                    return undefined;
-                  }
-                  return ${name}(payload, requestConfig, customHandler);
-                },
-              },
-              queryClient || _queryClient
-            );
-          }`
-              : `
-              /** 
-               * ${description}
-               * 
-               * @category ${category}
-               */
-              export function use${name}(
-                options?: UseMutationOptions<
-                  ${name}Res,
-                  Error,
-                  ${name}Req | FormData,
-                  unknown
-                >,
-                queryClient?: QueryClient,
-                requestConfig?: AxiosRequestConfig<${name}Req | FormData>,
-                customHandler?: Handler,
-              ) {
-                return useMutation(
-                  {
-                    ...(options || {}),
-                    mutationFn(payload) {
-                      return ${name}(payload, requestConfig, customHandler);
-                    },
-                  },
-                  queryClient || _queryClient
-                );
-              }
-              `
-          }
+            export const ${name} = genApi<Expand<${name}Req>${
+              isGET ? '' : ' | FormData'
+            }, Expand<${name}Res>>(${name}Config);
           `;
+
+          // isSWR
+          hooksContentMap['swr'].dataHookImportStr += `
+              ${name},
+            `;
+          hooksContentMap['swr'].dataHookBodyStr += generateSWRHook(name, apiconfs[k]);
+          // isReactQuery
+          hooksContentMap['reactquery'].dataHookImportStr += `
+              ${name},
+            `;
+          hooksContentMap['reactquery'].dataHookBodyStr += generateReactQueryHook(
+            name,
+            apiconfs[k]
+          );
+          // isVueQuery
+          hooksContentMap['vuequery'].dataHookImportStr += `
+              ${name},
+            `;
+          hooksContentMap['vuequery'].dataHookBodyStr += generateVueQueryHook(name, apiconfs[k]);
+
+          contentCount++;
         }
+      })
+    );
 
-        hasContentCount++;
-      }
-    });
-
-    if (hasContentCount > 0) {
+    if (contentCount > 0) {
       const content = `
       ${headStr}
       ${
@@ -297,34 +244,43 @@ return useSWR(
       ${bodyStr}
     `;
 
-      fsExtra.writeFileSync(path.join(ensureDir, `src`, `${apiType}-api.ts`), content);
+      await fs.promises.writeFile(path.join(ensureDir, `src`, `${apiType}-api.ts`), content);
 
-      const dataHookContent = `
-    ${dataHookHeadStr}
-    ${
-      importStr
-        ? `import {
-        ${importStr}
-      } from './${config.apiconfExt}-refs';`
-        : ''
-    }
-    ${
-      dataHookImportStr
-        ? `import {
-      ${dataHookImportStr}
-    } from './${apiType}-api';`
-        : ''
-    }
-    ${dataHookExportStr}
-    ${dataHookBodyStr}
-    `;
-
-      fsExtra.writeFileSync(
+      await Promise.all(
+        hookLibs.map((hook) => {
+          const { dataHookHeadStr, dataHookImportStr, dataHookExportStr, dataHookBodyStr } =
+            hooksContentMap[hook as 'vuequery'];
+          const dataHookContent = `
+            ${dataHookHeadStr}
+            ${
+              importStr
+                ? `import {
+                ${importStr}
+              } from './${config.apiconfExt}-refs';`
+                : ''
+            }
+            ${
+              dataHookImportStr
+                ? `import {
+              ${dataHookImportStr}
+            } from './${apiType}-api';`
+                : ''
+            }
+            ${dataHookExportStr}
+            ${dataHookBodyStr}
+            `;
+          return fs.promises.writeFile(
+            path.join(ensureDir, `src`, `${apiType}-api-${hook}-hooks.ts`),
+            dataHookContent
+          );
+        })
+      );
+      await fs.promises.writeFile(
         path.join(ensureDir, `src`, `${apiType}-api-hooks.ts`),
-        dataHookContent
+        `export * from './${apiType}-api-${hookLibs[0]}-hooks';`
       );
     }
-  });
+  }
 
   console.log(symbols.success, 'generated APIs');
 
@@ -332,67 +288,71 @@ return useSWR(
     [key: string]: any[];
   } = {};
 
-  keys.forEach((k) => {
+  for (const k of keys) {
     const item = apiconfs[k];
-    if (typeof item !== 'object') return;
+    if (typeof item !== 'object') continue;
+
     item.name = item.name || k.replace(/Config$/, '');
+
     if (!exportPermissions[item.type]) {
       exportPermissions[item.type] = [];
     }
+
     if (item.schema) {
       item.schema = {};
     }
-    exportPermissions[item.type].push(item);
-  });
 
-  await fsExtra.writeFile(
+    exportPermissions[item.type].push(item);
+  }
+
+  await fs.promises.writeFile(
     path.join(ensureDir, 'src', `permissions.json`),
     JSON.stringify(exportPermissions, null, 2)
   );
 
-  console.log(symbols.bullet, 'Docs config');
+  console.log(symbols.bullet, 'Generating documentation');
   // sync APIs docs
   const links: string[] = [];
-  types.forEach((apiType) => {
-    if (apiType === 'common') return;
-    links.push(`- [${apiType} APIs](/modules/${apiType}_api)`);
-  });
+
+  for (const apiType of types) {
+    if (apiType === 'common') continue;
+    links.push(`- [${apiType} APIs](/modules/${apiType}-api)`);
+  }
 
   const projectName = `%PROJECT NAME%`;
   try {
-    let getStartedContent = await fsExtra.readFile(
+    let getStartedContent = await fs.promises.readFile(
       path.join(__dirname, '..', 'fe-sdk-template', 'README.md'),
       'utf-8'
     );
     getStartedContent = getStartedContent
       .replace(new RegExp(projectName, 'g'), config.packageName)
       .replace('%API_REFERENCE%', links.join('\n'));
-    await fsExtra.writeFile(path.join(ensureDir, 'README.md'), getStartedContent);
-    console.log(symbols.success, 'Docs config');
+    await fs.promises.writeFile(path.join(ensureDir, 'README.md'), getStartedContent);
+    console.log(symbols.success, 'Documentation generated');
   } catch (e: unknown) {
     if (e instanceof Error) {
-      console.log(symbols.error, 'Docs config error', e.message);
+      console.log(symbols.error, 'Documentation generation error', e.message);
     }
   }
 }
 
-export function copyPermissionsJSON() {
+export async function copyPermissionsJSON() {
   const dist = path.join(ensureDir, `lib`, `permissions.json`);
-  console.log(symbols.info, `copy \`permission.json\` to \`${dist}\``);
+  console.log(symbols.info, `copying \`permissions.json\` to \`${dist}\``);
   return fsExtra.copy(path.join(ensureDir, `src`, `permissions.json`), dist, {
     overwrite: true,
   });
 }
 
-export async function replaceGenAPI() {
-  if (config.httpLib === 'xior') {
-    const genAPIfile = path.join(ensureDir, 'src', 'gen-api.ts');
-    const res = await fsExtra.readFile(genAPIfile, 'utf-8');
-    return fsExtra.writeFile(
-      genAPIfile,
-      res
-        .replace('= AxiosRequestConfig<T>', '= XiorRequestConfig<T>')
-        .replace(`import type { RequestConfig as AxiosRequestConfig } from './axios';`, '')
-    );
-  }
+export async function checkRepkaceAxiosWithXior() {
+  if (config.httpLib !== 'xior') return;
+  const genAPIfile = path.join(ensureDir, 'src', 'gen-api.ts');
+  const res = await fs.promises.readFile(genAPIfile, 'utf-8');
+  return fs.promises.writeFile(
+    genAPIfile,
+    res
+      .replace('= AxiosRequestConfig<T>', '= XiorRequestConfig<T>')
+      .replace(`import type { RequestConfig as AxiosRequestConfig } from './axios';`, '')
+  );
 }

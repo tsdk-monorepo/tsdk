@@ -25,7 +25,7 @@ export function expressAdapterFactory<ReqInfo>({
       path: req.path,
     });
 
-    if ((routeBus as ObjectLiteral)._events[eventName]) {
+    if (eventName in (routeBus as ObjectLiteral)._events) {
       const payload = await getData(req);
       routeBus.emit(eventName, reqInfo, res, { payload });
     } else {

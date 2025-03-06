@@ -1,38 +1,34 @@
 {
+  "name": "web2",
   "private": true,
-  "name": "web-example",
-  "description": "Use `fe-sdk-demo` package with next.js",
-  "version": "1.0.0",
+  "type": "module",
   "scripts": {
-    "lint": "eslint . --ext .ts,.tsx --fix",
-    "checktype": "tsc --noEmit",
-    "dev": "next dev -p 3080",
-    "build": "next build && next export",
-    "serve": "serve out",
-    "start": "next start -p 3080",
-    "test": "cross-env NODE_ENV=test vitest run"
+    "build": "react-router build",
+    "dev": "react-router dev",
+    "start": "react-router-serve ./build/server/index.js",
+    "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
-    "fe-sdk-demo": "workspace:*",
-    "next": "^13.5.6",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "react-native-web": "^0.19.6",
-    "socket.io-client": "^4.8.0",
-    "axios": "^1.7.7",
-    "xior": "^0.6.2"
+    "@react-router/node": "^7.2.0",
+    "@react-router/serve": "^7.2.0",
+    "isbot": "^5.1.17",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router": "^7.2.0",
+     "axios": "^1.7.7",
+    "xior": "^0.7.2"
   },
   "devDependencies": {
-    "@configs/vitest-config": "workspace:*",
-    "@configs/eslint-config": "workspace:*",
-    "babel-plugin-react-native-web": "^0.19.6"
-  },
-  "eslintConfig": {
-    "extends": "@configs/eslint-config",
-    "ignorePatterns": [
-      "node_modules",
-      ".next",
-      "public"
-    ]
+    "@react-router/dev": "^7.2.0",
+    "@tailwindcss/vite": "^4.0.0",
+    "@types/node": "^20",
+    "@types/react": "^19.0.1",
+    "@types/react-dom": "^19.0.1",
+    "react-router-devtools": "^1.1.0",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.8.2",
+    "vite": "^5.4.11",
+    "vite-tsconfig-paths": "^5.1.4",
+    "fe-sdk-demo": "workspace:*"
   }
 }
