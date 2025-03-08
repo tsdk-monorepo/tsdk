@@ -1,10 +1,11 @@
-/* prettier-disable */
 /* eslint-disable-for-generated-file */
+/* prettier-disable */
 
 window.onload = function () {
   console.log('Init popover');
   var id = 0;
   var timer = 0;
+  var timer2 = 0;
 
   document.querySelector('body .col-content').addEventListener('mouseover', handleMouseEvents);
   document.querySelector('body .col-content').addEventListener('mouseout', handleMouseEvents);
@@ -48,9 +49,16 @@ window.onload = function () {
           var popoverHeight = 400; // Max height of popover
           var popoverWidth = 400; // Width of popover
           var linkHeight = target.offsetHeight;
+          if (viewportHeight < popoverHeight) {
+            popoverHeight = viewportHeight - 40;
+          }
+          if (viewportWidth < popoverWidth) {
+            popoverWidth = viewportWidth - 40;
+          }
 
           // Position calculations
           var topPos = rect.top + linkHeight + window.scrollY + 5;
+
           var leftPos = rect.left + window.scrollX + 20;
 
           // If there's not enough room below, position it above
@@ -65,6 +73,7 @@ window.onload = function () {
 
           // Apply styles to popover
           Object.assign(content.style, {
+            opacity: 0,
             position: 'absolute',
             top: `${topPos}px`,
             left: `${leftPos}px`,
@@ -78,6 +87,7 @@ window.onload = function () {
             background: '#fff',
             zIndex: '9999',
             boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px',
+            transition: 'opacity .3s ease',
           });
 
           content.setAttribute('data-popover', currentId);
@@ -89,12 +99,24 @@ window.onload = function () {
           // Handle mouse events on the popover itself
           content.addEventListener('mouseenter', function () {
             clearTimeout(timer);
+            clearTimeout(timer2);
           });
           content.addEventListener('mouseleave', function () {
             removePopover(currentId);
           });
 
           document.body.appendChild(content);
+          timer2 = setTimeout(function () {
+            // Position calculations
+            var topPos = rect.top + linkHeight + window.scrollY + 5;
+            popoverHeight = content.getBoundingClientRect().height;
+            // If there's not enough room below, position it above
+            if (topPos + popoverHeight > viewportHeight) {
+              topPos = Math.max(10, rect.top + window.scrollY - popoverHeight - 5);
+            }
+            content.style.top = topPos + 'px';
+            content.style.opacity = 1;
+          }, 100);
         })
         .catch(function (error) {
           console.error('Error fetching content:', error);

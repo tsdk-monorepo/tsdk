@@ -8,7 +8,7 @@
     "tsc:build": "concurrently \"npm run tsc:build:cjs\"  \"npm run tsc:build:esm\"",
     "tsc:build:cjs": "tsc --project tsconfig.json",
     "tsc:build:esm": "tsc --project tsconfig.esm.json",
-    "doc:build": "typedoc src/**.ts && node write-popover.mjs",
+    "doc:build": "typedoc --customJs popover.js src/**.ts",
     "serve": "serve docs"
   },
   "dependencies": {
@@ -16,9 +16,9 @@
     "axios": "^1.8.1",
     "xior": "^0.7.2",
     "kysely": "^0.27.5",
-    "swr": "^2.3.2",
-    "@tanstack/react-query": "^5.66.9",
-    "@tanstack/vue-query": "^5.66.9",
+    "swr": "^2.3.3",
+    "@tanstack/react-query": "^5.67.1",
+    "@tanstack/vue-query": "^5.67.1",
     "i18next": "^23.10.1",
     "intl-pluralrules": "^2.0.1"
   },
