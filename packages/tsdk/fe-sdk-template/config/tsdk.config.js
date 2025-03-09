@@ -14,6 +14,6 @@ module.exports = {
   httpLib: 'xior',
   dataHookLib: ['SWR', 'ReactQuery', 'VueQuery'],
   dependencies: {
-    xior: '^0.7.2',
+    xior: '^0.7.6',
   },
 };

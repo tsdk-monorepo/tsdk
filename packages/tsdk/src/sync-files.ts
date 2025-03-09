@@ -128,13 +128,13 @@ async function reconfigPkg() {
   const isVueQuery = hookLibs?.includes('vuequery');
 
   if (isSWR) {
-    pkgContent.dependencies.swr = '^2.3.2';
+    pkgContent.dependencies.swr = '^2.3.3';
   }
   if (isReactQuery) {
-    pkgContent.dependencies['@tanstack/react-query'] = '^5.66.9';
+    pkgContent.dependencies['@tanstack/react-query'] = '^5.67.1';
   }
   if (isVueQuery) {
-    pkgContent.dependencies['@tanstack/vue-query'] = '^5.66.9';
+    pkgContent.dependencies['@tanstack/vue-query'] = '^5.67.1';
   }
 
   if (config.dependencies) {
