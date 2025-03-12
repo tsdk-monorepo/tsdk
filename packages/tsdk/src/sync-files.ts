@@ -67,7 +67,7 @@ export async function addDepsIfNone() {
         needRunInstall = true;
         console.log('');
         console.log(
-          symbols.warning,
+          `    ${symbols.warning}`,
           `\`tsdk\` depends on \`${dependency}\`, so automatically adding \`${dependency}\` to dependencies`
         );
         // console.log(

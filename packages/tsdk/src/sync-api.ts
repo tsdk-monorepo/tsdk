@@ -23,7 +23,7 @@ export async function syncAPI(
   }[],
   _types: string[]
 ) {
-  console.log(symbols.bullet, 'generating APIs');
+  console.log(`   ${symbols.bullet}`, 'generating APIs');
   await checkRepkaceAxiosWithXior();
   const pkgJSON = require(path.join(baseDir, 'package.json'));
   // const apiconfs = require(path.join(baseDir, 'lib', `${config.apiconfExt}-refs`));
@@ -278,7 +278,7 @@ export async function syncAPI(
     }
   }
 
-  console.log(symbols.success, 'generated APIs');
+  console.log(`   ${symbols.success}`, 'generated APIs');
 
   const exportPermissions: {
     [key: string]: any[];
@@ -302,7 +302,7 @@ export async function syncAPI(
     JSON.stringify(exportPermissions, null, 2)
   );
 
-  console.log(symbols.bullet, 'Generating documentation');
+  console.log(`   ${symbols.bullet}`, 'Generating documentation');
   // sync APIs docs
   const links: string[] = [];
 
@@ -321,17 +321,17 @@ export async function syncAPI(
       .replace(new RegExp(projectName, 'g'), config.packageName)
       .replace('%API_REFERENCE%', links.join('\n'));
     await fs.promises.writeFile(path.join(ensureDir, 'README.md'), getStartedContent);
-    console.log(symbols.success, 'Documentation generated');
+    console.log(`   ${symbols.success}`, 'Documentation generated');
   } catch (e: unknown) {
     if (e instanceof Error) {
-      console.log(symbols.error, 'Documentation generation error', e.message);
+      console.log(`   ${symbols.error}`, 'Documentation generation error', e.message);
     }
   }
 }
 
 export async function copyPermissionsJSON() {
   const dist = path.join(ensureDir, `lib`, `permissions.json`);
-  console.log(symbols.info, `copying \`permissions.json\` to \`${dist}\``);
+  console.log(`       ${symbols.info}`, `copying \`permissions.json\` to \`${dist}\``);
   return fsExtra.copy(path.join(ensureDir, `src`, `permissions.json`), dist, {
     overwrite: true,
   });

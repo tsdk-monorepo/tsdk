@@ -4,6 +4,7 @@ import path from 'path';
 
 import { config, ensureDir } from './config';
 import { replaceWindowsPath } from './utils';
+import symbols from './symbols';
 
 export async function removeFields() {
   if (!config.removeFields || config.removeFields.length === 0) return;
@@ -14,7 +15,7 @@ export async function removeFields() {
   );
 
   const removeFields = config.removeFields ?? ['needAuth', 'category', 'description'];
-
+  console.log(`       ${symbols.info}`, `Removing fields [${removeFields.join(',')}]`);
   const files = await glob([jsPattern, jsPatternForEsm]);
   await Promise.all(
     files.map(async (file) => {

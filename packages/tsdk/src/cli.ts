@@ -1,5 +1,5 @@
 import { buildSDK } from './compile-tsdk';
-import { tsconfigExists, parsePkg } from './config';
+import { tsconfigExists, parsePkg, config } from './config';
 import { getNpmCommand } from './get-npm-command';
 import { runPrettier } from './prettier';
 import { removeFields } from './remove-fields';
@@ -53,16 +53,20 @@ async function handleSyncCommand(noOverwrite: boolean): Promise<void> {
     await measureExecutionTime('Add dependencies if none', () => addDepsIfNone());
 
     const result = await measureExecutionTime('Sync files', () => syncFiles(noOverwrite));
-    await measureExecutionTime('Sync API', () =>
+
+    await measureExecutionTime('Generating API', () =>
       syncAPI(result?.apiconfs || [], result?.types || [])
     );
-    await measureExecutionTime('Build SDK (Files):', () => buildSDK(true));
+    await measureExecutionTime('Build SDK', () => buildSDK(true));
 
+    const removeFieldsValue = config.removeFields ?? ['needAuth', 'category', 'description'];
     // Execute these tasks in parallel
     await measureExecutionTime('Post-processing', async () => {
       await Promise.all([
-        measureExecutionTime('Copy permissions JSON', () => copyPermissionsJSON()),
-        measureExecutionTime('Remove fields', () => removeFields()),
+        measureExecutionTime('Copy permissions JSON', () => copyPermissionsJSON(), '    '),
+        removeFieldsValue.length > 0
+          ? measureExecutionTime('Remove fields', () => removeFields(), '    ')
+          : Promise.resolve(1),
       ]);
     });
 

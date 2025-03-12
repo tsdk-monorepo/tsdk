@@ -7,7 +7,7 @@ export async function buildSDK(needInstall = false) {
   const CMDs = getNpmCommand(process.cwd());
   if (needInstall) {
     const cmd = `${CMDs.installCmd}`;
-    console.log(`Run \`${cmd}\` in dir: ${ensureDir}`);
+    console.log(`   Run \`${cmd}\` in dir: ${ensureDir}`);
     execSync(cmd, {
       cwd: ensureDir,
       stdio: 'inherit',
@@ -15,7 +15,7 @@ export async function buildSDK(needInstall = false) {
     });
     const isNodeModulesExists = await fsExtra.exists(`${ensureDir}/node_modules`);
     if (!isNodeModulesExists) {
-      console.log(`\nRun \`npm install\` in dir: ${ensureDir}`);
+      console.log(`\n    Run \`npm install\` in dir: ${ensureDir}`);
       execSync(`npm install`, {
         cwd: ensureDir,
         stdio: 'inherit',
