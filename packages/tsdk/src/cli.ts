@@ -41,7 +41,7 @@ Examples
   nest: `@nestjs/cli enchance`,
 };
 
-const VALID_PROJECT_MSG = `Please run \`tsdk\` in a valid TypeScript project.`;
+const VALID_PROJECT_MSG = `Please run \`tsdk\` in a valid TypeScript project! Check: https://tsdk.dev/docs/start-a-typescript-project`;
 
 /**
  * Handles sync command with parallelization where possible
@@ -83,9 +83,7 @@ async function handleCommand(params: string[]): Promise<void> {
     if (params.length === 0 || params[0] === '--help') {
       console.log(CLI_COMMANDS.help);
 
-      if (!tsconfigExists) {
-        console.log(symbols.warning, VALID_PROJECT_MSG, '\n');
-      }
+      if (!tsconfigExists) console.log(symbols.warning, VALID_PROJECT_MSG, '\n');
       return;
     }
 
@@ -97,8 +95,7 @@ async function handleCommand(params: string[]): Promise<void> {
 
     if (!tsconfigExists) {
       console.error(`\nError: >> ${symbols.error} ${VALID_PROJECT_MSG}\n`);
-      process.exit(1);
-      return;
+      return process.exit(1);
     }
 
     switch (params[0]) {
