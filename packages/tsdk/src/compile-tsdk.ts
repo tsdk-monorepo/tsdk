@@ -3,7 +3,7 @@ import fsExtra from 'fs-extra';
 import { ensureDir } from './config';
 import { getNpmCommand } from './get-npm-command';
 
-export async function buildConfigs(needInstall = false) {
+export async function buildSDK(needInstall = false) {
   const CMDs = getNpmCommand(process.cwd());
   if (needInstall) {
     const cmd = `${CMDs.installCmd}`;
@@ -22,22 +22,12 @@ export async function buildConfigs(needInstall = false) {
         env: process.env,
       });
     }
-    execSync(`${CMDs.runCmd} tsc:build:cjs`, {
-      cwd: ensureDir,
-      stdio: 'inherit',
-    });
   }
-}
-
-export async function buildSDK(needInstall = false) {
-  const CMDs = getNpmCommand(process.cwd());
-  execSync(
-    `cd ${ensureDir} ${needInstall ? `&& ${CMDs.installCmd} ` : ``}&& ${CMDs.runCmd} tsc:build`,
-    {
-      stdio: 'inherit',
-      env: process.env,
-    }
-  );
+  const cmd = `cd ${ensureDir} && ${CMDs.runCmd} tsc:build`;
+  execSync(cmd, {
+    stdio: 'inherit',
+    env: process.env,
+  });
 }
 
 export function buildSDKDoc() {

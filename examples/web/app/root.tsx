@@ -8,7 +8,19 @@ import {
 } from 'react-router';
 
 import type { Route } from './+types/root';
-import { setupUserApi } from './user-api';
+import {
+  setupUserApi,
+  QueryTodo,
+  useQueryTodo,
+  AddTodo,
+  useAddTodo,
+  DeleteTodo,
+  useDeleteTodo,
+  UpdateTodo,
+  useUpdateTodo,
+  QueryTodoByCursor,
+  useQueryTodoByCursor,
+} from './user-api';
 
 import './app.css';
 

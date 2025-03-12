@@ -39,6 +39,8 @@ jobs:
       - run: dir
       - run: pnpm start:tsdk
 
+      - run: pnpm --filter=web typecheck && pnpm --filter=web build
+
       - run: pnpm start:bun
 
       - run: pnpm --filter fe-sdk-demo-docs build

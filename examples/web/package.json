@@ -1,5 +1,5 @@
 {
-  "name": "web2",
+  "name": "web",
   "private": true,
   "type": "module",
   "scripts": {
@@ -15,7 +15,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router": "^7.2.0",
-     "axios": "^1.7.7",
+    "axios": "^1.7.7",
     "xior": "^0.7.6"
   },
   "devDependencies": {

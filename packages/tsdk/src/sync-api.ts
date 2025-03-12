@@ -12,16 +12,23 @@ export function deleteSDKFolder() {
   return fsExtra.remove(path.resolve(process.cwd(), config.packageDir, packageFolder));
 }
 
-export async function syncAPI() {
+export async function syncAPI(
+  _apiconfs: {
+    method: string;
+    path: string;
+    name: string;
+    type: string;
+    description: string;
+    category: string;
+  }[],
+  _types: string[]
+) {
   console.log(symbols.bullet, 'generating APIs');
   await checkRepkaceAxiosWithXior();
   const pkgJSON = require(path.join(baseDir, 'package.json'));
-  const apiconfs = require(path.join(baseDir, 'lib', `${config.apiconfExt}-refs`));
+  // const apiconfs = require(path.join(baseDir, 'lib', `${config.apiconfExt}-refs`));
 
-  const keys = Object.keys(apiconfs);
-  keys.sort();
-
-  const types = [...new Set(keys.map((k) => apiconfs[k].type))].filter(Boolean);
+  const types = [..._types];
 
   if (!types.includes('common')) {
     types.push('common');
@@ -38,6 +45,10 @@ export async function syncAPI() {
   // const isSWR = hookLibs?.includes('swr');
   // const isReactQuery = hookLibs?.includes('reactquery');
   // const isVueQuery = hookLibs?.includes('vuequery');
+
+  const hasCommon = _apiconfs.find((item) => {
+    return item.type === 'common' || !item.type;
+  });
 
   for (const apiType of types) {
     const hooksContentMap: Record<
@@ -121,11 +132,6 @@ export async function syncAPI() {
         }
         `;
 
-    const hasCommon = keys.find((k) => {
-      const item = apiconfs[k];
-      return (item.type === 'common' || !item.type) && item.path;
-    });
-
     hooksContentMap['swr'].dataHookExportStr =
       apiType === 'common' || !hasCommon ? `` : `\nexport * from './common-api-swr-hooks';`;
 
@@ -175,21 +181,14 @@ export async function syncAPI() {
     let contentCount = 0;
 
     await Promise.all(
-      keys.map((k) => {
-        const {
-          name: _name,
-          path,
-          description,
-          method,
-          type: _type,
-          category = 'others',
-        } = apiconfs[k];
-        const name = _name || k.replace(/Config$/, '');
+      _apiconfs.map((item) => {
+        const { name: _name, path, description, method, type: _type, category = 'others' } = item;
+        const name = _name;
         const type = _type === 'common' || !_type ? 'common' : _type;
 
         const isGET = !method || method?.toLowerCase() === 'get';
 
-        if (type === apiType && path) {
+        if (type === apiType) {
           importStr += `
             ${name}Config,
             type ${name}Req,
@@ -198,7 +197,7 @@ export async function syncAPI() {
           bodyStr += `
             /** 
              * ${description || name}
-             * ${method?.toUpperCase() ?? 'GET'} ${path}
+             * ${method?.toUpperCase() ?? 'GET'} ${path || ''}
              * @category ${category}
              */
             export const ${name} = genApi<Expand<${name}Req>${
@@ -210,20 +209,17 @@ export async function syncAPI() {
           hooksContentMap['swr'].dataHookImportStr += `
               ${name},
             `;
-          hooksContentMap['swr'].dataHookBodyStr += generateSWRHook(name, apiconfs[k]);
+          hooksContentMap['swr'].dataHookBodyStr += generateSWRHook(name, item);
           // isReactQuery
           hooksContentMap['reactquery'].dataHookImportStr += `
               ${name},
             `;
-          hooksContentMap['reactquery'].dataHookBodyStr += generateReactQueryHook(
-            name,
-            apiconfs[k]
-          );
+          hooksContentMap['reactquery'].dataHookBodyStr += generateReactQueryHook(name, item);
           // isVueQuery
           hooksContentMap['vuequery'].dataHookImportStr += `
               ${name},
             `;
-          hooksContentMap['vuequery'].dataHookBodyStr += generateVueQueryHook(name, apiconfs[k]);
+          hooksContentMap['vuequery'].dataHookBodyStr += generateVueQueryHook(name, item);
 
           contentCount++;
         }
@@ -288,18 +284,14 @@ export async function syncAPI() {
     [key: string]: any[];
   } = {};
 
-  for (const k of keys) {
-    const item = apiconfs[k];
+  for (const k of _apiconfs) {
+    const item = k;
     if (typeof item !== 'object') continue;
 
-    item.name = item.name || k.replace(/Config$/, '');
+    item.name = item.name || k.name;
 
     if (!exportPermissions[item.type]) {
       exportPermissions[item.type] = [];
-    }
-
-    if (item.schema) {
-      item.schema = {};
     }
 
     exportPermissions[item.type].push(item);

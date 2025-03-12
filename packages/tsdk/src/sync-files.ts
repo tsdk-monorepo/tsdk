@@ -17,6 +17,7 @@ import { getNpmCommand } from './get-npm-command';
 import symbols from './symbols';
 import { transformImportPath } from './transform-import-path';
 import { replaceWindowsPath, measureExecutionTime } from './utils';
+import { extractApiconfs } from './extract-apiconfs';
 
 export async function syncFiles(noOverwrite = false) {
   const indent = '   ';
@@ -27,7 +28,7 @@ export async function syncFiles(noOverwrite = false) {
     () => syncAdditionalSharedFiles(),
     indent
   );
-  await Promise.all([
+  const [apiconfs] = await Promise.all([
     measureExecutionTime(`Sync *.${config.apiconfExt}.ts`, () => syncAPIConf(), indent),
     measureExecutionTime(`Sync *.${config.entityExt}.ts`, () => syncEntityFiles(), indent),
   ]);
@@ -36,6 +37,7 @@ export async function syncFiles(noOverwrite = false) {
     () => syncSharedFolders(),
     indent
   );
+  return apiconfs;
 }
 
 export async function copyTsdkConfig() {
@@ -211,6 +213,7 @@ export async function copySDK(noOverwrite: boolean) {
 
 /** sync files base extension config */
 export async function syncExtFiles(ext: string, isEntity = false) {
+  const isApiconf = ext === config.apiconfExt;
   const pattern = replaceWindowsPath(
     path.join(`${path.join(...config.baseDir.split('/'))}`, `**`, `*.${ext}.ts`)
   );
@@ -219,10 +222,32 @@ export async function syncExtFiles(ext: string, isEntity = false) {
   files.sort();
 
   const indexContentMap: { [key: string]: string } = {};
+  const apiconfs: {
+    method: string;
+    path: string;
+    name: string;
+    type: string;
+    description: string;
+    category: string;
+  }[] = [];
+  const types = new Set<string>();
   await Promise.all(
     files.map(async (file) => {
       const filePath = path.join(ensureDir, file.replace(`${config.baseDir}/`, 'src/'));
       const content: string = await transformImportPath(file, isEntity);
+
+      if (isApiconf) {
+        // Get the configs and push to `apiconfs`
+        const extractResult = extractApiconfs(content);
+        if (extractResult.length > 0) {
+          extractResult.forEach((item) => {
+            if (item.type) {
+              types.add(item.type);
+            }
+            apiconfs.push(item);
+          });
+        }
+      }
 
       await fsExtra.ensureDir(path.dirname(filePath));
 
@@ -233,7 +258,7 @@ export async function syncExtFiles(ext: string, isEntity = false) {
       fromPath = path.normalize(fromPath);
       fromPath = fromPath.startsWith('.') ? fromPath : './' + fromPath;
       indexContentMap[file] = `export * from '${replaceWindowsPath(fromPath)}';\n`;
-      return fs.promises.writeFile(filePath, content);
+      await fs.promises.writeFile(filePath, content);
     })
   );
 
@@ -244,6 +269,10 @@ export async function syncExtFiles(ext: string, isEntity = false) {
     path.join(ensureDir, `src/${ext}-refs.ts`),
     `${comment}${indexContent}`
   );
+
+  if (isApiconf) {
+    return { apiconfs, types: Array.from(types) };
+  }
 }
 
 /** sync entity files  */
