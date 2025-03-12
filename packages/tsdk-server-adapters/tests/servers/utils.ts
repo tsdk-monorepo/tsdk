@@ -38,10 +38,6 @@ export interface APIConfig {
   needAuth?: boolean;
   /** The API disabled? Default is false */
   disabled?: boolean;
-  /** The API description */
-  description?: string;
-  /** The API category */
-  category?: string;
 
   /** custom headers for client */
   headers?: { [key: string]: any };

@@ -10,8 +10,6 @@ export const DeleteTodoConfig: APIConfig = {
   path: transformPath('DeleteTodo'),
   method: 'post',
 
-  description: 'delete todo',
-  category: 'todo',
   schema: deleteTodoSchema,
 };
 

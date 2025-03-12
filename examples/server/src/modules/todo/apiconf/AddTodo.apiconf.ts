@@ -7,8 +7,6 @@ export const AddTodoConfig: APIConfig = {
   type: 'user',
   path: transformPath('AddTodo'),
   method: 'post',
-  description: 'add todo',
-  category: 'todo',
   schema: addTodoSchema,
 };
 

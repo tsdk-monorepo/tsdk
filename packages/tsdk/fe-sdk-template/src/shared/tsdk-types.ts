@@ -22,10 +22,6 @@ export interface APIConfig {
   needAuth?: boolean;
   /** Is the API disabled? Default is `false`. */
   disabled?: boolean;
-  /** A description of the API. */
-  description?: string;
-  /** The API category. */
-  category?: string;
   /** Custom headers for the client. */
   headers?: { [key: string]: any };
   /**

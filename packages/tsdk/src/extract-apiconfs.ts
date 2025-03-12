@@ -126,16 +126,16 @@ export function extractApiconfs(content: string) {
         }
 
         // Extract description
-        const descriptionMatch = configLine.match(/^description\s*:\s*['"`]([^'"`]+)['"`]/);
-        if (descriptionMatch) {
-          currentConfig.description = descriptionMatch[1];
-        }
+        // const descriptionMatch = configLine.match(/^description\s*:\s*['"`]([^'"`]+)['"`]/);
+        // if (descriptionMatch) {
+        //   currentConfig.description = descriptionMatch[1];
+        // }
 
         // Extract category
-        const categoryMatch = configLine.match(/^category\s*:\s*['"`]([^'"`]+)['"`]/);
-        if (categoryMatch) {
-          currentConfig.category = categoryMatch[1];
-        }
+        // const categoryMatch = configLine.match(/^category\s*:\s*['"`]([^'"`]+)['"`]/);
+        // if (categoryMatch) {
+        //   currentConfig.category = categoryMatch[1];
+        // }
 
         // End config object when braces close
         // configLine.match(/}/g)

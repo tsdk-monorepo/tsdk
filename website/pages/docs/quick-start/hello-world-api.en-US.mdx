@@ -181,8 +181,6 @@ export const GetHelloConfig: APIConfig = {
   type: 'user',
   method: 'get',
   path: transformPath('GetHello'),
-  description: 'Get hello',
-  category: 'hello',
   needAuth: false,
 };
 /**
@@ -206,8 +204,6 @@ export const UpdateHelloConfig = {
   type: 'user' as const,
   method: 'post' as const,
   path: transformPath('UpdateHello'),
-  description: 'Update hello',
-  category: 'hello',
   needAuth: false,
   schema: z.object({
     payload: z.string().min(1),

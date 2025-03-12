@@ -14,7 +14,6 @@ export const QueryTodoByCursorConfig: APIConfig = {
   method: 'get',
   path: transformPath('QueryTodoByCursor'),
   schema: queryTodoByCursorSchema,
-  description: 'query todo list by cursor',
 };
 /**
  *

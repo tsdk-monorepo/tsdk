@@ -8,8 +8,6 @@ export const QueryTodoConfig: APIConfig = {
   path: transformPath('QueryTodo'),
   method: 'get',
 
-  description: 'query todo',
-  category: 'todo',
   type: 'user',
   schema: queryTodoSchema,
 };

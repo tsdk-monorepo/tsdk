@@ -57,7 +57,7 @@ describe('extractAPIConfigs', () => {
         path: "transformPath('AddTodo')",
         method: 'post',
         description: 'hello',
-        category: 'todo',
+        category: '',
       },
     ]);
   });
@@ -72,7 +72,7 @@ describe('extractAPIConfigs', () => {
         path: '/add-todo',
         method: 'post',
         description: 'hello',
-        category: 'todo',
+        category: '',
       },
     ]);
   });

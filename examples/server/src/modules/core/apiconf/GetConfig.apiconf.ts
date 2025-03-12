@@ -9,8 +9,6 @@ export const GetConfigsConfig: APIConfig = {
 
   method: 'get',
   path: transformPath('GetConfigs'),
-  description: 'get server configs for client',
-  category: 'core',
 };
 /**
  *

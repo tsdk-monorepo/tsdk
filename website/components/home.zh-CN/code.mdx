@@ -88,8 +88,6 @@ import { Tabs } from 'nextra-theme-docs';
         type: 'user',
         method: 'get',
         path: transformPath('GetHello'),
-        description: 'Get hello',
-        category: 'hello',
         needAuth: false,
         schema: z.object({
           world: z.string().min(1).

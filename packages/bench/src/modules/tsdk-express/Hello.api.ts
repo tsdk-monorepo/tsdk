@@ -14,8 +14,6 @@ export function setupHelloAPI() {
         type: 'user',
         method: 'get',
         path: transformPath(`Hello${_i}`),
-        description: `Hello${_i} api`,
-        category: 'hello',
       },
       async (data, reqInfo: Readonly<RequestInfo>) => {
         const result = 'hi ' + Date.now() + ' ' + Math.random();
