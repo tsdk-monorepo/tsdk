@@ -59,7 +59,7 @@ async function handleSyncCommand(noOverwrite: boolean): Promise<void> {
     );
     await measureExecutionTime('Build SDK', () => buildSDK(true));
 
-    const removeFieldsValue = config.removeFields ?? ['needAuth', 'category', 'description'];
+    const removeFieldsValue = config.removeFields ?? ['needAuth'];
     // Execute these tasks in parallel
     await measureExecutionTime('Post-processing', async () => {
       await Promise.all([

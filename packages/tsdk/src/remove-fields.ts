@@ -14,7 +14,7 @@ export async function removeFields() {
     path.join(ensureDir, `esm/**/*.${config.apiconfExt}.js`)
   );
 
-  const removeFields = config.removeFields ?? ['needAuth', 'category', 'description'];
+  const removeFields = config.removeFields ?? ['needAuth'];
   console.log(`       ${symbols.info}`, `Removing fields [${removeFields.join(',')}]`);
   const files = await glob([jsPattern, jsPatternForEsm]);
   await Promise.all(
