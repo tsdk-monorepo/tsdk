@@ -47,7 +47,7 @@ export async function xiorHandler(
   }
 
   const { path, headers, isGet, onRequest, onResponse } = apiConfig;
-  const method = apiConfig.method.toLowerCase();
+  const method = apiConfig?.method?.toLowerCase() || 'get';
 
   // Apply onRequest hook if available
   if (onRequest) {

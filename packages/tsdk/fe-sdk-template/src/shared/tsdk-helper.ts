@@ -13,10 +13,10 @@ export function checkMethodHasBody(method: string) {
 export function transformPath(path: string) {
   return `/${paramCase(path)}`;
 }
-
 export function paramCase(input: string): string {
   return input
     .replace(/([a-z0-9])([A-Z])/g, '$1-$2') // Add a hyphen between lower and upper case letters
+    .replace(/([A-Z])([A-Z][a-z])/g, '$1-$2') // Add a hyphen between consecutive capitals when followed by lowercase
     .replace(/\s+/g, '-') // Replace spaces with hyphens
     .toLowerCase(); // Convert all characters to lowercase
 }

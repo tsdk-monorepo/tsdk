@@ -47,7 +47,7 @@ export async function axiosHandler(
   }
 
   const { path, headers, onRequest, onResponse } = apiConfig;
-  const method = apiConfig.method.toLowerCase();
+  const method = apiConfig?.method?.toLowerCase() || 'get';
 
   // Apply onRequest hook if available
   if (onRequest) {
