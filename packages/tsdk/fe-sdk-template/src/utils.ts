@@ -1,6 +1,5 @@
 // @ts-ignore
 import type { ZodIssue } from 'zod';
-
 /**
  * The `methods` sort order should same with
  * `packages/tsdk-server-adapters/src/socket.io-adapter.ts`
@@ -28,9 +27,10 @@ export function getID(method: string, path: string): string {
     throw new Error(`Invalid method: ${method}. Valid methods are: ${methods.join(', ')}`);
   }
 
-  return `${methodIdx}:${path}:${++ID}${
-    Date.now().toString(36).slice(-4) + Math.random().toString(36).slice(-4)
-  }`;
+  const timestamp = Date.now().toString(36).slice(-4);
+  const randomStr = Math.random().toString(36).slice(-4);
+
+  return `${methodIdx}:${path}:${++ID}${timestamp}${randomStr}`;
 }
 
 export type RequestError = {
