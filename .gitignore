@@ -70,3 +70,9 @@ test-project
 test-project-bun
 test-project-yarn
 test-project-npm
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

@@ -19,17 +19,24 @@
     "prepare": "is-ci || husky"
   },
   "devDependencies": {
-    "husky": "^9.1.7",
-    "lint-staged": "^15.4.3",
-    "is-ci": "^4.1.0",
-    "eslint": "^9.21.0",
     "@eslint/js": "^9.21.0",
-    "typescript-eslint": "^8.25.0",
+    "@playwright/test": "^1.51.0",
+    "@types/node": "^20",
+    "eslint": "^9.21.0",
+    "husky": "^9.1.7",
+    "is-ci": "^4.1.0",
+    "lint-staged": "^15.4.3",
     "prettier": "^3.5.3",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.25.0"
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["@swc/core", "better-sqlite3", "bufferutil", "utf-8-validate"]
+    "onlyBuiltDependencies": [
+      "@swc/core",
+      "better-sqlite3",
+      "bufferutil",
+      "utf-8-validate"
+    ]
   },
   "prettier": {
     "printWidth": 100,
