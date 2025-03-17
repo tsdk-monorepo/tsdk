@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "typescript": "^5.8.2",
-    "typedoc": "^0.27.9",
+    "typedoc": "^0.28.0",
     "concurrently": "^9.1.2"
   },
   "peerDependencies": {

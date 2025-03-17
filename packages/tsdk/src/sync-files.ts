@@ -116,7 +116,7 @@ async function reconfigPkg() {
       : [config.entityLibName || 'typeorm']
     )?.find((item) => item === 'kysely')
   ) {
-    pkgContent.dependencies.kysely = '^0.27.5';
+    pkgContent.dependencies.kysely = '^0.27.6';
   }
 
   const _hookLibs = (
@@ -133,10 +133,10 @@ async function reconfigPkg() {
     pkgContent.dependencies.swr = '^2.3.3';
   }
   if (isReactQuery) {
-    pkgContent.dependencies['@tanstack/react-query'] = '^5.67.1';
+    pkgContent.dependencies['@tanstack/react-query'] = '^5.68.0';
   }
   if (isVueQuery) {
-    pkgContent.dependencies['@tanstack/vue-query'] = '^5.67.1';
+    pkgContent.dependencies['@tanstack/vue-query'] = '^5.68.0';
   }
 
   if (config.dependencies) {
