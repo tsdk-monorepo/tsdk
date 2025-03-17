@@ -86,14 +86,9 @@ export async function socketIOHandler(
   return new Promise((resolve, reject) => {
     const msgId = getID(method, path);
 
-    ioInstance.emit(ProtocolTypes.request, {
-      _id: msgId,
-      payload: requestData,
-    });
-
     const timer = setTimeout(() => {
       delete QUEUES[msgId];
-      reject(new TimeoutError('Request Timeout'));
+      reject(new TimeoutError(`Request Timeout: ${method} ${path}`));
     }, requestConfig?.timeout || 10e3);
 
     QUEUES[msgId] = {
@@ -106,5 +101,10 @@ export async function socketIOHandler(
         reject(e);
       },
     };
+
+    ioInstance.emit(ProtocolTypes.request, {
+      _id: msgId,
+      payload: requestData,
+    });
   });
 }
