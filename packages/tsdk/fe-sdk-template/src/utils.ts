@@ -12,6 +12,10 @@ methods.forEach((i, idx) => {
 
 let ID = 0;
 
+export function resetID() {
+  ID = 0;
+}
+
 /**
  * Generates a unique ID for API requests based on HTTP method and path
  * @param method - HTTP method (get, post, etc.)

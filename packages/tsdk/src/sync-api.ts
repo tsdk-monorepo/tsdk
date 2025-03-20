@@ -133,15 +133,15 @@ export async function syncAPI(
         `;
 
     hooksContentMap['swr'].dataHookExportStr =
-      apiType === 'common' || !hasCommon ? `` : `\nexport * from './common-api-swr-hooks';`;
+      apiType === 'common' || !hasCommon ? `` : `\nexport * from './common-api-swr';`;
 
     hooksContentMap['reactquery'].dataHookExportStr =
       apiType === 'common' || !hasCommon
         ? `\nexport function setQueryClient(queryClient: QueryClient) {
             _queryClient = queryClient;
           }`
-        : `\nexport * from './common-api-reactquery-hooks';
-        import { setQueryClientForCommon } from './common-api-reactquery-hooks';
+        : `\nexport * from './common-api-reactquery';
+        import { setQueryClientForCommon } from './common-api-reactquery';
         
         export function setQueryClient(queryClient: QueryClient) {
           _queryClient = queryClient;
@@ -154,8 +154,8 @@ export async function syncAPI(
         ? `\nexport function setQueryClient(queryClient: QueryClient) {
             _queryClient = queryClient;
           }`
-        : `\nexport * from './common-api-vuequery-hooks';
-        import { setQueryClientForCommon } from './common-api-vuequery-hooks';
+        : `\nexport * from './common-api-vuequery';
+        import { setQueryClientForCommon } from './common-api-vuequery';
         
         export function setQueryClient(queryClient: QueryClient) {
           _queryClient = queryClient;
@@ -266,14 +266,14 @@ export async function syncAPI(
             ${dataHookBodyStr}
             `;
           return fs.promises.writeFile(
-            path.join(ensureDir, `src`, `${apiType}-api-${hook}-hooks.ts`),
+            path.join(ensureDir, `src`, `${apiType}-api-${hook}.ts`),
             dataHookContent
           );
         })
       );
       await fs.promises.writeFile(
         path.join(ensureDir, `src`, `${apiType}-api-hooks.ts`),
-        `export * from './${apiType}-api-${hookLibs[0]}-hooks';`
+        `export * from './${apiType}-api-${hookLibs[0]}';`
       );
     }
   }

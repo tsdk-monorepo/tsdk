@@ -2,6 +2,8 @@
 
 ### Setup for [xior.js](https://github.com/suhaotian/xior) and [socket.io](https://socket.io)
 
+> Xior.js is an Axios-like API but a lightweight replacement for Axios.
+
 ```ts
 import {
   setHandler,
@@ -15,9 +17,9 @@ import type { QueryTodoRes } from '%PROJECT NAME%/esm/apiconf-refs';
 import { QueryTodo } from '%PROJECT NAME%/esm/user-api';
 
 export * from '%PROJECT NAME%/esm/user-api';
-export * from '%PROJECT NAME%/esm/user-api-swr-hooks';
-// export * from '%PROJECT NAME%/esm/user-api-reactquery-hooks';
-// export * from '%PROJECT NAME%/esm/user-api-vuequery-hooks';
+export * from '%PROJECT NAME%/esm/user-api-swr';
+// export * from '%PROJECT NAME%/esm/user-api-reactquery';
+// export * from '%PROJECT NAME%/esm/user-api-vuequery';
 export * from '%PROJECT NAME%/esm/apiconf-refs';
 export * from '%PROJECT NAME%/esm/entity-refs';
 export * from '%PROJECT NAME%/esm/shared-refs';
@@ -36,9 +38,9 @@ import type { QueryTodoRes } from '%PROJECT NAME%/lib/apiconf-refs';
 import { QueryTodo } from '%PROJECT NAME%/lib/user-api';
 
 export * from '%PROJECT NAME%/lib/user-api';
-export * from '%PROJECT NAME%/lib/user-api-swr-hooks';
-// export * from '%PROJECT NAME%/lib/user-api-reactquery-hooks';
-// export * from '%PROJECT NAME%/lib/user-api-vuequery-hooks';
+export * from '%PROJECT NAME%/lib/user-api-swr';
+// export * from '%PROJECT NAME%/lib/user-api-reactquery';
+// export * from '%PROJECT NAME%/lib/user-api-vuequery';
 export * from '%PROJECT NAME%/lib/apiconf-refs';
 export * from '%PROJECT NAME%/lib/entity-refs';
 export * from '%PROJECT NAME%/lib/shared-refs';
@@ -95,9 +97,9 @@ import type { QueryTodoRes } from '%PROJECT NAME%/esm/apiconf-refs';
 import { QueryTodo } from '%PROJECT NAME%/esm/user-api';
 
 export * from '%PROJECT NAME%/esm/user-api';
-export * from '%PROJECT NAME%/esm/user-api-swr-hooks';
-// export * from '%PROJECT NAME%/esm/user-api-reactquery-hooks';
-// export * from '%PROJECT NAME%/esm/user-api-vuequery-hooks';
+export * from '%PROJECT NAME%/esm/user-api-swr';
+// export * from '%PROJECT NAME%/esm/user-api-reactquery';
+// export * from '%PROJECT NAME%/esm/user-api-vuequery';
 export * from '%PROJECT NAME%/esm/apiconf-refs';
 export * from '%PROJECT NAME%/esm/entity-refs';
 export * from '%PROJECT NAME%/esm/shared-refs';
@@ -116,9 +118,9 @@ import type { QueryTodoRes } from '%PROJECT NAME%/lib/apiconf-refs';
 import { QueryTodo } from '%PROJECT NAME%/lib/user-api';
 
 export * from '%PROJECT NAME%/lib/user-api';
-export * from '%PROJECT NAME%/lib/user-api-swr-hooks';
-// export * from '%PROJECT NAME%/lib/user-api-reactquery-hooks';
-// export * from '%PROJECT NAME%/lib/user-api-vuequery-hooks';
+export * from '%PROJECT NAME%/lib/user-api-swr';
+// export * from '%PROJECT NAME%/lib/user-api-reactquery';
+// export * from '%PROJECT NAME%/lib/user-api-vuequery';
 export * from '%PROJECT NAME%/lib/apiconf-refs';
 export * from '%PROJECT NAME%/lib/entity-refs';
 export * from '%PROJECT NAME%/lib/shared-refs';

@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { getID } from '../fe-sdk-template/src/utils'; // Update this path as needed
+import { getID, resetID } from '../fe-sdk-template/src/utils'; // Update this path as needed
 
 describe('getID', () => {
   // Reset the module before each test to ensure ID counter is reset
@@ -7,6 +7,7 @@ describe('getID', () => {
     // Note: In a real implementation, you might need to use
     // module mocking to reset the ID counter between tests
     // This is a limitation of the current implementation with a module-level ID variable
+    resetID();
   });
 
   it('should generate a unique ID for valid HTTP methods', () => {
@@ -92,8 +93,8 @@ describe('getID', () => {
     expect(match2).not.toBeNull();
 
     if (match1 && match2) {
-      const incrementalId1 = parseInt(match1[1], 10);
-      const incrementalId2 = parseInt(match2[1], 10);
+      const incrementalId1 = parseInt(match1[1][0], 10);
+      const incrementalId2 = parseInt(match2[1][0], 10);
       expect(incrementalId2).toEqual(incrementalId1 + 1);
     }
   });

@@ -259,6 +259,7 @@ export async function syncExtFiles(ext: string, isEntity = false) {
       fromPath = fromPath.startsWith('.') ? fromPath : './' + fromPath;
       indexContentMap[file] = `export * from '${replaceWindowsPath(fromPath)}';\n`;
       await fs.promises.writeFile(filePath, content);
+      return filePath;
     })
   );
 
@@ -271,7 +272,7 @@ export async function syncExtFiles(ext: string, isEntity = false) {
   );
 
   if (isApiconf) {
-    return { apiconfs, types: Array.from(types) };
+    return { apiconfs, types: Array.from(types), files };
   }
 }
 

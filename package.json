@@ -19,16 +19,16 @@
     "prepare": "is-ci || husky"
   },
   "devDependencies": {
-    "@eslint/js": "^9.21.0",
-    "@playwright/test": "^1.51.0",
-    "@types/node": "^20",
-    "eslint": "^9.21.0",
+    "@eslint/js": "^9.22.0",
+    "@playwright/test": "^1.51.1",
+    "@types/node": "^20.17.24",
+    "eslint": "^9.22.0",
     "husky": "^9.1.7",
     "is-ci": "^4.1.0",
-    "lint-staged": "^15.4.3",
+    "lint-staged": "^15.5.0",
     "prettier": "^3.5.3",
     "typescript": "^5.8.2",
-    "typescript-eslint": "^8.25.0"
+    "typescript-eslint": "^8.26.1"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
