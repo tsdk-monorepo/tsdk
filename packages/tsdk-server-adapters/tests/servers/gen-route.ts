@@ -11,7 +11,6 @@ function onErrorHandler(
   e: unknown,
   { send, msgId }: Parameters<Parameters<typeof genRouteFactory>[0]>[1]
 ) {
-  console.log('onErrorHandler:', e);
   if ((e as unknown as StandardSchemaV1.FailureResult)?.issues) {
     return send({
       _id: msgId,

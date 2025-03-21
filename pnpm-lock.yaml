@@ -347,6 +347,9 @@ importers:
       '@types/multer':
         specifier: ^1.4.12
         version: 1.4.12
+      arktype:
+        specifier: ^2.1.10
+        version: 2.1.10
       concurrently:
         specifier: ^9.1.2
         version: 9.1.2
@@ -371,6 +374,9 @@ importers:
       typescript:
         specifier: ^5.8.2
         version: 5.8.2
+      valibot:
+        specifier: ^1.0.0
+        version: 1.0.0(typescript@5.8.2)
       vitest:
         specifier: ^3.0.7
         version: 3.0.7(@types/node@20.17.24)(lightningcss@1.29.1)(terser@5.39.0)
@@ -414,6 +420,12 @@ packages:
   '@angular-devkit/schematics@19.1.8':
     resolution: {integrity: sha512-2JGUMD3zjfY8G4RYpypm2/1YEO+O4DtFycUvptIpsBYyULgnEbJ3tlp2oRiXI2vp9tC8IyWqa/swlA8DTI6ZYQ==}
     engines: {node: ^18.19.1 || ^20.11.1 || >=22.0.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
+
+  '@ark/schema@0.45.0':
+    resolution: {integrity: sha512-3XlMWkZbEjh0YsF92vnnRNCWNRNhRKDTf6XhugyCXH0YRFuM+w1vFLDbB2JLfZloEd7i5cbqsLaDLzyBZbPrSg==}
+
+  '@ark/util@0.45.0':
+    resolution: {integrity: sha512-Z1gHEGbpPzLtPmYb932t2B++6YonlUi1Fa14IQ4vhsGMWhd81Mi1miUmdZXW4fNI/wg1saT7H2/5cAuONgTXhg==}
 
   '@babel/code-frame@7.26.2':
     resolution: {integrity: sha512-RJlIHRueQgwWitWgF8OdFYGZX328Ax5BCemNGlqHfplnRT9ESi8JkFlvaVYbS+UubVY6dpv87Fs2u5M29iNFVQ==}
@@ -2084,6 +2096,9 @@ packages:
   aria-hidden@1.2.4:
     resolution: {integrity: sha512-y+CcFFwelSXpLZk/7fMB2mUbGtX9lKycf1MWJ7CaTIERyitVlyQx6C+sxcROU2BAJ24OiZyK+8wj2i8AlBoS3A==}
     engines: {node: '>=10'}
+
+  arktype@2.1.10:
+    resolution: {integrity: sha512-KqbrzI9qIGrQUClifyS1HpUp/oTSRtGDvnMKzwg2TAvxRpynY1mn/ubXaxAAdGPOM8V3pBqwb01Z6TcXqhBxzQ==}
 
   array-flatten@1.1.1:
     resolution: {integrity: sha512-PCVAQswWemu6UdxsDFFX/+gVeYqKAod3D3UVm91jHwynguOwAvYPhx8nNlM++NqRcK6CxxpUafjmhIdKiHibqg==}
@@ -4613,6 +4628,14 @@ packages:
       typescript:
         optional: true
 
+  valibot@1.0.0:
+    resolution: {integrity: sha512-1Hc0ihzWxBar6NGeZv7fPLY0QuxFMyxwYR2sF1Blu7Wq7EnremwY2W02tit2ij2VJT8HcSkHAQqmFfl77f73Yw==}
+    peerDependencies:
+      typescript: '>=5'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
   validate-npm-package-license@3.0.4:
     resolution: {integrity: sha512-DpKm2Ui/xN7/HQKCtpZxoRWBhZ9Z0kqtygG8XCgNQ8ZlDnxuQmWhj566j8fN4Cu3/JmbhsDo7fcAJq4s9h27Ew==}
 
@@ -4935,6 +4958,12 @@ snapshots:
       rxjs: 7.8.1
     transitivePeerDependencies:
       - chokidar
+
+  '@ark/schema@0.45.0':
+    dependencies:
+      '@ark/util': 0.45.0
+
+  '@ark/util@0.45.0': {}
 
   '@babel/code-frame@7.26.2':
     dependencies:
@@ -6711,6 +6740,11 @@ snapshots:
   aria-hidden@1.2.4:
     dependencies:
       tslib: 2.6.2
+
+  arktype@2.1.10:
+    dependencies:
+      '@ark/schema': 0.45.0
+      '@ark/util': 0.45.0
 
   array-flatten@1.1.1: {}
 
@@ -9230,6 +9264,10 @@ snapshots:
     optional: true
 
   valibot@0.41.0(typescript@5.8.2):
+    optionalDependencies:
+      typescript: 5.8.2
+
+  valibot@1.0.0(typescript@5.8.2):
     optionalDependencies:
       typescript: 5.8.2
 

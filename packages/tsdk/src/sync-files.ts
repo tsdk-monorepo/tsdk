@@ -123,7 +123,7 @@ export async function copyShared() {
 const vLibs = {
   zod: ['zod', '^3.24.2'],
   valibot: ['valibot', '^1.0.0'],
-  arktype: ['arktype', '^0.13.1'],
+  arktype: ['arktype', '^2.1.0'],
 } as const;
 
 async function reconfigPkg() {

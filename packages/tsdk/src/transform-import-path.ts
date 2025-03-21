@@ -28,9 +28,13 @@ export function processImportPath(_importString: string, _filePath: string) {
 
     importString = importString.replace(matched[1], fromPath);
 
-    const firstLevelPath = fromPath.split('/')[0];
+    const arr = fromPath.split('/');
+    let firstLevelPath = arr[0];
 
     if (firstLevelPath[0] !== '.') {
+      if (firstLevelPath.startsWith('@')) {
+        firstLevelPath = arr.slice(0, 2).join('/');
+      }
       const isShareLib = !!getDeps()[firstLevelPath];
       if (isShareLib) {
         return importString;
