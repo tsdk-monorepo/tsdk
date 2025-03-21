@@ -8,11 +8,15 @@ export async function buildSDK(needInstall = false) {
   if (needInstall) {
     const cmd = `${CMDs.installCmd}`;
     console.log(`   Run \`${cmd}\` in dir: ${ensureDir}`);
-    execSync(cmd, {
-      cwd: ensureDir,
-      stdio: 'inherit',
-      env: process.env,
-    });
+    try {
+      execSync(cmd, {
+        cwd: ensureDir,
+        stdio: 'inherit',
+        env: process.env,
+      });
+    } catch (e) {
+      console.log(`   Run \`${cmd}\` in \`compile-tsdk.ts\` error`, e);
+    }
     const isNodeModulesExists = await fsExtra.exists(`${ensureDir}/node_modules`);
     if (!isNodeModulesExists) {
       console.log(`\n    Run \`npm install\` in dir: ${ensureDir}`);
