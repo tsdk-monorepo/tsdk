@@ -184,4 +184,118 @@ describe('express adapter tests', () => {
     expect(res.errors[0].code).toBe('unrecognized_keys');
     expect(res.errors[1]).toBeUndefined();
   });
+
+  it('[valibot] GET should work', async () => {
+    const result = await fetch(`http://localhost:${port}/api/user/hello-valibot`).then((res) =>
+      res.json()
+    );
+    expect(result.msg).toBe('hello get');
+  });
+
+  it('[valibot] GET with query data should work', async () => {
+    const result = await fetch(`http://localhost:${port}/api/user/hello-valibot?a=1&b=2`).then(
+      (res) => res.json()
+    );
+    expect(result.msg).toBe('hello get');
+    expect(result.data.a).toBe('1');
+    expect(result.data.b).toBe('2');
+  });
+
+  it('[valibot] GET with not valid query data should throw error', async () => {
+    let error!: Response;
+    try {
+      await fetch(`http://localhost:${port}/api/user/hello-valibot?a=a&b=b&c=d`)
+        .then((res) => (res.ok ? res : Promise.reject(res)))
+        .then((res) => res.json());
+    } catch (e) {
+      error = e;
+    }
+    expect(error).toBeDefined();
+    expect(error.status).toBe(400);
+    const res = await error.json();
+    expect(res.errors[0].expected).toBe('never');
+    expect(res.errors[0].received).toBe('"c"');
+    expect(res.errors[1]).toBeUndefined();
+  });
+
+  it('[valibot] POST with not valid data should throw error', async () => {
+    let error!: Response;
+    try {
+      await fetch(`http://localhost:${port}/api/user/hello-valibot`, {
+        method: 'post',
+        body: JSON.stringify({ a: '1', b: '2', c: 'd' }),
+        headers: {
+          'content-type': 'application/json',
+        },
+      })
+        .then((res) => (res.ok ? res : Promise.reject(res)))
+        .then((res) => res.json());
+    } catch (e) {
+      error = e;
+    }
+    expect(error).toBeDefined();
+    expect(error.status).toBe(400);
+    const res = await error.json();
+    expect(res.errors[0].expected).toBe('never');
+    expect(res.errors[0].received).toBe('"c"');
+    expect(res.errors[1]).toBeUndefined();
+  });
+
+  it('[arktype] GET should work', async () => {
+    const result = await fetch(`http://localhost:${port}/api/user/hello-arktype`).then((res) =>
+      res.json()
+    );
+    expect(result.msg).toBe('hello get');
+  });
+
+  it('[arktype] GET with query data should work', async () => {
+    const result = await fetch(`http://localhost:${port}/api/user/hello-arktype?a=1&b=2`).then(
+      (res) => res.json()
+    );
+    expect(result.msg).toBe('hello get');
+    expect(result.data.a).toBe('1');
+    expect(result.data.b).toBe('2');
+  });
+
+  it('[arktype] GET with not valid query data should throw error', async () => {
+    let error!: Response;
+    try {
+      await fetch(`http://localhost:${port}/api/user/hello-arktype?a=a&b=b&c=d`)
+        .then((res) => (res.ok ? res : Promise.reject(res)))
+        .then((res) => res.json());
+    } catch (e) {
+      error = e;
+    }
+    expect(error).toBeDefined();
+    expect(error.status).toBe(400);
+    const res = await error.json();
+
+    expect(res.errors[0].expected).toBe('removed');
+    expect(res.errors[0].message).toBe('c must be removed');
+    expect(res.errors[1]).toBeUndefined();
+  });
+
+  it('[arktype] POST with not valid data should throw error', async () => {
+    let error!: Response;
+    try {
+      await fetch(`http://localhost:${port}/api/user/hello-arktype`, {
+        method: 'post',
+        body: JSON.stringify({ a: '1', b: '2', c: 'd' }),
+        headers: {
+          'content-type': 'application/json',
+        },
+      })
+        .then((res) => (res.ok ? res : Promise.reject(res)))
+        .then((res) => res.json());
+    } catch (e) {
+      error = e;
+    }
+    expect(error).toBeDefined();
+    expect(error.status).toBe(400);
+    const res = await error.json();
+
+    expect(res.errors[0].expected).toBe('removed');
+    expect(res.errors[0].message).toBe('c must be removed');
+    expect(res.errors[1]).toBeUndefined();
+  });
 });

@@ -5,6 +5,9 @@ import { expressAdapterFactory } from '../../src/express-adapter';
 import genRoute, { routeBus } from './gen-route';
 import { checkMethodHasBody, RequestInfo } from './utils';
 
+import * as v from 'valibot';
+import { type } from 'arktype';
+
 export const app = express();
 
 app.use(express.json());
@@ -35,6 +38,62 @@ genRoute(
         b: z.string().optional(),
       })
       .strict(),
+  },
+  async (data) => {
+    return { msg: 'hello post', data };
+  }
+);
+
+// valibot
+genRoute(
+  {
+    method: 'get',
+    path: '/hello-valibot',
+    schema: v.strictObject({
+      a: v.optional(v.string()),
+      b: v.optional(v.string()),
+    }),
+  },
+  async (data) => {
+    return { msg: 'hello get', data };
+  }
+);
+genRoute(
+  {
+    method: 'post',
+    path: '/hello-valibot',
+    schema: v.strictObject({
+      a: v.optional(v.string()),
+      b: v.optional(v.string()),
+    }),
+  },
+  async (data) => {
+    return { msg: 'hello post', data };
+  }
+);
+
+// arktype
+genRoute(
+  {
+    method: 'get',
+    path: '/hello-arktype',
+    schema: type({
+      a: 'string?',
+      b: 'string?',
+    }).onUndeclaredKey('reject'),
+  },
+  async (data) => {
+    return { msg: 'hello get', data };
+  }
+);
+genRoute(
+  {
+    method: 'post',
+    path: '/hello-arktype',
+    schema: type({
+      a: 'string?',
+      b: 'string?',
+    }).onUndeclaredKey('reject'),
   },
   async (data) => {
     return { msg: 'hello post', data };
