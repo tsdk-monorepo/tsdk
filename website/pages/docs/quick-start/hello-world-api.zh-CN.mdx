@@ -9,7 +9,7 @@
 **gen-route.ts** 该文件负责中间件，错误处理等逻辑。
 
 ```ts filename="server/src/gen-route.ts" copy
-import { ZodError } from 'zod';
+import type { StandardSchemaV1 } from '@standard-schema/spec';
 import { genRouteFactory, Protocol } from 'tsdk-server-adapters';
 import { ProtocolTypes } from '@/src/shared/tsdk-helper';
 import { APIConfig, APITypesKey } from '@/src/shared/tsdk-types';
@@ -60,12 +60,12 @@ function onErrorHandler(
   e: CustomError,
   { protocol, send, msgId }: Parameters<Parameters<typeof genRouteFactory>[0]>[1]
 ) {
-  if (e instanceof ZodError) {
+  if ((e as unknown as StandardSchemaV1.FailureResult)?.issues) {
     return send({
       _id: msgId,
       status: 400,
       result: {
-        msg: e.errors,
+        msg: (e as unknown as StandardSchemaV1.FailureResult).issues,
       },
     });
   }
