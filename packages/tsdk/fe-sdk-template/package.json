@@ -12,14 +12,14 @@
     "serve": "serve docs"
   },
   "dependencies": {
-    "zod": "^3.24.2",
-    "axios": "^1.8.1",
+    "axios": "^1.8.4",
     "xior": "^0.7.7"
   },
   "devDependencies": {
     "typescript": "^5.8.2",
     "typedoc": "^0.28.0",
-    "concurrently": "^9.1.2"
+    "concurrently": "^9.1.2",
+    "@standard-schema/spec": "^1.0.0"
   },
   "peerDependencies": {
     "socket.io-client": "^4.8.1"

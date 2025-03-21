@@ -1,6 +1,6 @@
 import { genRouteFactory, getRouteEventName, Protocol } from 'tsdk-server-adapters';
 import { TypeORMError, EntityNotFoundError } from 'typeorm';
-import { ZodError } from 'zod';
+import type { StandardSchemaV1 } from '@standard-schema/spec';
 
 import { RequestInfo } from './types';
 
@@ -11,12 +11,12 @@ function onErrorHandler(
   e: Error,
   { protocol, send, msgId }: Parameters<Parameters<typeof genRouteFactory>[0]>[1]
 ) {
-  if (e instanceof ZodError) {
+  if ((e as unknown as StandardSchemaV1.FailureResult)?.issues) {
     return send({
       _id: msgId,
       status: 400,
       result: {
-        msg: e.issues,
+        msg: (e as unknown as StandardSchemaV1.FailureResult).issues,
       },
     });
   }

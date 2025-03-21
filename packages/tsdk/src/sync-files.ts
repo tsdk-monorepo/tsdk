@@ -58,26 +58,30 @@ export async function addDepsIfNone() {
   const npmCMDs = await getNpmCommand(cwd);
   let needRunInstall = false;
 
+  const validationLib = config.validationLib || 'zod';
+
   await Promise.all(
-    [['zod', '^3.24.2']].map(async ([dependency, version]) => {
-      if (!contentJSON.dependencies) contentJSON.dependencies = {};
-      if (!contentJSON.dependencies[dependency]) {
-        contentJSON.dependencies[dependency] = version;
-        await fs.promises.writeFile(pkgPath, JSON.stringify(contentJSON, null, 2));
-        needRunInstall = true;
-        console.log('');
-        console.log(
-          `    ${symbols.warning}`,
-          `\`tsdk\` depends on \`${dependency}\`, so automatically adding \`${dependency}\` to dependencies`
-        );
-        // console.log(
-        //   symbols.info,
-        //   `You can run \`${npmCMDs.installCmd}\` to install new dependencies`
-        // );
-        console.log('');
+    [vLibs[validationLib], ['@standard-schema/spec', '^1.0.0']].map(
+      async ([dependency, version]) => {
+        if (!contentJSON.dependencies) contentJSON.dependencies = {};
+        if (!contentJSON.dependencies[dependency]) {
+          contentJSON.dependencies[dependency] = version;
+          await fs.promises.writeFile(pkgPath, JSON.stringify(contentJSON, null, 2));
+          needRunInstall = true;
+          console.log('');
+          console.log(
+            `    ${symbols.warning}`,
+            `\`tsdk\` depends on \`${dependency}\`, so automatically adding \`${dependency}\` to dependencies`
+          );
+          // console.log(
+          //   symbols.info,
+          //   `You can run \`${npmCMDs.installCmd}\` to install new dependencies`
+          // );
+          console.log('');
+        }
+        return 1;
       }
-      return 1;
-    })
+    )
   );
 
   if (needRunInstall) {
@@ -87,11 +91,24 @@ export async function addDepsIfNone() {
 
 export async function copySnippet() {
   if (process.argv.find((i) => i.indexOf('--no-vscode') > -1)) return Promise.resolve(0);
+  const vscodeFilePath = path.resolve(process.cwd(), config.monorepoRoot || './', '.vscode');
   await fsExtra.copy(
     path.join(__dirname, '../fe-sdk-template', './config/.vscode'),
-    path.resolve(process.cwd(), config.monorepoRoot || './', '.vscode'),
+    vscodeFilePath,
     { overwrite: false }
   );
+
+  // overwrite snippets
+  const validationLib = config.validationLib || 'zod';
+  const imports = {
+    zod: `import * as z from 'zod';`,
+    valibot: `import * as v from 'valibot';`,
+    arktype: `import { type } from "arktype"`,
+  } as const;
+  const currentImport = imports[validationLib];
+  const snippetPath = path.join(vscodeFilePath, 'tsdk.code-snippets');
+  const content = await fs.promises.readFile(snippetPath, 'utf-8');
+  await fs.promises.writeFile(snippetPath, content.replace(imports.zod, currentImport));
 }
 
 export async function copyShared() {
@@ -101,6 +118,13 @@ export async function copyShared() {
     { overwrite: false }
   );
 }
+
+/** Validation libs */
+const vLibs = {
+  zod: ['zod', '^3.24.2'],
+  valibot: ['valibot', '^1.0.0'],
+  arktype: ['arktype', '^0.13.1'],
+} as const;
 
 async function reconfigPkg() {
   // rename package name
@@ -118,6 +142,9 @@ async function reconfigPkg() {
   ) {
     pkgContent.dependencies.kysely = '^0.27.6';
   }
+
+  const validationLib = config.validationLib || 'zod';
+  pkgContent.dependencies[validationLib] = vLibs[validationLib][1];
 
   const _hookLibs = (
     Array.isArray(config.dataHookLib) ? config.dataHookLib : [config.dataHookLib || 'SWR']
@@ -138,6 +165,8 @@ async function reconfigPkg() {
   if (isVueQuery) {
     pkgContent.dependencies['@tanstack/vue-query'] = '^5.68.0';
   }
+
+  //
 
   if (config.dependencies) {
     pkgContent.dependencies = {

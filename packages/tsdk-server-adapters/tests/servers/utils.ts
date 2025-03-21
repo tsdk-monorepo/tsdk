@@ -1,4 +1,4 @@
-import * as z from 'zod';
+import { type StandardSchemaV1 } from '@standard-schema/spec';
 
 export const hasBodyMethods: { [key: string]: boolean | undefined } = {
   post: true,
@@ -33,7 +33,7 @@ export interface APIConfig {
   path: string;
   method: 'get' | 'post' | 'head' | 'put' | 'delete' | 'options' | 'patch';
   /** Request data validate scheme */
-  schema?: z.ZodTypeAny;
+  schema?: StandardSchemaV1;
   /** The API need auth? Default is false */
   needAuth?: boolean;
   /** The API disabled? Default is false */

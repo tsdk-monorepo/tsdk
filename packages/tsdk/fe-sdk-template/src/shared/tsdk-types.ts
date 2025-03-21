@@ -1,5 +1,5 @@
-/** @ts-ignore */
-import * as z from 'zod';
+// @ts-ignore
+import type { StandardSchemaV1 } from '@standard-schema/spec';
 
 export const APITypes = {
   user: 'user',
@@ -18,7 +18,7 @@ export interface APIConfig {
   /** The HTTP method. */
   method: 'get' | 'post' | 'delete' | 'put' | 'patch' | 'head' | 'options';
   /** Request data validation schema. */
-  schema?: z.ZodTypeAny;
+  schema?: StandardSchemaV1;
   /** Does the API require authentication? Default is `false`. */
   needAuth?: boolean;
   /** Is the API disabled? Default is `false`. */

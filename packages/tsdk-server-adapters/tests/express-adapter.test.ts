@@ -154,6 +154,7 @@ describe('express adapter tests', () => {
         .then((res) => (res.ok ? res : Promise.reject(res)))
         .then((res) => res.json());
     } catch (e) {
+      console.log('error:', e);
       error = e;
     }
     expect(error).toBeDefined();

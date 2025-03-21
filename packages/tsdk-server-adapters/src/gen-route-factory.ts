@@ -10,7 +10,7 @@ import type { Socket } from 'socket.io';
 // @ts-ignore
 import type { WebSocket } from 'ws';
 // @ts-ignore
-import type { ZodTypeAny } from 'zod';
+import type { StandardSchemaV1 } from '@standard-schema/spec';
 
 export const PROTOCOLs = {
   /** express.js */
@@ -32,7 +32,7 @@ interface BasicAPIConfig {
   method: string;
   path: string;
   type?: string;
-  schema?: ZodTypeAny;
+  schema?: StandardSchemaV1<any, any>;
 }
 
 export interface ObjectLiteral {
@@ -135,7 +135,9 @@ export function genRouteFactory<APIConfig, RequestInfo>(
             return previousPromise.then(() => nextMiddleware(protocol, apiConfig, reqInfo));
           }, Promise.resolve());
         }
-        const data = apiConfig.schema ? apiConfig.schema.parse(payload || {}) : payload;
+        const data = apiConfig.schema
+          ? await standardValidate(apiConfig.schema, payload || {})
+          : payload;
         const result = await cb(data, reqInfo, response);
         send({ result, _id: msgId, callback });
       } catch (e) {
@@ -202,4 +204,19 @@ export function genRouteFactory<APIConfig, RequestInfo>(
     },
     getRouteEventName,
   };
+}
+
+export async function standardValidate<T extends StandardSchemaV1>(
+  schema: T,
+  input: StandardSchemaV1.InferInput<T>
+): Promise<StandardSchemaV1.InferOutput<T>> {
+  let result = schema['~standard'].validate(input);
+  if (result instanceof Promise) result = await result;
+
+  // if the `issues` field exists, the validation failed
+  if (result.issues) {
+    throw result;
+  }
+
+  return result.value;
 }

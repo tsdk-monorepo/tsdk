@@ -29,7 +29,8 @@
     "typesafe API"
   ],
   "dependencies": {
-    "eventemitter3": "^5.0.1"
+    "eventemitter3": "^5.0.1",
+    "@standard-schema/spec": "^1.0.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",

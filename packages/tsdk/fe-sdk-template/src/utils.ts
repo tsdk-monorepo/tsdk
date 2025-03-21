@@ -1,5 +1,5 @@
 // @ts-ignore
-import type { ZodIssue } from 'zod';
+import type { StandardSchemaV1 } from '@standard-schema/spec';
 /**
  * The `methods` sort order should same with
  * `packages/tsdk-server-adapters/src/socket.io-adapter.ts`
@@ -38,6 +38,6 @@ export function getID(method: string, path: string): string {
 }
 
 export type RequestError = {
-  errors?: ZodIssue[];
+  errors?: StandardSchemaV1.Issue[];
   message?: string;
 };

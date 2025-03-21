@@ -1,9 +1,9 @@
 import { genRouteFactory, getRouteEventName, Protocol } from '../../src';
-import { ZodError, ZodIssue } from 'zod';
+import type { StandardSchemaV1 } from '@standard-schema/spec';
 import { APIConfig, ProtocolTypes, RequestInfo } from './utils';
 
 export type RequestError = {
-  errors?: ZodIssue[];
+  errors?: StandardSchemaV1.Issue[];
   message?: string;
 };
 
@@ -11,12 +11,13 @@ function onErrorHandler(
   e: unknown,
   { send, msgId }: Parameters<Parameters<typeof genRouteFactory>[0]>[1]
 ) {
-  if (e instanceof ZodError) {
+  console.log('onErrorHandler:', e);
+  if ((e as unknown as StandardSchemaV1.FailureResult)?.issues) {
     return send({
       _id: msgId,
       status: 400,
       result: {
-        errors: e.errors,
+        errors: (e as unknown as StandardSchemaV1.FailureResult).issues,
       },
     });
   }

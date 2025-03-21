@@ -17,6 +17,7 @@ export interface TSDKConfig {
   /** default: xior */
   httpLib?: 'xior' | 'axios';
   dataHookLib?: 'SWR' | 'ReactQuery' | 'VueQuery' | ('SWR' | 'ReactQuery' | 'VueQuery')[];
+  validationLib?: 'valibot' | 'zod' | 'arktype';
   /** custom dependencies or override */
   dependencies?: { [key: string]: string };
   devDependencies?: { [key: string]: string };
