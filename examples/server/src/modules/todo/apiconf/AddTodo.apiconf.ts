@@ -13,3 +13,14 @@ export const AddTodoConfig: APIConfig = {
 export type AddTodoReq = Omit<Todo, 'id' | 'createdAt' | 'updatedAt'>;
 
 export type AddTodoRes = InsertResult;
+
+// For `type: 'admin'` test only
+export const AddTodo2Config: APIConfig = {
+  type: 'admin',
+  path: transformPath('AddTodo2'),
+  method: 'post',
+};
+
+export type AddTodo2Req = Omit<Todo, 'id' | 'createdAt' | 'updatedAt'>;
+
+export type AddTodo2Res = InsertResult;

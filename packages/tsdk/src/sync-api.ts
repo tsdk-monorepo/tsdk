@@ -42,12 +42,20 @@ export async function syncAPI(
 
   const hookLibs = Array.from(new Set(_hookLibs));
 
+  let commonApiConfigStr = ``;
+
+  _apiconfs.forEach((item) => {
+    if (item.type === 'common') {
+      commonApiConfigStr += `${item.name}Config,`;
+    }
+  });
+
   // const isSWR = hookLibs?.includes('swr');
   // const isReactQuery = hookLibs?.includes('reactquery');
   // const isVueQuery = hookLibs?.includes('vuequery');
 
   const hasCommon = _apiconfs.find((item) => {
-    return item.type === 'common' || !item.type;
+    return item.type === 'common';
   });
 
   for (const apiType of types) {
@@ -198,7 +206,7 @@ export async function syncAPI(
       _apiconfs.map((item) => {
         const { name: _name, path, description, method, type: _type, category = 'others' } = item;
         const name = _name;
-        const type = _type === 'common' || !_type ? 'common' : _type;
+        const type = !_type ? 'user' : _type;
 
         const isGET = !method || method?.toLowerCase() === 'get';
 
@@ -276,6 +284,7 @@ export async function syncAPI(
                   apiConfigStr
                     ? `import {
                 ${apiConfigStr}
+                ${commonApiConfigStr}
               } from '../${config.apiconfExt}-refs';`
                     : ''
                 }
@@ -283,6 +292,7 @@ export async function syncAPI(
 
     const APIS: APIConfig[] = [
       ${apiConfigStr}
+      ${commonApiConfigStr}
     ];
 
     const API_MAP: Record<string, ReturnType<typeof genApi>> = {};
@@ -372,11 +382,13 @@ export async function syncAPI(
                   dataHookContent.replace("'./gen-api'", "'../gen-api'")
                 );
               }),
-              // TODO src/worker/${apiType}-api-worker.ts
-              fs.promises.writeFile(
-                path.join(ensureDir, `src/worker/${apiType}-api-worker.ts`),
-                workerContent
-              ), // onmessage
+
+              apiType !== 'common'
+                ? fs.promises.writeFile(
+                    path.join(ensureDir, `src/worker/${apiType}-api-worker.ts`),
+                    workerContent
+                  )
+                : Promise.resolve(1), // onmessage src/worker/${apiType}-api-worker.ts
               fs.promises.writeFile(
                 path.join(ensureDir, `src/worker/${apiType}-api.ts`),
                 workerSenderContent
