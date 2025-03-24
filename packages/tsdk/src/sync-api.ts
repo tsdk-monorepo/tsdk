@@ -85,7 +85,7 @@ export async function syncAPI(
              ? `import type { AxiosRequestConfig } from "axios";`
              : `import type { XiorRequestConfig as AxiosRequestConfig } from "xior";`
          }
-         import { Handler } from './gen-api';
+         import type { Handler } from './gen-api';
     `;
 
     // isSWR
@@ -166,15 +166,29 @@ export async function syncAPI(
     const headStr = `
       /** 
        * 
-       * api-${apiType}.ts 
+       * ${apiType}-api.ts 
        * ${config.packageName}@${pkgJSON.version} 
        * 
        **/
 
       import genApi, { Expand } from './gen-api';
       `;
+    const workerSenderHeadStr = `
+      /** 
+       * 
+       * worker/${apiType}-api.ts 
+       * ${config.packageName}@${pkgJSON.version} 
+       * 
+       **/
+      import type { Expand } from '../gen-api';
+      import genApi, { setWorker } from './gen-worker-api';
+
+      export { setWorker };
+      `;
     let importStr = ``,
       bodyStr = ``;
+
+    let apiConfigStr = ``;
 
     const exportStr = apiType === 'common' || !hasCommon ? `` : `\nexport * from './common-api';\n`;
 
@@ -194,6 +208,7 @@ export async function syncAPI(
             type ${name}Req,
             type ${name}Res,
           `;
+          apiConfigStr += `${name}Config,`;
           bodyStr += `
             /** 
              * ${description || name}
@@ -205,17 +220,19 @@ export async function syncAPI(
             }, Expand<${name}Res>>(${name}Config);
           `;
 
-          // isSWR
+          // SWR hook
           hooksContentMap['swr'].dataHookImportStr += `
               ${name},
             `;
           hooksContentMap['swr'].dataHookBodyStr += generateSWRHook(name, item);
-          // isReactQuery
+
+          // ReactQuery hook
           hooksContentMap['reactquery'].dataHookImportStr += `
               ${name},
             `;
           hooksContentMap['reactquery'].dataHookBodyStr += generateReactQueryHook(name, item);
-          // isVueQuery
+
+          // VueQuery hook
           hooksContentMap['vuequery'].dataHookImportStr += `
               ${name},
             `;
@@ -239,11 +256,62 @@ export async function syncAPI(
       ${exportStr}
       ${bodyStr}
     `;
+      const workerSenderContent = `
+      ${workerSenderHeadStr}
+      ${
+        importStr
+          ? `import {
+          ${importStr}
+        } from '../${config.apiconfExt}-refs';`
+          : ''
+      }
+      ${exportStr}
+      ${bodyStr}
+    `;
 
-      await fs.promises.writeFile(path.join(ensureDir, `src`, `${apiType}-api.ts`), content);
+      const workerContent = `
+    import genApi, { setHandler } from '../gen-api';
+    import { APIConfig, ProtocolTypes } from '../shared/tsdk-helper';
+                ${
+                  apiConfigStr
+                    ? `import {
+                ${apiConfigStr}
+              } from '../${config.apiconfExt}-refs';`
+                    : ''
+                }
+    export { setHandler };
 
-      await Promise.all(
-        hookLibs.map((hook) => {
+    const APIS: APIConfig[] = [
+      ${apiConfigStr}
+    ];
+
+    const API_MAP: Record<string, ReturnType<typeof genApi>> = {};
+    onmessage = async (e: {
+      data: { id: string; type: string; apiConfig: APIConfig; payload: any; options?: any };
+    }) => {
+      if (e.data?.type !== ProtocolTypes.request) return;
+
+      const ID = \`\${e.data.apiConfig.method}:\${e.data.apiConfig.path}\`;
+
+      const api = API_MAP[ID]
+        ? API_MAP[ID]
+        : genApi(APIS.find((item) => \`\${item.method}:\${item.path}\` === ID) as APIConfig);
+      if (!API_MAP[ID]) API_MAP[ID] = api;
+
+      const msgId = e.data.id;
+      try {
+        const result = await api(e.data.payload, e.data.options);
+        postMessage({ type: ProtocolTypes.response, id: msgId, success: true, result });
+      } catch (error) {
+        postMessage({ type: ProtocolTypes.response, id: msgId, success: false, error });
+      }
+    };
+    postMessage({ type: ProtocolTypes.response, ready: true });
+    `;
+
+      await Promise.all([
+        fs.promises.writeFile(path.join(ensureDir, `src/${apiType}-api.ts`), content),
+        ...hookLibs.map((hook) => {
           const { dataHookHeadStr, dataHookImportStr, dataHookExportStr, dataHookBodyStr } =
             hooksContentMap[hook as 'vuequery'];
           const dataHookContent = `
@@ -266,15 +334,60 @@ export async function syncAPI(
             ${dataHookBodyStr}
             `;
           return fs.promises.writeFile(
-            path.join(ensureDir, `src`, `${apiType}-api-${hook}.ts`),
+            path.join(ensureDir, `src/${apiType}-api-${hook}.ts`),
             dataHookContent
           );
-        })
-      );
-      await fs.promises.writeFile(
-        path.join(ensureDir, `src`, `${apiType}-api-hooks.ts`),
-        `export * from './${apiType}-api-${hookLibs[0]}';`
-      );
+        }),
+        fs.promises.writeFile(
+          path.join(ensureDir, `src/${apiType}-api-hooks.ts`),
+          `export * from './${apiType}-api-${hookLibs[0]}';`
+        ),
+
+        ...(config.worker
+          ? [
+              ...hookLibs.map((hook) => {
+                const { dataHookHeadStr, dataHookImportStr, dataHookExportStr, dataHookBodyStr } =
+                  hooksContentMap[hook as 'vuequery'];
+                const dataHookContent = `
+            ${dataHookHeadStr}
+            ${
+              importStr
+                ? `import {
+                ${importStr}
+              } from '../${config.apiconfExt}-refs';`
+                : ''
+            }
+            ${
+              dataHookImportStr
+                ? `import {
+              ${dataHookImportStr}
+            } from './${apiType}-api';`
+                : ''
+            }
+            ${dataHookExportStr}
+            ${dataHookBodyStr}
+            `;
+                return fs.promises.writeFile(
+                  path.join(ensureDir, `src/worker/${apiType}-api-${hook}.ts`),
+                  dataHookContent.replace("'./gen-api'", "'../gen-api'")
+                );
+              }),
+              // TODO src/worker/${apiType}-api-worker.ts
+              fs.promises.writeFile(
+                path.join(ensureDir, `src/worker/${apiType}-api-worker.ts`),
+                workerContent
+              ), // onmessage
+              fs.promises.writeFile(
+                path.join(ensureDir, `src/worker/${apiType}-api.ts`),
+                workerSenderContent
+              ), // postMessage
+              fs.promises.writeFile(
+                path.join(ensureDir, `src/worker/${apiType}-api-hooks.ts`),
+                `export * from './${apiType}-api-${hookLibs[0]}';`
+              ), // current default hook
+            ]
+          : []),
+      ]);
     }
   }
 
@@ -298,7 +411,7 @@ export async function syncAPI(
   }
 
   await fs.promises.writeFile(
-    path.join(ensureDir, 'src', `permissions.json`),
+    path.join(ensureDir, `src/permissions.json`),
     JSON.stringify(exportPermissions, null, 2)
   );
 
@@ -324,7 +437,7 @@ export async function syncAPI(
     console.log(`   ${symbols.success}`, 'Documentation generated');
   } catch (e: unknown) {
     if (e instanceof Error) {
-      console.log(`   ${symbols.error}`, 'Documentation generation error', e.message);
+      console.log(`   ${symbols.error}`, 'Documentation generation error:', e.message);
     }
   }
 }
@@ -332,19 +445,19 @@ export async function syncAPI(
 export async function copyPermissionsJSON() {
   const dist = path.join(ensureDir, `lib`, `permissions.json`);
   console.log(`       ${symbols.info}`, `copying \`permissions.json\` to \`${dist}\``);
-  return fsExtra.copy(path.join(ensureDir, `src`, `permissions.json`), dist, {
+  return fsExtra.copy(path.join(ensureDir, `src/permissions.json`), dist, {
     overwrite: true,
   });
 }
 
 export async function checkRepkaceAxiosWithXior() {
   if (config.httpLib !== 'xior') return;
-  const genAPIfile = path.join(ensureDir, 'src', 'gen-api.ts');
+  const genAPIfile = path.join(ensureDir, 'src/gen-api.ts');
   const res = await fs.promises.readFile(genAPIfile, 'utf-8');
   return fs.promises.writeFile(
     genAPIfile,
     res
       .replace('= AxiosRequestConfig<T>', '= XiorRequestConfig<T>')
-      .replace(`import type { RequestConfig as AxiosRequestConfig } from './axios';`, '')
+      .replace(`import type { AxiosRequestConfig } from './axios';`, '')
   );
 }

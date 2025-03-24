@@ -1,6 +1,6 @@
 import { APIConfig, ObjectLiteral, ProtocolTypes } from '../shared/tsdk-helper';
 import { getID, RequestError } from '../utils';
-import type { RequestConfig } from '../gen-api';
+import type { Handler, RequestConfig } from '../gen-api';
 import { TimeoutError } from '../error';
 
 const QUEUES: ObjectLiteral = {};
@@ -29,12 +29,17 @@ export function setWorker(_worker: Worker) {
 export default function genWorkerAPICall<ReqPayload, ResData>(
   apiConfig: APIConfig
 ): {
-  (payload: ReqPayload, requestConfig?: RequestConfig<ReqPayload>): Promise<ResData>;
+  (
+    payload: ReqPayload,
+    requestConfig?: RequestConfig<ReqPayload>,
+    customHandler?: Handler
+  ): Promise<ResData>;
   config: APIConfig;
 } {
   function APICall(
     payload: ReqPayload,
-    requestConfig?: RequestConfig<ReqPayload>
+    requestConfig?: RequestConfig<ReqPayload>,
+    customHandler?: Handler
   ): Promise<ResData> {
     return new Promise((resolve, reject) => {
       const msgId = getID(apiConfig.method, apiConfig.path);

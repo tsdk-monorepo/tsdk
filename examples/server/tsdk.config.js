@@ -11,6 +11,7 @@ module.exports = {
   httpLib: 'xior',
   sharedDirs: ['./src/shared', './src/i18n'],
   dataHookLib: ['SWR', 'ReactQuery', 'VueQuery'],
+  worker: true,
   dependencies: {
     i18next: '^23.10.1',
     'intl-pluralrules': '^2.0.1',

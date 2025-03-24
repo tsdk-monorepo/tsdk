@@ -160,10 +160,10 @@ async function reconfigPkg() {
     pkgContent.dependencies.swr = '^2.3.3';
   }
   if (isReactQuery) {
-    pkgContent.dependencies['@tanstack/react-query'] = '^5.68.0';
+    pkgContent.dependencies['@tanstack/react-query'] = '^5.69.0';
   }
   if (isVueQuery) {
-    pkgContent.dependencies['@tanstack/vue-query'] = '^5.68.0';
+    pkgContent.dependencies['@tanstack/vue-query'] = '^5.69.0';
   }
 
   //
@@ -214,7 +214,7 @@ export async function copySDK(noOverwrite: boolean) {
     await reconfigPkg();
     console.log(
       symbols.info,
-      `skip init sdk: \`${path.resolve(
+      `Skip init sdk: \`${path.resolve(
         process.cwd(),
         config.packageDir,
         packageFolder

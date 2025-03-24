@@ -29,7 +29,10 @@
     "@types/express": "^4.17.21",
     "tsdk": "workspace:*",
     "concurrently": "^9.1.2",
-    "vitest": "^3.0.7"
+    "vitest": "^3.0.7",
+    "webpack": "^5.98.0",
+    "webpack-node-externals": "^3.0.0",
+    "typescript": "^5.8.2"
   },
   "license": "MIT"
 }
