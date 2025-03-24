@@ -1,5 +1,5 @@
 // @ts-ignore
-import { AxiosRequestConfig, AxiosInstance } from 'axios';
+import { AxiosRequestConfig as _AxiosRequestConfig, AxiosInstance } from 'axios';
 import { NoHandlerError } from './error';
 import { pathParams } from './path-params';
 import { APIConfig, checkMethodHasBody } from './shared/tsdk-helper';
@@ -24,7 +24,7 @@ export const getAxiosInstance = (): AxiosInstance => {
   return axiosInstance;
 };
 
-export type RequestConfig<ReqPayload> = Omit<AxiosRequestConfig, 'data'> & {
+export type AxiosRequestConfig<ReqPayload> = Omit<_AxiosRequestConfig, 'data'> & {
   data?: ReqPayload;
 };
 
@@ -39,7 +39,7 @@ export type RequestConfig<ReqPayload> = Omit<AxiosRequestConfig, 'data'> & {
 export async function axiosHandler(
   apiConfig: APIConfig,
   requestData: any,
-  requestConfig?: RequestConfig<any>
+  requestConfig?: _AxiosRequestConfig<any>
 ): Promise<any> {
   const instance = getAxiosInstance();
   if (!instance) {
@@ -54,7 +54,7 @@ export async function axiosHandler(
     requestData = await onRequest(requestData);
   }
 
-  const payload: AxiosRequestConfig = {
+  const payload: _AxiosRequestConfig = {
     method: method === 'patch' ? method.toUpperCase() : method,
     url: path,
     ...requestConfig,

@@ -4,6 +4,7 @@ import path from 'path';
 import symbols from './symbols';
 
 export interface TSDKConfig {
+  monorepoRoot?: string;
   packageDir: string;
   packageName: string;
   /** 'typeorm' or 'kysely' or 'DrizzleORM' */
@@ -13,11 +14,12 @@ export interface TSDKConfig {
   apiconfExt: string;
   shareExt?: string;
   sharedDirs: string[];
-  monorepoRoot?: string;
   /** default: xior */
   httpLib?: 'xior' | 'axios';
   dataHookLib?: 'SWR' | 'ReactQuery' | 'VueQuery' | ('SWR' | 'ReactQuery' | 'VueQuery')[];
   validationLib?: 'valibot' | 'zod' | 'arktype';
+  /** Generate Web Worker files */
+  worker?: boolean;
   /** custom dependencies or override */
   dependencies?: { [key: string]: string };
   devDependencies?: { [key: string]: string };
