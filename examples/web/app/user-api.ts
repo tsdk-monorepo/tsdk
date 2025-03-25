@@ -7,7 +7,7 @@ const baseURL =
   //   ? process.env.BASE_URL
   //   :
   (() => {
-    if (typeof window === 'undefined') return;
+    if (typeof document === 'undefined') return '/';
     return (
       window?.location.protocol + '//' + window?.location.host.split(':')[0] + ':' + 3012 + '/'
     );

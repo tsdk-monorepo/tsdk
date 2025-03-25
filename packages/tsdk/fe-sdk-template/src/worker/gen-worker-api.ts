@@ -4,14 +4,19 @@ import type { Handler, RequestConfig } from '../gen-api';
 import { TimeoutError } from '../error';
 
 const QUEUES: ObjectLiteral = {};
+let PENDINGS: [(value: unknown) => void, () => void][] = [];
 
 let worker: Worker;
 let ready = false;
 export function setWorker(_worker: Worker) {
   worker = _worker;
-  worker.onmessage = (e) => {
+  worker.addEventListener('message', (e) => {
     if (e.data.type !== ProtocolTypes.response) return;
-    if (e.data.ready) ready = true;
+    if (e.data.ready) {
+      ready = true;
+      PENDINGS.forEach(([resolve]) => resolve(1));
+      PENDINGS = [];
+    }
 
     const msgId = e.data.id;
     if (msgId && QUEUES[msgId]) {
@@ -23,7 +28,7 @@ export function setWorker(_worker: Worker) {
       }
       delete QUEUES[msgId];
     }
-  };
+  });
 }
 
 export default function genWorkerAPICall<ReqPayload, ResData>(
@@ -36,11 +41,16 @@ export default function genWorkerAPICall<ReqPayload, ResData>(
   ): Promise<ResData>;
   config: APIConfig;
 } {
-  function APICall(
+  async function APICall(
     payload: ReqPayload,
     requestConfig?: RequestConfig<ReqPayload>,
     customHandler?: Handler
   ): Promise<ResData> {
+    if (!ready) {
+      await new Promise((resolve, reject) => {
+        PENDINGS.push([resolve, reject]);
+      });
+    }
     return new Promise((resolve, reject) => {
       const msgId = getID(apiConfig.method, apiConfig.path);
       const timer = setTimeout(() => {

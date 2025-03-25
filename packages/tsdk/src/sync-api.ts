@@ -296,7 +296,7 @@ export async function syncAPI(
     ];
 
     const API_MAP: Record<string, ReturnType<typeof genApi>> = {};
-    onmessage = async (e: {
+    self.addEventListener('message', async (e: {
       data: { id: string; type: string; apiConfig: APIConfig; payload: any; options?: any };
     }) => {
       if (e.data?.type !== ProtocolTypes.request) return;
@@ -315,7 +315,7 @@ export async function syncAPI(
       } catch (error) {
         postMessage({ type: ProtocolTypes.response, id: msgId, success: false, error });
       }
-    };
+              });
     postMessage({ type: ProtocolTypes.response, ready: true });
     `;
 

@@ -1,6 +1,5 @@
 import logoDark from './logo-dark.svg';
 import logoLight from './logo-light.svg';
-import '../web-workers';
 
 export function Welcome() {
   return (

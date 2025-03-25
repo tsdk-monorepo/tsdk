@@ -12,7 +12,7 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
-    "sync-sdk": "node ../../packages/tsdk/bin/tsdk.js",
+    "sync-sdk": "node ../../packages/tsdk/bin/tsdk.js --sync",
     "sync": "node ../../packages/tsdk/bin/tsdk.js --sync",
     "bun:sync": "bun ../../packages/tsdk/bin/tsdk.js --sync",
     "test": "vitest --run ./src/",
