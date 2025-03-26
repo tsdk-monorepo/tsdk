@@ -2,8 +2,8 @@ import { setHandler } from 'fe-sdk-demo/esm/gen-api';
 import { xiorHandler, setXiorInstance } from 'fe-sdk-demo/esm/xior';
 import axios, { XiorError as AxiosError } from 'xior';
 
-import { setWorker } from 'fe-sdk-demo/esm/worker/user-api';
 import APIWorker from './user-api.worker?worker';
+import { setWorker } from 'fe-sdk-demo/esm/worker/user-api';
 
 const baseURL =
   // process.env.NODE_ENV === 'production'
