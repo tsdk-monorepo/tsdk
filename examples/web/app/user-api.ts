@@ -2,12 +2,15 @@ import { setHandler } from 'fe-sdk-demo/esm/gen-api';
 import { xiorHandler, setXiorInstance } from 'fe-sdk-demo/esm/xior';
 import axios, { XiorError as AxiosError } from 'xior';
 
+import { setWorker } from 'fe-sdk-demo/esm/worker/user-api';
+import APIWorker from './user-api.worker?worker';
+
 const baseURL =
   // process.env.NODE_ENV === 'production'
   //   ? process.env.BASE_URL
   //   :
   (() => {
-    if (typeof document === 'undefined') return '/';
+    if (typeof document === 'undefined') return 'http://localhost:3012/';
     return (
       window?.location.protocol + '//' + window?.location.host.split(':')[0] + ':' + 3012 + '/'
     );
@@ -16,6 +19,12 @@ const baseURL =
 const apiType = 'user';
 const socketURL = baseURL;
 const apiURL = baseURL + `api/${apiType}`;
+
+if (typeof document !== 'undefined' && typeof Worker !== 'undefined') {
+  const myWorker = new APIWorker();
+  myWorker.postMessage({ baseURL, apiURL, socketURL });
+  setWorker(myWorker);
+}
 
 export const http = axios.create({
   baseURL: apiURL,
@@ -36,9 +45,10 @@ export function setupUserApi() {
   setXiorInstance(http);
   setHandler(xiorHandler);
 }
+setupUserApi();
 
-export * from 'fe-sdk-demo/esm/user-api';
-export * from 'fe-sdk-demo/esm/user-api-hooks';
+export * from 'fe-sdk-demo/esm/worker/user-api';
+export * from 'fe-sdk-demo/esm/worker/user-api-hooks';
 export * from 'fe-sdk-demo/esm/apiconf-refs';
 export * from 'fe-sdk-demo/esm/entity-refs';
 export * from 'fe-sdk-demo/esm/shared-refs';

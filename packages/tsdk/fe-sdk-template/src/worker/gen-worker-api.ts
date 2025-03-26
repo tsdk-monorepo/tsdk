@@ -1,6 +1,6 @@
 import { APIConfig, ObjectLiteral, ProtocolTypes } from '../shared/tsdk-helper';
 import { getID, RequestError } from '../utils';
-import type { Handler, RequestConfig } from '../gen-api';
+import genAPI, { type Handler, type RequestConfig } from '../gen-api';
 import { TimeoutError } from '../error';
 
 const QUEUES: ObjectLiteral = {};
@@ -30,8 +30,7 @@ export function setWorker(_worker: Worker) {
     }
   });
 }
-
-export default function genWorkerAPICall<ReqPayload, ResData>(
+function genWorkerAPI<ReqPayload, ResData>(
   apiConfig: APIConfig
 ): {
   (
@@ -44,6 +43,7 @@ export default function genWorkerAPICall<ReqPayload, ResData>(
   async function APICall(
     payload: ReqPayload,
     requestConfig?: RequestConfig<ReqPayload>,
+    /** @deprecated Useless with web workers */
     customHandler?: Handler
   ): Promise<ResData> {
     if (!ready) {
@@ -79,3 +79,7 @@ export default function genWorkerAPICall<ReqPayload, ResData>(
   APICall.config = apiConfig;
   return APICall;
 }
+
+const supportWebWorkers = typeof document !== 'undefined' && typeof Worker !== 'undefined';
+
+export default !supportWebWorkers ? genAPI : genWorkerAPI;
