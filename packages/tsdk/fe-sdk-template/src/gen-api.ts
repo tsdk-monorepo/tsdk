@@ -50,7 +50,7 @@ export default function genAPICall<ReqPayload, ResData>(
 ): {
   (
     data: ReqPayload,
-    requestConfig?: RequestConfig<ReqPayload>,
+    requestConfig?: RequestConfig<ReqPayload> & { worker?: boolean },
     customHandler?: Handler
   ): Promise<ResData>;
   config: APIConfig;

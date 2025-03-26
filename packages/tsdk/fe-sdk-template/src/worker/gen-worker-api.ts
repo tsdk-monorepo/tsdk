@@ -35,7 +35,7 @@ function genWorkerAPI<ReqPayload, ResData>(
 ): {
   (
     payload: ReqPayload,
-    requestConfig?: RequestConfig<ReqPayload>,
+    requestConfig?: RequestConfig<ReqPayload> & { worker?: boolean },
     customHandler?: Handler
   ): Promise<ResData>;
   config: APIConfig;
@@ -46,6 +46,8 @@ function genWorkerAPI<ReqPayload, ResData>(
     /** @deprecated Useless with web workers */
     customHandler?: Handler
   ): Promise<ResData> {
+    if (requestConfig?.worker === false)
+      return genAPI<ReqPayload, ResData>(apiConfig)(payload, requestConfig, customHandler);
     if (!ready) {
       await new Promise((resolve, reject) => {
         PENDINGS.push([resolve, reject]);
