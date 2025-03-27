@@ -1,6 +1,6 @@
 import { setHandler } from 'fe-sdk-demo/esm/gen-api';
 import { xiorHandler, setXiorInstance } from 'fe-sdk-demo/esm/xior';
-import axios, { XiorError as AxiosError } from 'xior';
+import axios, { XiorError as AxiosError, joinPath } from 'xior';
 
 import APIWorker from './user-api.worker?worker';
 import { setWorker } from 'fe-sdk-demo/esm/worker/user-api';
@@ -16,9 +16,8 @@ const baseURL =
     );
   })();
 
-const apiType = 'user';
 const socketURL = baseURL;
-const apiURL = baseURL + `api/${apiType}`;
+const apiURL = joinPath(baseURL, `/api/user`);
 
 if (typeof document !== 'undefined' && typeof Worker !== 'undefined') {
   const myWorker = new APIWorker();

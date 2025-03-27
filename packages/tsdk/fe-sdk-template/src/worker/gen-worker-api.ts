@@ -42,7 +42,7 @@ function genWorkerAPI<ReqPayload, ResData>(
 } {
   async function APICall(
     payload: ReqPayload,
-    requestConfig?: RequestConfig<ReqPayload>,
+    requestConfig?: RequestConfig<ReqPayload> & { worker?: boolean },
     /** @deprecated Useless with web workers */
     customHandler?: Handler
   ): Promise<ResData> {
