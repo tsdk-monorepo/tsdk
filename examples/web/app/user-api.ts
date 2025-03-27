@@ -1,4 +1,4 @@
-import { setHandler } from 'fe-sdk-demo/esm/gen-api';
+import { setHandler } from 'fe-sdk-demo/esm/index';
 import { xiorHandler, setXiorInstance } from 'fe-sdk-demo/esm/xior';
 import axios, { XiorError as AxiosError, joinPath } from 'xior';
 
@@ -21,7 +21,7 @@ const apiURL = joinPath(baseURL, `/api/user`);
 
 if (typeof document !== 'undefined' && typeof Worker !== 'undefined') {
   const myWorker = new APIWorker();
-  myWorker.postMessage({ baseURL, apiURL, socketURL });
+  myWorker.postMessage({ baseURL, apiURL, socketURL, apiType: 'user' });
   setWorker(myWorker);
 }
 

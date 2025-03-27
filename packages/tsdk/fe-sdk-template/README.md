@@ -162,6 +162,117 @@ io.on('connect', async function () {
 });
 ```
 
+### Setup for [xior.js](https://github.com/suhaotian/xior) and [socket.io](https://socket.io) with **Web Worker**
+
+> In vite
+
+> Add `worker: true` to `tsdk.config.js`
+
+> Xior.js is an Axios-like API but a lightweight replacement for Axios.
+
+```ts
+// user-api.worker.ts
+import { setHandler } from '%PROJECT NAME%/esm/worker/user-api-worker';
+import { xiorHandler, setXiorInstance } from '%PROJECT NAME%/esm/xior';
+import axios, { XiorError as AxiosError } from 'xior';
+
+import { setSocketIOInstance, socketIOHandler } from '%PROJECT NAME%/esm/socket.io';
+import { io as SocketIO } from 'socket.io-client';
+
+self.addEventListener('message', (e) => {
+  if (!e.data.apiURL) return;
+  const apiURL = e.data.apiURL;
+  const socketURL = e.data.socketURL;
+
+  const http = axios.create({
+    baseURL: apiURL,
+    // params: { worker: true },
+  });
+
+  http.interceptors.response.use(
+    (res) => res,
+    async (error: AxiosError) => {
+      throw new Error((error?.response?.data as { msg: string })?.msg || error?.message);
+    }
+  );
+
+  setXiorInstance(http);
+  setHandler(xiorHandler);
+
+  // or use socket.io protocol
+  const io = SocketIO(socketURL, {
+    transports: ['websocket'],
+    query: {
+      type: apiType,
+    },
+  });
+  setSocketIOInstance(io);
+  io.on('connect', () => {
+    setHandler(socketIOHandler);
+  });
+  io.on('disconnect', () => {
+    setHandler(xiorHandler);
+  });
+});
+```
+
+```ts
+// user-api.ts
+import {
+  setHandler,
+  setSocketIOInstance,
+  socketIOHandler,
+  setXiorInstance,
+  xiorHandler,
+  getHandler,
+} from '%PROJECT NAME%/esm/index';
+import APIWorker from './user-api.worker?worker';
+import { setWorker } from '%PROJECT NAME%/esm/worker/user-api';
+
+export * from '%PROJECT NAME%/esm/worker/user-api';
+export * from '%PROJECT NAME%/esm/worker/user-api-swr';
+// export * from '%PROJECT NAME%/esm/worker/user-api-reactquery';
+// export * from '%PROJECT NAME%/esm/worker/user-api-vuequery';
+export * from '%PROJECT NAME%/esm/apiconf-refs';
+export * from '%PROJECT NAME%/esm/entity-refs';
+export * from '%PROJECT NAME%/esm/shared-refs';
+
+import { io as SocketIO } from 'socket.io-client';
+import axios from 'xior';
+
+const apiType = 'user';
+const baseURL = 'https://example.com';
+const socketURL = baseURL;
+const apiURL = `${baseURL}/api/${apiType}`;
+
+if (typeof document !== 'undefined' && typeof Worker !== 'undefined') {
+  const myWorker = new APIWorker();
+  myWorker.postMessage({ baseURL, apiURL, socketURL });
+  setWorker(myWorker);
+}
+
+// use HTTP protocol
+export const http = axios.create({ baseURL: apiURL });
+setXiorInstance(http);
+setHandler(xiorHandler);
+
+// or use socket.io protocol
+const socketURL = baseURL;
+const io = SocketIO(socketURL, {
+  transports: ['websocket'],
+  query: {
+    type: apiType,
+  },
+});
+setSocketIOInstance(io);
+io.on('connect', () => {
+  setHandler(socketIOHandler);
+});
+io.on('disconnect', () => {
+  setHandler(xiorHandler);
+});
+```
+
 ### API Reference
 
 %API_REFERENCE%
