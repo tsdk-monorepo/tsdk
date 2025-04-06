@@ -4,7 +4,13 @@ import path from 'path';
 
 import { config, ensureDir, packageFolder } from './config';
 import symbols from './symbols';
-import { generateSWRHook, generateReactQueryHook, generateVueQueryHook } from './hooks-generate';
+import {
+  generateSWRHook,
+  generateReactQueryHook,
+  generateVueQueryHook,
+  generateSolidQueryHook,
+  generateSvelteQueryHook,
+} from './hooks-generate';
 
 export const baseDir = path.join(path.relative(path.dirname(__filename), process.cwd()), ensureDir);
 
@@ -60,7 +66,7 @@ export async function syncAPI(
 
   for (const apiType of types) {
     const hooksContentMap: Record<
-      'swr' | 'reactquery' | 'vuequery',
+      'swr' | 'reactquery' | 'vuequery' | 'solidquery' | 'sveltequery',
       {
         dataHookHeadStr: string;
         dataHookImportStr: string;
@@ -81,6 +87,18 @@ export async function syncAPI(
         dataHookExportStr: '',
       },
       vuequery: {
+        dataHookHeadStr: '',
+        dataHookImportStr: '',
+        dataHookBodyStr: '',
+        dataHookExportStr: '',
+      },
+      solidquery: {
+        dataHookHeadStr: '',
+        dataHookImportStr: '',
+        dataHookBodyStr: '',
+        dataHookExportStr: '',
+      },
+      sveltequery: {
         dataHookHeadStr: '',
         dataHookImportStr: '',
         dataHookBodyStr: '',
@@ -124,9 +142,50 @@ export async function syncAPI(
       } from "@tanstack/vue-query";
       ${commonDataHookHeadStr}
     `;
+    // isSolidQuery
+    hooksContentMap['solidquery'].dataHookHeadStr = `
+      import {
+        useQueryClient,
+        useQuery,
+        useMutation,
+        QueryClient as _QueryClient,
+        UndefinedInitialDataOptions,
+        UseMutationOptions,
+      } from "@tanstack/solid-query";
+      ${commonDataHookHeadStr}
+    `;
+    // isSvelteQuery
+    hooksContentMap['sveltequery'].dataHookHeadStr = `
+     import {
+      useQueryClient,
+      createQuery,
+      createMutation,
+      QueryClient,
+      UndefinedInitialDataOptions,
+      CreateMutationOptions,
+     } from "@tanstack/svelte-query";
+     ${commonDataHookHeadStr}
+   `;
 
     // isReactQuery isVueQuery) {
-    hooksContentMap['reactquery'].dataHookBodyStr = hooksContentMap['vuequery'].dataHookBodyStr = `
+    hooksContentMap['reactquery'].dataHookBodyStr =
+      hooksContentMap['vuequery'].dataHookBodyStr =
+      hooksContentMap['sveltequery'].dataHookBodyStr =
+        `
+        let _queryClient: QueryClient;
+
+        ${
+          apiType === 'common'
+            ? `
+        export function setQueryClientForCommon(queryClient: QueryClient) {
+          _queryClient = queryClient;
+        }
+        `
+            : ``
+        }
+        `;
+    hooksContentMap['solidquery'].dataHookBodyStr = `
+        type QueryClient = Parameters<typeof useMutation>[1];
         let _queryClient: QueryClient;
 
         ${
@@ -170,6 +229,34 @@ export async function syncAPI(
           setQueryClientForCommon(queryClient);
         }
       `;
+
+    hooksContentMap['solidquery'].dataHookExportStr =
+      apiType === 'common' || !hasCommon
+        ? `\nexport function setQueryClient(queryClient: QueryClient) {
+            _queryClient = queryClient;
+          }`
+        : `\nexport * from './common-api-solidquery';
+        import { setQueryClientForCommon } from './common-api-solidquery';
+        
+        export function setQueryClient(queryClient: QueryClient) {
+          _queryClient = queryClient;
+          setQueryClientForCommon(queryClient);
+        }
+      `;
+
+    hooksContentMap['sveltequery'].dataHookExportStr =
+      apiType === 'common' || !hasCommon
+        ? `\nexport function setQueryClient(queryClient: QueryClient) {
+          _queryClient = queryClient;
+        }`
+        : `\nexport * from './common-api-sveltequery';
+      import { setQueryClientForCommon } from './common-api-sveltequery';
+      
+      export function setQueryClient(queryClient: QueryClient) {
+        _queryClient = queryClient;
+        setQueryClientForCommon(queryClient);
+      }
+    `;
 
     const headStr = `
       /** 
@@ -245,6 +332,18 @@ export async function syncAPI(
               ${name},
             `;
           hooksContentMap['vuequery'].dataHookBodyStr += generateVueQueryHook(name, item);
+
+          // SolidQuery hook
+          hooksContentMap['solidquery'].dataHookImportStr += `
+              ${name},
+            `;
+          hooksContentMap['solidquery'].dataHookBodyStr += generateSolidQueryHook(name, item);
+
+          // SvelteQuery hook
+          hooksContentMap['sveltequery'].dataHookImportStr += `
+              ${name},
+            `;
+          hooksContentMap['sveltequery'].dataHookBodyStr += generateSvelteQueryHook(name, item);
 
           contentCount++;
         }

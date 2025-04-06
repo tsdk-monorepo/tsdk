@@ -10,7 +10,7 @@ module.exports = {
   apiconfExt: 'apiconf',
   httpLib: 'xior',
   sharedDirs: ['./src/shared', './src/i18n'],
-  dataHookLib: ['SWR', 'ReactQuery', 'VueQuery'],
+  dataHookLib: ['SWR', 'ReactQuery', 'VueQuery', 'SolidQuery', 'SvelteQuery'],
   worker: true,
   dependencies: {
     i18next: '^23.10.1',

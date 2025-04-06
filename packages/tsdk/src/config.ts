@@ -16,7 +16,13 @@ export interface TSDKConfig {
   sharedDirs: string[];
   /** default: xior */
   httpLib?: 'xior' | 'axios';
-  dataHookLib?: 'SWR' | 'ReactQuery' | 'VueQuery' | ('SWR' | 'ReactQuery' | 'VueQuery')[];
+  dataHookLib?:
+    | 'SWR'
+    | 'ReactQuery'
+    | 'VueQuery'
+    | 'SolidQuery'
+    | 'SvelteQuery'
+    | ('SWR' | 'ReactQuery' | 'VueQuery' | 'SolidQuery' | 'SvelteQuery')[];
   validationLib?: 'valibot' | 'zod' | 'arktype';
   /** Generate Web Worker files */
   worker?: boolean;

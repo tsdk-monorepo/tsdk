@@ -178,6 +178,128 @@ export function generateVueQueryHook(name: string, apiConf: APIConfig) {
   }
 }
 
+export function generateSolidQueryHook(name: string, apiConf: APIConfig) {
+  const { description = '', category = 'others', isGet, method, path } = apiConf;
+  const isGetMethod = isGet ?? (!apiConf.method || apiConf.method.toLowerCase() === 'get');
+
+  if (isGetMethod) {
+    return `
+        /** 
+         * ${description || name}
+         * ${method?.toUpperCase() ?? 'GET'} ${path}
+         * @category ${category}
+         */
+        export function use${name}(
+          payload?: ${name}Req,
+          options?: Omit<UndefinedInitialDataOptions<${name}Res | undefined, Error>, 'queryKey' | 'queryFn'>,
+          queryClient?: QueryClient,
+          requestConfig?: AxiosRequestConfig<${name}Req>,
+          customHandler?: Handler,
+        ) {
+          return useQuery(() => (
+            {
+              ...options,
+              queryKey: [${name}.config.path, payload],
+              queryFn() {
+                if (typeof payload === 'undefined') return undefined;
+                return ${name}(payload, requestConfig, customHandler);
+              },
+            }),
+            queryClient || _queryClient
+          );
+        }`;
+  } else {
+    return `
+      /** 
+       * ${description || name}
+       * ${method?.toUpperCase() ?? 'GET'} ${path}
+       * @category ${category}
+       */
+      export function use${name}(
+        options?: UseMutationOptions<
+          ${name}Res,
+          Error,
+          ${name}Req | FormData,
+          unknown
+        >,
+        queryClient?: QueryClient,
+        requestConfig?: AxiosRequestConfig<${name}Req | FormData>,
+        customHandler?: Handler,
+      ) {
+        return useMutation<${name}Res, unknown, ${name}Req>(() => (
+          {
+            ...options,
+            mutationFn(payload) {
+              return ${name}(payload, requestConfig, customHandler);
+            },
+          }),
+          queryClient || _queryClient
+        );
+      }`;
+  }
+}
+
+export function generateSvelteQueryHook(name: string, apiConf: APIConfig) {
+  const { description = '', category = 'others', isGet, method, path } = apiConf;
+  const isGetMethod = isGet ?? (!apiConf.method || apiConf.method.toLowerCase() === 'get');
+
+  if (isGetMethod) {
+    return `
+        /** 
+         * ${description || name}
+         * ${method?.toUpperCase() ?? 'GET'} ${path}
+         * @category ${category}
+         */
+        export function use${name}(
+          payload?: ${name}Req,
+          options?: Omit<UndefinedInitialDataOptions<${name}Res | undefined, Error>, 'queryKey' | 'queryFn'>,
+          queryClient?: QueryClient,
+          requestConfig?: AxiosRequestConfig<${name}Req>,
+          customHandler?: Handler,
+        ) {
+          return createQuery(
+            {
+              ...options,
+              queryKey: [${name}.config.path, payload],
+              queryFn() {
+                if (typeof payload === 'undefined') return undefined;
+                return ${name}(payload, requestConfig, customHandler);
+              },
+            },
+            queryClient || _queryClient
+          );
+        }`;
+  } else {
+    return `
+      /** 
+       * ${description || name}
+       * ${method?.toUpperCase() ?? 'GET'} ${path}
+       * @category ${category}
+       */
+      export function use${name}(
+        options?: CreateMutationOptions<
+          ${name}Res,
+          Error,
+          ${name}Req | FormData,
+          unknown
+        >,
+        queryClient?: QueryClient,
+        requestConfig?: AxiosRequestConfig<${name}Req | FormData>,
+        customHandler?: Handler,
+      ) {
+        return createMutation(
+          {
+            ...options,
+            mutationFn(payload) {
+              return ${name}(payload, requestConfig, customHandler);
+            },
+          },
+          queryClient || _queryClient
+        );
+      }`;
+  }
+}
+
 export interface APIConfig {
   path: string;
   description?: string;
