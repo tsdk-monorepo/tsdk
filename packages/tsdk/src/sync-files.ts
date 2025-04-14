@@ -140,7 +140,7 @@ async function reconfigPkg() {
       : [config.entityLibName || 'typeorm']
     )?.find((item) => item === 'kysely')
   ) {
-    pkgContent.dependencies.kysely = '^0.27.6';
+    pkgContent.dependencies.kysely = '^0.28.0';
   }
 
   const validationLib = config.validationLib || 'zod';
@@ -162,16 +162,16 @@ async function reconfigPkg() {
     pkgContent.dependencies.swr = '^2.3.3';
   }
   if (isReactQuery) {
-    pkgContent.dependencies['@tanstack/react-query'] = '^5.71.10';
+    pkgContent.dependencies['@tanstack/react-query'] = '^5.74.3';
   }
   if (isVueQuery) {
-    pkgContent.dependencies['@tanstack/vue-query'] = '^5.71.10';
+    pkgContent.dependencies['@tanstack/vue-query'] = '^5.74.3';
   }
   if (isSolidQuery) {
-    pkgContent.dependencies['@tanstack/solid-query'] = '^5.71.10';
+    pkgContent.dependencies['@tanstack/solid-query'] = '^5.74.3';
   }
   if (isSvelteQuery) {
-    pkgContent.dependencies['@tanstack/svelte-query'] = '^5.71.10';
+    pkgContent.dependencies['@tanstack/svelte-query'] = '^5.74.3';
   }
 
   //

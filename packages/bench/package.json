@@ -16,21 +16,21 @@
   },
   "dependencies": {
     "tsdk-server-adapters": "^0.3.0",
-    "express": "^4.21.2",
+    "express": "^5.1.0",
     "zod": "^3.24.2",
-    "hono": "^4.7.2",
-    "@hono/node-server": "^1.13.8",
+    "hono": "^4.7.6",
+    "@hono/node-server": "^1.14.1",
     "@trpc/server": "^10.45.2",
-    "fastify": "^5.2.1",
+    "fastify": "^5.3.0",
     "@standard-schema/spec": "^1.0.0"
   },
   "devDependencies": {
-    "@nestjs/cli": "^11.0.5",
-    "@types/express": "^4.17.21",
+    "@nestjs/cli": "^11.0.6",
+    "@types/express": "^5.0.1",
     "tsdk": "workspace:*",
     "concurrently": "^9.1.2",
     "vitest": "^3.0.7",
-    "webpack": "^5.98.0",
+    "webpack": "^5.99.5",
     "webpack-node-externals": "^3.0.0",
     "typescript": "^5.8.2"
   },
