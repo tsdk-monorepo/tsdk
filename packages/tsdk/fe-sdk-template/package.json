@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "typescript": "^5.8.2",
-    "typedoc": "^0.28.0",
+    "typedoc": "^0.28.2",
     "concurrently": "^9.1.2",
     "@standard-schema/spec": "^1.0.0"
   },
