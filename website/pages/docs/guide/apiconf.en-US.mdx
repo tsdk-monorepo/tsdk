@@ -3,7 +3,7 @@
 `APIConfig` defined the basic configuration specifications of API:
 
 ```ts filename="src/shared/tsdk-types.ts" copy
-import * as z from 'zod';
+import { z } from 'zod/v4';
 import type { StandardSchemaV1 } from '@standard-schema/spec';
 
 export const APITypes = {

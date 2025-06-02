@@ -1,4 +1,4 @@
-import * as z from 'zod';
+import { z } from 'zod/v4';
 
 import { transformPath, APIConfig, ObjectLiteral } from '@/src/shared/tsdk-helper';
 

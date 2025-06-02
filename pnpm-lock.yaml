@@ -99,8 +99,8 @@ importers:
         specifier: ^8.13.0
         version: 8.17.0(bufferutil@4.0.9)(utf-8-validate@6.0.5)
       zod:
-        specifier: ^3.24.2
-        version: 3.24.2
+        specifier: ^3.25.48
+        version: 3.25.48
     devDependencies:
       '@nestjs/cli':
         specifier: ^11.0.6
@@ -178,8 +178,8 @@ importers:
         specifier: ^0.7.8
         version: 0.7.8
       zod:
-        specifier: ^3.24.2
-        version: 3.24.2
+        specifier: ^3.25.48
+        version: 3.25.48
     devDependencies:
       '@standard-schema/spec':
         specifier: ^1.0.0
@@ -280,10 +280,10 @@ importers:
         version: 4.7.6
       tsdk-server-adapters:
         specifier: ^0.3.0
-        version: 0.3.0(express@5.1.0)(fastify@5.3.0)(hono@4.7.6)(socket.io@4.8.1)(zod@3.24.2)
+        version: 0.3.0(express@5.1.0)(fastify@5.3.0)(hono@4.7.6)(socket.io@4.8.1)(zod@3.25.48)
       zod:
-        specifier: ^3.24.2
-        version: 3.24.2
+        specifier: ^3.25.48
+        version: 3.25.48
     devDependencies:
       '@nestjs/cli':
         specifier: ^11.0.6
@@ -366,8 +366,8 @@ importers:
         specifier: ^1.4.12
         version: 1.4.12
       arktype:
-        specifier: ^2.1.10
-        version: 2.1.10
+        specifier: ^2.1.20
+        version: 2.1.20
       concurrently:
         specifier: ^9.1.2
         version: 9.1.2
@@ -393,14 +393,14 @@ importers:
         specifier: ^5.8.2
         version: 5.8.2
       valibot:
-        specifier: ^1.0.0
-        version: 1.0.0(typescript@5.8.2)
+        specifier: ^1.1.0
+        version: 1.1.0(typescript@5.8.2)
       vitest:
         specifier: ^3.0.7
         version: 3.0.7(@types/node@20.17.24)(lightningcss@1.29.1)(terser@5.39.0)
       zod:
-        specifier: ^3.24.2
-        version: 3.24.2
+        specifier: ^3.25.48
+        version: 3.25.48
 
 packages:
 
@@ -439,11 +439,11 @@ packages:
     resolution: {integrity: sha512-YTAxNnT++5eflx19OUHmOWu597/TbTel+QARiZCv1xQw99+X8DCKKOUXtqBRd53CAHlREDI33Rn/JLY3NYgMLQ==}
     engines: {node: ^18.19.1 || ^20.11.1 || >=22.0.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
 
-  '@ark/schema@0.45.0':
-    resolution: {integrity: sha512-3XlMWkZbEjh0YsF92vnnRNCWNRNhRKDTf6XhugyCXH0YRFuM+w1vFLDbB2JLfZloEd7i5cbqsLaDLzyBZbPrSg==}
+  '@ark/schema@0.46.0':
+    resolution: {integrity: sha512-c2UQdKgP2eqqDArfBqQIJppxJHvNNXuQPeuSPlDML4rjw+f1cu0qAlzOG4b8ujgm9ctIDWwhpyw6gjG5ledIVQ==}
 
-  '@ark/util@0.45.0':
-    resolution: {integrity: sha512-Z1gHEGbpPzLtPmYb932t2B++6YonlUi1Fa14IQ4vhsGMWhd81Mi1miUmdZXW4fNI/wg1saT7H2/5cAuONgTXhg==}
+  '@ark/util@0.46.0':
+    resolution: {integrity: sha512-JPy/NGWn/lvf1WmGCPw2VGpBg5utZraE84I7wli18EDF3p3zc/e9WolT35tINeZO3l7C77SjqRJeAUoT0CvMRg==}
 
   '@babel/code-frame@7.26.2':
     resolution: {integrity: sha512-RJlIHRueQgwWitWgF8OdFYGZX328Ax5BCemNGlqHfplnRT9ESi8JkFlvaVYbS+UubVY6dpv87Fs2u5M29iNFVQ==}
@@ -2252,8 +2252,8 @@ packages:
     resolution: {integrity: sha512-COROpnaoap1E2F000S62r6A60uHZnmlvomhfyT2DlTcrY1OrBKn2UhH7qn5wTC9zMvD0AY7csdPSNwKP+7WiQw==}
     engines: {node: '>= 0.4'}
 
-  arktype@2.1.10:
-    resolution: {integrity: sha512-KqbrzI9qIGrQUClifyS1HpUp/oTSRtGDvnMKzwg2TAvxRpynY1mn/ubXaxAAdGPOM8V3pBqwb01Z6TcXqhBxzQ==}
+  arktype@2.1.20:
+    resolution: {integrity: sha512-IZCEEXaJ8g+Ijd59WtSYwtjnqXiwM8sWQ5EjGamcto7+HVN9eK0C4p0zDlCuAwWhpqr6fIBkxPuYDl4/Mcj/+Q==}
 
   array-flatten@1.1.1:
     resolution: {integrity: sha512-PCVAQswWemu6UdxsDFFX/+gVeYqKAod3D3UVm91jHwynguOwAvYPhx8nNlM++NqRcK6CxxpUafjmhIdKiHibqg==}
@@ -4938,8 +4938,8 @@ packages:
       typescript:
         optional: true
 
-  valibot@1.0.0:
-    resolution: {integrity: sha512-1Hc0ihzWxBar6NGeZv7fPLY0QuxFMyxwYR2sF1Blu7Wq7EnremwY2W02tit2ij2VJT8HcSkHAQqmFfl77f73Yw==}
+  valibot@1.1.0:
+    resolution: {integrity: sha512-Nk8lX30Qhu+9txPYTwM0cFlWLdPFsFr6LblzqIySfbZph9+BFsAHsNvHOymEviUepeIW6KFHzpX8TKhbptBXXw==}
     peerDependencies:
       typescript: '>=5'
     peerDependenciesMeta:
@@ -5223,8 +5223,8 @@ packages:
   zimmerframe@1.1.2:
     resolution: {integrity: sha512-rAbqEGa8ovJy4pyBxZM70hg4pE6gDgaQ0Sl9M3enG3I0d6H4XSAM3GeNGLKnsBpuijUow064sf7ww1nutC5/3w==}
 
-  zod@3.24.2:
-    resolution: {integrity: sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ==}
+  zod@3.25.48:
+    resolution: {integrity: sha512-0X1mz8FtgEIvaxGjdIImYpZEaZMrund9pGXm3M6vM7Reba0e2eI71KPjSCGXBfwKDPwPoywf6waUKc3/tFvX2Q==}
 
 snapshots:
 
@@ -5287,11 +5287,11 @@ snapshots:
     transitivePeerDependencies:
       - chokidar
 
-  '@ark/schema@0.45.0':
+  '@ark/schema@0.46.0':
     dependencies:
-      '@ark/util': 0.45.0
+      '@ark/util': 0.46.0
 
-  '@ark/util@0.45.0': {}
+  '@ark/util@0.46.0': {}
 
   '@babel/code-frame@7.26.2':
     dependencies:
@@ -7185,10 +7185,10 @@ snapshots:
 
   aria-query@5.3.2: {}
 
-  arktype@2.1.10:
+  arktype@2.1.20:
     dependencies:
-      '@ark/schema': 0.45.0
-      '@ark/util': 0.45.0
+      '@ark/schema': 0.46.0
+      '@ark/util': 0.46.0
 
   array-flatten@1.1.1: {}
 
@@ -9805,10 +9805,10 @@ snapshots:
       minimist: 1.2.8
       strip-bom: 3.0.0
 
-  tsdk-server-adapters@0.3.0(express@5.1.0)(fastify@5.3.0)(hono@4.7.6)(socket.io@4.8.1)(zod@3.24.2):
+  tsdk-server-adapters@0.3.0(express@5.1.0)(fastify@5.3.0)(hono@4.7.6)(socket.io@4.8.1)(zod@3.25.48):
     dependencies:
       eventemitter3: 5.0.1
-      zod: 3.24.2
+      zod: 3.25.48
     optionalDependencies:
       express: 5.1.0
       fastify: 5.3.0
@@ -9965,7 +9965,7 @@ snapshots:
     optionalDependencies:
       typescript: 5.8.2
 
-  valibot@1.0.0(typescript@5.8.2):
+  valibot@1.1.0(typescript@5.8.2):
     optionalDependencies:
       typescript: 5.8.2
 
@@ -10341,4 +10341,4 @@ snapshots:
 
   zimmerframe@1.1.2: {}
 
-  zod@3.24.2: {}
+  zod@3.25.48: {}

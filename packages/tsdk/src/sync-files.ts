@@ -101,7 +101,7 @@ export async function copySnippet() {
   // overwrite snippets
   const validationLib = config.validationLib || 'zod';
   const imports = {
-    zod: `import * as z from 'zod';`,
+    zod: `import { z } from 'zod/v4';`,
     valibot: `import * as v from 'valibot';`,
     arktype: `import { type } from "arktype"`,
   } as const;
@@ -121,9 +121,9 @@ export async function copyShared() {
 
 /** Validation libs */
 const vLibs = {
-  zod: ['zod', '^3.24.2'],
-  valibot: ['valibot', '^1.0.0'],
-  arktype: ['arktype', '^2.1.0'],
+  zod: ['zod', '^3.25.48'],
+  valibot: ['valibot', '^1.1.0'],
+  arktype: ['arktype', '^2.1.20'],
 } as const;
 
 async function reconfigPkg() {

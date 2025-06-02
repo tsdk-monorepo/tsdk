@@ -1,4 +1,4 @@
-import * as z from 'zod';
+import { z } from 'zod/v4';
 
 import { TodoStatus } from '../Todo.entity';
 
@@ -31,7 +31,7 @@ export const updateTodoSchema = TodoSchema.omit({ id: true })
   })
   .refine(
     ({ id, ...rest }) => Object.values(rest).some((i) => i !== undefined),
-    (val) => ({ message: `One of the fields must be defined` })
+    `One of the fields must be defined`
   );
 
 export const deleteTodoSchema = TodoSchema.pick({
