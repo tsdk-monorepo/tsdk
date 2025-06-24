@@ -94,7 +94,7 @@ const port = 3012;
         return reqInfo.type;
       },
       getData(data) {
-        // maybe decode here?(e.g.: decryption)
+        // maybe decode data here?(e.g.: decryption)
         return data;
       },
       protocolType: ProtocolTypes,

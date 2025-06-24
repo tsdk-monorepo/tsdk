@@ -7,6 +7,20 @@ import { RequestInfo } from './types';
 import { ProtocolTypes } from '@/src/shared/tsdk-helper';
 import { APIConfig } from '@/src/shared/tsdk-types';
 
+const middlewares = [langMiddleware, authMiddleware, rateLimitMiddleware];
+export const genRouteObj = genRouteFactory<APIConfig, RequestInfo>(
+  onErrorHandler,
+  ProtocolTypes,
+  middlewares
+);
+
+export const routeBus = genRouteObj.routeBus;
+
+const genRoute = genRouteObj.genRoute;
+
+export { getRouteEventName, genRoute };
+export default genRoute;
+
 function onErrorHandler(
   e: Error,
   { protocol, send, msgId }: Parameters<Parameters<typeof genRouteFactory>[0]>[1]
@@ -73,18 +87,3 @@ function rateLimitMiddleware(protocol: Protocol, apiConfig: APIConfig, reqInfo: 
   // @todo
   return Promise.resolve();
 }
-
-const middlewares = [langMiddleware, authMiddleware, rateLimitMiddleware];
-export const genRouteObj = genRouteFactory<APIConfig, RequestInfo>(
-  onErrorHandler,
-  ProtocolTypes,
-  middlewares
-);
-
-export const routeBus = genRouteObj.routeBus;
-
-const genRoute = genRouteObj.genRoute;
-
-export { getRouteEventName };
-
-export default genRoute;

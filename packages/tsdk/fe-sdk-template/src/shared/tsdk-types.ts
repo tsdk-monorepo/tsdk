@@ -37,9 +37,9 @@ export interface APIConfig {
    * useful when backend APIs use `POST` for all requests. */
   isGet?: boolean;
   /** Hook to process data before sending the request. */
-  onRequest?: (data: any) => any | Promise<any>;
+  onRequest?<T = any>(data: T): T | Promise<T>;
   /** Hook to process data after receiving the response. */
-  onResponse?: (response: any) => any | Promise<any>;
+  onResponse?<T = any>(response: T): T | Promise<T>;
 }
 
 export interface ObjectLiteral {

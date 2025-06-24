@@ -121,7 +121,7 @@ export async function copyShared() {
 
 /** Validation libs */
 const vLibs = {
-  zod: ['zod', '^3.25.48'],
+  zod: ['zod', '^3.25.67'],
   valibot: ['valibot', '^1.1.0'],
   arktype: ['arktype', '^2.1.20'],
 } as const;

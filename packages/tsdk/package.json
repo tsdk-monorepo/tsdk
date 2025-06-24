@@ -54,10 +54,10 @@
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
     "@types/webpack-node-externals": "^3.0.0",
-    "webpack": "^5.98.0",
+    "webpack": "^5.99.9",
     "webpack-node-externals": "^3.0.0",
-    "typescript": "^5.8.2",
-    "@tsconfig/recommended": "^1.0.8",
-    "vitest": "^3.0.7"
+    "typescript": "^5.8.3",
+    "@tsconfig/recommended": "^1.0.10",
+    "vitest": "^3.2.4"
   }
 }
