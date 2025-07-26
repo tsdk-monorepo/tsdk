@@ -21,10 +21,10 @@ export async function runPrettier() {
       });
       return true;
     } catch (error2) {
-      console.error(
-        '  ❌ Failed to run Prettier',
-        (error2 as Error).message + '.\n' + (error as Error).message
-      );
+      // console.error(
+      //   '  ❌ Failed to run Prettier',
+      //   (error2 as Error).message + '.\n' + (error as Error).message
+      // );
       return false;
     }
   }
