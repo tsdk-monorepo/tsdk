@@ -29,8 +29,6 @@ jobs:
           run_install: false
 
       - uses: oven-sh/setup-bun@v2
-        with:
-          run_install: false
 
       - name: Install dependencies
         run: pnpm install
