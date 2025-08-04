@@ -16,9 +16,9 @@
     "xior": "^0.7.8"
   },
   "devDependencies": {
-    "typescript": "^5.8.3",
-    "typedoc": "^0.28.2",
-    "concurrently": "^9.1.2",
+    "typescript": "^5.9.2",
+    "typedoc": "^0.28.9",
+    "concurrently": "^9.2.0",
     "@standard-schema/spec": "^1.0.0"
   },
   "peerDependencies": {

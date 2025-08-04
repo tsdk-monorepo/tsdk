@@ -15,7 +15,7 @@
     "axios": "^1.8.4",
     "xior": "^0.7.8",
     "kysely": "^0.28.0",
-    "zod": "^3.25.67",
+    "zod": "^4",
     "swr": "^2.3.3",
     "@tanstack/react-query": "^5.74.3",
     "@tanstack/vue-query": "^5.74.3",
@@ -25,9 +25,9 @@
     "intl-pluralrules": "^2.0.1"
   },
   "devDependencies": {
-    "typescript": "^5.8.3",
-    "typedoc": "^0.28.2",
-    "concurrently": "^9.1.2",
+    "typescript": "^5.9.2",
+    "typedoc": "^0.28.9",
+    "concurrently": "^9.2.0",
     "@standard-schema/spec": "^1.0.0"
   },
   "peerDependencies": {
