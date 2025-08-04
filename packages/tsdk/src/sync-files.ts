@@ -159,22 +159,20 @@ async function reconfigPkg() {
   const isSvelteQuery = hookLibs?.includes('sveltequery');
 
   if (isSWR) {
-    pkgContent.dependencies.swr = '^2.3.3';
+    pkgContent.dependencies.swr = '^2.3.4';
   }
   if (isReactQuery) {
-    pkgContent.dependencies['@tanstack/react-query'] = '^5.74.3';
+    pkgContent.dependencies['@tanstack/react-query'] = '^5.84.1';
   }
   if (isVueQuery) {
-    pkgContent.dependencies['@tanstack/vue-query'] = '^5.74.3';
+    pkgContent.dependencies['@tanstack/vue-query'] = '5.74.3';
   }
   if (isSolidQuery) {
-    pkgContent.dependencies['@tanstack/solid-query'] = '^5.74.3';
+    pkgContent.dependencies['@tanstack/solid-query'] = '^5.83.1';
   }
   if (isSvelteQuery) {
-    pkgContent.dependencies['@tanstack/svelte-query'] = '^5.74.3';
+    pkgContent.dependencies['@tanstack/svelte-query'] = '^5.83.1';
   }
-
-  //
 
   if (config.dependencies) {
     pkgContent.dependencies = {

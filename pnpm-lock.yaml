@@ -145,16 +145,16 @@ importers:
   examples/server/fe-sdk-demo:
     dependencies:
       '@tanstack/react-query':
-        specifier: ^5.74.3
-        version: 5.74.3(react@19.0.0)
+        specifier: ^5.84.1
+        version: 5.84.1(react@19.0.0)
       '@tanstack/solid-query':
-        specifier: ^5.74.3
-        version: 5.74.3(solid-js@1.9.5)
+        specifier: ^5.83.1
+        version: 5.83.1(solid-js@1.9.5)
       '@tanstack/svelte-query':
-        specifier: ^5.74.3
-        version: 5.74.3(svelte@5.25.6)
+        specifier: ^5.83.1
+        version: 5.83.1(svelte@5.25.6)
       '@tanstack/vue-query':
-        specifier: ^5.74.3
+        specifier: 5.74.3
         version: 5.74.3(vue@3.5.13(typescript@5.9.2))
       axios:
         specifier: ^1.8.4
@@ -172,8 +172,8 @@ importers:
         specifier: ^4.8.1
         version: 4.8.1(bufferutil@4.0.9)(utf-8-validate@6.0.5)
       swr:
-        specifier: ^2.3.3
-        version: 2.3.3(react@19.0.0)
+        specifier: ^2.3.4
+        version: 2.3.4(react@19.0.0)
       xior:
         specifier: ^0.7.8
         version: 0.7.8
@@ -1867,18 +1867,21 @@ packages:
   '@tanstack/query-core@5.74.3':
     resolution: {integrity: sha512-Mqk+5o3qTuAiZML248XpNH8r2cOzl15+LTbUsZQEwvSvn1GU4VQhvqzAbil36p+MBxpr/58oBSnRzhrBevDhfg==}
 
-  '@tanstack/react-query@5.74.3':
-    resolution: {integrity: sha512-QrycUn0wxjVPzITvQvOxFRdhlAwIoOQSuav7qWD4SWCoKCdLbyRZ2vji2GuBq/glaxbF4wBx3fqcYRDOt8KDTA==}
+  '@tanstack/query-core@5.83.1':
+    resolution: {integrity: sha512-OG69LQgT7jSp+5pPuCfzltq/+7l2xoweggjme9vlbCPa/d7D7zaqv5vN/S82SzSYZ4EDLTxNO1PWrv49RAS64Q==}
+
+  '@tanstack/react-query@5.84.1':
+    resolution: {integrity: sha512-zo7EUygcWJMQfFNWDSG7CBhy8irje/XY0RDVKKV4IQJAysb+ZJkkJPcnQi+KboyGUgT+SQebRFoTqLuTtfoDLw==}
     peerDependencies:
       react: ^18 || ^19
 
-  '@tanstack/solid-query@5.74.3':
-    resolution: {integrity: sha512-wa9vAsKxKFQbLDgHj6hcIhTM4K/5dYui95kOnd4KNT5z514wWApnvDOpMxfty+ny12jqH41gRVWE7MWg4CDDVg==}
+  '@tanstack/solid-query@5.83.1':
+    resolution: {integrity: sha512-mP0vjxv/5ajae6k3GSATIyIsMQmwVPV4WnwiIl4gsObK6iLupjSz7JU/jFV7c22TCJCFEtUWkNzbjw/fzSql/g==}
     peerDependencies:
       solid-js: ^1.6.0
 
-  '@tanstack/svelte-query@5.74.3':
-    resolution: {integrity: sha512-sTRvvxJkbde/k6e91iw/ZOcM7DdXFDDvVoD6Jkp7Ds7dc/vZJcPMpOtEd06GpxqTMDrCa9ksWuVXJvXa+kM1MA==}
+  '@tanstack/svelte-query@5.83.1':
+    resolution: {integrity: sha512-Nsqyi83krl9qbTRgtlMiuVFXd5aP8iuwESLZiWuqc6Y7GNecbkeI6cTRYWWV2d/tTRXuoBJDjwgSJmVTQBb9Yw==}
     peerDependencies:
       svelte: ^3.54.0 || ^4.0.0 || ^5.0.0
 
@@ -4675,8 +4678,8 @@ packages:
     resolution: {integrity: sha512-RGkaeAXDuJdvhA1fdSM5GgD++vYfJYijZL0uN6kM2s/TRJ663jktBhZlF0qjzAJGR/34PtaeT3G8MKJY1EKeqg==}
     engines: {node: '>=18'}
 
-  swr@2.3.3:
-    resolution: {integrity: sha512-dshNvs3ExOqtZ6kJBaAsabhPdHyeY4P2cKwRCniDVifBMoG/SVI7tfLWqPXriVspf2Rg4tPzXJTnwaihIeFw2A==}
+  swr@2.3.4:
+    resolution: {integrity: sha512-bYd2lrhc+VarcpkgWclcUi92wYCpOgMws9Sd1hG1ntAu0NEy+14CbotuFjshBU2kt9rYj9TSmDcybpxpeTU1fg==}
     peerDependencies:
       react: ^16.11.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
@@ -6865,19 +6868,21 @@ snapshots:
 
   '@tanstack/query-core@5.74.3': {}
 
-  '@tanstack/react-query@5.74.3(react@19.0.0)':
+  '@tanstack/query-core@5.83.1': {}
+
+  '@tanstack/react-query@5.84.1(react@19.0.0)':
     dependencies:
-      '@tanstack/query-core': 5.74.3
+      '@tanstack/query-core': 5.83.1
       react: 19.0.0
 
-  '@tanstack/solid-query@5.74.3(solid-js@1.9.5)':
+  '@tanstack/solid-query@5.83.1(solid-js@1.9.5)':
     dependencies:
-      '@tanstack/query-core': 5.74.3
+      '@tanstack/query-core': 5.83.1
       solid-js: 1.9.5
 
-  '@tanstack/svelte-query@5.74.3(svelte@5.25.6)':
+  '@tanstack/svelte-query@5.83.1(svelte@5.25.6)':
     dependencies:
-      '@tanstack/query-core': 5.74.3
+      '@tanstack/query-core': 5.83.1
       svelte: 5.25.6
 
   '@tanstack/vue-query@5.74.3(vue@3.5.13(typescript@5.9.2))':
@@ -9929,7 +9934,7 @@ snapshots:
       magic-string: 0.30.17
       zimmerframe: 1.1.2
 
-  swr@2.3.3(react@19.0.0):
+  swr@2.3.4(react@19.0.0):
     dependencies:
       dequal: 2.0.3
       react: 19.0.0
