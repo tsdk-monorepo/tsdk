@@ -100,6 +100,12 @@ export function extractApiconfs(content: string) {
           currentConfig.method = methodMatch[1];
         }
 
+        // Extract `isGet`
+        const isGetMatch = configLine.match(/^isGet\s*:\s*(.*)/);
+        if (isGetMatch) {
+          currentConfig.isGet = isGetMatch[1];
+        }
+
         // Extract path - now keeping the full expression for transformPath
         // First check for direct string path
         const pathDirectMatch = configLine.match(/^path\s*:\s*['"`]([^'"`]+)['"`]/);

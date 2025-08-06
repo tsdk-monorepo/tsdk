@@ -1,6 +1,6 @@
 {
   "name": "tsdk",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.5",
   "description": "Type-safe API development and code share tool for TypeScript projects.",
   "repository": "tsdk-monorepo/tsdk",
   "bugs": "https://github.com/tsdk-monorepo/tsdk/issues",

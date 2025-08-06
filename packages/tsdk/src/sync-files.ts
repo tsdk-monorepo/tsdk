@@ -264,6 +264,7 @@ export async function syncExtFiles(ext: string, isEntity = false) {
     type: string;
     description: string;
     category: string;
+    isGet?: boolean;
   }[] = [];
   const types = new Set<string>();
   await Promise.all(

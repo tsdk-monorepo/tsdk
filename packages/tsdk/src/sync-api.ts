@@ -26,6 +26,7 @@ export async function syncAPI(
     type: string;
     description: string;
     category: string;
+    isGet?: boolean;
   }[],
   _types: string[]
 ) {
@@ -295,7 +296,7 @@ export async function syncAPI(
         const name = _name;
         const type = !_type ? 'user' : _type;
 
-        const isGET = !method || method?.toLowerCase() === 'get';
+        const isGET = !method || method?.toLowerCase() === 'get' || item.isGet;
 
         if (type === apiType) {
           importStr += `

@@ -44,6 +44,28 @@ Examples
 const VALID_PROJECT_MSG = `Please run \`tsdk\` in a valid TypeScript project! Check: https://tsdk.dev/docs/start-a-typescript-project`;
 
 /**
+ * Main function to run the CLI
+ */
+export async function run(): Promise<void> {
+  const startTime = Date.now();
+  try {
+    const params = process.argv.filter((i) => i.startsWith('--'));
+    await handleCommand(params);
+    const totalTime = Date.now() - startTime;
+    console.log(`\n✅ Total execution time: ${(totalTime / 1000).toFixed(2)}s`);
+  } catch (error) {
+    console.error(`\n${symbols.error} Unexpected error:`);
+    console.log(error);
+    const totalTime = Date.now() - startTime;
+    console.log(`\n❌ Failed after: ${(totalTime / 1000).toFixed(2)}s`);
+    process.exit(1);
+  }
+}
+
+// Execute the CLI
+run();
+
+/**
  * Handles sync command with parallelization where possible
  * @param noOverwrite Whether to use no-overwrite mode
  */
@@ -73,7 +95,8 @@ async function handleSyncCommand(noOverwrite: boolean): Promise<void> {
     const prettierSuccess = await measureExecutionTime('Run Prettier', () => runPrettier());
     if (prettierSuccess) console.log(`${symbols.success} Prettier files\n`);
   } catch (error) {
-    console.error(`\n${symbols.error} Sync command failed:`, error);
+    console.error(`\n${symbols.error} Sync command failed:`);
+    console.error(error);
     process.exit(1);
   }
 }
@@ -133,24 +156,3 @@ async function handleCommand(params: string[]): Promise<void> {
     process.exit(1);
   }
 }
-
-/**
- * Main function to run the CLI
- */
-export async function run(): Promise<void> {
-  const startTime = Date.now();
-  try {
-    const params = process.argv.filter((i) => i.startsWith('--'));
-    await handleCommand(params);
-    const totalTime = Date.now() - startTime;
-    console.log(`\n✅ Total execution time: ${(totalTime / 1000).toFixed(2)}s`);
-  } catch (error) {
-    console.error(`\n${symbols.error} Unexpected error:`, error);
-    const totalTime = Date.now() - startTime;
-    console.log(`\n❌ Failed after: ${(totalTime / 1000).toFixed(2)}s`);
-    process.exit(1);
-  }
-}
-
-// Execute the CLI
-run();
