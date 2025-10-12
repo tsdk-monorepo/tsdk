@@ -8,7 +8,9 @@ export function extractApiconfs(content: string) {
     type: string;
     description: string;
     category: string;
+    isGet?: boolean;
   }[] = [];
+
   let currentConfig: any = null;
   let comments: string[] = [];
   let inMultilineComment = false;
@@ -22,7 +24,9 @@ export function extractApiconfs(content: string) {
       const endCommentIndex = line.indexOf('*/');
       if (endCommentIndex !== -1) {
         multilineCommentBuffer += line.substring(0, endCommentIndex).trim();
-        comments.push(multilineCommentBuffer);
+        if (multilineCommentBuffer.trim()) {
+          comments.push(multilineCommentBuffer.trim());
+        }
         multilineCommentBuffer = '';
         inMultilineComment = false;
       } else {
@@ -33,32 +37,39 @@ export function extractApiconfs(content: string) {
 
     // Start of multi-line comment
     if (line.startsWith('/*')) {
-      inMultilineComment = true;
-      multilineCommentBuffer = line.substring(2) + ' ';
-      if (line.endsWith('*/')) {
-        const currentComment = multilineCommentBuffer
-          .slice(0, multilineCommentBuffer.length - 3)
-          .replace(/^\*+|\*+$/g, '') // remove * besides string
+      const endIndex = line.indexOf('*/');
+      if (endIndex !== -1) {
+        // Single-line multi-line comment
+        const comment = line
+          .substring(2, endIndex)
+          .replace(/^\*+|\*+$/g, '')
           .trim();
-
-        comments.push(currentComment);
-        inMultilineComment = false;
-        multilineCommentBuffer = '';
+        if (comment) {
+          comments.push(comment);
+        }
+      } else {
+        inMultilineComment = true;
+        multilineCommentBuffer = line.substring(2) + ' ';
       }
       continue;
     }
 
     // Collect single-line comments
     if (line.startsWith('//')) {
-      comments.push(line.substring(2).trim());
+      const comment = line.substring(2).trim();
+      if (comment) {
+        comments.push(comment);
+      }
       continue;
     }
 
     // Match API config declaration
-    let configMatch = line.match(/^export\s+const\s+(\w+)Config\s*:\s*APIConfig\s*=/); // match `export const AddTodoConfig: APIConfig = {`
-    if (!configMatch) configMatch = line.match(/^export\s+const\s+(\w+)Config\s*=/); // match `export const AddTodoConfig = {`
+    let configMatch = line.match(/^export\s+const\s+(\w+)Config\s*:\s*APIConfig\s*=/);
+    if (!configMatch) {
+      configMatch = line.match(/^export\s+const\s+(\w+)Config\s*=/);
+    }
 
-    if (configMatch && configMatch[1] && configMatch[1][0] === configMatch[1][0].toUpperCase()) {
+    if (configMatch && configMatch[1] && /^[A-Z]/.test(configMatch[1])) {
       const name = configMatch[1];
 
       // Initialize new config object
@@ -67,7 +78,7 @@ export function extractApiconfs(content: string) {
         method: '',
         path: '',
         type: '',
-        description: comments.join(' ') || '',
+        description: comments.join(' ').trim(),
         category: '',
       };
 
@@ -76,86 +87,86 @@ export function extractApiconfs(content: string) {
 
       // Continue parsing config object
       let j = i;
-      let configComplete = false;
-      let isInCommentOrTemplate = false; // /*, `
+      let braceDepth = 0;
+      let configStarted = false;
+      let inComment = false;
 
-      while (j < lines.length && !configComplete) {
+      while (j < lines.length) {
         const configLine = lines[j].trim();
-        if (!isInCommentOrTemplate) {
-          isInCommentOrTemplate = configLine.startsWith('/*');
+
+        // Track comment state
+        if (!inComment && configLine.includes('/*')) {
+          inComment = true;
         }
-        if (isInCommentOrTemplate) {
-          const commentEndIdx = configLine.indexOf('*/');
-          if (commentEndIdx > -1) {
-            isInCommentOrTemplate = false;
-          }
-        }
-        if (isInCommentOrTemplate) {
+        if (inComment && configLine.includes('*/')) {
+          inComment = false;
           j++;
           continue;
         }
-        // Extract method
-        const methodMatch = configLine.match(/^method\s*:\s*['"`]([^'"`]+)['"`]/);
-        if (methodMatch) {
-          currentConfig.method = methodMatch[1];
+        if (inComment) {
+          j++;
+          continue;
         }
 
-        // Extract `isGet`
-        const isGetMatch = configLine.match(/^isGet\s*:\s*(.*)/);
-        if (isGetMatch) {
-          currentConfig.isGet = isGetMatch[1];
-        }
-
-        // Extract path - now keeping the full expression for transformPath
-        // First check for direct string path
-        const pathDirectMatch = configLine.match(/^path\s*:\s*['"`]([^'"`]+)['"`]/);
-        if (pathDirectMatch) {
-          currentConfig.path = pathDirectMatch[1];
-        } else {
-          // Capture the full transformPath expression if present
-          const transformPathMatch = configLine.match(/^path\s*:\s*(transformPath\([^)]+\))/);
-          if (transformPathMatch) {
-            currentConfig.path = transformPathMatch[1];
-          } else {
-            // Fallback for any other path format
-            const generalPathMatch = configLine.match(/^path\s*:\s*(.+),?$/);
-            if (generalPathMatch) {
-              currentConfig.path = generalPathMatch[1].replace(/,$/, '').trim();
-            }
+        // Count braces
+        for (const char of configLine) {
+          if (char === '{') {
+            braceDepth++;
+            configStarted = true;
+          } else if (char === '}') {
+            braceDepth--;
           }
         }
 
-        // Extract type
-        const typeMatch = configLine.match(/^type\s*:\s*['"`]([^'"`]+)['"`]/);
-        if (typeMatch) {
-          currentConfig.type = typeMatch[1];
+        // Extract fields only when not in comment
+        if (!inComment && configStarted) {
+          // Extract method
+          const methodMatch = configLine.match(/^\s*method\s*:\s*['"`]([^'"`]+)['"`]/);
+          if (methodMatch) {
+            currentConfig.method = methodMatch[1];
+          }
+
+          // Extract isGet
+          const isGetMatch = configLine.match(/^\s*isGet\s*:\s*(\S+)/);
+          if (isGetMatch) {
+            currentConfig.isGet = isGetMatch[1].replace(/,\s*$/, '');
+          }
+
+          // Extract path
+          const pathDirectMatch = configLine.match(/^\s*path\s*:\s*['"`]([^'"`]+)['"`]/);
+          if (pathDirectMatch) {
+            currentConfig.path = pathDirectMatch[1];
+          } else {
+            const transformPathMatch = configLine.match(/^\s*path\s*:\s*(transformPath\([^)]+\))/);
+            if (transformPathMatch) {
+              currentConfig.path = transformPathMatch[1];
+            }
+          }
+
+          // Extract type
+          const typeMatch = configLine.match(/^\s*type\s*:\s*['"`]([^'"`]+)['"`]/);
+          if (typeMatch) {
+            currentConfig.type = typeMatch[1];
+          }
         }
 
-        // Extract description
-        // const descriptionMatch = configLine.match(/^description\s*:\s*['"`]([^'"`]+)['"`]/);
-        // if (descriptionMatch) {
-        //   currentConfig.description = descriptionMatch[1];
-        // }
-
-        // Extract category
-        // const categoryMatch = configLine.match(/^category\s*:\s*['"`]([^'"`]+)['"`]/);
-        // if (categoryMatch) {
-        //   currentConfig.category = categoryMatch[1];
-        // }
-
-        // End config object when braces close
-        // configLine.match(/}/g)
-        if (/^}/.test(configLine) && !configLine.endsWith('*/') && !configLine.endsWith('`')) {
-          configComplete = true;
+        // End config when braces close completely
+        if (configStarted && braceDepth === 0) {
           results.push(currentConfig);
           currentConfig = null;
+          break;
         }
 
         j++;
       }
 
       // Update loop index
-      i = j - 1;
+      i = j;
+    } else {
+      // Clear comments if we encounter non-comment, non-config line
+      if (line && !line.startsWith('//') && !line.startsWith('/*')) {
+        comments = [];
+      }
     }
   }
 
