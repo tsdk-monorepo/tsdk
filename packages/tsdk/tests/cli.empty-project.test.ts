@@ -10,16 +10,8 @@ describe('tsdk cli tests in empty project', () => {
 
     // Create basic project structure
     await fsExtra.writeJson('../../test-project/tsconfig.json', {});
-    await fsExtra.writeJson('../../test-project/package.json', {
-      name: 'test-project',
-      version: '1.0.0',
-      description: '',
-      main: 'index.js',
-      scripts: {},
-      keywords: [],
-      author: '',
-      license: 'ISC',
-    });
+    await fsExtra.writeFile('../../test-project/tsconfig.json', '{}');
+    execSync('npm init -y', { cwd: '../../test-project', stdio: 'inherit' });
   });
 
   afterEach(async () => {

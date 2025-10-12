@@ -55,6 +55,7 @@ export async function addDepsIfNone() {
   const pkgPath = path.resolve(cwd, 'package.json');
   const content = await fs.promises.readFile(pkgPath, 'utf8');
   const contentJSON = JSON.parse(content);
+  if (!contentJSON.dependencies) contentJSON.dependencies = {};
   const npmCMDs = await getNpmCommand(cwd);
   let needRunInstall = false;
 
@@ -63,7 +64,6 @@ export async function addDepsIfNone() {
   await Promise.all(
     [vLibs[validationLib], ['@standard-schema/spec', '^1.0.0']].map(
       async ([dependency, version]) => {
-        if (!contentJSON.dependencies) contentJSON.dependencies = {};
         if (!contentJSON.dependencies[dependency]) {
           contentJSON.dependencies[dependency] = version;
           await fs.promises.writeFile(pkgPath, JSON.stringify(contentJSON, null, 2));
