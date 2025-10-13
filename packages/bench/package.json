@@ -18,21 +18,21 @@
     "tsdk-server-adapters": "^0.3.0",
     "express": "^5.1.0",
     "zod": "^4",
-    "hono": "^4.8.2",
+    "hono": "^4.9.11",
     "@hono/node-server": "^1.14.4",
     "@trpc/server": "^10.45.2",
-    "fastify": "^5.4.0",
+    "fastify": "^5.6.1",
     "@standard-schema/spec": "^1.0.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^11.0.6",
     "@types/express": "^5.0.1",
     "tsdk": "workspace:*",
-    "concurrently": "^9.1.2",
+    "concurrently": "^9.2.1",
     "vitest": "^3.2.4",
     "webpack": "^5.99.9",
     "webpack-node-externals": "^3.0.0",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.3"
   },
   "license": "MIT"
 }

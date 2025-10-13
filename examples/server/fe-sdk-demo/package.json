@@ -25,9 +25,9 @@
     "intl-pluralrules": "^2.0.1"
   },
   "devDependencies": {
-    "typescript": "^5.9.2",
+    "typescript": "^5.9.3",
     "typedoc": "^0.28.14",
-    "concurrently": "^9.2.0",
+    "concurrently": "^9.2.1",
     "@standard-schema/spec": "^1.0.0"
   },
   "peerDependencies": {
