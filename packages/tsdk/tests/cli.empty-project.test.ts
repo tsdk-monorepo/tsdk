@@ -12,6 +12,7 @@ describe('tsdk cli tests in empty project', () => {
     await fsExtra.writeJson('../../test-project/tsconfig.json', {});
     await fsExtra.writeFile('../../test-project/tsconfig.json', '{}');
     execSync('npm init -y', { cwd: '../../test-project', stdio: 'inherit' });
+    await new Promise((resolve) => setTimeout(resolve, 2e3));
   });
 
   afterEach(async () => {

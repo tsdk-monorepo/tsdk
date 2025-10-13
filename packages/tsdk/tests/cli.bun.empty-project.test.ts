@@ -10,7 +10,7 @@ beforeEach(async () => {
   await fsExtra.remove('../../test-project-bun');
   await fsExtra.ensureDir('../../test-project-bun');
   execSync('bun init -y', { cwd: '../../test-project-bun', stdio: 'inherit' });
-  await new Promise((resolve) => setTimeout(resolve, 500));
+  await new Promise((resolve) => setTimeout(resolve, 2e3));
 });
 
 afterEach(async () => {
