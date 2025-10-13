@@ -132,7 +132,7 @@ export function generateVueQueryHook(name: string, apiConf: APIConfig) {
           queryClient?: QueryClient,
           requestConfig?: AxiosRequestConfig<${name}Req>,
           customHandler?: Handler,
-        ) {
+        ):UseQueryReturnType<${name}Res | undefined, Error> {
           return useQuery(
             {
               ...options,
@@ -168,7 +168,7 @@ export function generateVueQueryHook(name: string, apiConf: APIConfig) {
         return useMutation(
           {
             ...options,
-            mutationFn(payload) {
+            mutationFn(payload: ${name}Req | FormData) {
               return ${name}(payload, requestConfig, customHandler);
             },
           },

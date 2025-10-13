@@ -140,6 +140,7 @@ export async function syncAPI(
         QueryClient,
         UndefinedInitialQueryOptions,
         UseMutationOptions,
+        UseQueryReturnType,
       } from "@tanstack/vue-query";
       ${commonDataHookHeadStr}
     `;

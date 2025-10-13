@@ -154,8 +154,8 @@ importers:
         specifier: ^5.83.1
         version: 5.83.1(svelte@5.25.6)
       '@tanstack/vue-query':
-        specifier: 5.74.3
-        version: 5.74.3(vue@3.5.13(typescript@5.9.2))
+        specifier: ^5.90.2
+        version: 5.90.2(vue@3.5.13(typescript@5.9.2))
       axios:
         specifier: ^1.8.4
         version: 1.8.4
@@ -1864,9 +1864,6 @@ packages:
     resolution: {integrity: sha512-Wo1iKt2b9OT7d+YGhvEPD3DXvPv2etTusIMhMUoG7fbhmxcXCtIjJDEygy91Y2JFlwGyjqiBPRozme7UD8hoqg==}
     engines: {node: '>=12'}
 
-  '@tanstack/query-core@5.74.3':
-    resolution: {integrity: sha512-Mqk+5o3qTuAiZML248XpNH8r2cOzl15+LTbUsZQEwvSvn1GU4VQhvqzAbil36p+MBxpr/58oBSnRzhrBevDhfg==}
-
   '@tanstack/query-core@5.83.1':
     resolution: {integrity: sha512-OG69LQgT7jSp+5pPuCfzltq/+7l2xoweggjme9vlbCPa/d7D7zaqv5vN/S82SzSYZ4EDLTxNO1PWrv49RAS64Q==}
 
@@ -1888,8 +1885,8 @@ packages:
     peerDependencies:
       svelte: ^3.54.0 || ^4.0.0 || ^5.0.0
 
-  '@tanstack/vue-query@5.74.3':
-    resolution: {integrity: sha512-ku9QZ2bkhmv2/24q/OD4R+IlKDZ8Gg9+H0SWWip7REbjYxaSyyJSMiFJOCGmnBCLaWbBCDwaFqBXFrxAhM78yw==}
+  '@tanstack/vue-query@5.90.2':
+    resolution: {integrity: sha512-DLLY/B5QCbpi6AM2aaCowukQx2rXsQ4mH8RuDd8wQz0/L2bZ9Z/GgXlV310ouo47pJBmeibMVTmuoWsleT8llg==}
     peerDependencies:
       '@vue/composition-api': ^1.1.2
       vue: ^2.6.0 || ^3.3.0
@@ -6869,8 +6866,6 @@ snapshots:
     dependencies:
       remove-accents: 0.5.0
 
-  '@tanstack/query-core@5.74.3': {}
-
   '@tanstack/query-core@5.83.1': {}
 
   '@tanstack/query-core@5.90.2': {}
@@ -6890,10 +6885,10 @@ snapshots:
       '@tanstack/query-core': 5.83.1
       svelte: 5.25.6
 
-  '@tanstack/vue-query@5.74.3(vue@3.5.13(typescript@5.9.2))':
+  '@tanstack/vue-query@5.90.2(vue@3.5.13(typescript@5.9.2))':
     dependencies:
       '@tanstack/match-sorter-utils': 8.19.4
-      '@tanstack/query-core': 5.74.3
+      '@tanstack/query-core': 5.90.2
       '@vue/devtools-api': 6.6.4
       vue: 3.5.13(typescript@5.9.2)
       vue-demi: 0.14.10(vue@3.5.13(typescript@5.9.2))
