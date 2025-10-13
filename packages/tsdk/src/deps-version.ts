@@ -13,5 +13,5 @@ export const depsVersions = {
 
   // Other libraries
   '@standard-schema/spec': '^1.0.0',
-  kysely: '^0.28.0',
+  kysely: '^0.28.8',
 };
