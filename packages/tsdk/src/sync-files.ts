@@ -3,6 +3,7 @@ import glob from 'fast-glob';
 import fsExtra from 'fs-extra';
 import fs from 'fs';
 import path from 'path';
+import { depsVersions } from './deps-version';
 
 import {
   isConfigExist,
@@ -62,7 +63,7 @@ export async function addDepsIfNone() {
   const validationLib = config.validationLib || 'zod';
 
   await Promise.all(
-    [vLibs[validationLib], ['@standard-schema/spec', '^1.0.0']].map(
+    [vLibs[validationLib], ['@standard-schema/spec', depsVersions['@standard-schema/spec']]].map(
       async ([dependency, version]) => {
         if (!contentJSON.dependencies[dependency]) {
           contentJSON.dependencies[dependency] = version;
@@ -121,9 +122,9 @@ export async function copyShared() {
 
 /** Validation libs */
 const vLibs = {
-  zod: ['zod', '^4'],
-  valibot: ['valibot', '^1.1.0'],
-  arktype: ['arktype', '^2.1.22'],
+  zod: ['zod', depsVersions['zod']],
+  valibot: ['valibot', depsVersions['valibot']],
+  arktype: ['arktype', depsVersions['arktype']],
 } as const;
 
 async function reconfigPkg() {
@@ -140,7 +141,7 @@ async function reconfigPkg() {
       : [config.entityLibName || 'typeorm']
     )?.find((item) => item === 'kysely')
   ) {
-    pkgContent.dependencies.kysely = '^0.28.0';
+    pkgContent.dependencies.kysely = depsVersions['kysely'];
   }
 
   const validationLib = config.validationLib || 'zod';
@@ -159,19 +160,19 @@ async function reconfigPkg() {
   const isSvelteQuery = hookLibs?.includes('sveltequery');
 
   if (isSWR) {
-    pkgContent.dependencies.swr = '^2.3.6';
+    pkgContent.dependencies.swr = depsVersions['swr'];
   }
   if (isReactQuery) {
-    pkgContent.dependencies['@tanstack/react-query'] = '^5.90.2';
+    pkgContent.dependencies['@tanstack/react-query'] = depsVersions['@tanstack/react-query'];
   }
   if (isVueQuery) {
-    pkgContent.dependencies['@tanstack/vue-query'] = '5.74.3';
+    pkgContent.dependencies['@tanstack/vue-query'] = depsVersions['@tanstack/vue-query'];
   }
   if (isSolidQuery) {
-    pkgContent.dependencies['@tanstack/solid-query'] = '^5.83.1';
+    pkgContent.dependencies['@tanstack/solid-query'] = depsVersions['@tanstack/solid-query'];
   }
   if (isSvelteQuery) {
-    pkgContent.dependencies['@tanstack/svelte-query'] = '^5.83.1';
+    pkgContent.dependencies['@tanstack/svelte-query'] = depsVersions['@tanstack/svelte-query'];
   }
 
   if (config.dependencies) {
