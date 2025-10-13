@@ -66,7 +66,6 @@ export async function addDepsIfNone() {
       async ([dependency, version]) => {
         if (!contentJSON.dependencies[dependency]) {
           contentJSON.dependencies[dependency] = version;
-          await fs.promises.writeFile(pkgPath, JSON.stringify(contentJSON, null, 2));
           needRunInstall = true;
           console.log('');
           console.log(
@@ -83,6 +82,7 @@ export async function addDepsIfNone() {
       }
     )
   );
+  await fs.promises.writeFile(pkgPath, JSON.stringify(contentJSON, null, 2));
 
   if (needRunInstall) {
     execSync(`${npmCMDs.installCmd}`, { stdio: 'inherit', env: process.env });
@@ -123,7 +123,7 @@ export async function copyShared() {
 const vLibs = {
   zod: ['zod', '^4'],
   valibot: ['valibot', '^1.1.0'],
-  arktype: ['arktype', '^2.1.20'],
+  arktype: ['arktype', '^2.1.22'],
 } as const;
 
 async function reconfigPkg() {
@@ -159,10 +159,10 @@ async function reconfigPkg() {
   const isSvelteQuery = hookLibs?.includes('sveltequery');
 
   if (isSWR) {
-    pkgContent.dependencies.swr = '^2.3.4';
+    pkgContent.dependencies.swr = '^2.3.6';
   }
   if (isReactQuery) {
-    pkgContent.dependencies['@tanstack/react-query'] = '^5.84.1';
+    pkgContent.dependencies['@tanstack/react-query'] = '^5.90.2';
   }
   if (isVueQuery) {
     pkgContent.dependencies['@tanstack/vue-query'] = '5.74.3';

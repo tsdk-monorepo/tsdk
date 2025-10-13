@@ -19,10 +19,16 @@ afterEach(async () => {
 
 describe('tsdk cli bun tests in empty project', () => {
   it('Run `bin/tsdk.js --sync` should work exactly', async () => {
-    execSync('node ../packages/tsdk/bin/tsdk.js --sync', {
-      cwd: '../../test-project-bun',
-      stdio: 'inherit',
-    });
+    try {
+      execSync('node ../packages/tsdk/bin/tsdk.js --sync', {
+        cwd: '../../test-project-bun',
+        stdio: 'pipe',
+        encoding: 'utf-8',
+      });
+    } catch (error) {
+      console.error('Command failed:', error.stdout || error.stderr);
+      throw error;
+    }
 
     const snippetsShouldExists = await fsExtra.exists(
       '../../test-project-bun/.vscode/tsdk.code-snippets'
@@ -36,11 +42,16 @@ describe('tsdk cli bun tests in empty project', () => {
   });
 
   it('Run `bin/tsdk.js --sync --no-zod --no-vscode` should work exactly', async () => {
-    execSync('node ../packages/tsdk/bin/tsdk.js --sync --no-zod --no-vscode', {
-      cwd: '../../test-project-bun',
-      stdio: 'inherit',
-    });
-
+    try {
+      execSync('node ../packages/tsdk/bin/tsdk.js --sync --no-zod --no-vscode', {
+        cwd: '../../test-project-bun',
+        stdio: 'pipe',
+        encoding: 'utf-8',
+      });
+    } catch (error) {
+      console.error('Command failed:', error.stdout || error.stderr);
+      throw error;
+    }
     const snippetsShouldExists = await fsExtra.exists(
       '../../test-project-bun/.vscode/tsdk.code-snippets'
     );
