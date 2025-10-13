@@ -61,17 +61,17 @@ async function run() {
               `\n[${command} ${name}] Run: \`${npmCMDs.runCmd} nest ${command} ${name}\`\n`
             );
             try {
-              execSync(`${npmCMDs.runCmd} nest ${command} ${name}`, { stdio: 'inherit' });
+              execSync(`${npmCMDs.runCmd} nest ${command} ${name}`, { stdio: 'pipe' });
               console.log(
                 `[${command} ${name}] Success: \`${npmCMDs.runCmd} nest ${command} ${name}\` and start webpack build`
               );
-            } catch (e) {
+            } catch (error) {
               console.log(
                 `[${command} ${name}] Run: \`${npmCMDs.runCmd} nest ${command} ${name}\` error: `,
-                e
+                (error as any).stdout || (error as any).stderr
               );
               console.log('\n');
-              reject(e);
+              reject(error);
               return;
             }
             const nestProjectConfig = projects[name];

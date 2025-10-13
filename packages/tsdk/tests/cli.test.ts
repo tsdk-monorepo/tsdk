@@ -52,7 +52,8 @@ describe('tsdk cli tests', () => {
 
     execSync('node ../../packages/tsdk/bin/tsdk.js --sync --no-vscode', {
       cwd: '../../examples/server',
-      stdio: 'inherit',
+      stdio: 'pipe',
+      encoding: 'utf-8',
     });
 
     const isTsdkConfigExists = await fsExtra.exists('../../examples/server/tsdk.config.js');
@@ -65,7 +66,8 @@ describe('tsdk cli tests', () => {
   it('`tsdk --init --no-vscode` should work', async () => {
     execSync('node ../../packages/tsdk/bin/tsdk.js --init --no-vscode', {
       cwd: '../../examples/server',
-      stdio: 'inherit',
+      stdio: 'pipe',
+      encoding: 'utf-8',
     });
 
     const isTsdkConfigExists = await fsExtra.exists('../../examples/server/tsdk.config.js');
@@ -78,7 +80,8 @@ describe('tsdk cli tests', () => {
   it('`tsdk --init` and `tsdk --sync` should work', async () => {
     execSync('node ../../packages/tsdk/bin/tsdk.js --init', {
       cwd: '../../examples/server',
-      stdio: 'inherit',
+      stdio: 'pipe',
+      encoding: 'utf-8',
     });
     // restore
     await fsExtra.move(
@@ -89,7 +92,8 @@ describe('tsdk cli tests', () => {
     //
     execSync('node ../../packages/tsdk/bin/tsdk.js --init', {
       cwd: '../../examples/server',
-      stdio: 'inherit',
+      stdio: 'pipe',
+      encoding: 'utf-8',
     });
 
     const isVscodeSnippetExists = await fsExtra.exists('../../.vscode/tsdk.code-snippets');
@@ -97,7 +101,8 @@ describe('tsdk cli tests', () => {
 
     execSync('node ../../packages/tsdk/bin/tsdk.js --sync', {
       cwd: '../../examples/server',
-      stdio: 'inherit',
+      stdio: 'pipe',
+      encoding: 'utf-8',
     });
 
     const isVscodeSnippetExists2 = await fsExtra.exists('../../.vscode/tsdk.code-snippets');

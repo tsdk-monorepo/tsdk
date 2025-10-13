@@ -86,7 +86,12 @@ export async function addDepsIfNone() {
   await fs.promises.writeFile(pkgPath, JSON.stringify(contentJSON, null, 2));
 
   if (needRunInstall) {
-    execSync(`${npmCMDs.installCmd}`, { stdio: 'inherit', env: process.env });
+    try {
+      execSync(`${npmCMDs.installCmd}`, { stdio: 'pipe', encoding: 'utf-8', env: process.env });
+    } catch (error) {
+      console.error('Command failed:', (error as any).stdout || (error as any).stderr);
+      throw error;
+    }
   }
 }
 

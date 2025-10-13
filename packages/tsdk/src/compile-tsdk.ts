@@ -11,31 +11,55 @@ export async function buildSDK(needInstall = false) {
     try {
       execSync(cmd, {
         cwd: ensureDir,
-        stdio: 'inherit',
+        stdio: 'pipe',
+        encoding: 'utf-8',
         env: process.env,
       });
-    } catch (e) {
-      console.log(`   Run \`${cmd}\` in \`compile-tsdk.ts\` error`, e);
+    } catch (error) {
+      console.log(
+        `   Run \`${cmd}\` in \`compile-tsdk.ts\` error`,
+        (error as any).stdout || (error as any).stderr
+      );
+      throw error;
     }
     const isNodeModulesExists = await fsExtra.exists(`${ensureDir}/node_modules`);
     if (!isNodeModulesExists) {
       console.log(`\n    Run \`npm install\` in dir: ${ensureDir}`);
-      execSync(`npm install`, {
-        cwd: ensureDir,
-        stdio: 'inherit',
-        env: process.env,
-      });
+      try {
+        execSync(`npm install`, {
+          cwd: ensureDir,
+          stdio: 'pipe',
+          encoding: 'utf-8',
+          env: process.env,
+        });
+      } catch (error) {
+        console.error('Command failed:', (error as any).stdout || (error as any).stderr);
+        throw error;
+      }
     }
   }
   const cmd = `cd ${ensureDir} && ${CMDs.runCmd} tsc:build`;
-  execSync(cmd, {
-    stdio: 'inherit',
-    env: process.env,
-  });
+
+  try {
+    execSync(cmd, {
+      stdio: 'pipe',
+      encoding: 'utf-8',
+      env: process.env,
+    });
+  } catch (error) {
+    console.error('Command failed:', (error as any).stdout || (error as any).stderr);
+    throw error;
+  }
 }
 
 export function buildSDKDoc() {
-  execSync(`cd ${ensureDir} && ${getNpmCommand(process.cwd()).runCmd} doc:build`, {
-    stdio: 'inherit',
-  });
+  try {
+    execSync(`cd ${ensureDir} && ${getNpmCommand(process.cwd()).runCmd} doc:build`, {
+      stdio: 'pipe',
+      encoding: 'utf-8',
+    });
+  } catch (error) {
+    console.error('Command failed:', (error as any).stdout || (error as any).stderr);
+    throw error;
+  }
 }

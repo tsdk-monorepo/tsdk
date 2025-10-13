@@ -162,7 +162,7 @@ export async function syncAPI(
       useQueryClient,
       createQuery,
       createMutation,
-      QueryClient,
+      type QueryClient,
       UndefinedInitialDataOptions,
       CreateMutationOptions,
      } from "@tanstack/svelte-query";

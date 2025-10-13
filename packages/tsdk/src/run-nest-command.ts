@@ -26,9 +26,15 @@ export async function runNestCommand() {
 
     const names = process.argv.filter((i, index) => index > idx + 1);
 
-    execSync(`node ${webpackDistFile} ${command} --names ${names.join(' ')}`, {
-      stdio: 'inherit',
-    });
+    try {
+      execSync(`node ${webpackDistFile} ${command} --names ${names.join(' ')}`, {
+        stdio: 'pipe',
+        encoding: 'utf-8',
+      });
+    } catch (error) {
+      console.error('Command failed:', (error as any).stdout || (error as any).stderr);
+      throw error;
+    }
   } else {
     console.log(symbols.warning, `\`tsdk --nest\` currently only support \`build\` command.`);
   }

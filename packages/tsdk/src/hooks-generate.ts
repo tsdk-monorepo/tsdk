@@ -257,7 +257,7 @@ export function generateSvelteQueryHook(name: string, apiConf: APIConfig) {
           requestConfig?: AxiosRequestConfig<${name}Req>,
           customHandler?: Handler,
         ) {
-          return createQuery(
+          return createQuery(() => (
             {
               ...options,
               queryKey: [${name}.config.path, payload],
@@ -265,8 +265,8 @@ export function generateSvelteQueryHook(name: string, apiConf: APIConfig) {
                 if (typeof payload === 'undefined') return undefined;
                 return ${name}(payload, requestConfig, customHandler);
               },
-            },
-            queryClient || _queryClient
+  }),
+  () => queryClient ?? _queryClient
           );
         }`;
   } else {
@@ -287,14 +287,14 @@ export function generateSvelteQueryHook(name: string, apiConf: APIConfig) {
         requestConfig?: AxiosRequestConfig<${name}Req | FormData>,
         customHandler?: Handler,
       ) {
-        return createMutation(
+        return createMutation(() => (
           {
             ...options,
             mutationFn(payload) {
               return ${name}(payload, requestConfig, customHandler);
             },
-          },
-          queryClient || _queryClient
+  }),
+  () => queryClient ?? _queryClient
         );
       }`;
   }

@@ -3,8 +3,8 @@ export const depsVersions = {
   swr: '^2.3.6',
   '@tanstack/react-query': '^5.90.2',
   '@tanstack/vue-query': '^5.90.2',
-  '@tanstack/solid-query': '^5.83.1',
-  '@tanstack/svelte-query': '^5.83.1',
+  '@tanstack/solid-query': '^5.90.3',
+  '@tanstack/svelte-query': '^6.0.0',
 
   // Validation libraries
   zod: '^4',

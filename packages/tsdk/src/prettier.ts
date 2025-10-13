@@ -11,6 +11,7 @@ export async function runPrettier() {
     // prettier 3.x
     execSync(`node ${rootDir}/node_modules/prettier/bin/prettier.cjs ${formatDir} --write`, {
       stdio: 'pipe',
+      encoding: 'utf-8',
     });
     return true;
   } catch (error) {
@@ -18,6 +19,7 @@ export async function runPrettier() {
       // prettier 2.x
       execSync(`node ${rootDir}/node_modules/prettier/bin-prettier.js ${formatDir} --write`, {
         stdio: 'pipe',
+        encoding: 'utf-8',
       });
       return true;
     } catch (error2) {
