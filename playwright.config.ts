@@ -37,6 +37,12 @@ export default defineConfig({
       timeout: 60000, // max wait time
       reuseExistingServer: !process.env.CI, // useful in dev
     },
+    {
+      command: 'pnpm --filter=solid-web dev', // start frontend dev server
+      port: 5176, // wait until this port is open
+      timeout: 60000, // max wait time
+      reuseExistingServer: !process.env.CI, // useful in dev
+    },
   ],
   // backend
   globalSetup: require.resolve('./e2e-tests/global-setup.js'),
@@ -68,13 +74,18 @@ export default defineConfig({
     },
     {
       name: 'vue-query - chromium',
-      testMatch: /.*vue-query\.spec\.ts/,
-      use: { ...devices['Desktop Chrome'], baseURL: 'http://localhost:5174' },
+      testMatch: /.*react-query\.spec\.ts/,
+      use: { ...devices['Desktop Firefox'], baseURL: 'http://localhost:5174' },
     },
     {
       name: 'svelte-query - chromium',
-      testMatch: /.*svelte-query\.spec\.ts/,
-      use: { ...devices['Desktop Chrome'], baseURL: 'http://localhost:5175' },
+      testMatch: /.*react-query\.spec\.ts/,
+      use: { ...devices['Desktop Safari'], baseURL: 'http://localhost:5175' },
+    },
+    {
+      name: 'solid-query - chromium',
+      testMatch: /.*react-query\.spec\.ts/,
+      use: { ...devices['Desktop Edge'], baseURL: 'http://localhost:5176' },
     },
 
     // {
