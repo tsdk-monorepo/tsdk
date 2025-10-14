@@ -15,7 +15,7 @@ const { mutateAsync: deleteTodo, ...deleteTodoRes } = useDeleteTodo({});
 const { data, refetch: refreshTodos } = useQueryTodo(
   {},
   {
-    refetchOnWindowFocus: 'always',
+    refetchOnWindowFocus: true,
     staleTime: 0,
     enabled,
   }
@@ -57,7 +57,7 @@ const toggleEnabled = () => {
   enabled.value = !enabled.value;
 };
 
-const handleDeleteItem = (id: string | number) => {
+const handleDeleteItem = (id: number) => {
   deleteTodo({ id }).then(() => refreshTodos());
 };
 </script>

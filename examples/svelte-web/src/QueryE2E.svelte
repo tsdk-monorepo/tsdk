@@ -62,7 +62,7 @@
     enabled.update((v) => !v);
   };
 
-  const handleDeleteItem = async (id: string | number) => {
+  const handleDeleteItem = async (id: number) => {
     await deleteTodo({ id });
     // queryState.refetch?.();
   };

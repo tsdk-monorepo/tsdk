@@ -74,17 +74,17 @@ export default defineConfig({
     },
     {
       name: 'vue-query - chromium',
-      testMatch: /.*react-query\.spec\.ts/,
+      testMatch: /.*tan-query\.spec\.ts/,
       use: { ...devices['Desktop Firefox'], baseURL: 'http://localhost:5174' },
     },
     {
       name: 'svelte-query - chromium',
-      testMatch: /.*react-query\.spec\.ts/,
+      testMatch: /.*tan-query\.spec\.ts/,
       use: { ...devices['Desktop Safari'], baseURL: 'http://localhost:5175' },
     },
     {
       name: 'solid-query - chromium',
-      testMatch: /.*react-query\.spec\.ts/,
+      testMatch: /.*tan-query\.spec\.ts/,
       use: { ...devices['Desktop Edge'], baseURL: 'http://localhost:5176' },
     },
 

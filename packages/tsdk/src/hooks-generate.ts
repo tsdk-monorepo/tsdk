@@ -72,7 +72,7 @@ export function generateReactQueryHook(name: string, apiConf: APIConfig) {
       ) {
         return useQuery(
           {
-            ...options,
+            ...(options ?? {}),
             queryKey: [${name}.config.path, payload],
             queryFn() {
               if (typeof payload === 'undefined') {
@@ -104,7 +104,7 @@ export function generateReactQueryHook(name: string, apiConf: APIConfig) {
     ) {
       return useMutation(
         {
-          ...options,
+          ...(options ?? {}),
           mutationFn(payload) {
             return ${name}(payload, requestConfig, customHandler);
           },
@@ -128,18 +128,22 @@ export function generateVueQueryHook(name: string, apiConf: APIConfig) {
          */
         export function use${name}(
           payload?: ${name}Req,
-          options?: Omit<UndefinedInitialQueryOptions<${name}Res | undefined, Error>, 'queryKey' | 'queryFn'>,
+          options?: Partial<UseQueryOptions<${name}Res | undefined, Error>>,
           queryClient?: QueryClient,
           requestConfig?: AxiosRequestConfig<${name}Req>,
           customHandler?: Handler,
-        ):UseQueryReturnType<${name}Res | undefined, Error> {
+        ): UseQueryReturnType<${name}Res | undefined, Error> {
+          const isUndefined = typeof payload === 'undefined';
           return useQuery(
             {
-              ...options,
+              // Disable query if payload is undefined
+              enabled: !isUndefined,
+              ...(options ?? {}),
               queryKey: [${name}.config.path, payload],
               queryFn() {
-                if (typeof payload === 'undefined') {
-                  return undefined;
+                if (isUndefined) {
+                  // Return a resolved promise so queryFn always returns a Promise
+                  return Promise.resolve(undefined);
                 }
                 return ${name}(payload, requestConfig, customHandler);
               },
@@ -167,7 +171,7 @@ export function generateVueQueryHook(name: string, apiConf: APIConfig) {
       ) {
         return useMutation(
           {
-            ...options,
+            ...(options ?? {}),
             mutationFn(payload: ${name}Req | FormData) {
               return ${name}(payload, requestConfig, customHandler);
             },
@@ -191,14 +195,16 @@ export function generateSolidQueryHook(name: string, apiConf: APIConfig) {
          */
         export function use${name}(
           payload?: ${name}Req,
-          options?: Omit<UndefinedInitialDataOptions<${name}Res | undefined, Error>, 'queryKey' | 'queryFn'>,
+          options?: Partial<
+    Omit<SolidQueryOptions<${name}Res | undefined>, 'queryKey' | 'queryFn' | 'initialData'>
+  > & { initialData?: any },
           queryClient?: QueryClient,
           requestConfig?: AxiosRequestConfig<${name}Req>,
           customHandler?: Handler,
         ) {
           return useQuery(() => (
             {
-              ...options,
+              ...(options ?? {}),
               queryKey: [${name}.config.path, payload],
               queryFn() {
                 if (typeof payload === 'undefined') return undefined;
@@ -216,19 +222,18 @@ export function generateSolidQueryHook(name: string, apiConf: APIConfig) {
        * @category ${category}
        */
       export function use${name}(
-        options?: UseMutationOptions<
+        options?: ReturnType<UseMutationOptions<
           ${name}Res,
           Error,
-          ${name}Req | FormData,
-          unknown
-        >,
+          ${name}Req | FormData
+        >>,
         queryClient?: QueryClient,
         requestConfig?: AxiosRequestConfig<${name}Req | FormData>,
         customHandler?: Handler,
       ) {
-        return useMutation<${name}Res, unknown, ${name}Req>(() => (
+        return useMutation<${name}Res, Error, ${name}Req | FormData>(() => (
           {
-            ...options,
+            ...(options ?? {}),
             mutationFn(payload) {
               return ${name}(payload, requestConfig, customHandler);
             },
@@ -259,7 +264,7 @@ export function generateSvelteQueryHook(name: string, apiConf: APIConfig) {
         ) {
           return createQuery(() => (
             {
-              ...options,
+              ...(options ?? {}),
               queryKey: [${name}.config.path, payload],
               queryFn() {
                 if (typeof payload === 'undefined') return undefined;
@@ -289,7 +294,7 @@ export function generateSvelteQueryHook(name: string, apiConf: APIConfig) {
       ) {
         return createMutation(() => (
           {
-            ...options,
+            ...(options ?? {}),
             mutationFn(payload) {
               return ${name}(payload, requestConfig, customHandler);
             },

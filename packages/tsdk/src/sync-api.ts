@@ -138,7 +138,7 @@ export async function syncAPI(
         useQuery,
         useMutation,
         QueryClient,
-        UndefinedInitialQueryOptions,
+        UseQueryOptions,
         UseMutationOptions,
         UseQueryReturnType,
       } from "@tanstack/vue-query";
@@ -151,7 +151,7 @@ export async function syncAPI(
         useQuery,
         useMutation,
         QueryClient as _QueryClient,
-        UndefinedInitialDataOptions,
+        SolidQueryOptions,
         UseMutationOptions,
       } from "@tanstack/solid-query";
       ${commonDataHookHeadStr}

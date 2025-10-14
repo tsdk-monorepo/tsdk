@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('@tanstack/*-query E2E Todo Page tests', () => {
+test.describe('@tanstack/tanstack-query E2E Todo Page tests', () => {
   test.beforeEach(async ({ page }) => {
     // go to page
-    await page.goto('/react-query-e2e');
+    await page.goto('/');
     await page.waitForTimeout(260);
 
     await page.click('#delete-all-todos');
