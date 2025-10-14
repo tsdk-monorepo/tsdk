@@ -1,5 +1,5 @@
 import { createSignal, createMemo, For } from 'solid-js';
-import { AddTodo, QueryTodo, TodoStatus, type QueryTodoRes } from './api/user-api';
+import { TodoStatus } from './api/user-api';
 import { useQueryTodo, useAddTodo, useDeleteTodo, setupUserApi } from './api/user-api-solidquery';
 
 // Setup user API
@@ -12,13 +12,16 @@ function TodoComponent() {
   // Mutations and queries
   const addTodoMutation = useAddTodo();
   const deleteTodoMutation = useDeleteTodo();
-  const todosQuery = useQueryTodo({}, () => ({
-    refetchOnWindowFocus: 'always',
-    staleTime: 0,
-    get enabled() {
-      return enabled();
-    },
-  }));
+  const todosQuery = useQueryTodo(
+    {},
+    {
+      refetchOnWindowFocus: 'always',
+      staleTime: 0,
+      get enabled() {
+        return enabled();
+      },
+    }
+  );
 
   // Computed
   const dataList = createMemo(() => todosQuery.data?.data || []);
