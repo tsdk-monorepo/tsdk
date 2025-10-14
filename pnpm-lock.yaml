@@ -145,17 +145,17 @@ importers:
   examples/server/fe-sdk-demo:
     dependencies:
       '@tanstack/react-query':
-        specifier: ^5.90.2
-        version: 5.90.2(react@19.0.0)
-      '@tanstack/solid-query':
         specifier: ^5.90.3
-        version: 5.90.3(solid-js@1.9.9)
+        version: 5.90.3(react@19.0.0)
+      '@tanstack/solid-query':
+        specifier: ^5.90.4
+        version: 5.90.4(solid-js@1.9.9)
       '@tanstack/svelte-query':
-        specifier: ^6.0.0
-        version: 6.0.0(svelte@5.39.12)
+        specifier: ^6.0.1
+        version: 6.0.1(svelte@5.39.12)
       '@tanstack/vue-query':
-        specifier: ^5.90.2
-        version: 5.90.2(vue@3.5.22(typescript@5.9.3))
+        specifier: ^5.90.3
+        version: 5.90.3(vue@3.5.22(typescript@5.9.3))
       axios:
         specifier: ^1.12.2
         version: 1.12.2
@@ -197,8 +197,8 @@ importers:
   examples/solid-web:
     dependencies:
       '@tanstack/solid-query':
-        specifier: 5.90.3
-        version: 5.90.3(solid-js@1.9.9)
+        specifier: 5.90.4
+        version: 5.90.4(solid-js@1.9.9)
       socket.io-client:
         specifier: ^4.8.1
         version: 4.8.1(bufferutil@4.0.9)(utf-8-validate@6.0.5)
@@ -228,8 +228,8 @@ importers:
   examples/svelte-web:
     dependencies:
       '@tanstack/svelte-query':
-        specifier: 6.0.0
-        version: 6.0.0(svelte@5.39.12)
+        specifier: 6.0.1
+        version: 6.0.1(svelte@5.39.12)
       socket.io-client:
         specifier: ^4.8.1
         version: 4.8.1(bufferutil@4.0.9)(utf-8-validate@6.0.5)
@@ -265,8 +265,8 @@ importers:
   examples/vue-web:
     dependencies:
       '@tanstack/vue-query':
-        specifier: 5.90.2
-        version: 5.90.2(vue@3.5.22(typescript@5.9.3))
+        specifier: 5.90.3
+        version: 5.90.3(vue@3.5.22(typescript@5.9.3))
       socket.io-client:
         specifier: ^4.8.1
         version: 4.8.1(bufferutil@4.0.9)(utf-8-validate@6.0.5)
@@ -317,8 +317,8 @@ importers:
         specifier: ^7.2.0
         version: 7.2.0(react-router@7.2.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(typescript@5.9.3)
       '@tanstack/react-query':
-        specifier: 5.90.2
-        version: 5.90.2(react@19.0.0)
+        specifier: 5.90.3
+        version: 5.90.3(react@19.0.0)
       axios:
         specifier: ^1.12.2
         version: 1.12.2
@@ -519,6 +519,39 @@ importers:
         specifier: ^4
         version: 4.0.14
 
+  packages/tsdk/lib:
+    dependencies:
+      '@standard-schema/spec':
+        specifier: ^1.0.0
+        version: 1.0.0
+      '@tanstack/react-query':
+        specifier: ^5.90.3
+        version: 5.90.3(react@19.0.0)
+      '@tanstack/solid-query':
+        specifier: ^5.90.4
+        version: 5.90.4(solid-js@1.9.9)
+      '@tanstack/svelte-query':
+        specifier: ^6.0.1
+        version: 6.0.1(svelte@5.39.12)
+      '@tanstack/vue-query':
+        specifier: ^5.90.3
+        version: 5.90.3(vue@3.5.22(typescript@5.9.3))
+      arktype:
+        specifier: ^2.1.23
+        version: 2.1.23
+      kysely:
+        specifier: ^0.28.8
+        version: 0.28.8
+      swr:
+        specifier: ^2.3.6
+        version: 2.3.6(react@19.0.0)
+      valibot:
+        specifier: ^1.1.0
+        version: 1.1.0(typescript@5.9.3)
+      zod:
+        specifier: ^4
+        version: 4.0.14
+
 packages:
 
   '@ampproject/remapping@2.3.0':
@@ -574,11 +607,20 @@ packages:
     resolution: {integrity: sha512-YTAxNnT++5eflx19OUHmOWu597/TbTel+QARiZCv1xQw99+X8DCKKOUXtqBRd53CAHlREDI33Rn/JLY3NYgMLQ==}
     engines: {node: ^18.19.1 || ^20.11.1 || >=22.0.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
 
+  '@ark/regex@0.0.0':
+    resolution: {integrity: sha512-p4vsWnd/LRGOdGQglbwOguIVhPmCAf5UzquvnDoxqhhPWTP84wWgi1INea8MgJ4SnI2gp37f13oA4Waz9vwNYg==}
+
   '@ark/schema@0.49.0':
     resolution: {integrity: sha512-GphZBLpW72iS0v4YkeUtV3YIno35Gimd7+ezbPO9GwEi9kzdUrPVjvf6aXSBAfHikaFc/9pqZOpv3pOXnC71tw==}
 
+  '@ark/schema@0.50.0':
+    resolution: {integrity: sha512-hfmP82GltBZDadIOeR3argKNlYYyB2wyzHp0eeAqAOFBQguglMV/S7Ip2q007bRtKxIMLDqFY6tfPie1dtssaQ==}
+
   '@ark/util@0.49.0':
     resolution: {integrity: sha512-/BtnX7oCjNkxi2vi6y1399b+9xd1jnCrDYhZ61f0a+3X8x8DxlK52VgEEzyuC2UQMPACIfYrmHkhD3lGt2GaMA==}
+
+  '@ark/util@0.50.0':
+    resolution: {integrity: sha512-tIkgIMVRpkfXRQIEf0G2CJryZVtHVrqcWHMDa5QKo0OEEBu0tHkRSIMm4Ln8cd8Bn9TPZtvc/kE2Gma8RESPSg==}
 
   '@babel/code-frame@7.26.2':
     resolution: {integrity: sha512-RJlIHRueQgwWitWgF8OdFYGZX328Ax5BCemNGlqHfplnRT9ESi8JkFlvaVYbS+UubVY6dpv87Fs2u5M29iNFVQ==}
@@ -2541,26 +2583,26 @@ packages:
     resolution: {integrity: sha512-Wo1iKt2b9OT7d+YGhvEPD3DXvPv2etTusIMhMUoG7fbhmxcXCtIjJDEygy91Y2JFlwGyjqiBPRozme7UD8hoqg==}
     engines: {node: '>=12'}
 
-  '@tanstack/query-core@5.90.2':
-    resolution: {integrity: sha512-k/TcR3YalnzibscALLwxeiLUub6jN5EDLwKDiO7q5f4ICEoptJ+n9+7vcEFy5/x/i6Q+Lb/tXrsKCggf5uQJXQ==}
+  '@tanstack/query-core@5.90.3':
+    resolution: {integrity: sha512-HtPOnCwmx4dd35PfXU8jjkhwYrsHfuqgC8RCJIwWglmhIUIlzPP0ZcEkDAc+UtAWCiLm7T8rxeEfHZlz3hYMCA==}
 
-  '@tanstack/react-query@5.90.2':
-    resolution: {integrity: sha512-CLABiR+h5PYfOWr/z+vWFt5VsOA2ekQeRQBFSKlcoW6Ndx/f8rfyVmq4LbgOM4GG2qtxAxjLYLOpCNTYm4uKzw==}
+  '@tanstack/react-query@5.90.3':
+    resolution: {integrity: sha512-i/LRL6DtuhG6bjGzavIMIVuKKPWx2AnEBIsBfuMm3YoHne0a20nWmsatOCBcVSaT0/8/5YFjNkebHAPLVUSi0Q==}
     peerDependencies:
       react: ^18 || ^19
 
-  '@tanstack/solid-query@5.90.3':
-    resolution: {integrity: sha512-XEP+fzZYes+GLA4HSvmitj2NCC7o9iwMvwdkI5R7YSQD08jd1rA9p4KUYWvcu8VfMD+jodOCn/iMHmPz8zV3qw==}
+  '@tanstack/solid-query@5.90.4':
+    resolution: {integrity: sha512-82nMtkIYFNGMAi5aPRFKxAQAZYpC/7MFii0vJ5RR8EaiuHbkn4y3KKBYVaaY01zWdTVgJ8cTWnwr5xhd0y1JTg==}
     peerDependencies:
       solid-js: ^1.6.0
 
-  '@tanstack/svelte-query@6.0.0':
-    resolution: {integrity: sha512-CeG4fidH4O5w3r64qWVZnx8m508BYElZL0D7x3PBhxC6bGrNYstsWQZiquOOI/ie3eAqoefg7+cscDsObu5eGQ==}
+  '@tanstack/svelte-query@6.0.1':
+    resolution: {integrity: sha512-si5xsb/aeUZFvWgF5IxOPDpQ1g1fqTX7NF//bTEFrbLdAk68LmkWzY5QCwknZp5cBdU50qJfGY19hbAfMYeiOQ==}
     peerDependencies:
       svelte: ^5.25.0
 
-  '@tanstack/vue-query@5.90.2':
-    resolution: {integrity: sha512-DLLY/B5QCbpi6AM2aaCowukQx2rXsQ4mH8RuDd8wQz0/L2bZ9Z/GgXlV310ouo47pJBmeibMVTmuoWsleT8llg==}
+  '@tanstack/vue-query@5.90.3':
+    resolution: {integrity: sha512-fiiqF9u8Rl4HUjO/h2XPKqssCCwD+1F0HsbVgskmJPwdsg9Q2pR6cFRY4jlVZBWy2GofqQR7Fb59BqY23jzkcQ==}
     peerDependencies:
       '@vue/composition-api': ^1.1.2
       vue: ^2.6.0 || ^3.3.0
@@ -3087,6 +3129,9 @@ packages:
 
   arktype@2.1.22:
     resolution: {integrity: sha512-xdzl6WcAhrdahvRRnXaNwsipCgHuNoLobRqhiP8RjnfL9Gp947abGlo68GAIyLtxbD+MLzNyH2YR4kEqioMmYQ==}
+
+  arktype@2.1.23:
+    resolution: {integrity: sha512-tyxNWX6xJVMb2EPJJ3OjgQS1G/vIeQRrZuY4DeBNQmh8n7geS+czgbauQWB6Pr+RXiOO8ChEey44XdmxsqGmfQ==}
 
   array-flatten@1.1.1:
     resolution: {integrity: sha512-PCVAQswWemu6UdxsDFFX/+gVeYqKAod3D3UVm91jHwynguOwAvYPhx8nNlM++NqRcK6CxxpUafjmhIdKiHibqg==}
@@ -6710,11 +6755,21 @@ snapshots:
     transitivePeerDependencies:
       - chokidar
 
+  '@ark/regex@0.0.0':
+    dependencies:
+      '@ark/util': 0.50.0
+
   '@ark/schema@0.49.0':
     dependencies:
       '@ark/util': 0.49.0
 
+  '@ark/schema@0.50.0':
+    dependencies:
+      '@ark/util': 0.50.0
+
   '@ark/util@0.49.0': {}
+
+  '@ark/util@0.50.0': {}
 
   '@babel/code-frame@7.26.2':
     dependencies:
@@ -8597,27 +8652,27 @@ snapshots:
     dependencies:
       remove-accents: 0.5.0
 
-  '@tanstack/query-core@5.90.2': {}
+  '@tanstack/query-core@5.90.3': {}
 
-  '@tanstack/react-query@5.90.2(react@19.0.0)':
+  '@tanstack/react-query@5.90.3(react@19.0.0)':
     dependencies:
-      '@tanstack/query-core': 5.90.2
+      '@tanstack/query-core': 5.90.3
       react: 19.0.0
 
-  '@tanstack/solid-query@5.90.3(solid-js@1.9.9)':
+  '@tanstack/solid-query@5.90.4(solid-js@1.9.9)':
     dependencies:
-      '@tanstack/query-core': 5.90.2
+      '@tanstack/query-core': 5.90.3
       solid-js: 1.9.9
 
-  '@tanstack/svelte-query@6.0.0(svelte@5.39.12)':
+  '@tanstack/svelte-query@6.0.1(svelte@5.39.12)':
     dependencies:
-      '@tanstack/query-core': 5.90.2
+      '@tanstack/query-core': 5.90.3
       svelte: 5.39.12
 
-  '@tanstack/vue-query@5.90.2(vue@3.5.22(typescript@5.9.3))':
+  '@tanstack/vue-query@5.90.3(vue@3.5.22(typescript@5.9.3))':
     dependencies:
       '@tanstack/match-sorter-utils': 8.19.4
-      '@tanstack/query-core': 5.90.2
+      '@tanstack/query-core': 5.90.3
       '@vue/devtools-api': 6.6.4
       vue: 3.5.22(typescript@5.9.3)
       vue-demi: 0.14.10(vue@3.5.22(typescript@5.9.3))
@@ -9274,6 +9329,12 @@ snapshots:
     dependencies:
       '@ark/schema': 0.49.0
       '@ark/util': 0.49.0
+
+  arktype@2.1.23:
+    dependencies:
+      '@ark/regex': 0.0.0
+      '@ark/schema': 0.50.0
+      '@ark/util': 0.50.0
 
   array-flatten@1.1.1: {}
 

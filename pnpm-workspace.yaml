@@ -9,3 +9,4 @@ packages:
   - '!**/dist*/**'
   - '!**/.next/**'
   - '!packages/tsdk/fe-sdk-template'
+  - '!packages/tsdk/src/**'
