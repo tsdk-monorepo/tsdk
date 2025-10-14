@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('@tanstack/react-query E2E Todo Page', () => {
+test.describe('@tanstack/vue-query E2E Todo Page', () => {
   test.beforeEach(async ({ page }) => {
     // go to page
-    await page.goto('/react-query-e2e');
+    await page.goto('/');
     await page.waitForTimeout(260);
 
     await page.click('#delete-all-todos');
@@ -92,7 +92,7 @@ test.describe('@tanstack/react-query E2E Todo Page', () => {
     await newPage.close();
     await page.bringToFront();
     await page.click('#query-todo');
-    // wait for react-query to react
+    // wait for vue-query
     await page.waitForTimeout(500);
 
     // Simulate actual browser focus/visibility events

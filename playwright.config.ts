@@ -25,6 +25,12 @@ export default defineConfig({
       timeout: 60000, // max wait time
       reuseExistingServer: !process.env.CI, // useful in dev
     },
+    {
+      command: 'pnpm --filter=vue-web dev', // start frontend dev server
+      port: 5174, // wait until this port is open
+      timeout: 60000, // max wait time
+      reuseExistingServer: !process.env.CI, // useful in dev
+    },
   ],
   // backend
   globalSetup: require.resolve('./e2e-tests/global-setup.js'),
@@ -53,6 +59,11 @@ export default defineConfig({
       name: 'react-query - chromium',
       testMatch: /.*react-query\.spec\.ts/,
       use: { ...devices['Desktop Chrome'], baseURL: 'http://localhost:5173' },
+    },
+    {
+      name: 'vue-query - chromium',
+      testMatch: /.*vue-query\.spec\.ts/,
+      use: { ...devices['Desktop Chrome'], baseURL: 'http://localhost:5174' },
     },
 
     // {
