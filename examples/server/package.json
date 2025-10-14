@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "tsdk-server-adapters": "workspace:*",
-    "better-sqlite3": "11.9.0",
+    "better-sqlite3": "12.4.1",
     "bufferutil": "^4.0.9",
     "cors": "^2.8.5",
     "express": "^5.1.0",
@@ -42,7 +42,7 @@
     "@standard-schema/spec": "^1.0.0"
   },
   "devDependencies": {
-    "@nestjs/cli": "^11.0.7",
+    "@nestjs/cli": "^11.0.10",
     "@types/express": "^5.0.3",
     "@types/ws": "^8.5.5",
     "socket.io-client": "^4.8.1",
@@ -52,7 +52,7 @@
     "vite-tsconfig-paths": "^5.1.4",
     "unplugin-swc": "^1.5.5",
     "fs-extra": "^11.3.0",
-    "webpack": "^5.99.9",
+    "webpack": "^5.102.1",
     "typescript": "^5.9.3",
     "webpack-node-externals": "^3.0.0"
   },

@@ -6,6 +6,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from 'react-router';
+import { QueryClientProvider } from '@tanstack/react-query';
 
 import type { Route } from './+types/root';
 import {
@@ -20,9 +21,12 @@ import {
   useUpdateTodo,
   QueryTodoByCursor,
   useQueryTodoByCursor,
-} from './user-api';
+} from './user-api-swr';
 
 import './app.css';
+import { getQueryClient } from './react-query-provider';
+import React from 'react';
+import { setQueryClient } from './user-api-reactquery';
 
 export const links: Route.LinksFunction = () => [
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
@@ -40,6 +44,11 @@ export const links: Route.LinksFunction = () => [
 setupUserApi();
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const [queryClient] = React.useState(() => {
+    const client = getQueryClient();
+    setQueryClient(client);
+    return client;
+  });
   return (
     <html lang="en">
       <head>
@@ -49,7 +58,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {children}
+        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
         <ScrollRestoration />
         <Scripts />
       </body>

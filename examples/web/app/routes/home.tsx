@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 
-import { AddTodo, QueryTodo, TodoStatus, type QueryTodoRes, useQueryTodo } from '../user-api';
+import { AddTodo, QueryTodo, TodoStatus, type QueryTodoRes } from '../user-api';
 import { Welcome } from '../welcome/welcome';
+import { useQueryTodo } from '~/user-api-swr';
 
 export async function loader() {
   const res = await QueryTodo({});
