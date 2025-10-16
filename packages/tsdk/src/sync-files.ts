@@ -119,8 +119,8 @@ export async function copySnippet() {
 
 export async function copyShared() {
   await fsExtra.copy(
-    path.join(__dirname, '../fe-sdk-template', './src/shared/'),
-    path.join(process.cwd(), config.baseDir, 'shared'),
+    path.join(__dirname, '../fe-sdk-template', './src/tsdk-shared/'),
+    path.join(process.cwd(), config.baseDir, 'tsdk-shared'),
     { overwrite: false }
   );
 }

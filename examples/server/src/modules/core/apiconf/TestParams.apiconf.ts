@@ -1,6 +1,6 @@
 import { z } from 'zod/v4';
 
-import { transformPath, APIConfig, ObjectLiteral } from '@/src/shared/tsdk-helper';
+import { transformPath, APIConfig, ObjectLiteral } from '@/src/tsdk-shared/helpers';
 
 /**
  * Test path params ({@link APIConfig})

@@ -1,4 +1,4 @@
-import { ObjectLiteral } from './shared/tsdk-types';
+import { ObjectLiteral } from './tsdk-shared/types';
 
 export function pathParams(path: string, data: ObjectLiteral, symbol: ':' | '{}'): string {
   let newPath = path;

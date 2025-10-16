@@ -6,7 +6,7 @@ import {
   RequireAtLeastOne,
   transformPath,
   UpdateResult,
-} from '@/src/shared/tsdk-helper';
+} from '@/src/tsdk-shared/helpers';
 
 export const UpdateTodoConfig: APIConfig = {
   type: 'user',

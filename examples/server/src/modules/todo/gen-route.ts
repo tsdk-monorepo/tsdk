@@ -4,8 +4,8 @@ import type { StandardSchemaV1 } from '@standard-schema/spec';
 
 import { RequestInfo } from './types';
 
-import { ProtocolTypes } from '@/src/shared/tsdk-helper';
-import { APIConfig } from '@/src/shared/tsdk-types';
+import { ProtocolTypes } from '@/src/tsdk-shared/helpers';
+import { APIConfig } from '@/src/tsdk-shared/types';
 
 const middlewares = [langMiddleware, authMiddleware, rateLimitMiddleware];
 export const genRouteObj = genRouteFactory<APIConfig, RequestInfo>(

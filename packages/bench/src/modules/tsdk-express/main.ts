@@ -5,7 +5,7 @@ import { expressAdapterFactory } from 'tsdk-server-adapters/lib/express-adapter'
 import { setupHelloAPI } from './Hello.api';
 import { RequestInfo, routeBus } from './gen-route';
 
-import { checkMethodHasBody } from '@/src/shared/tsdk-helper';
+import { checkMethodHasBody } from '@/src/tsdk-shared/helpers';
 
 const port = 3015;
 

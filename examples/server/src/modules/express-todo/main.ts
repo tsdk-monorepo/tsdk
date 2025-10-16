@@ -12,7 +12,7 @@ import { routeBus } from '../todo/gen-route';
 import { RequestInfo } from '../todo/types';
 
 import { initializeDataSources } from '@/src/db';
-import { checkMethodHasBody, ProtocolTypes } from '@/src/shared/tsdk-helper';
+import { checkMethodHasBody, ProtocolTypes } from '@/src/tsdk-shared/helpers';
 
 const port = 3012;
 

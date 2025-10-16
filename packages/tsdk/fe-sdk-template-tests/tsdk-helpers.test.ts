@@ -6,7 +6,7 @@ import {
   paramCase,
   isObject,
   ProtocolTypes,
-} from '../fe-sdk-template/src/shared/tsdk-helper'; // Replace with actual path to the module
+} from '../fe-sdk-template/src/tsdk-shared/helpers'; // Replace with actual path to the module
 
 describe('hasBodyMethods', () => {
   it('should include POST, PUT, and PATCH as true', () => {

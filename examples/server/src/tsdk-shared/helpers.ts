@@ -1,6 +1,4 @@
-import { ObjectLiteral } from '@/src/shared/tsdk-types';
-
-export * from '@/src/shared/tsdk-types';
+export * from './types';
 
 export const hasBodyMethods: { [key: string]: boolean | undefined } = {
   post: true,

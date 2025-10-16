@@ -2,7 +2,7 @@
 import { AxiosRequestConfig as _AxiosRequestConfig, AxiosInstance } from 'axios';
 import { NoHandlerError } from './error';
 import { pathParams } from './path-params';
-import { APIConfig, checkMethodHasBody } from './shared/tsdk-helper';
+import { APIConfig, checkMethodHasBody } from './tsdk-shared/helpers';
 
 let axiosInstance: AxiosInstance;
 

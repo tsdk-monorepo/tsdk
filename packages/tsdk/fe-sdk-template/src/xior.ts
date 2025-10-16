@@ -2,7 +2,7 @@
 import { XiorRequestConfig as _XiorRequestConfig, Xior as xior } from 'xior';
 import { NoHandlerError } from './error';
 import { pathParams } from './path-params';
-import { APIConfig, checkMethodHasBody } from './shared/tsdk-helper';
+import { APIConfig, checkMethodHasBody } from './tsdk-shared/helpers';
 
 let xiorInstance: xior;
 

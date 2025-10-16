@@ -1,4 +1,4 @@
-import { APIConfig, ObjectLiteral, ProtocolTypes } from '../shared/tsdk-helper';
+import { APIConfig, ObjectLiteral, ProtocolTypes } from '../tsdk-shared/helpers';
 import { getID, RequestError } from '../utils';
 import genAPI, { type Handler, type RequestConfig } from '../gen-api';
 import { TimeoutError } from '../error';

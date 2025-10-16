@@ -9,7 +9,7 @@ import { routeBus } from '../todo/gen-route';
 import { RequestInfo } from '../todo/types';
 
 import { initializeDataSources } from '@/src/db';
-import { checkMethodHasBody } from '@/src/shared/tsdk-helper';
+import { checkMethodHasBody } from '@/src/tsdk-shared/helpers';
 
 const port = 3013;
 

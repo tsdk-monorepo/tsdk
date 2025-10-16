@@ -1,4 +1,4 @@
-import { transformPath, APIConfig } from '@/src/shared/tsdk-helper';
+import { transformPath, APIConfig } from '@/src/tsdk-shared/helpers';
 
 /**
  * get server configs for client ({@link APIConfig})

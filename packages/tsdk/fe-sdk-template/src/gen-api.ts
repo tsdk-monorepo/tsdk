@@ -1,6 +1,6 @@
 import type { AxiosRequestConfig } from './axios';
 import { NoHandlerError } from './error';
-import { APIConfig, ObjectLiteral } from './shared/tsdk-helper';
+import { APIConfig, ObjectLiteral } from './tsdk-shared/helpers';
 import type { XiorRequestConfig } from './xior';
 
 // Define a union type for all possible request configuration types

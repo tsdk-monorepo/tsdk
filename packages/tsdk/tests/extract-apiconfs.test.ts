@@ -5,7 +5,7 @@ const sampleInput = `
 import type { Todo } from '../Todo.entity';
 import { addTodoSchema } from './TodoSchema.shared';
 
-import { InsertResult, transformPath, APIConfig } from '@/src/shared/tsdk-helper';
+import { InsertResult, transformPath, APIConfig } from '@/src/tsdk-shared/helpers';
 
 /** hello */
 export const AddTodoConfig: APIConfig = {
@@ -29,7 +29,7 @@ const sampleInput2 = `
 import type { Todo } from '../Todo.entity';
 import { addTodoSchema } from './TodoSchema.shared';
 
-import { InsertResult, transformPath, APIConfig } from '@/src/shared/tsdk-helper';
+import { InsertResult, transformPath, APIConfig } from '@/src/tsdk-shared/helpers';
 
 /** hello */
 export const AddTodoConfig: APIConfig = {

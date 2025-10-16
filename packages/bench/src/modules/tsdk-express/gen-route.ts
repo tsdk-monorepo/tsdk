@@ -1,7 +1,7 @@
 import { genRouteFactory, Protocol } from 'tsdk-server-adapters';
 
-import { ProtocolTypes } from '@/src/shared/tsdk-helper';
-import { APIConfig, APITypesKey } from '@/src/shared/tsdk-types';
+import { ProtocolTypes } from '@/src/tsdk-shared/helpers';
+import { APIConfig, APITypesKey } from '@/src/tsdk-shared/types';
 import { StandardSchemaV1 } from '@standard-schema/spec';
 
 const middlewares = [authMiddleware];

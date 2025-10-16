@@ -9,7 +9,7 @@ module.exports = {
   entityExt: 'entity',
   apiconfExt: 'apiconf',
   httpLib: 'xior',
-  sharedDirs: ['./src/shared', './src/i18n'],
+  sharedDirs: ['./src/tsdk-shared', './src/shared', './src/i18n'],
   dataHookLib: ['SWR', 'ReactQuery', 'VueQuery', 'SolidQuery', 'SvelteQuery'],
   worker: true,
   dependencies: {

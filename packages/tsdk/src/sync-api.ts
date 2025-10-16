@@ -380,7 +380,7 @@ export async function syncAPI(
 
       const workerContent = `
     import genApi, { setHandler } from '../gen-api';
-    import { APIConfig, ProtocolTypes } from '../shared/tsdk-helper';
+    import { APIConfig, ProtocolTypes } from '../tsdk-shared/helpers';
                 ${
                   apiConfigStr
                     ? `import {

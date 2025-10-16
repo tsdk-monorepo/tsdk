@@ -1,7 +1,7 @@
 // @ts-ignore
 import type { Socket } from 'socket.io-client';
 import { NoConnectionError, NoHandlerError, TimeoutError } from './error';
-import { APIConfig, ObjectLiteral, ProtocolTypes } from './shared/tsdk-helper';
+import { APIConfig, ObjectLiteral, ProtocolTypes } from './tsdk-shared/helpers';
 import { RequestError, getID } from './utils';
 
 let socketIOInstance: Socket;

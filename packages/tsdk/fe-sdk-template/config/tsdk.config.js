@@ -8,7 +8,7 @@ module.exports = {
   entityExt: 'entity', // *.entity.ts
   apiconfExt: 'apiconf', // *.apiconf.ts
   shareExt: 'shared', // *.shared.ts
-  sharedDirs: ['./src/shared'],
+  sharedDirs: ['./src/tsdk-shared'],
   removeFields: [],
   /** 'xior' | 'axios'. More: https://tsdk.dev/docs/guide/tsdk.config#httplib */
   httpLib: 'xior',
