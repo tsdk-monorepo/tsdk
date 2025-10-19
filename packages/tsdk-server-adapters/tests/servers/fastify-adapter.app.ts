@@ -1,4 +1,4 @@
-import { z } from 'zod/v4';
+import { z } from 'zod';
 import express from 'express';
 import fastifyExpress from '@fastify/express';
 import Fastify from 'fastify';

@@ -107,7 +107,7 @@ export async function copySnippet() {
   // overwrite snippets
   const validationLib = config.validationLib || 'zod';
   const imports = {
-    zod: `import { z } from 'zod/v4';`,
+    zod: `import { z } from 'zod';`,
     valibot: `import * as v from 'valibot';`,
     arktype: `import { type } from "arktype"`,
   } as const;

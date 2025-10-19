@@ -1,4 +1,4 @@
-import { z } from 'zod/v4';
+import { z } from 'zod';
 import express from 'express';
 import multer from 'multer';
 import { expressAdapterFactory } from '../../src/express-adapter';

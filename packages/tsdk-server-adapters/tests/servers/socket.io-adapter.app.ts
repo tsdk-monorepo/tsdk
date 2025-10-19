@@ -1,4 +1,4 @@
-import { z } from 'zod/v4';
+import { z } from 'zod';
 import http from 'http';
 import { Server } from 'socket.io';
 

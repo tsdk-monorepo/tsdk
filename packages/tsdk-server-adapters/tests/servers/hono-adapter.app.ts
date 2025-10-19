@@ -1,4 +1,4 @@
-import { z } from 'zod/v4';
+import { z } from 'zod';
 import { Hono, HonoRequest } from 'hono';
 
 import { honoAdapterFactory } from '../../src/hono-adapter';
