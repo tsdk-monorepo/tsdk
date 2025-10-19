@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 import symbols from './symbols';
+import { loadCommonJS } from './load-commonjs';
 
 export interface TSDKConfig {
   monorepoRoot?: string;
@@ -68,9 +69,9 @@ if (isTsdkConfigExist) {
 
 // Load configuration safely
 const baseConfigPath = path.join(__dirname, '..', 'fe-sdk-template', 'config', 'tsdk.config.js');
-const baseConfig = fs.existsSync(baseConfigPath) ? require(baseConfigPath) : {};
+const baseConfig = fs.existsSync(baseConfigPath) ? loadCommonJS(baseConfigPath) : {};
 const oldConfig = isOldConfigExist ? JSON.parse(fs.readFileSync(oldConfigFilePath, 'utf-8')) : {};
-const newConfig = isTsdkConfigExist ? require(tsdkConfigFilePath) : {};
+const newConfig = isTsdkConfigExist ? loadCommonJS(tsdkConfigFilePath) : {};
 
 export const config: TSDKConfig = {
   ...baseConfig,
