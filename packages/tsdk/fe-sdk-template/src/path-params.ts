@@ -1,6 +1,4 @@
-import { ObjectLiteral } from './tsdk-shared/types';
-
-export function pathParams(path: string, data: ObjectLiteral, symbol: ':' | '{}'): string {
+export function pathParams(path: string, data: Record<string, any>, symbol: ':' | '{}'): string {
   let newPath = path;
 
   const params = symbol === ':' ? parseParams(path) : parseBracesParams(path);

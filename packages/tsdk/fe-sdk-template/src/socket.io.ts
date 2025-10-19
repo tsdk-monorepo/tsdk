@@ -1,12 +1,12 @@
 // @ts-ignore
 import type { Socket } from 'socket.io-client';
 import { NoConnectionError, NoHandlerError, TimeoutError } from './error';
-import { APIConfig, ObjectLiteral, ProtocolTypes } from './tsdk-shared/helpers';
+import { APIConfig, ProtocolTypes } from './tsdk-shared/helpers';
 import { RequestError, getID } from './utils';
 
 let socketIOInstance: Socket;
 
-const QUEUES: ObjectLiteral = {};
+const QUEUES: Record<string, any> = {};
 
 /**
  * Set the io instance
@@ -64,7 +64,7 @@ type ParamsOfFromEntries = Parameters<typeof Object.fromEntries>[0];
 export async function socketIOHandler(
   apiConfig: APIConfig,
   data: any,
-  requestConfig?: ObjectLiteral & { timeout?: number }
+  requestConfig?: Record<string, any> & { timeout?: number }
 ): Promise<any> {
   const ioInstance = getSocketIOInstance();
   if (!ioInstance) {

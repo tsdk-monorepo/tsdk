@@ -1,9 +1,9 @@
-import { APIConfig, ObjectLiteral, ProtocolTypes } from '../tsdk-shared/helpers';
+import { APIConfig, ProtocolTypes } from '../tsdk-shared/helpers';
 import { getID, RequestError } from '../utils';
 import genAPI, { type Handler, type RequestConfig } from '../gen-api';
 import { TimeoutError } from '../error';
 
-const QUEUES: ObjectLiteral = {};
+const QUEUES: Record<string, any> = {};
 let PENDINGS: [(value: unknown) => void, () => void][] = [];
 
 let worker: Worker;

@@ -1,10 +1,10 @@
 import type { AxiosRequestConfig } from './axios';
 import { NoHandlerError } from './error';
-import { APIConfig, ObjectLiteral } from './tsdk-shared/helpers';
+import { APIConfig } from './tsdk-shared/helpers';
 import type { XiorRequestConfig } from './xior';
 
 // Define a union type for all possible request configuration types
-export type RequestConfig<T> = AxiosRequestConfig<T> | XiorRequestConfig<T> | ObjectLiteral;
+export type RequestConfig<T> = AxiosRequestConfig<T> | XiorRequestConfig<T> | Record<string, any>;
 
 let handler = (
   apiConfig: APIConfig,

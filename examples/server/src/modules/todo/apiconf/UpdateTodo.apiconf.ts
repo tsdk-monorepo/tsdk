@@ -1,12 +1,8 @@
 import type { Todo } from '../Todo.entity';
 import { updateTodoSchema } from './TodoSchema.shared';
 
-import {
-  APIConfig,
-  RequireAtLeastOne,
-  transformPath,
-  UpdateResult,
-} from '@/src/tsdk-shared/helpers';
+import { APIConfig, transformPath } from '@/src/tsdk-shared/helpers';
+import { RequireAtLeastOne, UpdateResult } from '@/src/shared/types';
 
 export const UpdateTodoConfig: APIConfig = {
   type: 'user',
