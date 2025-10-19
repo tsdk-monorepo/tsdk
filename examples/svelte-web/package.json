@@ -10,7 +10,7 @@
     "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json"
   },
   "dependencies": {
-    "@tanstack/svelte-query": "6.0.1",
+    "@tanstack/svelte-query": "6.0.3",
     "socket.io-client": "^4.8.1",
     "xior": "^0.7.8"
   },

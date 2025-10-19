@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "vue": "^3.5.22",
-    "@tanstack/vue-query": "5.90.3",
+    "@tanstack/vue-query": "5.90.5",
     "socket.io-client": "^4.8.1",
     "xior": "^0.7.8"
   },
