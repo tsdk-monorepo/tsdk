@@ -33,7 +33,10 @@ export async function syncAPI(
   console.log(`   ${symbols.bullet}`, 'generating APIs');
   await checkRepkaceAxiosWithXior();
   const pkgJSON = JSON.parse(
-    await fs.promises.readFile(path.join(baseDir, 'package.json'), 'utf-8')
+    await fs.promises.readFile(
+      path.resolve(process.cwd(), config.packageDir, packageFolder, 'package.json'),
+      'utf-8'
+    )
   );
 
   const types = [..._types];
