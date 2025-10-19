@@ -2,8 +2,9 @@
 module.exports = {
   monorepoRoot: './',
   packageDir: './',
-  packageName: 'fe-sdk',
+  /** source dir, Recommend `./src` */
   baseDir: './src',
+  packageName: 'fe-sdk',
   entityLibName: 'typeorm',
   entityExt: 'entity', // *.entity.ts
   apiconfExt: 'apiconf', // *.apiconf.ts
@@ -13,6 +14,8 @@ module.exports = {
   /** 'xior' | 'axios'. More: https://tsdk.dev/docs/guide/tsdk.config#httplib */
   httpLib: 'xior',
   dataHookLib: ['SWR', 'ReactQuery', 'VueQuery'],
+  /** Support: zod / valibot / arktype */
+  validationLib: 'zod',
   dependencies: {
     xior: '^0.7.8',
   },

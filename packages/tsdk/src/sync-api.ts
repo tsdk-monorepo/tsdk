@@ -32,8 +32,9 @@ export async function syncAPI(
 ) {
   console.log(`   ${symbols.bullet}`, 'generating APIs');
   await checkRepkaceAxiosWithXior();
-  const pkgJSON = require(path.join(baseDir, 'package.json'));
-  // const apiconfs = require(path.join(baseDir, 'lib', `${config.apiconfExt}-refs`));
+  const pkgJSON = JSON.parse(
+    await fs.promises.readFile(path.join(baseDir, 'package.json'), 'utf-8')
+  );
 
   const types = [..._types];
 
