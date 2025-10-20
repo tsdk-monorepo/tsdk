@@ -10,13 +10,14 @@ export const APITypes = {
 export const APITypesKey = Object.keys(APITypes).filter((item) => item !== APITypes.common);
 
 export type APIType = keyof typeof APITypes;
+type HTTPMethod = 'GET' | 'POST' | 'DELETE' | 'PUT' | 'PATCH' | 'HEAD' | 'OPTIONS';
 export interface APIConfig {
   /** The API type, such as user-side or admin-side. Default is `user`. */
   type?: APIType;
   /** The API path. */
   path: string;
   /** The HTTP method. */
-  method: 'get' | 'post' | 'delete' | 'put' | 'patch' | 'head' | 'options';
+  method: HTTPMethod | Lowercase<HTTPMethod>;
   /** Request data validation schema. */
   schema?: StandardSchemaV1;
   /** Does the API require authentication? Default is `false`. */

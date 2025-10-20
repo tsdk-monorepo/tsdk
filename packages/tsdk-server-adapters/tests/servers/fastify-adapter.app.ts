@@ -9,7 +9,9 @@ import { checkMethodHasBody, RequestInfo } from './utils';
 
 let server: http.Server;
 
-const serverFactory = (handler) => {
+const serverFactory = (
+  handler: (req: http.IncomingMessage, res: http.ServerResponse<http.IncomingMessage>) => void
+) => {
   server = http.createServer((req, res) => {
     handler(req, res);
   });

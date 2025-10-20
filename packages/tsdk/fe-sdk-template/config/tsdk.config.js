@@ -5,8 +5,6 @@ module.exports = {
   /** source dir, Recommend `./src` */
   baseDir: './src',
   packageName: 'fe-sdk',
-  entityLibName: 'typeorm',
-  entityExt: 'entity', // *.entity.ts
   apiconfExt: 'apiconf', // *.apiconf.ts
   shareExt: 'shared', // *.shared.ts
   sharedDirs: ['./src/tsdk-shared'],
@@ -15,7 +13,7 @@ module.exports = {
   httpLib: 'xior',
   dataHookLib: ['SWR', 'ReactQuery', 'VueQuery'],
   /** Support: zod / valibot / arktype */
-  validationLib: 'zod',
+  // validationLib: 'zod',
   dependencies: {
     xior: '^0.7.8',
   },

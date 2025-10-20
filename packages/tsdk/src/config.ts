@@ -8,10 +8,18 @@ export interface TSDKConfig {
   monorepoRoot?: string;
   packageDir: string;
   packageName: string;
-  /** 'typeorm' or 'kysely' or 'DrizzleORM' */
-  entityLibName: string | string[];
   baseDir: string;
-  entityExt: string;
+  /** 'typeorm' or 'kysely' or 'DrizzleORM'. Default: 'typeorm' */
+  entityLibName?: string | string[];
+  /**
+   * Default: 'entity'
+   * @Example: *.entity.ts
+   */
+  entityExt?: string;
+  /**
+   * Can be `apiconf`, `dto` or others custom extension
+   * @Example: *.apiconf.ts
+   */
   apiconfExt: string;
   shareExt?: string;
   sharedDirs: string[];
@@ -74,6 +82,8 @@ const oldConfig = isOldConfigExist ? JSON.parse(fs.readFileSync(oldConfigFilePat
 const newConfig = isTsdkConfigExist ? loadCommonJS(tsdkConfigFilePath) : {};
 
 export const config: TSDKConfig = {
+  entityLibName: 'typeorm',
+  entityExt: 'entity', // *.entity.ts
   ...baseConfig,
   ...oldConfig,
   ...newConfig,

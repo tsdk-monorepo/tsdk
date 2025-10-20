@@ -32,6 +32,8 @@
   "files": [
     "lib",
     "esm",
-    "src"
+    "src",
+    "tsconfig.json",
+    "tsconfig.esm.json"
   ]
 }

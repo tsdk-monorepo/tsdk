@@ -7,7 +7,7 @@ export function loadCommonJS(filePath: string) {
   const code = fs.readFileSync(absPath, 'utf8');
 
   // Prepare sandbox
-  const sandbox: any = {
+  const sandbox: vm.Context = {
     module: { exports: {} },
     exports: {},
     require: (mod: string) => {
