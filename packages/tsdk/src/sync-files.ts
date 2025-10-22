@@ -135,7 +135,13 @@ const vLibs = {
 async function reconfigPkg() {
   // rename package name
   const pkgPath = path.resolve(process.cwd(), config.packageDir, packageFolder, 'package.json');
-  const [content] = await Promise.all([fs.promises.readFile(pkgPath, 'utf-8')]);
+  const [content] = await Promise.all([
+    fs.promises.readFile(pkgPath, 'utf-8'),
+    fs.promises.rename(
+      path.resolve(process.cwd(), config.packageDir, packageFolder, 'gitignore-x'),
+      path.resolve(process.cwd(), config.packageDir, packageFolder, '.gitignore')
+    ),
+  ]);
   const pkgContent = JSON.parse(content);
 
   pkgContent.name = config.packageName;
@@ -320,7 +326,7 @@ export async function syncExtFiles(ext: string, isEntity = false) {
 
 /** sync entity files  */
 export async function syncEntityFiles() {
-  return syncExtFiles(config.entityExt, true);
+  return syncExtFiles(config?.entityExt as string, true);
 }
 
 /** sync apiconf files */
