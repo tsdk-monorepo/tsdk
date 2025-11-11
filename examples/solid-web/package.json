@@ -10,9 +10,9 @@
   },
   "dependencies": {
     "solid-js": "^1.9.9",
-    "@tanstack/solid-query": "5.90.6",
+    "@tanstack/solid-query": "5.90.10",
     "socket.io-client": "^4.8.1",
-    "xior": "^0.7.8"
+    "xior": "^0.8.0"
   },
   "devDependencies": {
     "@types/node": "^24.6.0",
