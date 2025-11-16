@@ -1,6 +1,6 @@
 import { setHandler } from 'fe-sdk-demo/esm/worker/user-api-worker';
 import { xiorHandler, setXiorInstance } from 'fe-sdk-demo/esm/xior';
-import axios, { XiorError as AxiosError } from 'xior';
+import axios, { AxiosError } from 'xior';
 
 import { socketIOHandler, setSocketIOInstance } from 'fe-sdk-demo/esm/socket.io';
 import { io as SocketIO } from 'socket.io-client';

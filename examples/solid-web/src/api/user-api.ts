@@ -1,6 +1,6 @@
 import { setHandler } from 'fe-sdk-demo/esm/index';
 import { xiorHandler, setXiorInstance } from 'fe-sdk-demo/esm/xior';
-import axios, { XiorError as AxiosError, joinPath } from 'xior';
+import axios, { AxiosError, joinPath } from 'xior';
 
 import APIWorker from './user-api.worker?worker';
 import { setWorker } from 'fe-sdk-demo/esm/worker/user-api';

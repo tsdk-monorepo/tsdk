@@ -174,7 +174,7 @@ io.on('connect', async function () {
 // user-api.worker.ts
 import { setHandler } from '%PROJECT NAME%/esm/worker/user-api-worker';
 import { xiorHandler, setXiorInstance } from '%PROJECT NAME%/esm/xior';
-import axios, { XiorError as AxiosError } from 'xior';
+import axios, { AxiosError } from 'xior';
 
 import { setSocketIOInstance, socketIOHandler } from '%PROJECT NAME%/esm/socket.io';
 import { io as SocketIO } from 'socket.io-client';

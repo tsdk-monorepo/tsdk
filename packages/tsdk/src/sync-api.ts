@@ -114,7 +114,7 @@ export async function syncAPI(
          ${
            config.httpLib !== 'xior'
              ? `import type { AxiosRequestConfig } from "axios";`
-             : `import type { XiorRequestConfig as AxiosRequestConfig } from "xior";`
+             : `import type { AxiosRequestConfig } from "xior";`
          }
          import type { Handler } from './gen-api';
     `;
