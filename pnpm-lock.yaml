@@ -145,17 +145,17 @@ importers:
   examples/server/fe-sdk-demo:
     dependencies:
       '@tanstack/react-query':
-        specifier: ^5.90.7
-        version: 5.90.7(react@19.0.0)
+        specifier: ^5.90.11
+        version: 5.90.11(react@19.0.0)
       '@tanstack/solid-query':
-        specifier: ^5.90.10
-        version: 5.90.10(solid-js@1.9.9)
+        specifier: ^5.90.14
+        version: 5.90.14(solid-js@1.9.9)
       '@tanstack/svelte-query':
-        specifier: ^6.0.5
-        version: 6.0.5(svelte@5.39.12)
+        specifier: ^6.0.9
+        version: 6.0.9(svelte@5.39.12)
       '@tanstack/vue-query':
-        specifier: ^5.90.7
-        version: 5.90.7(vue@3.5.22(typescript@5.9.3))
+        specifier: ^5.91.4
+        version: 5.91.4(vue@3.5.22(typescript@5.9.3))
       axios:
         specifier: ^1.12.2
         version: 1.12.2
@@ -175,8 +175,8 @@ importers:
         specifier: ^2.3.6
         version: 2.3.6(react@19.0.0)
       xior:
-        specifier: ^0.8.0
-        version: 0.8.0
+        specifier: ^0.8.1
+        version: 0.8.1
       zod:
         specifier: ^4
         version: 4.0.14
@@ -206,8 +206,8 @@ importers:
         specifier: ^1.9.9
         version: 1.9.9
       xior:
-        specifier: ^0.8.0
-        version: 0.8.0
+        specifier: ^0.8.1
+        version: 0.8.1
     devDependencies:
       '@types/node':
         specifier: ^24.6.0
@@ -234,8 +234,8 @@ importers:
         specifier: ^4.8.1
         version: 4.8.1(bufferutil@4.0.9)(utf-8-validate@6.0.5)
       xior:
-        specifier: ^0.8.0
-        version: 0.8.0
+        specifier: ^0.8.1
+        version: 0.8.1
     devDependencies:
       '@sveltejs/vite-plugin-svelte':
         specifier: ^6.2.1
@@ -274,8 +274,8 @@ importers:
         specifier: ^3.5.22
         version: 3.5.22(typescript@5.9.3)
       xior:
-        specifier: ^0.8.0
-        version: 0.8.0
+        specifier: ^0.8.1
+        version: 0.8.1
     devDependencies:
       '@tsconfig/node22':
         specifier: ^22.0.2
@@ -338,8 +338,8 @@ importers:
         specifier: ^4.8.1
         version: 4.8.1(bufferutil@4.0.9)(utf-8-validate@6.0.5)
       xior:
-        specifier: ^0.8.0
-        version: 0.8.0
+        specifier: ^0.8.1
+        version: 0.8.1
     devDependencies:
       '@react-router/dev':
         specifier: ^7.2.0
@@ -525,20 +525,20 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0
       '@tanstack/react-query':
-        specifier: ^5.90.7
-        version: 5.90.7(react@19.0.0)
+        specifier: ^5.90.11
+        version: 5.90.11(react@19.0.0)
       '@tanstack/solid-query':
-        specifier: ^5.90.10
-        version: 5.90.10(solid-js@1.9.9)
+        specifier: ^5.90.14
+        version: 5.90.14(solid-js@1.9.9)
       '@tanstack/svelte-query':
-        specifier: ^6.0.5
-        version: 6.0.5(svelte@5.39.12)
+        specifier: ^6.0.9
+        version: 6.0.9(svelte@5.39.12)
       '@tanstack/vue-query':
-        specifier: ^5.90.7
-        version: 5.90.7(vue@3.5.22(typescript@5.9.3))
+        specifier: ^5.91.4
+        version: 5.91.4(vue@3.5.22(typescript@5.9.3))
       arktype:
-        specifier: ^2.1.26
-        version: 2.1.26
+        specifier: ^2.1.27
+        version: 2.1.27
       kysely:
         specifier: ^0.28.8
         version: 0.28.8
@@ -546,8 +546,8 @@ importers:
         specifier: ^2.3.6
         version: 2.3.6(react@19.0.0)
       valibot:
-        specifier: ^1.1.0
-        version: 1.1.0(typescript@5.9.3)
+        specifier: ^1.2.0
+        version: 1.2.0(typescript@5.9.3)
       zod:
         specifier: ^4
         version: 4.0.14
@@ -610,11 +610,17 @@ packages:
   '@ark/schema@0.54.0':
     resolution: {integrity: sha512-QloFou+ODfb5qXgPxX1EbJyRqZEwoElzvJ6VuuFVvWJQGoigBEUW3L0HejXG/B9v8K3VvDikuULp5ELSwZn8hg==}
 
+  '@ark/schema@0.55.0':
+    resolution: {integrity: sha512-IlSIc0FmLKTDGr4I/FzNHauMn0MADA6bCjT1wauu4k6MyxhC1R9gz0olNpIRvK7lGGDwtc/VO0RUDNvVQW5WFg==}
+
   '@ark/util@0.53.0':
     resolution: {integrity: sha512-TGn4gLlA6dJcQiqrtCtd88JhGb2XBHo6qIejsDre+nxpGuUVW4G3YZGVrwjNBTO0EyR+ykzIo4joHJzOj+/cpA==}
 
   '@ark/util@0.54.0':
     resolution: {integrity: sha512-ugTfpEDGA6d2uU2/3M7uRiuPNYckQMhg2wfNMw8zZHXjPhuVCbXWZzIcBojuXuCN8j4MrNWNqQ9z7f8W/JiE8w==}
+
+  '@ark/util@0.55.0':
+    resolution: {integrity: sha512-aWFNK7aqSvqFtVsl1xmbTjGbg91uqtJV7Za76YGNEwIO4qLjMfyY8flmmbhooYMuqPCO2jyxu8hve943D+w3bA==}
 
   '@babel/code-frame@7.26.2':
     resolution: {integrity: sha512-RJlIHRueQgwWitWgF8OdFYGZX328Ax5BCemNGlqHfplnRT9ESi8JkFlvaVYbS+UubVY6dpv87Fs2u5M29iNFVQ==}
@@ -2577,8 +2583,16 @@ packages:
     resolution: {integrity: sha512-Wo1iKt2b9OT7d+YGhvEPD3DXvPv2etTusIMhMUoG7fbhmxcXCtIjJDEygy91Y2JFlwGyjqiBPRozme7UD8hoqg==}
     engines: {node: '>=12'}
 
+  '@tanstack/query-core@5.90.11':
+    resolution: {integrity: sha512-f9z/nXhCgWDF4lHqgIE30jxLe4sYv15QodfdPDKYAk7nAEjNcndy4dHz3ezhdUaR23BpWa4I2EH4/DZ0//Uf8A==}
+
   '@tanstack/query-core@5.90.7':
     resolution: {integrity: sha512-6PN65csiuTNfBMXqQUxQhCNdtm1rV+9kC9YwWAIKcaxAauq3Wu7p18j3gQY3YIBJU70jT/wzCCZ2uqto/vQgiQ==}
+
+  '@tanstack/react-query@5.90.11':
+    resolution: {integrity: sha512-3uyzz01D1fkTLXuxF3JfoJoHQMU2fxsfJwE+6N5hHy0dVNoZOvwKP8Z2k7k1KDeD54N20apcJnG75TBAStIrBA==}
+    peerDependencies:
+      react: ^18 || ^19
 
   '@tanstack/react-query@5.90.7':
     resolution: {integrity: sha512-wAHc/cgKzW7LZNFloThyHnV/AX9gTg3w5yAv0gvQHPZoCnepwqCMtzbuPbb2UvfvO32XZ46e8bPOYbfZhzVnnQ==}
@@ -2590,13 +2604,32 @@ packages:
     peerDependencies:
       solid-js: ^1.6.0
 
+  '@tanstack/solid-query@5.90.14':
+    resolution: {integrity: sha512-e/TP+92mOFoQtInffcYKvAExgbQoBSDrarKnGwnindQBItp0ne1VdIg88K2U8rNwwM/wdj15V5azpXIkZkNQDw==}
+    peerDependencies:
+      solid-js: ^1.6.0
+
   '@tanstack/svelte-query@6.0.5':
     resolution: {integrity: sha512-9YgwlQJc1leQVknEalcvIzhUhKUHaxdq3xn8fc735fOAiS0uelvY6lBncKFS4uzfbj+iLyw/XsABU6FKj8XP4Q==}
     peerDependencies:
       svelte: ^5.25.0
 
+  '@tanstack/svelte-query@6.0.9':
+    resolution: {integrity: sha512-ezawzencc07h61M+p8R9Opp2CmpgGwrM05IsIGJiPkr1SrBPW8gDZ9sTdaQbEpzLNXMXaZUkq0MS+61Rw2EfSg==}
+    peerDependencies:
+      svelte: ^5.25.0
+
   '@tanstack/vue-query@5.90.7':
     resolution: {integrity: sha512-2h0esebc2qVRVDge3gFArhss5+qn/Wb4abXuaEliSy+/xPWQMrEX7Ny0UKkCy1HcMZZjvfTtNRUfpYrx+vpipw==}
+    peerDependencies:
+      '@vue/composition-api': ^1.1.2
+      vue: ^2.6.0 || ^3.3.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+
+  '@tanstack/vue-query@5.91.4':
+    resolution: {integrity: sha512-tQcyk8E5usqbN6wT7E7HZqkfufGAEbDjsW62P0QYn1QsDepO77bkcFYpCl6nCGTGziv1rvJmQ/ATwRqDNGRCHg==}
     peerDependencies:
       '@vue/composition-api': ^1.1.2
       vue: ^2.6.0 || ^3.3.0
@@ -3124,8 +3157,14 @@ packages:
   arkregex@0.0.2:
     resolution: {integrity: sha512-ttjDUICBVoXD/m8bf7eOjx8XMR6yIT2FmmW9vsN0FCcFOygEZvvIX8zK98tTdXkzi0LkRi5CmadB44jFEIyDNA==}
 
+  arkregex@0.0.3:
+    resolution: {integrity: sha512-bU21QJOJEFJK+BPNgv+5bVXkvRxyAvgnon75D92newgHxkBJTgiFwQxusyViYyJkETsddPlHyspshDQcCzmkNg==}
+
   arktype@2.1.26:
     resolution: {integrity: sha512-zDwukKV6uTElKCAbIoQ9OU6shXE5ALjvZAqHErOSv6l0iLKlubELZ7AcevYLaWFYr5rmIN4Uv9+dIzInktSO1A==}
+
+  arktype@2.1.27:
+    resolution: {integrity: sha512-enctOHxI4SULBv/TDtCVi5M8oLd4J5SVlPUblXDzSsOYQNMzmVbUosGBnJuZDKmFlN5Ie0/QVEuTE+Z5X1UhsQ==}
 
   array-flatten@1.1.1:
     resolution: {integrity: sha512-PCVAQswWemu6UdxsDFFX/+gVeYqKAod3D3UVm91jHwynguOwAvYPhx8nNlM++NqRcK6CxxpUafjmhIdKiHibqg==}
@@ -6239,6 +6278,14 @@ packages:
       typescript:
         optional: true
 
+  valibot@1.2.0:
+    resolution: {integrity: sha512-mm1rxUsmOxzrwnX5arGS+U4T25RdvpPjPN4yR0u9pUBov9+zGVtO84tif1eY4r6zWxVxu3KzIyknJy3rxfRZZg==}
+    peerDependencies:
+      typescript: '>=5'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
   validate-html-nesting@1.2.3:
     resolution: {integrity: sha512-kdkWdCl6eCeLlRShJKbjVOU2kFKxMF8Ghu50n+crEoyx+VKm3FxAxF9z4DCy6+bbTOqNW0+jcIYRnjoIRzigRw==}
 
@@ -6593,8 +6640,8 @@ packages:
     resolution: {integrity: sha512-h3Fbisa2nKGPxCpm89Hk33lBLsnaGBvctQopaBSOW/uIs6FTe1ATyAnKFJrzVs9vpGdsTe73WF3V4lIsk4Gacw==}
     engines: {node: '>=18'}
 
-  xior@0.8.0:
-    resolution: {integrity: sha512-X2vd81ZdavKR0sFh+G9kU5Ojj5HgozrtdexA/Vae2lmysOaLsgXN/a9sRpfbXOj5z+CJWKuZ7j+h+Xs0ohcYZQ==}
+  xior@0.8.1:
+    resolution: {integrity: sha512-sGrnuRtCsDsBqi+FDcOZjuh4K0l7r7FK/AI+gZ/AkyQfncKCLGqLpwmFlKGTQJr3/2+EZSuVkY3nkbAJhsvtVg==}
 
   xmlhttprequest-ssl@2.1.1:
     resolution: {integrity: sha512-ptjR8YSJIXoA3Mbv5po7RtSYHO6mZr8s7i5VGmEk7QY2pQWyT1o0N+W1gKbOyJPUCGXGnuw0wqe8f0L6Y0ny7g==}
@@ -6753,9 +6800,15 @@ snapshots:
     dependencies:
       '@ark/util': 0.54.0
 
+  '@ark/schema@0.55.0':
+    dependencies:
+      '@ark/util': 0.55.0
+
   '@ark/util@0.53.0': {}
 
   '@ark/util@0.54.0': {}
+
+  '@ark/util@0.55.0': {}
 
   '@babel/code-frame@7.26.2':
     dependencies:
@@ -8638,7 +8691,14 @@ snapshots:
     dependencies:
       remove-accents: 0.5.0
 
+  '@tanstack/query-core@5.90.11': {}
+
   '@tanstack/query-core@5.90.7': {}
+
+  '@tanstack/react-query@5.90.11(react@19.0.0)':
+    dependencies:
+      '@tanstack/query-core': 5.90.11
+      react: 19.0.0
 
   '@tanstack/react-query@5.90.7(react@19.0.0)':
     dependencies:
@@ -8650,15 +8710,33 @@ snapshots:
       '@tanstack/query-core': 5.90.7
       solid-js: 1.9.9
 
+  '@tanstack/solid-query@5.90.14(solid-js@1.9.9)':
+    dependencies:
+      '@tanstack/query-core': 5.90.11
+      solid-js: 1.9.9
+
   '@tanstack/svelte-query@6.0.5(svelte@5.39.12)':
     dependencies:
       '@tanstack/query-core': 5.90.7
+      svelte: 5.39.12
+
+  '@tanstack/svelte-query@6.0.9(svelte@5.39.12)':
+    dependencies:
+      '@tanstack/query-core': 5.90.11
       svelte: 5.39.12
 
   '@tanstack/vue-query@5.90.7(vue@3.5.22(typescript@5.9.3))':
     dependencies:
       '@tanstack/match-sorter-utils': 8.19.4
       '@tanstack/query-core': 5.90.7
+      '@vue/devtools-api': 6.6.4
+      vue: 3.5.22(typescript@5.9.3)
+      vue-demi: 0.14.10(vue@3.5.22(typescript@5.9.3))
+
+  '@tanstack/vue-query@5.91.4(vue@3.5.22(typescript@5.9.3))':
+    dependencies:
+      '@tanstack/match-sorter-utils': 8.19.4
+      '@tanstack/query-core': 5.90.11
       '@vue/devtools-api': 6.6.4
       vue: 3.5.22(typescript@5.9.3)
       vue-demi: 0.14.10(vue@3.5.22(typescript@5.9.3))
@@ -9315,11 +9393,21 @@ snapshots:
     dependencies:
       '@ark/util': 0.53.0
 
+  arkregex@0.0.3:
+    dependencies:
+      '@ark/util': 0.55.0
+
   arktype@2.1.26:
     dependencies:
       '@ark/schema': 0.54.0
       '@ark/util': 0.54.0
       arkregex: 0.0.2
+
+  arktype@2.1.27:
+    dependencies:
+      '@ark/schema': 0.55.0
+      '@ark/util': 0.55.0
+      arkregex: 0.0.3
 
   array-flatten@1.1.1: {}
 
@@ -12575,6 +12663,10 @@ snapshots:
     optionalDependencies:
       typescript: 5.9.3
 
+  valibot@1.2.0(typescript@5.9.3):
+    optionalDependencies:
+      typescript: 5.9.3
+
   validate-html-nesting@1.2.3: {}
 
   validate-npm-package-license@3.0.4:
@@ -13062,7 +13154,7 @@ snapshots:
     dependencies:
       is-wsl: 3.1.0
 
-  xior@0.8.0:
+  xior@0.8.1:
     dependencies:
       tiny-lru: 11.2.11
 

@@ -15,6 +15,6 @@ module.exports = {
   /** Support: zod / valibot / arktype */
   // validationLib: 'zod',
   dependencies: {
-    xior: '^0.8.0',
+    xior: '^0.8.1',
   },
 };

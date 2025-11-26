@@ -12,7 +12,7 @@
   "dependencies": {
     "@tanstack/svelte-query": "6.0.5",
     "socket.io-client": "^4.8.1",
-    "xior": "^0.8.0"
+    "xior": "^0.8.1"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^6.2.1",

@@ -76,3 +76,6 @@ test-project-npm
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+DOC.md
+FAQ.md
+FAQ2.md
