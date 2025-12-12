@@ -305,7 +305,7 @@ export async function syncAPI(
 
         if (type === apiType) {
           importStr += `
-            ${name}Config,
+            ${name}Config as ${item.name}ApiConfig,
             type ${name}Req,
             type ${name}Res,
           `;
@@ -318,7 +318,7 @@ export async function syncAPI(
              */
             export const ${name} = genApi<Expand<${name}Req>${
               isGET ? '' : ' | FormData'
-            }, Expand<${name}Res>>(${name}Config);
+            }, Expand<${name}Res>>(${name}ApiConfig);
           `;
 
           // SWR hook
