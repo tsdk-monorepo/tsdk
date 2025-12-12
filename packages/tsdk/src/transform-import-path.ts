@@ -10,12 +10,12 @@ import { transformTypeormEntity } from './transform-typeorm-entity';
 export function processImportPath(_importString: string, _filePath: string) {
   let importString = _importString;
 
-  const commentString = importString.slice(0, 2);
+  const commentString = importString.trim().slice(0, 2);
   const hasComment = commentString === '//' || commentString === '/*';
 
   const filePath = path.dirname(_filePath);
   const isDoubleSemicolon = importString.indexOf('from "') > -1;
-  const matched = importString.match(isDoubleSemicolon ? /from "(.*)";/ : /from '(.*)';/);
+  const matched = importString.match(isDoubleSemicolon ? /from "(.*)";?/ : /from '(.*)';?/);
 
   if (matched) {
     // path alias check and replace path
@@ -91,32 +91,60 @@ export async function transformImportPath(filePath: string, isEntity?: boolean) 
   const imports: string[] = [];
   const otherContent: string[] = [];
   let importArr: string[] = [];
+  let inMultilineComment = false;
 
-  result.forEach((i) => {
-    const inlineImport = i.indexOf("import '") > -1 || i.indexOf('import "') > -1;
-    const hasImport = i.indexOf('import ') > -1;
-    const hasFrom = i.indexOf(' from "') > -1 || i.indexOf(" from '") > -1;
+  result.forEach((line) => {
+    const trimmedLine = line.trim();
 
-    if (inlineImport) {
-      imports.push(i);
-    } else if (hasImport && hasFrom) {
-      imports.push(processImportPath(i, filePath));
-    } else if (hasImport) {
-      importArr.push(i);
-    } else if (hasFrom) {
-      importArr.push(i);
-      imports.push(processImportPath(importArr.join(''), filePath));
+    // Track multi-line comments
+    if (trimmedLine.startsWith('/*')) {
+      inMultilineComment = true;
+    }
+    if (inMultilineComment) {
+      otherContent.push(line);
+      if (trimmedLine.endsWith('*/') || line.indexOf('*/') > -1) {
+        inMultilineComment = false;
+      }
+      return;
+    }
+
+    // Skip single-line comments and empty lines when checking for imports
+    if (trimmedLine.startsWith('//') || trimmedLine.startsWith('*') || trimmedLine === '') {
+      if (importArr.length > 0) {
+        importArr.push(line);
+      } else {
+        otherContent.push(line);
+      }
+      return;
+    }
+
+    const inlineImport = line.indexOf("import '") > -1 || line.indexOf('import "') > -1;
+    const hasImport = line.indexOf('import ') > -1;
+    const hasFrom = line.indexOf(' from "') > -1 || line.indexOf(" from '") > -1;
+
+    // Only process as import if line actually starts with 'import' (after trimming)
+    const isActualImport = trimmedLine.startsWith('import ');
+
+    if (inlineImport && isActualImport) {
+      imports.push(line);
+    } else if (hasImport && hasFrom && isActualImport) {
+      imports.push(processImportPath(line, filePath));
+    } else if (hasImport && isActualImport) {
+      importArr.push(line);
+    } else if (hasFrom && importArr.length > 0) {
+      importArr.push(line);
+      imports.push(processImportPath(importArr.join('\n'), filePath));
       importArr = [];
     } else if (importArr.length > 0) {
-      importArr.push(i);
+      importArr.push(line);
     } else {
-      otherContent.push(i);
+      otherContent.push(line);
     }
   });
 
   // Handle any remaining import statements that weren't processed
   if (importArr.length > 0) {
-    imports.push(importArr.join(''));
+    imports.push(processImportPath(importArr.join('\n'), filePath));
   }
 
   // Ensure proper line breaks between imports and other content
