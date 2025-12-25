@@ -430,6 +430,7 @@ export async function syncAPI(
           const { dataHookHeadStr, dataHookImportStr, dataHookExportStr, dataHookBodyStr } =
             hooksContentMap[hook as 'vuequery'];
           const dataHookContent = `
+          'use client';
             ${dataHookHeadStr}
             ${
               importStr
@@ -464,6 +465,7 @@ export async function syncAPI(
                 const { dataHookHeadStr, dataHookImportStr, dataHookExportStr, dataHookBodyStr } =
                   hooksContentMap[hook as 'vuequery'];
                 const dataHookContent = `
+                'use client';
             ${dataHookHeadStr}
             ${
               importStr
