@@ -61,7 +61,7 @@ async function run() {
               `\n[${command} ${name}] Run: \`${npmCMDs.runCmd} nest ${command} ${name}\`\n`
             );
             try {
-              execSync(`${npmCMDs.runCmd} nest ${command} ${name}`, { stdio: 'pipe' });
+              execSync(`${npmCMDs.runCmd} nest ${command} ${name}`, { stdio: 'inherit' });
               console.log(
                 `[${command} ${name}] Success: \`${npmCMDs.runCmd} nest ${command} ${name}\` and start webpack build`
               );

@@ -28,7 +28,7 @@ export async function runNestCommand() {
 
     try {
       execSync(`node ${webpackDistFile} ${command} --names ${names.join(' ')}`, {
-        stdio: 'pipe',
+        stdio: 'inherit',
         encoding: 'utf-8',
       });
     } catch (error) {
