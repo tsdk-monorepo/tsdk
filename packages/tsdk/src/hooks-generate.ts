@@ -10,15 +10,21 @@ export function generateSWRHook(name: string, apiConf: APIConfig) {
        * @category ${category}
        */
       export function use${name}(
-        payload?: ${name}Req,
+        payload?: ${name}Req | null,
         options?: SWRConfiguration<${name}Res>,
         requestConfig?: AxiosRequestConfig<${name}Req>,
         customHandler?: Handler,
       ) {
+        const key = useMemo(() => {
+          const {method='GET', path} = ${name}.config;
+          if (payload !== null && typeof payload === 'object') return buildSortedURL(method+path, payload, stringify);
+          return method+path+(payload || '')
+        }, [payload]);
         return useSWR(
-          () => payload ? { url: ${name}.config.path, arg: payload } : null,
-          ({ arg }) => {
-            return ${name}(arg, requestConfig, customHandler);
+          key,
+          () => {
+            if (!payload) return null as unknown as ${name}Res;
+            return ${name}(payload, requestConfig, customHandler);
           },
           options
         );
@@ -41,8 +47,9 @@ export function generateSWRHook(name: string, apiConf: APIConfig) {
         requestConfig?: AxiosRequestConfig<${name}Req | FormData>,
         customHandler?: Handler,
       ) {
+        const {method='GET', path} = ${name}.config;
         return useSWRMutation(
-          ${name}.config.path,
+          method+path,
           (url, { arg }: { arg: ${name}Req | FormData }) => {
             return ${name}(arg, requestConfig, customHandler);
           },
@@ -64,20 +71,23 @@ export function generateReactQueryHook(name: string, apiConf: APIConfig) {
        * @category ${category}
        */
       export function use${name}(
-        payload?: ${name}Req,
-        options?: Omit<UndefinedInitialDataOptions<${name}Res | undefined, Error>, 'queryKey' | 'queryFn'>,
+        payload?: ${name}Req | null,
+        options?: Omit<UndefinedInitialDataOptions<${name}Res | undefined | null, Error>, 'queryKey' | 'queryFn'>,
         queryClient?: QueryClient,
         requestConfig?: AxiosRequestConfig<${name}Req>,
         customHandler?: Handler,
       ) {
+        const key = useMemo(() => {
+          const {method='GET', path} = ${name}.config;
+          if (payload !== null && typeof payload === 'object') return buildSortedURL(method+path, payload, stringify);
+          return method+path+(payload || '')
+        }, [payload]);
         return useQuery(
           {
             ...(options ?? {}),
-            queryKey: [${name}.config.path, payload],
+            queryKey: key,
             queryFn() {
-              if (typeof payload === 'undefined') {
-                return undefined;
-              }
+              if (!payload) return null;
               return ${name}(payload, requestConfig, customHandler);
             },
           },

@@ -116,12 +116,15 @@ export async function syncAPI(
              ? `import type { AxiosRequestConfig } from "axios";`
              : `import type { AxiosRequestConfig } from "xior";`
          }
+         import {buildSortedURL, encodeParams as stringify} from 'xior';
          import type { Handler } from './gen-api';
     `;
 
     // isSWR
     hooksContentMap['swr'].dataHookHeadStr = `import useSWR, { SWRConfiguration } from "swr";
       import useSWRMutation, { SWRMutationConfiguration } from "swr/mutation";
+      // @ts-expect-error install react
+      import {useMemo} from 'react';
       ${commonDataHookHeadStr}
     `;
     // isReactQuery
@@ -133,6 +136,8 @@ export async function syncAPI(
         UndefinedInitialDataOptions,
         UseMutationOptions,
       } from "@tanstack/react-query";
+      // @ts-expect-error install react
+      import {useMemo} from 'react';
       ${commonDataHookHeadStr}
     `;
     // isVueQuery
