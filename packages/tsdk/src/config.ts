@@ -48,6 +48,8 @@ export interface TSDKConfig {
     ]
    */
   removeFields?: string[];
+  /** default is: 'module' and 'commonjs' */
+  moduleType?: 'module' | 'commonjs' | 'disabled';
 }
 
 export const comment = `

@@ -1,6 +1,6 @@
 import { execSync } from 'child_process';
 import fsExtra from 'fs-extra';
-import { ensureDir } from './config';
+import { config, ensureDir } from './config';
 import { getNpmCommand } from './get-npm-command';
 
 export async function buildSDK(needInstall = false) {
@@ -38,8 +38,17 @@ export async function buildSDK(needInstall = false) {
       }
     }
   }
-  const cmd = `cd ${ensureDir} && ${CMDs.runCmd} tsc:build`;
-
+  if (config.moduleType === 'disabled') {
+    console.log(`   Ignore run tsc; because \`moduleType:'disabled'\``);
+    return;
+  }
+  const tscBuild = !config.moduleType
+    ? 'tsc:build'
+    : config.moduleType === 'module'
+      ? 'tsc:build:esm'
+      : 'tsc:build:cjs';
+  const cmd = `cd ${ensureDir} && ${CMDs.runCmd} ${tscBuild}`;
+  console.log(`   Run \`${cmd}\``);
   try {
     execSync(cmd, {
       stdio: 'pipe',
