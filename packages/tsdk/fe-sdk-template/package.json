@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "axios": "^1.13.2",
-    "xior": "^0.8.1"
+    "xior": "^0.8.2"
   },
   "devDependencies": {
     "typescript": "^5.9.3",
