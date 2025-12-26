@@ -1,6 +1,7 @@
 import { buildSDK } from './compile-tsdk';
 import { tsconfigExists, parsePkg, config } from './config';
 import { getNpmCommand } from './get-npm-command';
+import { runOpenapiCommand } from './openapi-command';
 import { runPrettier } from './prettier';
 import { removeFields } from './remove-fields';
 import { runNestCommand } from './run-nest-command';
@@ -23,6 +24,7 @@ Options
   --sync --no-zod Don't add \`zod\` to deps
   --sync --no-overwrite Default is overwrite with template files(no overwrite for create custom files)
   --nest Run nest command, only support build
+  --openapi Translate openapi.yaml or openapi.json to openapi.apiconf.ts
   --version The version info
 
 Examples
@@ -35,6 +37,9 @@ Examples
   $ tsdk --nest build
   $ tsdk --nest build [name] [name]
   $ tsdk --nest build all
+  $
+  $ tsdk --openapi openapi.yaml
+  $ tsdk --openapi openapi.json
 `,
   init: `init \`tsdk\` config file`,
   sync: `generate api`,
@@ -144,6 +149,10 @@ async function handleCommand(params: string[]): Promise<void> {
 
       case '--nest':
         await runNestCommand();
+        break;
+
+      case '--openapi':
+        await runOpenapiCommand();
         break;
 
       default:

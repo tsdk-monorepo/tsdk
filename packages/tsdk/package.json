@@ -51,9 +51,11 @@
   ],
   "dependencies": {
     "fast-glob": "^3.3.3",
-    "fs-extra": "^11.3.0"
+    "fs-extra": "^11.3.0",
+    "js-yaml": "^4.1.1"
   },
   "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
     "@types/fs-extra": "^11.0.4",
     "@types/webpack-node-externals": "^3.0.0",
     "webpack": "^5.102.1",

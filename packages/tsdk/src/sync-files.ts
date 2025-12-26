@@ -311,6 +311,10 @@ export async function syncExtFiles(ext: string, isEntity = false) {
     })
   );
 
+  if (apiconfs.length > 0) {
+    console.log(`      There are ${apiconfs.length} .${config.apiconfExt}.ts`);
+  }
+
   const indexContent =
     files.length > 0 ? files.map((file) => indexContentMap[file]).join('') : getDefaultContent();
 
