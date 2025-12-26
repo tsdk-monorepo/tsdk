@@ -312,7 +312,7 @@ export async function syncExtFiles(ext: string, isEntity = false) {
   );
 
   if (apiconfs.length > 0) {
-    console.log(`      There are ${apiconfs.length} .${config.apiconfExt}.ts`);
+    console.log(`      There are ${apiconfs.length} APIs`);
   }
 
   const indexContent =
