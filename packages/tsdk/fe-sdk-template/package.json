@@ -17,12 +17,12 @@
   },
   "devDependencies": {
     "typescript": "^5.9.3",
-    "typedoc": "^0.28.14",
+    "typedoc": "^0.28.15",
     "concurrently": "^9.2.1",
-    "@standard-schema/spec": "^1.0.0"
+    "@standard-schema/spec": "^1.1.0"
   },
   "peerDependencies": {
-    "socket.io-client": "^4.8.1"
+    "socket.io-client": "^4.8.3"
   },
   "peerDependenciesMeta": {
     "socket.io-client": {
