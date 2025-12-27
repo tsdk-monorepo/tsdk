@@ -30,7 +30,6 @@
     "typeorm": "^0.3.28",
     "kysely": "^0.28.9",
     "typeorm-cursor-pagination": "^0.10.1",
-    "utf-8-validate": "^6.0.6",
     "ws": "^8.18.3",
     "zod": "^4",
     "hono": "^4.11.3",

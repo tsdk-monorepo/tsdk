@@ -34,8 +34,7 @@
     "onlyBuiltDependencies": [
       "@swc/core",
       "better-sqlite3",
-      "bufferutil",
-      "utf-8-validate"
+      "bufferutil"
     ]
   },
   "prettier": {
