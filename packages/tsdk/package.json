@@ -1,6 +1,6 @@
 {
   "name": "tsdk",
-  "version": "1.0.0-alpha.12",
+  "version": "1.0.0-alpha.13",
   "description": "Type-safe API development and code share tool for TypeScript projects.",
   "repository": "tsdk-monorepo/tsdk",
   "bugs": "https://github.com/tsdk-monorepo/tsdk/issues",
@@ -12,7 +12,7 @@
   },
   "scripts": {
     "start": "npm run test && pnpm --filter server-example sync && pnpm --filter server-example build && pnpm --filter server-example example",
-    "start-publish": "npm run build && node ../../scripts/purge-pkg-for-publish.mjs && npm publish --tag alpha --access public --no-git-checks --provenance --registry=https://registry.npmjs.org",
+    "start-publish": "npm run build && node ../../scripts/purge-pkg-for-publish.mjs && npm publish --access public --no-git-checks --provenance --registry=https://registry.npmjs.org",
     "local:start-publish": "npm run build && node ../../scripts/purge-pkg-for-publish.mjs && npm publish --tag alpha --access public --no-git-checks --provenance=false --registry=https://registry.npmjs.org",
     "build": "rm -rf lib && tsc --project tsconfig.json",
     "start-website": "cd website && yarn && npm run start",

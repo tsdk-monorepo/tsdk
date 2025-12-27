@@ -1,6 +1,6 @@
 {
   "name": "tsdk-server-adapters",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "main": "lib/index.js",
   "module": "esm/index.js",
   "repository": "tsdk-monorepo/tsdk",
@@ -13,7 +13,8 @@
     "lint": "eslint ./src --ext .ts,.tsx --fix",
     "checktype": "tsc --noEmit",
     "test": "vitest --run --testTimeout=120000 --hookTimeout=60000",
-    "start-publish": "npm run build && node ../../scripts/purge-pkg-for-publish.mjs && npm publish --tag alpha --access public --no-git-checks --provenance --registry=https://registry.npmjs.org"
+    "start-publish": "npm run build && node ../../scripts/purge-pkg-for-publish.mjs && npm publish --access public --no-git-checks --provenance --registry=https://registry.npmjs.org",
+    "local:start-publish": "npm run build && node ../../scripts/purge-pkg-for-publish.mjs && npm publish --tag alpha --access public --no-git-checks --provenance=false --registry=https://registry.npmjs.org"
   },
   "files": [
     "lib/*",
