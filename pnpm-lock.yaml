@@ -194,11 +194,11 @@ importers:
   examples/solid-web:
     dependencies:
       '@tanstack/solid-query':
-        specifier: 5.90.10
-        version: 5.90.10(solid-js@1.9.9)
+        specifier: 5.90.15
+        version: 5.90.15(solid-js@1.9.9)
       socket.io-client:
-        specifier: ^4.8.1
-        version: 4.8.1(utf-8-validate@6.0.6)
+        specifier: ^4.8.3
+        version: 4.8.3(bufferutil@4.1.0)(utf-8-validate@6.0.6)
       solid-js:
         specifier: ^1.9.9
         version: 1.9.9
@@ -225,11 +225,11 @@ importers:
   examples/svelte-web:
     dependencies:
       '@tanstack/svelte-query':
-        specifier: 6.0.5
-        version: 6.0.5(svelte@5.39.12)
+        specifier: 6.0.10
+        version: 6.0.10(svelte@5.39.12)
       socket.io-client:
-        specifier: ^4.8.1
-        version: 4.8.1(utf-8-validate@6.0.6)
+        specifier: ^4.8.3
+        version: 4.8.3(bufferutil@4.1.0)(utf-8-validate@6.0.6)
       xior:
         specifier: ^0.8.2
         version: 0.8.2
@@ -262,11 +262,11 @@ importers:
   examples/vue-web:
     dependencies:
       '@tanstack/vue-query':
-        specifier: 5.90.7
-        version: 5.90.7(vue@3.5.22(typescript@5.9.3))
+        specifier: 5.92.1
+        version: 5.92.1(vue@3.5.22(typescript@5.9.3))
       socket.io-client:
-        specifier: ^4.8.1
-        version: 4.8.1(utf-8-validate@6.0.6)
+        specifier: ^4.8.3
+        version: 4.8.3(bufferutil@4.1.0)(utf-8-validate@6.0.6)
       vue:
         specifier: ^3.5.22
         version: 3.5.22(typescript@5.9.3)
@@ -314,8 +314,8 @@ importers:
         specifier: ^7.2.0
         version: 7.2.0(react-router@7.2.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(typescript@5.9.3)
       '@tanstack/react-query':
-        specifier: 5.90.11
-        version: 5.90.11(react@19.0.0)
+        specifier: 5.90.12
+        version: 5.90.12(react@19.0.0)
       axios:
         specifier: ^1.13.2
         version: 1.13.2
@@ -332,8 +332,8 @@ importers:
         specifier: ^7.2.0
         version: 7.2.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       socket.io-client:
-        specifier: ^4.8.1
-        version: 4.8.1(utf-8-validate@6.0.6)
+        specifier: ^4.8.3
+        version: 4.8.3(bufferutil@4.1.0)(utf-8-validate@6.0.6)
       xior:
         specifier: ^0.8.2
         version: 0.8.2
@@ -2580,29 +2580,13 @@ packages:
     resolution: {integrity: sha512-Wo1iKt2b9OT7d+YGhvEPD3DXvPv2etTusIMhMUoG7fbhmxcXCtIjJDEygy91Y2JFlwGyjqiBPRozme7UD8hoqg==}
     engines: {node: '>=12'}
 
-  '@tanstack/query-core@5.90.11':
-    resolution: {integrity: sha512-f9z/nXhCgWDF4lHqgIE30jxLe4sYv15QodfdPDKYAk7nAEjNcndy4dHz3ezhdUaR23BpWa4I2EH4/DZ0//Uf8A==}
-
   '@tanstack/query-core@5.90.12':
     resolution: {integrity: sha512-T1/8t5DhV/SisWjDnaiU2drl6ySvsHj1bHBCWNXd+/T+Hh1cf6JodyEYMd5sgwm+b/mETT4EV3H+zCVczCU5hg==}
-
-  '@tanstack/query-core@5.90.7':
-    resolution: {integrity: sha512-6PN65csiuTNfBMXqQUxQhCNdtm1rV+9kC9YwWAIKcaxAauq3Wu7p18j3gQY3YIBJU70jT/wzCCZ2uqto/vQgiQ==}
-
-  '@tanstack/react-query@5.90.11':
-    resolution: {integrity: sha512-3uyzz01D1fkTLXuxF3JfoJoHQMU2fxsfJwE+6N5hHy0dVNoZOvwKP8Z2k7k1KDeD54N20apcJnG75TBAStIrBA==}
-    peerDependencies:
-      react: ^18 || ^19
 
   '@tanstack/react-query@5.90.12':
     resolution: {integrity: sha512-graRZspg7EoEaw0a8faiUASCyJrqjKPdqJ9EwuDRUF9mEYJ1YPczI9H+/agJ0mOJkPCJDk0lsz5QTrLZ/jQ2rg==}
     peerDependencies:
       react: ^18 || ^19
-
-  '@tanstack/solid-query@5.90.10':
-    resolution: {integrity: sha512-r01GebtWUIy2+HnqLVfw4x56d8hG6mBhv913tOJSqTOHEQVEleJxyx+K6lmW07RJygKHZlA1EZsvy6Ow3qVEnw==}
-    peerDependencies:
-      solid-js: ^1.6.0
 
   '@tanstack/solid-query@5.90.15':
     resolution: {integrity: sha512-5bCMbGJHMGSTK4sA3OKs3p8w21+k4tp+KwVin8IwkMnmzVfGzEkuZnDM8WexO2fMqfr7nBpCGxZHSiUVcniCRQ==}
@@ -2613,20 +2597,6 @@ packages:
     resolution: {integrity: sha512-J0kM3JNvRcRCM6cbHLeICs73aLp98N/nsihdVEtiNo3MEN4pAnO45qZ2yxX70MrEZ9vffXaCXMCChwgXs1lZ/Q==}
     peerDependencies:
       svelte: ^5.25.0
-
-  '@tanstack/svelte-query@6.0.5':
-    resolution: {integrity: sha512-9YgwlQJc1leQVknEalcvIzhUhKUHaxdq3xn8fc735fOAiS0uelvY6lBncKFS4uzfbj+iLyw/XsABU6FKj8XP4Q==}
-    peerDependencies:
-      svelte: ^5.25.0
-
-  '@tanstack/vue-query@5.90.7':
-    resolution: {integrity: sha512-2h0esebc2qVRVDge3gFArhss5+qn/Wb4abXuaEliSy+/xPWQMrEX7Ny0UKkCy1HcMZZjvfTtNRUfpYrx+vpipw==}
-    peerDependencies:
-      '@vue/composition-api': ^1.1.2
-      vue: ^2.6.0 || ^3.3.0
-    peerDependenciesMeta:
-      '@vue/composition-api':
-        optional: true
 
   '@tanstack/vue-query@5.92.1':
     resolution: {integrity: sha512-m672jBiwK6sv1HHFF7Q3XsLUVKejzjEAMDqhFgLXIVtmwSayUo0WnhNQmlBlcHRKCR/Lw5jmIh6iu08ZXBh4ag==}
@@ -8718,26 +8688,12 @@ snapshots:
     dependencies:
       remove-accents: 0.5.0
 
-  '@tanstack/query-core@5.90.11': {}
-
   '@tanstack/query-core@5.90.12': {}
-
-  '@tanstack/query-core@5.90.7': {}
-
-  '@tanstack/react-query@5.90.11(react@19.0.0)':
-    dependencies:
-      '@tanstack/query-core': 5.90.11
-      react: 19.0.0
 
   '@tanstack/react-query@5.90.12(react@19.0.0)':
     dependencies:
       '@tanstack/query-core': 5.90.12
       react: 19.0.0
-
-  '@tanstack/solid-query@5.90.10(solid-js@1.9.9)':
-    dependencies:
-      '@tanstack/query-core': 5.90.7
-      solid-js: 1.9.9
 
   '@tanstack/solid-query@5.90.15(solid-js@1.9.9)':
     dependencies:
@@ -8748,19 +8704,6 @@ snapshots:
     dependencies:
       '@tanstack/query-core': 5.90.12
       svelte: 5.39.12
-
-  '@tanstack/svelte-query@6.0.5(svelte@5.39.12)':
-    dependencies:
-      '@tanstack/query-core': 5.90.7
-      svelte: 5.39.12
-
-  '@tanstack/vue-query@5.90.7(vue@3.5.22(typescript@5.9.3))':
-    dependencies:
-      '@tanstack/match-sorter-utils': 8.19.4
-      '@tanstack/query-core': 5.90.7
-      '@vue/devtools-api': 6.6.4
-      vue: 3.5.22(typescript@5.9.3)
-      vue-demi: 0.14.10(vue@3.5.22(typescript@5.9.3))
 
   '@tanstack/vue-query@5.92.1(vue@3.5.22(typescript@5.9.3))':
     dependencies:
@@ -12226,17 +12169,6 @@ snapshots:
       - utf-8-validate
 
   socket.io-client@4.8.1(bufferutil@4.1.0):
-    dependencies:
-      '@socket.io/component-emitter': 3.1.2
-      debug: 4.3.4
-      engine.io-client: 6.6.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)
-      socket.io-parser: 4.2.4
-    transitivePeerDependencies:
-      - bufferutil
-      - supports-color
-      - utf-8-validate
-
-  socket.io-client@4.8.1(utf-8-validate@6.0.6):
     dependencies:
       '@socket.io/component-emitter': 3.1.2
       debug: 4.3.4
