@@ -15,9 +15,9 @@
   },
   "dependencies": {
     "vue": "^3.5.22",
-    "@tanstack/vue-query": "5.92.1",
+    "@tanstack/vue-query": "5.92.5",
     "socket.io-client": "^4.8.3",
-    "xior": "^0.8.2"
+    "xior": "^0.8.3"
   },
   "devDependencies": {
     "@tsconfig/node22": "^22.0.2",

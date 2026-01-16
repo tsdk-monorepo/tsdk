@@ -25,7 +25,7 @@
     "@standard-schema/spec": "^1.0.0"
   },
   "devDependencies": {
-    "@nestjs/cli": "^11.0.6",
+    "@nestjs/cli": "11.0.16",
     "@types/express": "^5.0.1",
     "tsdk": "workspace:*",
     "concurrently": "^9.2.1",

@@ -13,11 +13,11 @@
   },
   "dependencies": {
     "axios": "^1.13.2",
-    "xior": "^0.8.2"
+    "xior": "^0.8.3"
   },
   "devDependencies": {
     "typescript": "^5.9.3",
-    "typedoc": "^0.28.15",
+    "typedoc": "^0.28.16",
     "concurrently": "^9.2.1",
     "@standard-schema/spec": "^1.1.0"
   },

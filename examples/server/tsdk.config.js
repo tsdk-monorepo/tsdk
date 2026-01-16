@@ -16,6 +16,6 @@ module.exports = {
   dependencies: {
     i18next: '^23.10.1',
     'intl-pluralrules': '^2.0.1',
-    xior: '^0.8.2',
+    xior: '^0.8.3',
   },
 };

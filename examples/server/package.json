@@ -41,7 +41,7 @@
     "@standard-schema/spec": "^1.1.0"
   },
   "devDependencies": {
-    "@nestjs/cli": "^11.0.10",
+    "@nestjs/cli": "11.0.16",
     "@types/express": "^5.0.3",
     "@types/ws": "^8.5.5",
     "socket.io-client": "^4.8.1",
