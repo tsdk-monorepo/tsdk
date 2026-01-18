@@ -12,12 +12,13 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
-    "sync-sdk": "node ../../packages/tsdk/bin/tsdk.js --sync",
-    "sync": "node ../../packages/tsdk/bin/tsdk.js --sync",
-    "bun:sync": "bun ../../packages/tsdk/bin/tsdk.js --sync",
+    "sync-sdk": "node ../../packages/tsdk/bin/tsdk.js --sync --build",
+    "sync": "node ../../packages/tsdk/bin/tsdk.js --sync --build",
+    "bun:sync": "bun ../../packages/tsdk/bin/tsdk.js --sync --build",
     "test": "vitest --run ./src/",
     "lint": "eslint . --ext .ts,.tsx --fix ./src",
-    "checktype": "tsc --noEmit"
+    "checktype": "tsc --noEmit",
+    "build-sdk": "tsdk --sync --build"
   },
   "dependencies": {
     "tsdk-server-adapters": "workspace:*",

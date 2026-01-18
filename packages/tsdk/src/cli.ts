@@ -8,43 +8,71 @@ import { runNestCommand } from './run-nest-command';
 import symbols from './symbols';
 import { copyPermissionsJSON, deleteSDKFolder, syncAPI } from './sync-api';
 import { addDepsIfNone, copyTsdkConfig, syncFiles } from './sync-files';
-import { measureExecutionTime } from './utils';
+import { measureExecutionTime, replaceWindowsPath } from './utils';
+import * as watcher from '@parcel/watcher';
+import * as path from 'path';
+
+// CLI command definitions
+// Purpose: Define all CLI commands, their help text, and usage examples
+// Each command should have clear, structured documentation
 
 const CLI_COMMANDS = {
   help: `
-Usage
-  $ tsdk
+Usage:
+  $ tsdk [command] [options]
 
-Options
-  --help Help
-  --init Initialize \`tsdk\` config file
-  --init --no-zod Don't add \`zod\` to deps
-  --sync Sync files and generate api
-  --sync --no-vscode Skip copy \`.vscode/\`
-  --sync --no-zod Don't add \`zod\` to deps
-  --sync --no-overwrite Default is overwrite with template files(no overwrite for create custom files)
-  --nest Run nest command, only support build
-  --openapi Translate openapi.yaml or openapi.json to openapi.apiconf.ts
-  --version The version info
+Commands:
+  --help              Show this help message
+  --version           Show version information
+  --init              Initialize tsdk configuration file
+  --sync              Sync files and generate API
+  --watch             Watch mode for continuous sync
+  --nest <command>    Run NestJS build commands
+  --openapi <file>    Convert OpenAPI spec to apiconf.ts (Better use with -o <output dir>)
 
-Examples
+Options:
+  --build             Run tsc build after sync (with --sync)
+  --no-zod            Skip adding zod to dependencies (with --init or --sync)
+  --no-vscode         Skip copying .vscode/ directory (with --sync)
+  --no-overwrite      Preserve existing files, only create new ones (with --sync)
+
+Examples:
   $ tsdk --version
   $ tsdk --help
   $ tsdk --init
+  $ tsdk --init --no-zod
   $ tsdk --sync
+  $ tsdk --sync --build
   $ tsdk --sync --no-overwrite
-  $
+  $ tsdk --sync --no-vscode --no-zod
+  $ tsdk --watch
   $ tsdk --nest build
-  $ tsdk --nest build [name] [name]
+  $ tsdk --nest build <app-name>
   $ tsdk --nest build all
-  $
-  $ tsdk --openapi openapi.yaml
-  $ tsdk --openapi openapi.json
+  $ tsdk --openapi openapi.yaml -o <ouput-dir>
+  $ tsdk --openapi openapi.json -o <ouput-dir>
 `,
-  init: `init \`tsdk\` config file`,
-  sync: `generate api`,
-  nest: `@nestjs/cli enchance`,
-};
+
+  // Short descriptions for programmatic use
+  init: 'Initialize tsdk configuration file',
+  sync: 'Sync files and generate API code from configuration',
+  watch: 'Watch for changes and auto-sync',
+  nest: 'Run NestJS CLI commands (currently supports: build)',
+  openapi: 'Convert OpenAPI specification (YAML or JSON) to TypeScript API configuration',
+  version: 'Display tsdk version information',
+} as const;
+
+// Validate that a command exists
+function isValidCommand(cmd: string): cmd is keyof typeof CLI_COMMANDS {
+  return cmd in CLI_COMMANDS;
+}
+
+// Get command description
+function getCommandDescription(cmd: keyof typeof CLI_COMMANDS): string {
+  return CLI_COMMANDS[cmd];
+}
+
+export { CLI_COMMANDS, isValidCommand, getCommandDescription };
 
 const VALID_PROJECT_MSG = `Please run \`tsdk\` in a valid TypeScript project! Check: https://tsdk.dev/docs/start-a-typescript-project`;
 
@@ -73,10 +101,15 @@ run();
 /**
  * Handles sync command with parallelization where possible
  * @param noOverwrite Whether to use no-overwrite mode
+ * @param needBuild Run build
  */
-async function handleSyncCommand(noOverwrite: boolean): Promise<void> {
+async function handleSyncCommand(
+  noOverwrite: boolean,
+  needBuild = false,
+  prettier = true
+): Promise<void> {
   try {
-    await measureExecutionTime('Delete SDK folder', () => deleteSDKFolder());
+    await measureExecutionTime(`Delete SDK ${config.baseDir} folder`, () => deleteSDKFolder());
     await measureExecutionTime('Add dependencies if none', () => addDepsIfNone());
 
     const result = await measureExecutionTime('Sync files', () => syncFiles(noOverwrite));
@@ -84,7 +117,9 @@ async function handleSyncCommand(noOverwrite: boolean): Promise<void> {
     await measureExecutionTime('Generating API', () =>
       syncAPI(result?.apiconfs || [], result?.types || [])
     );
-    await measureExecutionTime('Build SDK', () => buildSDK(true));
+    if (needBuild) {
+      await measureExecutionTime('Build SDK', () => buildSDK(true));
+    }
 
     const removeFieldsValue = config.removeFields ?? ['needAuth'];
     // Execute these tasks in parallel
@@ -97,11 +132,146 @@ async function handleSyncCommand(noOverwrite: boolean): Promise<void> {
       ]);
     });
 
-    const prettierSuccess = await measureExecutionTime('Run Prettier', () => runPrettier());
-    if (prettierSuccess) console.log(`${symbols.success} Prettier files\n`);
+    if (prettier) {
+      const prettierSuccess = await measureExecutionTime('Run Prettier', () => runPrettier());
+      if (prettierSuccess) console.log(`${symbols.success} Prettier files\n`);
+    }
   } catch (error) {
     console.error(`\n${symbols.error} Sync command failed:`);
     console.error(error);
+    process.exit(1);
+  }
+}
+
+/**
+ * Watch mode implementation using @parcel/watcher
+ * Monitors apiconf files and triggers sync on changes
+ * @param noOverwrite Whether to use no-overwrite mode
+ * @param needBuild Run build after each sync
+ */
+async function handleWatchCommand(noOverwrite: boolean, needBuild = false): Promise<void> {
+  console.log(`${symbols.info} Starting watch mode...`);
+
+  // Run initial sync
+  console.log(`${symbols.info} Running initial sync...\n`);
+  await handleSyncCommand(noOverwrite, needBuild, false);
+  const pattern = path.join(...config.baseDir.split('/'));
+  // Determine watch directories from config
+  const watchDirs: string[] = [pattern];
+
+  // Add sharedDirs
+  if (config.sharedDirs && config.sharedDirs.length > 0) {
+    config.sharedDirs.forEach((dir) => {
+      const absoluteDir = path.isAbsolute(dir) ? dir : path.join(process.cwd(), dir);
+      watchDirs.push(absoluteDir);
+    });
+  }
+
+  console.log(`\n${symbols.info} Watching for changes in:`);
+  watchDirs.forEach((dir) => console.log(`  - ${dir}`));
+  console.log(`${symbols.info} Press Ctrl+C to stop\n`);
+
+  // Build file extension patterns from config
+  const { apiconfExt, entityExt, shareExt } = config;
+
+  // Track last sync time to debounce rapid changes
+  let lastSyncTime = Date.now();
+  let syncTimeout: NodeJS.Timeout | null = null;
+  const DEBOUNCE_MS = 500;
+
+  /**
+   * Check if file matches watched extensions
+   * Matches patterns like: *.apiconf.ts, *.entity.ts, *.shared.ts
+   * shareExt uses pattern: *.{shareExt}.* (e.g., *.shared.ts, *.shared.json)
+   */
+  function isRelevantFile(filePath: string): boolean {
+    const fileName = path.basename(filePath);
+
+    // Check apiconf pattern: *.apiconf.ts
+    const apiconfPattern = `.${apiconfExt}.ts`;
+    if (fileName.endsWith(apiconfPattern)) return true;
+
+    // Check entity pattern: *.entity.ts
+    const entityPattern = `.${entityExt}.ts`;
+    if (fileName.endsWith(entityPattern)) return true;
+
+    // Check shareExt pattern: *.{shareExt}.{ext}
+    // Match files like: *.shared.ts, *.shared.json, *.shared.jpg
+    // Split on last dot to get the final extension
+    const parts = fileName.split('.');
+    if (parts.length >= 3) {
+      // Check if second-to-last part matches shareExt
+      const secondToLast = parts[parts.length - 2];
+      if (secondToLast === shareExt) return true;
+    }
+
+    return false;
+  }
+
+  try {
+    // Subscribe to all watch directories
+    const subscriptions = await Promise.all(
+      watchDirs.map(async (watchDir) => {
+        return watcher.subscribe(watchDir, async (err, events) => {
+          if (err) {
+            console.error(`\n${symbols.error} Watch error in ${watchDir}:`, err);
+            return;
+          }
+
+          // Filter for relevant file changes based on configured extensions
+          const relevantChanges = events.filter((event) => isRelevantFile(event.path));
+
+          if (relevantChanges.length === 0) return;
+
+          // Log detected changes
+          console.log(`\n${symbols.info} Detected changes:`);
+          relevantChanges.forEach((event) => {
+            const relativePath = path.relative(process.cwd(), event.path);
+            console.log(`  ${event.type}: ${relativePath}`);
+          });
+
+          // Debounce: wait for changes to settle before syncing
+          if (syncTimeout) clearTimeout(syncTimeout);
+
+          syncTimeout = setTimeout(async () => {
+            const now = Date.now();
+            const timeSinceLastSync = now - lastSyncTime;
+
+            if (timeSinceLastSync < DEBOUNCE_MS) return;
+
+            lastSyncTime = now;
+            console.log(`\n${symbols.info} Syncing changes...\n`);
+
+            try {
+              await handleSyncCommand(noOverwrite, needBuild, false);
+              console.log(
+                `\n${symbols.success} Sync complete in ${Date.now() - lastSyncTime}ms. Watching for changes...\n`
+              );
+            } catch (error) {
+              console.error(`\n${symbols.error} Sync failed:`, error);
+              console.log(`\n${symbols.info} Continuing to watch for changes...\n`);
+            }
+          }, DEBOUNCE_MS);
+        });
+      })
+    );
+
+    // Handle graceful shutdown
+    const cleanup = async () => {
+      console.log(`\n\n${symbols.info} Shutting down watch mode...`);
+      if (syncTimeout) clearTimeout(syncTimeout);
+      await Promise.all(subscriptions.map((sub) => sub.unsubscribe()));
+      console.log(`${symbols.success} Watch mode stopped\n`);
+      process.exit(0);
+    };
+
+    process.on('SIGINT', cleanup);
+    process.on('SIGTERM', cleanup);
+
+    // Keep process alive
+    await new Promise(() => {});
+  } catch (error) {
+    console.error(`\n${symbols.error} Failed to start watch mode:`, error);
     process.exit(1);
   }
 }
@@ -143,7 +313,15 @@ async function handleCommand(params: string[]): Promise<void> {
 
       case '--sync': {
         const noOverwrite = params.includes('--no-overwrite');
-        await handleSyncCommand(noOverwrite);
+        const withBuild = params.includes('--build');
+        await handleSyncCommand(noOverwrite, withBuild);
+        break;
+      }
+
+      case '--watch': {
+        const noOverwrite = params.includes('--no-overwrite');
+        const withBuild = params.includes('--build');
+        await handleWatchCommand(noOverwrite, withBuild);
         break;
       }
 

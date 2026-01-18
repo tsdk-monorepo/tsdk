@@ -52,7 +52,8 @@
   "dependencies": {
     "fast-glob": "^3.3.3",
     "fs-extra": "^11.3.0",
-    "js-yaml": "^4.1.1"
+    "js-yaml": "^4.1.1",
+    "@parcel/watcher": "^2.5.4"
   },
   "devDependencies": {
     "@types/js-yaml": "^4.0.9",

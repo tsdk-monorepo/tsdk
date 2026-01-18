@@ -15,7 +15,9 @@ import {
 export const baseDir = path.join(path.relative(path.dirname(__filename), process.cwd()), ensureDir);
 
 export function deleteSDKFolder() {
-  return fsExtra.remove(path.resolve(process.cwd(), config.packageDir, packageFolder));
+  const dir = path.resolve(process.cwd(), config.packageDir, packageFolder, config.baseDir);
+  console.info(`    Deleting ${dir}`);
+  return fsExtra.remove(dir);
 }
 
 export async function syncAPI(
