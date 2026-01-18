@@ -18,7 +18,8 @@
     "test": "vitest --run ./src/",
     "lint": "eslint . --ext .ts,.tsx --fix ./src",
     "checktype": "tsc --noEmit",
-    "build-sdk": "tsdk --sync --build"
+    "build-sdk": "tsdk --sync --build",
+    "watch-sdk": "tsdk --watch"
   },
   "dependencies": {
     "tsdk-server-adapters": "workspace:*",
