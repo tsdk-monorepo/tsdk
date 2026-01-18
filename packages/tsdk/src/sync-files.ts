@@ -218,6 +218,7 @@ async function reconfigPkg() {
   pkgJSON.scripts = {
     ...(pkgJSON.scripts || {}),
     'sync-sdk': pkgJSON.scripts?.['sync-sdk'] || `tsdk --sync`,
+    'watch-sdk': pkgJSON.scripts?.['watch-sdk'] || `tsdk --watch`,
     'build-sdk': pkgJSON.scripts?.['build-sdk'] || `tsdk --sync --build`,
   };
   await fs.promises.writeFile('./package.json', JSON.stringify(pkgJSON, null, 2));
