@@ -157,15 +157,24 @@ async function handleWatchCommand(noOverwrite: boolean, needBuild = false): Prom
   await handleSyncCommand(noOverwrite, needBuild, false);
   const pattern = path.join(...config.baseDir.split('/'));
   // Determine watch directories from config
-  const watchDirs: string[] = [pattern];
+  const watchDirs: string[] = [];
+  const dirs = [pattern, ...(config.sharedDirs || [])];
 
-  // Add sharedDirs
-  if (config.sharedDirs && config.sharedDirs.length > 0) {
-    config.sharedDirs.forEach((dir) => {
-      const absoluteDir = path.isAbsolute(dir) ? dir : path.join(process.cwd(), dir);
-      watchDirs.push(absoluteDir);
+  // Convert to absolute paths
+  const absoluteDirs = dirs.map((dir) =>
+    path.isAbsolute(dir) ? dir : path.join(process.cwd(), dir)
+  );
+  // Remove subdirectories if parent is already watched
+  const filteredDirs = absoluteDirs.filter((dir, index, array) => {
+    // Check if any OTHER directory is a parent of this one
+    return !array.some((otherDir, otherIndex) => {
+      if (index === otherIndex) return false;
+      // Is otherDir a parent of dir?
+      const relative = path.relative(otherDir, dir);
+      return relative && !relative.startsWith('..') && !path.isAbsolute(relative);
     });
-  }
+  });
+  watchDirs.push(...filteredDirs);
 
   console.log(`\n${symbols.info} Watching for changes in:`);
   watchDirs.forEach((dir) => console.log(`  - ${dir}`));
@@ -177,7 +186,7 @@ async function handleWatchCommand(noOverwrite: boolean, needBuild = false): Prom
   // Track last sync time to debounce rapid changes
   let lastSyncTime = Date.now();
   let syncTimeout: NodeJS.Timeout | null = null;
-  const DEBOUNCE_MS = 500;
+  let DEBOUNCE_MS = 500;
 
   /**
    * Check if file matches watched extensions
@@ -241,16 +250,19 @@ async function handleWatchCommand(noOverwrite: boolean, needBuild = false): Prom
 
             lastSyncTime = now;
             console.log(`\n${symbols.info} Syncing changes...\n`);
-
+            let spendTime = 0;
             try {
               await handleSyncCommand(noOverwrite, needBuild, false);
+              spendTime = Date.now() - lastSyncTime;
               console.log(
-                `\n${symbols.success} Sync complete in ${Date.now() - lastSyncTime}ms. Watching for changes...\n`
+                `\n${symbols.success} Sync complete in ${spendTime}ms. Watching for changes...\n`
               );
             } catch (error) {
+              spendTime = Date.now() - lastSyncTime;
               console.error(`\n${symbols.error} Sync failed:`, error);
               console.log(`\n${symbols.info} Continuing to watch for changes...\n`);
             }
+            DEBOUNCE_MS = Math.min(DEBOUNCE_MS, spendTime + 100);
           }, DEBOUNCE_MS);
         });
       })
