@@ -5,6 +5,7 @@ import path from 'path';
 import { config, ensureDir } from './config';
 import { replaceWindowsPath } from './utils';
 import symbols from './symbols';
+import { logger } from './log';
 
 export async function removeFields() {
   if (!config.removeFields || config.removeFields.length === 0) return;
@@ -15,7 +16,7 @@ export async function removeFields() {
   );
 
   const removeFields = config.removeFields ?? ['needAuth'];
-  console.log(`       ${symbols.info}`, `Removing fields [${removeFields.join(',')}]`);
+  logger.log(`       ${symbols.info}`, `Removing fields [${removeFields.join(',')}]`);
   const files = await glob([jsPattern, jsPatternForEsm]);
 
   let processedCount = 0;
@@ -53,7 +54,7 @@ export async function removeFields() {
             } else {
               // If we can't find the end, keep the line (safer fallback)
               result.push(line);
-              console.warn(
+              logger.warn(
                 `       ${symbols.warning}`,
                 `Could not determine end of field in ${file}:${index + 1}`
               );
@@ -71,12 +72,12 @@ export async function removeFields() {
         }
       } catch (error) {
         errorCount++;
-        console.error(`       ${symbols.error}`, `Failed to process ${file}:`, error);
+        logger.error(`       ${symbols.error}`, `Failed to process ${file}:`, error);
       }
     })
   );
 
-  console.log(
+  logger.log(
     `       ${symbols.success}`,
     `Processed ${processedCount} file(s), ${errorCount} error(s)`
   );

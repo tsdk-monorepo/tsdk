@@ -19,7 +19,7 @@
     "lint": "eslint . --ext .ts,.tsx --fix ./src",
     "checktype": "tsc --noEmit",
     "build-sdk": "tsdk --sync --build",
-    "watch-sdk": "tsdk --watch"
+    "watch-sdk": "tsdk --watch --no-verbose"
   },
   "dependencies": {
     "tsdk-server-adapters": "workspace:*",

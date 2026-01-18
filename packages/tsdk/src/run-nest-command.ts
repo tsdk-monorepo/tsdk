@@ -3,6 +3,7 @@ import fsExtra from 'fs-extra';
 import path from 'path';
 
 import symbols from './symbols';
+import { logger } from './log';
 
 export async function runNestCommand() {
   const idx = process.argv.findIndex((i) => i === '--nest');
@@ -32,10 +33,10 @@ export async function runNestCommand() {
         encoding: 'utf-8',
       });
     } catch (error) {
-      console.error('Command failed:', (error as any).stdout || (error as any).stderr);
+      logger.error('Command failed:', (error as any).stdout || (error as any).stderr);
       throw error;
     }
   } else {
-    console.log(symbols.warning, `\`tsdk --nest\` currently only support \`build\` command.`);
+    logger.log(symbols.warning, `\`tsdk --nest\` currently only support \`build\` command.`);
   }
 }

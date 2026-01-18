@@ -1,6 +1,7 @@
 import { buildSDK } from './compile-tsdk';
 import { tsconfigExists, parsePkg, config } from './config';
 import { getNpmCommand } from './get-npm-command';
+import { logger } from './log';
 import { runOpenapiCommand } from './openapi-command';
 import { runPrettier } from './prettier';
 import { removeFields } from './remove-fields';
@@ -35,6 +36,7 @@ Options:
   --no-zod            Skip adding zod to dependencies (with --init or --sync)
   --no-vscode         Skip copying .vscode/ directory (with --sync)
   --no-overwrite      Preserve existing files, only create new ones (with --sync)
+  --no-verbose        Only logs necessary information
 
 Examples:
   $ tsdk --version
@@ -45,6 +47,7 @@ Examples:
   $ tsdk --sync --build
   $ tsdk --sync --no-overwrite
   $ tsdk --sync --no-vscode --no-zod
+  $ tsdk --sync --no-vscode --no-zod --no-verbose
   $ tsdk --watch
   $ tsdk --nest build
   $ tsdk --nest build <app-name>
@@ -85,12 +88,12 @@ export async function run(): Promise<void> {
     const params = process.argv.filter((i) => i.startsWith('--'));
     await handleCommand(params);
     const totalTime = Date.now() - startTime;
-    console.log(`\n✅ Total execution time: ${(totalTime / 1000).toFixed(2)}s`);
+    logger.log(`\n✅ Total execution time: ${(totalTime / 1000).toFixed(2)}s`);
   } catch (error) {
-    console.error(`\n${symbols.error} Unexpected error:`);
-    console.log(error);
+    logger.error(`\n${symbols.error} Unexpected error:`);
+    logger.error(error);
     const totalTime = Date.now() - startTime;
-    console.log(`\n❌ Failed after: ${(totalTime / 1000).toFixed(2)}s`);
+    logger.error(`\n❌ Failed after: ${(totalTime / 1000).toFixed(2)}s`);
     process.exit(1);
   }
 }
@@ -134,11 +137,11 @@ async function handleSyncCommand(
 
     if (prettier) {
       const prettierSuccess = await measureExecutionTime('Run Prettier', () => runPrettier());
-      if (prettierSuccess) console.log(`${symbols.success} Prettier files\n`);
+      if (prettierSuccess) logger.log(`${symbols.success} Prettier files\n`);
     }
   } catch (error) {
-    console.error(`\n${symbols.error} Sync command failed:`);
-    console.error(error);
+    logger.error(`\n${symbols.error} Sync command failed:`);
+    logger.error(error);
     process.exit(1);
   }
 }
@@ -150,10 +153,10 @@ async function handleSyncCommand(
  * @param needBuild Run build after each sync
  */
 async function handleWatchCommand(noOverwrite: boolean, needBuild = false): Promise<void> {
-  console.log(`${symbols.info} Starting watch mode...`);
+  logger.info(`${symbols.info} Starting watch mode...`);
 
   // Run initial sync
-  console.log(`${symbols.info} Running initial sync...\n`);
+  logger.info(`${symbols.info} Running initial sync...`);
   let DEBOUNCE_MS = 300;
   const start = Date.now();
   await handleSyncCommand(noOverwrite, needBuild, false);
@@ -179,9 +182,9 @@ async function handleWatchCommand(noOverwrite: boolean, needBuild = false): Prom
   });
   watchDirs.push(...filteredDirs);
 
-  console.log(`\n${symbols.info} Watching for changes in:`);
-  watchDirs.forEach((dir) => console.log(`  - ${dir}`));
-  console.log(`${symbols.info} Press Ctrl+C to stop\n`);
+  logger.info(`${symbols.info} Watching for changes in:`);
+  watchDirs.forEach((dir) => logger.info(`  - ${dir}`));
+  logger.info(`\n${symbols.info} Press Ctrl+C to stop`);
 
   // Build file extension patterns from config
   const { apiconfExt, entityExt, shareExt } = config;
@@ -225,7 +228,7 @@ async function handleWatchCommand(noOverwrite: boolean, needBuild = false): Prom
       watchDirs.map(async (watchDir) => {
         return watcher.subscribe(watchDir, async (err, events) => {
           if (err) {
-            console.error(`\n${symbols.error} Watch error in ${watchDir}:`, err);
+            logger.error(`\n${symbols.error} Watch error in ${watchDir}:`, err);
             return;
           }
 
@@ -235,10 +238,10 @@ async function handleWatchCommand(noOverwrite: boolean, needBuild = false): Prom
           if (relevantChanges.length === 0) return;
 
           // Log detected changes
-          console.log(`\n${symbols.info} Detected changes:`);
+          logger.info(`\n${symbols.info} Detected changes:`);
           relevantChanges.forEach((event) => {
             const relativePath = path.relative(process.cwd(), event.path);
-            console.log(`  ${event.type}: ${relativePath}`);
+            logger.info(`  ${event.type}: ${relativePath}`);
           });
 
           // Debounce: wait for changes to settle before syncing
@@ -251,18 +254,18 @@ async function handleWatchCommand(noOverwrite: boolean, needBuild = false): Prom
             if (timeSinceLastSync < DEBOUNCE_MS) return;
 
             lastSyncTime = now;
-            console.log(`\n${symbols.info} Syncing changes...\n`);
+            logger.info(`${symbols.info} Syncing changes...`);
             let spendTime = 0;
             try {
               await handleSyncCommand(noOverwrite, needBuild, false);
               spendTime = Date.now() - lastSyncTime;
-              console.log(
-                `\n${symbols.success} Sync complete in ${spendTime}ms. Watching for changes...\n`
+              logger.info(
+                `${symbols.success}Sync complete in ${spendTime}ms. Watching for changes...\n`
               );
             } catch (error) {
               spendTime = Date.now() - lastSyncTime;
-              console.error(`\n${symbols.error} Sync failed:`, error);
-              console.log(`\n${symbols.info} Continuing to watch for changes...\n`);
+              logger.error(`${symbols.error} Sync failed:`, error);
+              logger.log(`${symbols.info} Continuing to watch for changes...\n`);
             }
             DEBOUNCE_MS = Math.max(DEBOUNCE_MS, spendTime + 50);
           }, DEBOUNCE_MS);
@@ -272,10 +275,10 @@ async function handleWatchCommand(noOverwrite: boolean, needBuild = false): Prom
 
     // Handle graceful shutdown
     const cleanup = async () => {
-      console.log(`\n\n${symbols.info} Shutting down watch mode...`);
+      logger.info(`\n\n${symbols.info} Shutting down watch mode...`);
       if (syncTimeout) clearTimeout(syncTimeout);
       await Promise.all(subscriptions.map((sub) => sub.unsubscribe()));
-      console.log(`${symbols.success} Watch mode stopped\n`);
+      logger.info(`${symbols.success} Watch mode stopped\n`);
       process.exit(0);
     };
 
@@ -285,7 +288,7 @@ async function handleWatchCommand(noOverwrite: boolean, needBuild = false): Prom
     // Keep process alive
     await new Promise(() => {});
   } catch (error) {
-    console.error(`\n${symbols.error} Failed to start watch mode:`, error);
+    logger.error(`\n${symbols.error} Failed to start watch mode:`, error);
     process.exit(1);
   }
 }
@@ -297,20 +300,20 @@ async function handleWatchCommand(noOverwrite: boolean, needBuild = false): Prom
 async function handleCommand(params: string[]): Promise<void> {
   try {
     if (params.length === 0 || params[0] === '--help') {
-      console.log(CLI_COMMANDS.help);
+      logger.info(CLI_COMMANDS.help);
 
-      if (!tsconfigExists) console.log(symbols.warning, VALID_PROJECT_MSG, '\n');
+      if (!tsconfigExists) logger.info(symbols.warning, VALID_PROJECT_MSG, '\n');
       return;
     }
 
     if (params[0] === '--version') {
       const pkg = await parsePkg();
-      console.log(`${pkg.name}@${pkg.version}`);
+      logger.info(`${pkg.name}@${pkg.version}`);
       return;
     }
 
     if (!tsconfigExists) {
-      console.error(`\nError: >> ${symbols.error} ${VALID_PROJECT_MSG}\n`);
+      logger.error(`\nError: >> ${symbols.error} ${VALID_PROJECT_MSG}\n`);
       return process.exit(1);
     }
 
@@ -318,7 +321,7 @@ async function handleCommand(params: string[]): Promise<void> {
       case '--init': {
         await copyTsdkConfig();
         const npmCommand = getNpmCommand(process.cwd());
-        console.log(
+        logger.info(
           `${symbols.info} You can edit and generate the SDK package with \`${npmCommand.npxCmd} tsdk --sync\``
         );
         await addDepsIfNone();
@@ -348,12 +351,12 @@ async function handleCommand(params: string[]): Promise<void> {
         break;
 
       default:
-        console.log(`\n${symbols.error} Unknown command: ${params[0]}`);
-        console.log(CLI_COMMANDS.help);
+        logger.info(`\n${symbols.error} Unknown command: ${params[0]}`);
+        logger.info(CLI_COMMANDS.help);
         process.exit(1);
     }
   } catch (error) {
-    console.error(`\n${symbols.error} Command execution failed:`, error);
+    logger.error(`\n${symbols.error} Command execution failed:`, error);
     process.exit(1);
   }
 }

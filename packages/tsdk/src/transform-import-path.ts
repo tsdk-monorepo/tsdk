@@ -5,6 +5,7 @@ import { aliasToRelativePath } from './alias';
 import { config, ensureDir, getDeps, tsconfig } from './config';
 import symbols from './symbols';
 import { transformTypeormEntity } from './transform-typeorm-entity';
+import { logger } from './log';
 
 /** Handling import path */
 export function processImportPath(_importString: string, _filePath: string) {
@@ -40,7 +41,7 @@ export function processImportPath(_importString: string, _filePath: string) {
         return importString;
       } else {
         if (!hasComment) {
-          console.warn(
+          logger.warn(
             symbols.space,
             symbols.warning,
             `Warn: '${firstLevelPath}' not support. If you confirm '${firstLevelPath}' will use in the both side, please add this lib to the '${ensureDir}/package.json' dependencies`
@@ -64,7 +65,7 @@ export function processImportPath(_importString: string, _filePath: string) {
         });
 
       if (!findDir) {
-        console.log(
+        logger.error(
           symbols.space,
           symbols.error,
           `Error: Don't import file from outside of shared dirs: '${importString}'`,
@@ -73,7 +74,7 @@ export function processImportPath(_importString: string, _filePath: string) {
       }
     }
   } else {
-    console.warn(symbols.space, symbols.warning, `No match: ${importString}`);
+    logger.warn(symbols.space, symbols.warning, `No match: ${importString}`);
   }
   return importString;
 }

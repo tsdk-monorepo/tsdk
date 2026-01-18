@@ -1,3 +1,5 @@
+import { logger } from './log';
+
 const isWindows = process.platform === 'win32';
 export function replaceWindowsPath(path: string, isWin = isWindows) {
   if (!isWin) return path;
@@ -18,16 +20,16 @@ export const measureExecutionTime = async <T>(
   const startTime = Date.now();
 
   try {
-    console.log(`${indent}⏰ ${task}`);
+    logger.log(`${indent}⏰ ${task}`);
     const result = await fn();
     const endTime = Date.now();
     const duration = (endTime - startTime).toFixed(2);
-    console.log(`${indent}✅ ${task} ${duration}ms`);
+    logger.log(`${indent}✅ ${task} ${duration}ms`);
     return result;
   } catch (error) {
     const endTime = Date.now();
     const duration = endTime - startTime;
-    console.log(`${indent}❌ ${task} ${duration}ms`);
+    logger.error(`${indent}❌ ${task} ${duration}ms`);
     throw error;
   }
 };

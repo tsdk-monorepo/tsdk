@@ -50,6 +50,8 @@ export interface TSDKConfig {
   removeFields?: string[];
   /** Default undefined: support 'module' and 'commonjs' */
   moduleType?: 'module' | 'commonjs' | 'disabled';
+  /** default true */
+  logVerbose?: boolean;
 }
 
 export const comment = `
@@ -74,7 +76,7 @@ export const isOldConfigExist = fs.existsSync(oldConfigFilePath);
 export const isConfigExist = isTsdkConfigExist || isOldConfigExist;
 
 if (isTsdkConfigExist) {
-  console.log(symbols.info, `load ${tsdkConfigFilePath}`);
+  console.log(symbols.info, `Load ${tsdkConfigFilePath}`);
 }
 
 // Load configuration safely
@@ -90,6 +92,7 @@ export const config: TSDKConfig = {
   ...oldConfig,
   ...newConfig,
 };
+config.logVerbose = process.argv.includes('--no-verbose') ? false : config.logVerbose !== false;
 
 // example: ./src => src
 // Ensure baseDir normalization

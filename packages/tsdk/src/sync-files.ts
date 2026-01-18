@@ -19,6 +19,7 @@ import symbols from './symbols';
 import { transformImportPath } from './transform-import-path';
 import { replaceWindowsPath, measureExecutionTime } from './utils';
 import { extractApiconfs } from './extract-apiconfs';
+import { logger } from './log';
 
 export async function syncFiles(noOverwrite = false) {
   const indent = '   ';
@@ -68,16 +69,16 @@ export async function addDepsIfNone() {
         if (!contentJSON.dependencies[dependency]) {
           contentJSON.dependencies[dependency] = version;
           needRunInstall = true;
-          console.log('');
-          console.log(
+          logger.log('');
+          logger.warn(
             `    ${symbols.warning}`,
             `\`tsdk\` depends on \`${dependency}\`, so automatically adding \`${dependency}\` to dependencies`
           );
-          // console.log(
+          // logger.log(
           //   symbols.info,
           //   `You can run \`${npmCMDs.installCmd}\` to install new dependencies`
           // );
-          console.log('');
+          logger.log('');
         }
         return 1;
       }
@@ -89,7 +90,7 @@ export async function addDepsIfNone() {
     try {
       execSync(`${npmCMDs.installCmd}`, { stdio: 'pipe', encoding: 'utf-8', env: process.env });
     } catch (error) {
-      console.error('Command failed:', (error as any).stdout || (error as any).stderr);
+      logger.error('Command failed:', (error as any).stdout || (error as any).stderr);
       throw error;
     }
   }
@@ -218,7 +219,7 @@ async function reconfigPkg() {
   pkgJSON.scripts = {
     ...(pkgJSON.scripts || {}),
     'sync-sdk': pkgJSON.scripts?.['sync-sdk'] || `tsdk --sync`,
-    'watch-sdk': pkgJSON.scripts?.['watch-sdk'] || `tsdk --watch`,
+    'watch-sdk': pkgJSON.scripts?.['watch-sdk'] || `tsdk --watch --no-verbose`,
     'build-sdk': pkgJSON.scripts?.['build-sdk'] || `tsdk --sync --build`,
   };
   await fs.promises.writeFile('./package.json', JSON.stringify(pkgJSON, null, 2));
@@ -232,7 +233,7 @@ export async function copySDK(noOverwrite: boolean) {
 
   if (isExist && noOverwrite) {
     await reconfigPkg();
-    console.log(
+    logger.info(
       symbols.info,
       `Skip init sdk: \`${path.resolve(
         process.cwd(),
@@ -244,7 +245,7 @@ export async function copySDK(noOverwrite: boolean) {
   }
 
   await fsExtra.ensureDir(ensureDir);
-  console.log(`   ${symbols.success} mkdir -p ${ensureDir}`);
+  logger.log(`   ${symbols.success} mkdir -p ${ensureDir}`);
   await fsExtra.copy(
     path.join(__dirname, '../fe-sdk-template'),
     path.resolve(process.cwd(), config.packageDir, packageFolder),
@@ -314,7 +315,7 @@ export async function syncExtFiles(ext: string, isEntity = false) {
   );
 
   if (apiconfs.length > 0) {
-    console.log(`      There are ${apiconfs.length} APIs`);
+    logger.log(`      There are ${apiconfs.length} APIs`);
   }
 
   const indexContent =
