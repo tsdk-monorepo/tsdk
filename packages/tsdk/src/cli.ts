@@ -8,9 +8,9 @@ import { runNestCommand } from './run-nest-command';
 import symbols from './symbols';
 import { copyPermissionsJSON, deleteSDKFolder, syncAPI } from './sync-api';
 import { addDepsIfNone, copyTsdkConfig, syncFiles } from './sync-files';
-import { measureExecutionTime, replaceWindowsPath } from './utils';
-import * as watcher from '@parcel/watcher';
-import * as path from 'path';
+import { measureExecutionTime } from './utils';
+import watcher from '@parcel/watcher';
+import path from 'path';
 
 // CLI command definitions
 // Purpose: Define all CLI commands, their help text, and usage examples
@@ -154,7 +154,10 @@ async function handleWatchCommand(noOverwrite: boolean, needBuild = false): Prom
 
   // Run initial sync
   console.log(`${symbols.info} Running initial sync...\n`);
+  let DEBOUNCE_MS = 300;
+  const start = Date.now();
   await handleSyncCommand(noOverwrite, needBuild, false);
+  DEBOUNCE_MS = Math.max(DEBOUNCE_MS, Date.now() - start + 50);
   const pattern = path.join(...config.baseDir.split('/'));
   // Determine watch directories from config
   const watchDirs: string[] = [];
@@ -186,7 +189,6 @@ async function handleWatchCommand(noOverwrite: boolean, needBuild = false): Prom
   // Track last sync time to debounce rapid changes
   let lastSyncTime = Date.now();
   let syncTimeout: NodeJS.Timeout | null = null;
-  let DEBOUNCE_MS = 500;
 
   /**
    * Check if file matches watched extensions
@@ -262,7 +264,7 @@ async function handleWatchCommand(noOverwrite: boolean, needBuild = false): Prom
               console.error(`\n${symbols.error} Sync failed:`, error);
               console.log(`\n${symbols.info} Continuing to watch for changes...\n`);
             }
-            DEBOUNCE_MS = Math.max(DEBOUNCE_MS, spendTime + 100);
+            DEBOUNCE_MS = Math.max(DEBOUNCE_MS, spendTime + 50);
           }, DEBOUNCE_MS);
         });
       })
