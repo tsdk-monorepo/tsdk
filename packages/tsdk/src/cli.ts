@@ -262,7 +262,7 @@ async function handleWatchCommand(noOverwrite: boolean, needBuild = false): Prom
               console.error(`\n${symbols.error} Sync failed:`, error);
               console.log(`\n${symbols.info} Continuing to watch for changes...\n`);
             }
-            DEBOUNCE_MS = Math.min(DEBOUNCE_MS, spendTime + 100);
+            DEBOUNCE_MS = Math.max(DEBOUNCE_MS, spendTime + 100);
           }, DEBOUNCE_MS);
         });
       })
