@@ -25,71 +25,91 @@ function applyTransformPath(pathStr: string): string {
 }
 
 /**
- * STRICTLY sanitizes names to match ^[a-zA-Z0-9\.\-_]+$
- * Required for OpenAPI Keys in components/schemas
+ * Refactored Sanitization
+ * Allows for generics (MyType<Sub>) to become readable (MyType_Sub)
+ * while strictly adhering to OpenAPI component name standards: ^[a-zA-Z0-9\.\-_]+$
  */
 function sanitizeSchemaName(name: string): string {
+  if (!name) return 'Unknown';
   let clean = name;
   try {
     clean = decodeURIComponent(clean);
   } catch (e) {}
 
-  // 1. Replace common separators with underscore
-  clean = clean.replace(/[<>,|&"'\s:;?{}[\].]+/g, '_');
-  // 2. Remove all other illegal characters
+  // 1. Handle Generics specific formatting: "Wrapper<User>" -> "Wrapper_User"
+  // Replace opening brackets with underscore
+  clean = clean.replace(/<|\[/g, '_');
+  // Replace closing brackets with empty string (or underscore if preferred, but usually looks cleaner without)
+  clean = clean.replace(/>|\]/g, '');
+
+  // 2. Replace common separators (whitespace, commas, pipes) with underscore
+  clean = clean.replace(/[|&,:\s]+/g, '_');
+
+  // 3. Remove any remaining illegal characters (OpenAPI strict mode)
   clean = clean.replace(/[^a-zA-Z0-9.\-_]/g, '');
-  // 3. Dedupe underscores and trim
+
+  // 4. Dedupe underscores and trim edges
   clean = clean.replace(/_{2,}/g, '_').replace(/^_|_$/g, '');
 
-  return clean;
+  return clean || 'UnnamedSchema';
 }
 
 /**
- * Clean logic for OpenAPI 3.1.0
+ * Refactored Cleanup Logic
+ * 1. Doesn't blindly delete defaultProperties.
+ * 2. Uses a WeakMap to track recursion for circular references.
  */
-function cleanSchemaRefs(schema: any): any {
+function cleanSchemaRefs(schema: any, seen = new WeakMap<object, any>()): any {
   if (!schema || typeof schema !== 'object') return schema;
 
-  // Clone to avoid mutating TJS output
-  const clean = Array.isArray(schema) ? [...schema] : { ...schema };
+  // Return early if we've already processed this object instance to handle circular refs
+  if (seen.has(schema)) return seen.get(schema);
 
-  // A. Handle Arrays (recurse)
-  if (Array.isArray(clean)) {
-    return clean.map((item) => cleanSchemaRefs(item));
+  // Clone extraction
+  const clean = Array.isArray(schema) ? [] : {};
+  seen.set(schema, clean); // Register before recursing
+
+  // Copy properties
+  if (Array.isArray(schema)) {
+    (clean as any[]).push(...schema.map((item) => cleanSchemaRefs(item, seen)));
+    return clean;
   }
 
-  // B. Remove Generator Artifacts
-  delete clean['$schema'];
-  delete clean['defaultProperties'];
+  // Object processing
+  for (const [key, value] of Object.entries(schema)) {
+    // 1. Remove Generator Artifacts (Only strictly invalid ones)
+    if (key === '$schema') continue;
 
-  if (schema.$ref && schema.$ref.includes('Date')) {
-    return { type: 'string', format: 'date-time' };
-  }
+    // NOTE: 'defaultProperties' is preserved per user request.
+    // If you need to map it to 'required' or 'default', do it here.
 
-  // C. Handle $ref URI Sanitization
-  if (clean.$ref && typeof clean.$ref === 'string') {
-    let refName = clean.$ref.replace('#/definitions/', '').replace('#/components/schemas/', '');
-    refName = sanitizeSchemaName(refName);
-    clean.$ref = `#/components/schemas/${refName}`;
-  }
-
-  // D. Recurse into children
-  for (const key of Object.keys(clean)) {
-    if (typeof clean[key] === 'object' && clean[key] !== null) {
-      clean[key] = cleanSchemaRefs(clean[key]);
+    // 2. Handle Ref Sanitization
+    if (key === '$ref' && typeof value === 'string') {
+      let refName = value.replace('#/definitions/', '').replace('#/components/schemas/', '');
+      refName = sanitizeSchemaName(refName);
+      (clean as any)[key] = `#/components/schemas/${refName}`;
+      continue;
     }
+
+    // 3. Fix Date objects turning into complex schemas
+    if (key === '$ref' && (value as string).includes('Date')) {
+      return { type: 'string', format: 'date-time' };
+    }
+
+    // 4. Recurse
+    (clean as any)[key] = cleanSchemaRefs(value, seen);
   }
 
-  // E. Flatten definitions (Move nested definitions to components later)
-  if (clean.definitions) {
+  // 5. Flatten definitions (Move nested definitions to components later)
+  if ((clean as any).definitions) {
     const newDefs: any = {};
-    for (const [defName, defSchema] of Object.entries(clean.definitions)) {
+    for (const [defName, defSchema] of Object.entries((clean as any).definitions)) {
       const cleanName = sanitizeSchemaName(defName);
-      newDefs[cleanName] = cleanSchemaRefs(defSchema);
+      newDefs[cleanName] = cleanSchemaRefs(defSchema, seen);
     }
-    // We attach these temporarily to be extracted later
-    clean._nestedDefinitions = newDefs;
-    delete clean.definitions;
+    // We attach these temporarily to be extracted later in registerSchema
+    (clean as any)._nestedDefinitions = newDefs;
+    delete (clean as any).definitions;
   }
 
   return clean;
@@ -106,13 +126,14 @@ interface ExtractedAPIConfig {
   method: string;
   path: string;
   description?: string;
-  category?: string; // 'user', 'admin', or 'common'
+  type?: string; // 'user', 'admin', 'common'
+  category?: string; // The UI category/tag
   needAuth?: boolean;
   paramsInUrl?: string;
   requestTypeName?: string;
   responseTypeName?: string;
   sourceFile: string;
-  successStatus?: number; // e.g., 201
+  successStatus?: number;
 }
 
 function discoverSourceFiles(config: TSDKConfig): string[] {
@@ -233,7 +254,6 @@ function extractFromSourceFile(
       let requestTypeName = patterns.request.find(
         (p) => exportedTypes.has(p) || exportedInterfaces.has(p)
       );
-      // Filter out void/undefined types
       if (requestTypeName && exportedTypes.has(requestTypeName)) {
         const typeNode = exportedTypes.get(requestTypeName);
         if (
@@ -253,14 +273,16 @@ function extractFromSourceFile(
       configs.push({
         name: configName,
         method: configObj.method || 'post',
-        path: configObj.path,
+        path: configObj.path!,
         description: configObj.description,
-        category: configObj.category, // e.g. 'common', 'user', 'admin'
+        type: configObj.type,
+        category: configObj.category, // Pass category through
         needAuth: configObj.needAuth,
         paramsInUrl: configObj.paramsInUrl,
         requestTypeName,
         responseTypeName,
         sourceFile: sourceFile.fileName,
+        successStatus: configObj.successStatus,
       });
     });
   });
@@ -269,20 +291,14 @@ function extractFromSourceFile(
 
 function generateTypeNamePatterns(baseName: string) {
   return {
-    request: [
-      `${baseName}Req`,
-      // `${baseName}Request`,
-      // `${baseName}Input`,
-      // `${baseName}Dto`,
-      // `${baseName}Body`,
-    ],
-    response: [
-      `${baseName}Res`,
-      // `${baseName}Response`, `${baseName}Output`, `${baseName}Result`
-    ],
+    request: [`${baseName}Req`],
+    response: [`${baseName}Res`],
   };
 }
 
+/**
+ * FIXED: Properly separates type and category
+ */
 function parseConfigObject(
   node: ts.Expression,
   config: TSDKConfig,
@@ -295,16 +311,15 @@ function parseConfigObject(
     if (!ts.isPropertyAssignment(prop)) return;
     const name = prop.name.getText(sourceFile);
     const val = prop.initializer;
+
     if (name === 'successStatus') {
-      // extract number value
       if (ts.isNumericLiteral(val)) result.successStatus = parseInt(val.text, 10);
-    }
-    if (name === 'method') result.method = extractStringValue(val, sourceFile);
-    // Map 'type' or 'category' to result.category
-    else if (name === 'type' || name === 'category') {
-      const v = extractStringValue(val, sourceFile);
-      if (v) result.category = v;
-    } else if (name === 'path') result.path = extractStringValue(val, sourceFile);
+    } else if (name === 'method') result.method = extractStringValue(val, sourceFile);
+    // --- SEPARATED EXTRACTION START ---
+    else if (name === 'type') result.type = extractStringValue(val, sourceFile);
+    else if (name === 'category') result.category = extractStringValue(val, sourceFile);
+    // --- SEPARATED EXTRACTION END ---
+    else if (name === 'path') result.path = extractStringValue(val, sourceFile);
     else if (name === 'description') result.description = extractStringValue(val, sourceFile);
     else if (name === 'needAuth') result.needAuth = val.kind === ts.SyntaxKind.TrueKeyword;
     else if (name === 'paramsInUrl') result.paramsInUrl = extractStringValue(val, sourceFile);
@@ -361,14 +376,12 @@ function generateOpenAPISpec(
     ref: true,
     topRef: false,
     defaultProps: true,
-    // 1. Force Date to be a string/date-time
     defaultNumberType: 'number',
-    titles: true, // Use JSDoc tags for titles
+    titles: true,
   });
 
   if (!generator) logger.warn('Warning: Could not build schema generator.');
 
-  // Helper to add schema to components
   const registerSchema = (typeName: string) => {
     if (!generator) return null;
     const rawSchema = generator.getSchemaForSymbol(typeName);
@@ -376,19 +389,19 @@ function generateOpenAPISpec(
 
     const schema = cleanSchemaRefs(rawSchema);
 
-    // Extract nested definitions
     if (schema._nestedDefinitions) {
       Object.entries(schema._nestedDefinitions).forEach(([key, val]) => {
         const cleanKey = sanitizeSchemaName(key);
         if (!spec.components.schemas[cleanKey]) {
-          spec.components.schemas[cleanKey] = val; // Already cleaned
+          spec.components.schemas[cleanKey] = val;
         }
       });
       delete schema._nestedDefinitions;
     }
 
-    spec.components.schemas[typeName] = schema;
-    return typeName;
+    const cleanTypeName = sanitizeSchemaName(typeName);
+    spec.components.schemas[cleanTypeName] = schema;
+    return cleanTypeName;
   };
 
   const resolveRef = (ref: string): any => {
@@ -429,23 +442,19 @@ function generateOpenAPISpec(
       .replace(/Route$/, '')
       .replace(/^([A-Z])/, (match) => match.toLowerCase());
 
-    // 1. DETERMINE TARGET PREFIXES (Fix for 'common')
-    // If category is common, we generate routes for BOTH 'user' and 'admin'
     let targetPrefixes: string[] = [];
-    if (config.category === 'common') {
+    if (config.type === 'common') {
       targetPrefixes = ['user', 'admin'];
     } else {
-      targetPrefixes = [config.category || 'user'];
+      targetPrefixes = [config.type || 'user'];
     }
 
     for (const prefix of targetPrefixes) {
-      // 2. Generate Unique Operation ID
-      const isCommon = config.category === 'common';
+      const isCommon = config.type === 'common';
       const operationId = isCommon
         ? `${prefix}${operationIdBase.charAt(0).toUpperCase() + operationIdBase.slice(1)}`
         : operationIdBase;
 
-      // 3. Construct Path
       const rawPath = config.path.startsWith('/') ? config.path : `/${config.path}`;
       let fullPath = rawPath;
       if (!rawPath.startsWith(`/${prefix}/`)) {
@@ -456,10 +465,17 @@ function generateOpenAPISpec(
 
       if (!spec.paths[pathKey]) spec.paths[pathKey] = {};
 
+      // --- FIXED TAGS GENERATION ---
+      const operationTags = [prefix];
+      if (config.category) {
+        operationTags.push(config.category);
+      }
+      // -----------------------------
+
       const operation: any = {
         operationId,
-        summary: config.name,
-        tags: [prefix], // Tag with 'user' or 'admin', not 'common'
+        summary: config.description || config.name,
+        tags: operationTags,
         responses: {
           '200': {
             description: 'Successful response',
@@ -474,7 +490,6 @@ function generateOpenAPISpec(
         operation.security = [{ bearerAuth: [] }];
       }
 
-      // 4. Path Parameters
       const pathParams = (pathKey.match(/\{(\w+)\}/g) || []).map((m: string) =>
         m.replace(/[{}]/g, '')
       );
@@ -489,7 +504,6 @@ function generateOpenAPISpec(
 
       const method = (config.method || 'post').toLowerCase();
 
-      // 5. Request Body / Query Params Logic
       if (config.requestTypeName) {
         let schemaName = null;
         try {
@@ -500,15 +514,11 @@ function generateOpenAPISpec(
 
         if (schemaName) {
           if (method === 'get' || method === 'delete') {
-            // GET/DELETE -> Query Params
             if (!operation.parameters) operation.parameters = [];
             const mainSchema = spec.components.schemas[schemaName];
             const queryParams = convertToParams(mainSchema);
             operation.parameters.push(...queryParams);
           } else {
-            // POST/PUT/PATCH -> Request Body
-            // Simple heuristic: Check if type name contains "Upload" or "File"
-            // A better way is to inspect the schema properties for { format: "binary" }
             let contentType = 'application/json';
             if (
               config.requestTypeName &&
@@ -527,14 +537,8 @@ function generateOpenAPISpec(
             };
           }
         }
-      } else if (method !== 'get' && method !== 'delete') {
-        // Debug warning if POST but no body found
-        logger.warn(
-          `[Info] No request type found for ${method.toUpperCase()} ${pathKey} (Config: ${config.name}). Body will be empty.`
-        );
       }
 
-      // 6. Response Type Logic
       if (config.responseTypeName) {
         let schemaName = null;
         try {
@@ -551,7 +555,7 @@ function generateOpenAPISpec(
     }
   }
 
-  // Populate global tags list based on what was actually generated
+  // Populate global tags list
   const usedTags = new Set<string>();
   Object.values(spec.paths).forEach((pathItem: any) => {
     Object.values(pathItem).forEach((op: any) => {
@@ -569,7 +573,7 @@ function generateOpenAPISpec(
 
 async function main() {
   try {
-    console.log('🚀 tsdk to OpenAPI Generator (v3.1.0)\n');
+    console.log('🚀 tsdk to OpenAPI Generator (v3.1.0) [Fixed]\n');
     logger.log('🔍 Configuration:');
     logger.log(`   Package: ${config.packageName}`);
 
@@ -590,11 +594,10 @@ async function main() {
     logger.log('\n📝 API Endpoints Preview:');
     configs.forEach((cfg) => {
       const method = (cfg.method || 'post').toUpperCase();
-      const cat = cfg.category || 'user';
-      // Just showing rough preview, the generation logic handles the split
-      const displayPath =
-        cfg.category === 'common' ? `/{user|admin}${cfg.path}` : `/${cat}${cfg.path}`;
-      logger.log(`   ${method.padEnd(6)} ${displayPath.padEnd(35)} [${cfg.name}]`);
+      const cat = cfg.type || 'user';
+      const tagStr = cfg.category ? `[${cfg.category}] ` : '';
+      const displayPath = cfg.type === 'common' ? `/{user|admin}${cfg.path}` : `/${cat}${cfg.path}`;
+      logger.log(`   ${method.padEnd(6)} ${displayPath.padEnd(35)} ${tagStr}${cfg.name}`);
     });
 
     logger.log('\n🏗️  Generating OpenAPI 3.1.0 specification...');
