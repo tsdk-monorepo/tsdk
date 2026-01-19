@@ -2,14 +2,14 @@ import { buildSDK } from './compile-tsdk';
 import { tsconfigExists, parsePkg, config } from './config';
 import { getNpmCommand } from './get-npm-command';
 import { logger } from './log';
-import { runOpenapiCommand } from './openapi-command';
+import { runOpenapiToApiconfCommand, runApiconfToOpenapiCommand } from './openapi-command';
 import { runPrettier } from './prettier';
 import { removeFields } from './remove-fields';
 import { runNestCommand } from './run-nest-command';
 import symbols from './symbols';
 import { copyPermissionsJSON, deleteSDKFolder, syncAPI } from './sync-api';
 import { addDepsIfNone, copyTsdkConfig, syncFiles } from './sync-files';
-import { measureExecutionTime } from './utils';
+import { ignorePatterns, measureExecutionTime } from './utils';
 import watcher from '@parcel/watcher';
 import path from 'path';
 
@@ -23,20 +23,21 @@ Usage:
   $ tsdk [command] [options]
 
 Commands:
-  --help              Show this help message
-  --version           Show version information
-  --init              Initialize tsdk configuration file
-  --sync              Sync files and generate API
-  --watch             Watch mode for continuous sync
-  --nest <command>    Run NestJS build commands
-  --openapi <file>    Convert OpenAPI spec to apiconf.ts (Better use with -o <output dir>)
+  --help                   Show this help message
+  --version                Show version information
+  --init                   Initialize tsdk configuration file
+  --sync                   Sync files and generate API
+  --watch                  Watch mode for continuous sync
+  --nest <command>         Run NestJS build commands
+  --from-openapi <file>    Convert OpenAPI spec to *.apiconf.ts (Better use with -o <output dir>)
+  --to-openapi             Convert *.apiconf.ts to OpenAPI spec (default output: sdk-dir/openapi.yaml)
 
 Options:
-  --build             Run tsc build after sync (with --sync)
-  --no-zod            Skip adding zod to dependencies (with --init or --sync)
-  --no-vscode         Skip copying .vscode/ directory (with --sync)
-  --no-overwrite      Preserve existing files, only create new ones (with --sync)
-  --no-verbose        Only logs necessary information
+  --build                   Run tsc build after sync (with --sync)
+  --no-zod                  Skip adding zod to dependencies (with --init or --sync)
+  --no-vscode               Skip copying .vscode/ directory (with --sync)
+  --no-overwrite            Preserve existing files, only create new ones (with --sync)
+  --no-verbose              Only logs necessary information
 
 Examples:
   $ tsdk --version
@@ -52,8 +53,9 @@ Examples:
   $ tsdk --nest build
   $ tsdk --nest build <app-name>
   $ tsdk --nest build all
-  $ tsdk --openapi openapi.yaml -o <ouput-dir>
-  $ tsdk --openapi openapi.json -o <ouput-dir>
+  $ tsdk --to-openapi
+  $ tsdk --from-openapi openapi.yaml -o <ouput-dir>
+  $ tsdk --from-openapi openapi.json -o <ouput-dir>
 `,
 
   // Short descriptions for programmatic use
@@ -61,7 +63,8 @@ Examples:
   sync: 'Sync files and generate API code from configuration',
   watch: 'Watch for changes and auto-sync',
   nest: 'Run NestJS CLI commands (currently supports: build)',
-  openapi: 'Convert OpenAPI specification (YAML or JSON) to TypeScript API configuration',
+  'from-openapi': 'Convert OpenAPI specification (YAML or JSON) to TypeScript API configuration',
+  'to-openapi': 'Convert TypeScript API configuration to OpenAPI specification (YAML or JSON)',
   version: 'Display tsdk version information',
 } as const;
 
@@ -226,50 +229,54 @@ async function handleWatchCommand(noOverwrite: boolean, needBuild = false): Prom
     // Subscribe to all watch directories
     const subscriptions = await Promise.all(
       watchDirs.map(async (watchDir) => {
-        return watcher.subscribe(watchDir, async (err, events) => {
-          if (err) {
-            logger.error(`\n${symbols.error} Watch error in ${watchDir}:`, err);
-            return;
-          }
-
-          // Filter for relevant file changes based on configured extensions
-          const relevantChanges = events.filter((event) => isRelevantFile(event.path));
-
-          if (relevantChanges.length === 0) return;
-
-          // Log detected changes
-          logger.info(`\n${symbols.info} Detected changes:`);
-          relevantChanges.forEach((event) => {
-            const relativePath = path.relative(process.cwd(), event.path);
-            logger.info(`  ${event.type}: ${relativePath}`);
-          });
-
-          // Debounce: wait for changes to settle before syncing
-          if (syncTimeout) clearTimeout(syncTimeout);
-
-          syncTimeout = setTimeout(async () => {
-            const now = Date.now();
-            const timeSinceLastSync = now - lastSyncTime;
-
-            if (timeSinceLastSync < DEBOUNCE_MS) return;
-
-            lastSyncTime = now;
-            logger.info(`${symbols.info} Syncing changes...`);
-            let spendTime = 0;
-            try {
-              await handleSyncCommand(noOverwrite, needBuild, false);
-              spendTime = Date.now() - lastSyncTime;
-              logger.info(
-                `${symbols.success}Sync complete in ${spendTime}ms. Watching for changes...\n`
-              );
-            } catch (error) {
-              spendTime = Date.now() - lastSyncTime;
-              logger.error(`${symbols.error} Sync failed:`, error);
-              logger.log(`${symbols.info} Continuing to watch for changes...\n`);
+        return watcher.subscribe(
+          watchDir,
+          async (err, events) => {
+            if (err) {
+              logger.error(`\n${symbols.error} Watch error in ${watchDir}:`, err);
+              return;
             }
-            DEBOUNCE_MS = Math.max(DEBOUNCE_MS, spendTime + 50);
-          }, DEBOUNCE_MS);
-        });
+
+            // Filter for relevant file changes based on configured extensions
+            const relevantChanges = events.filter((event) => isRelevantFile(event.path));
+
+            if (relevantChanges.length === 0) return;
+
+            // Log detected changes
+            logger.info(`\n${symbols.info} Detected changes:`);
+            relevantChanges.forEach((event) => {
+              const relativePath = path.relative(process.cwd(), event.path);
+              logger.info(`  ${event.type}: ${relativePath}`);
+            });
+
+            // Debounce: wait for changes to settle before syncing
+            if (syncTimeout) clearTimeout(syncTimeout);
+
+            syncTimeout = setTimeout(async () => {
+              const now = Date.now();
+              const timeSinceLastSync = now - lastSyncTime;
+
+              if (timeSinceLastSync < DEBOUNCE_MS) return;
+
+              lastSyncTime = now;
+              logger.info(`${symbols.info} Syncing changes...`);
+              let spendTime = 0;
+              try {
+                await handleSyncCommand(noOverwrite, needBuild, false);
+                spendTime = Date.now() - lastSyncTime;
+                logger.info(
+                  `${symbols.success}Sync complete in ${spendTime}ms. Watching for changes...\n`
+                );
+              } catch (error) {
+                spendTime = Date.now() - lastSyncTime;
+                logger.error(`${symbols.error} Sync failed:`, error);
+                logger.log(`${symbols.info} Continuing to watch for changes...\n`);
+              }
+              DEBOUNCE_MS = Math.max(DEBOUNCE_MS, spendTime + 50);
+            }, DEBOUNCE_MS);
+          },
+          { ignore: ignorePatterns }
+        );
       })
     );
 
@@ -346,8 +353,12 @@ async function handleCommand(params: string[]): Promise<void> {
         await runNestCommand();
         break;
 
-      case '--openapi':
-        await runOpenapiCommand();
+      case '--from-openapi':
+        await runOpenapiToApiconfCommand();
+        break;
+
+      case '--to-openapi':
+        await runApiconfToOpenapiCommand();
         break;
 
       default:

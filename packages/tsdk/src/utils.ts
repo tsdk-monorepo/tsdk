@@ -33,3 +33,15 @@ export const measureExecutionTime = async <T>(
     throw error;
   }
 };
+
+export const ignorePatterns = [
+  '**/node_modules/**',
+  '**/*.d.ts',
+  '**/*.test.ts',
+  '**/*.test.tsx',
+  '**/*.spec.ts',
+  '**/*.spec.tsx',
+  '**/dist/**',
+  '**/build/**',
+  `**/${config.packageDir}/**`, // Ignore generated SDK
+];
