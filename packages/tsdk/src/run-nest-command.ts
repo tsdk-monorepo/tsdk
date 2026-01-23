@@ -6,7 +6,7 @@ import symbols from './symbols';
 import { logger } from './log';
 
 export async function runNestCommand() {
-  const idx = process.argv.findIndex((i) => i === '--nest');
+  const idx = process.argv.findIndex((i) => i === '--nest' || i === 'nest');
   const command = process.argv[idx + 1];
 
   if (command === 'build') {
@@ -37,6 +37,6 @@ export async function runNestCommand() {
       throw error;
     }
   } else {
-    logger.log(symbols.warning, `\`tsdk --nest\` currently only support \`build\` command.`);
+    logger.log(symbols.warning, `\`tsdk nest\` currently only support \`build\` command.`);
   }
 }

@@ -55,7 +55,8 @@
     "js-yaml": "^4.1.1",
     "@parcel/watcher": "^2.5.4",
     "typescript-json-schema": "^0.67.1",
-    "typescript": "~5.5.4"
+    "typescript": "~5.5.4",
+    "@clack/prompts": "^0.11.0"
   },
   "devDependencies": {
     "@types/js-yaml": "^4.0.9",

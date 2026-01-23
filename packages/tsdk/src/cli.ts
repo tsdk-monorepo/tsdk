@@ -16,49 +16,76 @@ import path from 'path';
 // CLI command definitions
 // Purpose: Define all CLI commands, their help text, and usage examples
 // Each command should have clear, structured documentation
-
 const CLI_COMMANDS = {
   help: `
-Usage:
-  $ tsdk [command] [options]
+${bold('tsdk')} - TypeScript Development Kit
 
-Commands:
-  --help                   Show this help message
-  --version                Show version information
-  --init                   Initialize tsdk configuration file
-  --sync                   Sync files and generate API
-  --watch                  Watch mode for continuous sync
-  --nest <command>         Run NestJS build commands
-  --from-openapi <file>    Convert OpenAPI spec to *.apiconf.ts (Better use with -o <output dir>)
-  --to-openapi             Convert *.apiconf.ts to OpenAPI spec (default output: sdk-dir/openapi.yaml)
+${bold('USAGE')}
+  ${dim('$')} tsdk ${yellow('[command]')} ${cyan('[options]')}
 
-Options:
-  --build                   Run tsc build after sync (with --sync)
-  --no-zod                  Skip adding zod to dependencies (with --init or --sync)
-  --no-vscode               Skip copying .vscode/ directory (with --sync)
-  --no-overwrite            Preserve existing files, only create new ones (with --sync)
-  --no-verbose              Only logs necessary information
+${bold('COMMANDS')}
+  ${yellow('create')} ${cyan('[name]')}           Create a new project from Git template
+  ${yellow('add')} ${cyan('<module>')}            Add a module to current project
+  ${yellow('init')}                      Initialize tsdk configuration file
+  ${yellow('sync')}                      Sync files and generate API
+  ${yellow('watch')}                     Watch mode for continuous sync
+  ${yellow('nest')} ${cyan('<command>')}          Run NestJS build commands
+  ${yellow('from-openapi')} ${cyan('<file>')}     Convert OpenAPI spec to *.apiconf.ts
+  ${yellow('to-openapi')}                Convert *.apiconf.ts to OpenAPI spec
 
-Examples:
-  $ tsdk --version
-  $ tsdk --help
-  $ tsdk --init
-  $ tsdk --init --no-zod
-  $ tsdk --sync
-  $ tsdk --sync --build
-  $ tsdk --sync --no-overwrite
-  $ tsdk --sync --no-vscode --no-zod
-  $ tsdk --sync --no-vscode --no-zod --no-verbose
-  $ tsdk --watch
-  $ tsdk --nest build
-  $ tsdk --nest build <app-name>
-  $ tsdk --nest build all
-  $ tsdk --to-openapi
-  $ tsdk --from-openapi openapi.yaml -o <ouput-dir>
-  $ tsdk --from-openapi openapi.json -o <ouput-dir>
+${bold('OPTIONS')}
+  ${cyan('--help, -h')}                 Show this help message
+  ${cyan('--version, -v')}              Show version information
+  ${cyan('--build')}                    Run tsc build after sync ${dim('(with --sync)')}
+  ${cyan('--no-zod')}                   Skip adding zod to dependencies
+  ${cyan('--no-vscode')}                Skip copying .vscode/ directory ${dim('(with --sync)')}
+  ${cyan('--no-overwrite')}             Preserve existing files, only create new ones
+  ${cyan('--no-verbose')}               Only log necessary information
+  ${cyan('-o, --output')} ${yellow('<dir>')}        Output directory ${dim('(with --from-openapi)')}
+  ${cyan('-t, --template')} ${yellow('<repo>')}     Git repository for template ${dim('(with create)')}
+
+${bold('EXAMPLES')}
+  ${dim('# Project scaffolding')}
+  ${dim('$')} tsdk create my-app ${cyan('--template')} user/react-template
+  ${dim('$')} tsdk create backend ${cyan('-t')} company/express-starter
+  ${dim('$')} tsdk add user/auth-module
+  ${dim('$')} tsdk add https://github.com/user/payment-module.git
+
+  ${dim('# Configuration & sync')}
+  ${dim('$')} tsdk init
+  ${dim('$')} tsdk init ${cyan('--no-zod')}
+  ${dim('$')} tsdk sync
+  ${dim('$')} tsdk sync ${cyan('--build')}
+  ${dim('$')} tsdk sync ${cyan('--no-overwrite --no-vscode')}
+  ${dim('$')} tsdk watch
+
+  ${dim('# NestJS integration')}
+  ${dim('$')} tsdk nest build
+  ${dim('$')} tsdk nest build ${yellow('<app-name>')}
+  ${dim('$')} tsdk nest build all
+
+  ${dim('# OpenAPI conversion')}
+  ${dim('$')} tsdk to-openapi
+  ${dim('$')} tsdk from-openapi openapi.yaml ${cyan('-o')} ${yellow('./src/api')}
+  ${dim('$')} tsdk from-openapi spec.json ${cyan('--output')} ${yellow('./generated')}
+
+${bold('TEMPLATES & MODULES')}
+  Templates and modules are sourced from Git repositories:
+  • ${cyan('user/repo')}              GitHub short form
+  • ${cyan('user/repo#branch')}       Specific branch
+  • ${cyan('https://...')}            Full Git URL
+
+  Create your own:
+  • Templates: Any Git repo with a valid project structure
+  • Modules: Git repo with ${yellow('module.json')} at root
+
+${dim('Documentation:')} https://github.com/tsdk-monorepo/tsdk
+${dim('Report issues:')} https://github.com/tsdk-monorepo/tsdk/issues
 `,
 
   // Short descriptions for programmatic use
+  create: 'Create a new project from Git template',
+  add: 'Add a module from Git repository to current project',
   init: 'Initialize tsdk configuration file',
   sync: 'Sync files and generate API code from configuration',
   watch: 'Watch for changes and auto-sync',
@@ -67,6 +94,68 @@ Examples:
   'to-openapi': 'Convert TypeScript API configuration to OpenAPI specification (YAML or JSON)',
   version: 'Display tsdk version information',
 } as const;
+
+// Color helpers (if not already imported from picocolors)
+function bold(str: string) {
+  return `\x1b[1m${str}\x1b[0m`;
+}
+function dim(str: string) {
+  return `\x1b[2m${str}\x1b[0m`;
+}
+function yellow(str: string) {
+  return `\x1b[33m${str}\x1b[0m`;
+}
+function cyan(str: string) {
+  return `\x1b[36m${str}\x1b[0m`;
+}
+
+// Map old flags to new commands
+const LEGACY_MAPPING: Record<string, CommandKey> = {
+  '--init': 'init',
+  '--sync': 'sync',
+  '--watch': 'watch',
+  '--nest': 'nest',
+  '--from-openapi': 'from-openapi',
+  '--to-openapi': 'to-openapi',
+  '--help': 'help',
+  '-h': 'help',
+  '--version': 'version',
+  '-v': 'version',
+};
+
+export type CommandKey = keyof typeof CLI_COMMANDS;
+/**
+ * Normalizes arguments to ensure compatibility between
+ * old style (flags) and new style (commands).
+ */
+export function resolveCommand(args: string[]): { command: CommandKey; args: string[] } {
+  const primaryInput = args[0];
+
+  // 1. Handle empty input
+  if (!primaryInput) {
+    return { command: 'help', args: [] };
+  }
+
+  // 2. Check if it's a known new-style command
+  if (primaryInput in CLI_COMMANDS && primaryInput !== 'help') {
+    return {
+      command: primaryInput as CommandKey,
+      args: args.slice(1),
+    };
+  }
+
+  // 3. Check legacy mapping (Old Style conversion)
+  if (LEGACY_MAPPING[primaryInput]) {
+    // If user typed 'tsdk --sync', we treat it as 'tsdk sync'
+    return {
+      command: LEGACY_MAPPING[primaryInput],
+      args: args.slice(1),
+    };
+  }
+
+  // 4. Fallback for unknown commands
+  return { command: 'help', args: [] };
+}
 
 // Validate that a command exists
 function isValidCommand(cmd: string): cmd is keyof typeof CLI_COMMANDS {
@@ -88,8 +177,13 @@ const VALID_PROJECT_MSG = `Please run \`tsdk\` in a valid TypeScript project! Ch
 export async function run(): Promise<void> {
   const startTime = Date.now();
   try {
-    const params = process.argv.filter((i) => i.startsWith('--'));
-    await handleCommand(params);
+    const tsdkIdx = process.argv.findIndex(
+      (item) => item.endsWith('tsdk') || item.endsWith('tsdk.js')
+    );
+    const rawArgs = process.argv.filter((item, idx) => idx > tsdkIdx);
+    // Normalize args using our compatibility layer
+    const { command, args: commandArgs } = resolveCommand(rawArgs);
+    await handleCommand(command, commandArgs);
     const totalTime = Date.now() - startTime;
     logger.log(`\n✅ Total execution time: ${(totalTime / 1000).toFixed(2)}s`);
   } catch (error) {
@@ -304,16 +398,16 @@ async function handleWatchCommand(noOverwrite: boolean, needBuild = false): Prom
  * Handles CLI commands
  * @param params Command line parameters
  */
-async function handleCommand(params: string[]): Promise<void> {
+async function handleCommand(command: string, params: string[]): Promise<void> {
   try {
-    if (params.length === 0 || params[0] === '--help') {
+    if (command === 'help') {
       logger.info(CLI_COMMANDS.help);
 
       if (!tsconfigExists) logger.info(symbols.warning, VALID_PROJECT_MSG, '\n');
       return;
     }
 
-    if (params[0] === '--version') {
+    if (command === 'version') {
       const pkg = await parsePkg();
       logger.info(`${pkg.name}@${pkg.version}`);
       return;
@@ -324,8 +418,8 @@ async function handleCommand(params: string[]): Promise<void> {
       return process.exit(1);
     }
 
-    switch (params[0]) {
-      case '--init': {
+    switch (command) {
+      case 'init': {
         await copyTsdkConfig();
         const npmCommand = getNpmCommand(process.cwd());
         logger.info(
@@ -335,34 +429,34 @@ async function handleCommand(params: string[]): Promise<void> {
         break;
       }
 
-      case '--sync': {
+      case 'sync': {
         const noOverwrite = params.includes('--no-overwrite');
         const withBuild = params.includes('--build');
         await handleSyncCommand(noOverwrite, withBuild);
         break;
       }
 
-      case '--watch': {
+      case 'watch': {
         const noOverwrite = params.includes('--no-overwrite');
         const withBuild = params.includes('--build');
         await handleWatchCommand(noOverwrite, withBuild);
         break;
       }
 
-      case '--nest':
+      case 'nest':
         await runNestCommand();
         break;
 
-      case '--from-openapi':
+      case 'from-openapi':
         await runOpenapiToApiconfCommand();
         break;
 
-      case '--to-openapi':
+      case 'to-openapi':
         await runApiconfToOpenapiCommand();
         break;
 
       default:
-        logger.info(`\n${symbols.error} Unknown command: ${params[0]}`);
+        logger.info(`\n${symbols.error} Unknown command: ${command}`);
         logger.info(CLI_COMMANDS.help);
         process.exit(1);
     }

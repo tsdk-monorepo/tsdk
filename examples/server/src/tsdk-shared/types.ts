@@ -18,6 +18,7 @@ export interface APIConfig {
   method: 'get' | 'post' | 'delete' | 'put' | 'patch' | 'head' | 'options';
   /** Request data validation schema. */
   schema?: StandardSchemaV1;
+  category?: string;
   /** Does the API require authentication? Default is `false`. */
   needAuth?: boolean;
   /** Is the API disabled? Default is `false`. */
