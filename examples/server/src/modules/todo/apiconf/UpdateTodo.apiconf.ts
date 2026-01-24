@@ -1,20 +1,14 @@
 import type { Todo } from '../Todo.entity';
 import { updateTodoSchema } from './TodoSchema.shared';
 
-import {
-  APIConfig,
-  RequireAtLeastOne,
-  transformPath,
-  UpdateResult,
-} from '@/src/shared/tsdk-helper';
+import { APIConfig, transformPath } from '@/src/tsdk-shared/helpers';
+import { RequireAtLeastOne, UpdateResult } from '@/src/shared/types';
 
 export const UpdateTodoConfig: APIConfig = {
   type: 'user',
   path: transformPath('UpdateTodo'),
   method: 'post',
 
-  description: 'update todo',
-  category: 'todo',
   schema: updateTodoSchema,
 };
 

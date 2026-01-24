@@ -1,7 +1,9 @@
 import { execSync } from 'child_process';
-import glob = require('fast-glob');
+import glob from 'fast-glob';
 import fsExtra from 'fs-extra';
+import fs from 'fs';
 import path from 'path';
+import { depsVersions } from './deps-version';
 
 import {
   isConfigExist,
@@ -12,17 +14,32 @@ import {
   parseDeps,
   packageFolder,
 } from './config';
-import { getNpmCommand } from './get-pkg-manager';
+import { getNpmCommand } from './get-npm-command';
 import symbols from './symbols';
 import { transformImportPath } from './transform-import-path';
+import { replaceWindowsPath, measureExecutionTime } from './utils';
+import { extractApiconfs } from './extract-apiconfs';
+import { logger } from './log';
 
 export async function syncFiles(noOverwrite = false) {
-  await copySDK(noOverwrite);
-  await parseDeps();
-  await syncAddtionShareFiles();
-  await syncAPIConf();
-  await syncEntityFiles();
-  await syncSharedFiles();
+  const indent = '   ';
+  await measureExecutionTime(`Init ${ensureDir}`, () => copySDK(noOverwrite), indent);
+  await measureExecutionTime(`Parse deps`, () => parseDeps(), indent);
+  await measureExecutionTime(
+    `sync *.${config.shareExt || 'share'}.ts files`,
+    () => syncAdditionalSharedFiles(),
+    indent
+  );
+  const [apiconfs] = await Promise.all([
+    measureExecutionTime(`Sync *.${config.apiconfExt}.ts`, () => syncAPIConf(), indent),
+    measureExecutionTime(`Sync *.${config.entityExt}.ts`, () => syncEntityFiles(), indent),
+  ]);
+  await measureExecutionTime(
+    `Sync shared folders: ${config.sharedDirs.join(', ')}`,
+    () => syncSharedFolders(),
+    indent
+  );
+  return apiconfs;
 }
 
 export async function copyTsdkConfig() {
@@ -35,76 +52,139 @@ export async function copyTsdkConfig() {
 }
 
 export async function addDepsIfNone() {
+  if (process.argv.find((i) => i.indexOf('--no-zod') > -1)) return Promise.resolve(0);
   const cwd = process.cwd();
   const pkgPath = path.resolve(cwd, 'package.json');
-  const content = await fsExtra.readFile(pkgPath, 'utf8');
+  const content = await fs.promises.readFile(pkgPath, 'utf8');
   const contentJSON = JSON.parse(content);
+  if (!contentJSON.dependencies) contentJSON.dependencies = {};
   const npmCMDs = await getNpmCommand(cwd);
   let needRunInstall = false;
+
+  const validationLib = config.validationLib || 'zod';
+
   await Promise.all(
-    [
-      ['zod', '^3'],
-      ['change-case', '^4.1.2'],
-    ].map(async ([i, version]) => {
-      if (!contentJSON.dependencies[i]) {
-        contentJSON.dependencies[i] = version;
-        await fsExtra.writeFile(pkgPath, JSON.stringify(contentJSON, null, 2));
-        needRunInstall = true;
-        console.log('');
-        console.log(
-          symbols.warning,
-          `\`tsdk\` depends on \`${i}\`, so automatic add \`${i}\` to dependencies`
-        );
-        console.log(
-          symbols.info,
-          `You can run \`${npmCMDs.installCmd}\` to install new dependencies`
-        );
-        console.log('');
+    [vLibs[validationLib], ['@standard-schema/spec', depsVersions['@standard-schema/spec']]].map(
+      async ([dependency, version]) => {
+        if (!contentJSON.dependencies[dependency]) {
+          contentJSON.dependencies[dependency] = version;
+          needRunInstall = true;
+          logger.log('');
+          logger.warn(
+            `    ${symbols.warning}`,
+            `\`tsdk\` depends on \`${dependency}\`, so automatically adding \`${dependency}\` to dependencies`
+          );
+          // logger.log(
+          //   symbols.info,
+          //   `You can run \`${npmCMDs.installCmd}\` to install new dependencies`
+          // );
+          logger.log('');
+        }
+        return 1;
       }
-      return 1;
-    })
+    )
   );
+  await fs.promises.writeFile(pkgPath, JSON.stringify(contentJSON, null, 2));
+
   if (needRunInstall) {
-    execSync(`${npmCMDs.installCmd}`);
+    try {
+      execSync(`${npmCMDs.installCmd}`, { stdio: 'pipe', encoding: 'utf-8', env: process.env });
+    } catch (error) {
+      logger.error('Command failed:', (error as any).stdout || (error as any).stderr);
+      throw error;
+    }
   }
 }
 
 export async function copySnippet() {
+  if (process.argv.find((i) => i.indexOf('--no-vscode') > -1)) return Promise.resolve(0);
+  const vscodeFilePath = path.resolve(process.cwd(), config.monorepoRoot || './', '.vscode');
   await fsExtra.copy(
     path.join(__dirname, '../fe-sdk-template', './config/.vscode'),
-    path.resolve(process.cwd(), config.monorepoRoot || './', '.vscode'),
+    vscodeFilePath,
     { overwrite: false }
   );
+
+  // overwrite snippets
+  const validationLib = config.validationLib || 'zod';
+  const imports = {
+    zod: `import { z } from 'zod';`,
+    valibot: `import * as v from 'valibot';`,
+    arktype: `import { type } from "arktype"`,
+  } as const;
+  const currentImport = imports[validationLib];
+  const snippetPath = path.join(vscodeFilePath, 'tsdk.code-snippets');
+  const content = await fs.promises.readFile(snippetPath, 'utf-8');
+  await fs.promises.writeFile(snippetPath, content.replace(imports.zod, currentImport));
 }
 
 export async function copyShared() {
   await fsExtra.copy(
-    path.join(__dirname, '../fe-sdk-template', './src/shared/'),
-    path.join(process.cwd(), config.baseDir, 'shared'),
+    path.join(__dirname, '../fe-sdk-template', './src/tsdk-shared/'),
+    path.join(process.cwd(), config.baseDir, 'tsdk-shared'),
     { overwrite: false }
   );
 }
 
+/** Validation libs */
+const vLibs = {
+  zod: ['zod', depsVersions['zod']],
+  valibot: ['valibot', depsVersions['valibot']],
+  arktype: ['arktype', depsVersions['arktype']],
+} as const;
+
 async function reconfigPkg() {
   // rename package name
   const pkgPath = path.resolve(process.cwd(), config.packageDir, packageFolder, 'package.json');
-  const [content] = await Promise.all([fsExtra.readFile(pkgPath, 'utf-8')]);
+  const [content] = await Promise.all([
+    fs.promises.readFile(pkgPath, 'utf-8'),
+    fs.promises.rename(
+      path.resolve(process.cwd(), config.packageDir, packageFolder, 'gitignore-x'),
+      path.resolve(process.cwd(), config.packageDir, packageFolder, '.gitignore')
+    ),
+  ]);
   const pkgContent = JSON.parse(content);
 
   pkgContent.name = config.packageName;
+
   if (
     (Array.isArray(config.entityLibName)
       ? config.entityLibName
       : [config.entityLibName || 'typeorm']
     )?.find((item) => item === 'kysely')
   ) {
-    pkgContent.dependencies.kysely = '^0.27.5';
+    pkgContent.dependencies.kysely = depsVersions['kysely'];
   }
-  const dataHookLib = config.dataHookLib?.toLowerCase();
-  if (dataHookLib === 'swr') {
-    pkgContent.dependencies.swr = '^2.3.0';
-  } else if (dataHookLib === 'reactquery') {
-    pkgContent.dependencies['@tanstack/react-query'] = '^5.56.2';
+
+  const validationLib = config.validationLib || 'zod';
+  pkgContent.dependencies[validationLib] = vLibs[validationLib][1];
+
+  const _hookLibs = (
+    Array.isArray(config.dataHookLib) ? config.dataHookLib : [config.dataHookLib || 'SWR']
+  ).map((i) => (i as string).toLowerCase());
+
+  const hookLibs = Array.from(new Set(_hookLibs));
+
+  const isSWR = hookLibs?.includes('swr');
+  const isReactQuery = hookLibs?.includes('reactquery');
+  const isVueQuery = hookLibs?.includes('vuequery');
+  const isSolidQuery = hookLibs?.includes('solidquery');
+  const isSvelteQuery = hookLibs?.includes('sveltequery');
+
+  if (isSWR) {
+    pkgContent.dependencies.swr = depsVersions['swr'];
+  }
+  if (isReactQuery) {
+    pkgContent.dependencies['@tanstack/react-query'] = depsVersions['@tanstack/react-query'];
+  }
+  if (isVueQuery) {
+    pkgContent.dependencies['@tanstack/vue-query'] = depsVersions['@tanstack/vue-query'];
+  }
+  if (isSolidQuery) {
+    pkgContent.dependencies['@tanstack/solid-query'] = depsVersions['@tanstack/solid-query'];
+  }
+  if (isSvelteQuery) {
+    pkgContent.dependencies['@tanstack/svelte-query'] = depsVersions['@tanstack/svelte-query'];
   }
 
   if (config.dependencies) {
@@ -113,12 +193,14 @@ async function reconfigPkg() {
       ...config.dependencies,
     };
   }
+
   if (config.devDependencies) {
     pkgContent.devDependencies = {
       ...pkgContent.devDependencies,
       ...config.devDependencies,
     };
   }
+
   if (config.scripts) {
     pkgContent.scripts = {
       ...pkgContent.scripts,
@@ -126,44 +208,44 @@ async function reconfigPkg() {
     };
   }
 
-  await Promise.all([fsExtra.writeFile(pkgPath, JSON.stringify(pkgContent, null, 2))]);
+  await Promise.all([
+    fs.promises.writeFile(pkgPath, JSON.stringify(pkgContent, null, 2)),
+    copyShared(),
+    copySnippet(),
+  ]);
 
-  await Promise.all([copyShared(), copySnippet()]);
-
-  const content2 = await fsExtra.readFile('./package.json', 'utf-8');
+  const content2 = await fs.promises.readFile('./package.json', 'utf-8');
   const pkgJSON = JSON.parse(content2);
   pkgJSON.scripts = {
     ...(pkgJSON.scripts || {}),
-    'sync-sdk': pkgJSON.scripts?.['sync-sdk'] || `tsdk --sync`,
+    'sync-sdk': pkgJSON.scripts?.['sync-sdk'] || `tsdk sync`,
+    'watch-sdk': pkgJSON.scripts?.['watch-sdk'] || `tsdk watch --no-verbose`,
+    'build-sdk': pkgJSON.scripts?.['build-sdk'] || `tsdk sync --build`,
   };
-  await fsExtra.writeFile('./package.json', JSON.stringify(pkgJSON, null, 2));
+  await fs.promises.writeFile('./package.json', JSON.stringify(pkgJSON, null, 2));
 }
 
 export async function copySDK(noOverwrite: boolean) {
-  console.log(symbols.bullet, `init ${ensureDir}`);
-
-  if (!isConfigExist) {
-    await copyTsdkConfig();
-  }
+  if (!isConfigExist) await copyTsdkConfig();
 
   const existPath = path.resolve(process.cwd(), config.packageDir, packageFolder, `package.json`);
   const isExist = await fsExtra.pathExists(existPath);
 
   if (isExist && noOverwrite) {
     await reconfigPkg();
-    console.log(
+    logger.info(
       symbols.info,
-      `skip init sdk: \`${path.resolve(
+      `Skip init sdk: \`${path.resolve(
         process.cwd(),
         config.packageDir,
         packageFolder
-      )}\` already exist`
+      )}\` already exists`
     );
     return;
   }
 
   await fsExtra.ensureDir(ensureDir);
-  console.log(symbols.success, `mkdir -p ${ensureDir}`);
+  logger.log(`   ${symbols.success} mkdir -p ${ensureDir}`);
   await fsExtra.copy(
     path.join(__dirname, '../fe-sdk-template'),
     path.resolve(process.cwd(), config.packageDir, packageFolder),
@@ -177,48 +259,81 @@ export async function copySDK(noOverwrite: boolean) {
       return fsExtra.remove(path.join(ensureDir, folder));
     })
   );
-
-  console.log(symbols.success, `init ${ensureDir}`);
 }
 
 /** sync files base extension config */
 export async function syncExtFiles(ext: string, isEntity = false) {
-  console.log(symbols.bullet, `sync *.${ext}.ts files`);
-
-  const pattern = path
-    .join(`${path.join(...config.baseDir.split('/'))}`, `**`, `*.${ext}.ts`)
-    .replace(/\\/g, '/');
+  const isApiconf = ext === config.apiconfExt;
+  const pattern = replaceWindowsPath(
+    path.join(`${path.join(...config.baseDir.split('/'))}`, `**`, `*.${ext}.ts`)
+  );
   const files = await glob(pattern);
 
   files.sort();
 
   const indexContentMap: { [key: string]: string } = {};
+  const apiconfs: {
+    method: string;
+    path: string;
+    name: string;
+    type: string;
+    description: string;
+    category: string;
+    isGet?: boolean;
+  }[] = [];
+  const types = new Set<string>();
   await Promise.all(
-    files.map(async (file, idx) => {
+    files.map(async (file) => {
       const filePath = path.join(ensureDir, file.replace(`${config.baseDir}/`, 'src/'));
       const content: string = await transformImportPath(file, isEntity);
+
+      if (isApiconf) {
+        // Get the configs and push to `apiconfs`
+        const extractResult = extractApiconfs(content);
+        if (extractResult.length > 0) {
+          extractResult.forEach((item) => {
+            if (item.type) {
+              types.add(item.type);
+            }
+            apiconfs.push(item);
+          });
+        }
+      }
 
       await fsExtra.ensureDir(path.dirname(filePath));
 
       let fromPath = path.relative(
-        `${ensureDir}/src/`.replace(/\\/g, '/'),
+        replaceWindowsPath(`${ensureDir}/src/`),
         filePath.replace('.ts', '')
       );
       fromPath = path.normalize(fromPath);
       fromPath = fromPath.startsWith('.') ? fromPath : './' + fromPath;
-      indexContentMap[file] = `export * from '${fromPath.replace(/\\/g, '/')}';\n`;
-      return fsExtra.writeFile(filePath, content);
+      indexContentMap[file] = `export * from '${replaceWindowsPath(fromPath)}';\n`;
+      await fs.promises.writeFile(filePath, content);
+      return filePath;
     })
   );
+
+  if (apiconfs.length > 0) {
+    logger.log(`      There are ${apiconfs.length} APIs`);
+  }
+
   const indexContent =
     files.length > 0 ? files.map((file) => indexContentMap[file]).join('') : getDefaultContent();
 
-  await fsExtra.writeFile(path.join(ensureDir, `src/${ext}-refs.ts`), `${comment}${indexContent}`);
+  await fs.promises.writeFile(
+    path.join(ensureDir, `src/${ext}-refs.ts`),
+    `${comment}${indexContent}`
+  );
+
+  if (isApiconf) {
+    return { apiconfs, types: Array.from(types), files };
+  }
 }
 
 /** sync entity files  */
 export async function syncEntityFiles() {
-  return syncExtFiles(config.entityExt, true);
+  return syncExtFiles(config?.entityExt as string, true);
 }
 
 /** sync apiconf files */
@@ -226,18 +341,16 @@ export async function syncAPIConf() {
   return syncExtFiles(config.apiconfExt);
 }
 
-/** sync apiconf files */
-export async function syncAddtionShareFiles() {
+/** sync additional shared files */
+export async function syncAdditionalSharedFiles() {
   return syncExtFiles(config.shareExt || 'shared');
 }
 
 /** sync shared files */
-export async function syncSharedFiles() {
-  console.log(symbols.bullet, `sync shared files`);
-
+export async function syncSharedFolders() {
   const files = await glob([
-    ...config.sharedDirs.map((i) => path.join(i, `**/*.*`).replace(/\\/g, '/')),
-    path.join(config.baseDir, `**/*.${config.shareExt || 'shared'}.*`).replace(/\\/g, '/'),
+    ...config.sharedDirs.map((i) => replaceWindowsPath(path.join(i, `**/*.*`))),
+    replaceWindowsPath(path.join(config.baseDir, `**/*.${config.shareExt || 'shared'}.*`)),
   ]);
   files.sort();
 
@@ -249,22 +362,21 @@ export async function syncSharedFiles() {
       await fsExtra.ensureDir(path.dirname(filePath));
 
       let fromPath = path.relative(
-        `${ensureDir}/src/`.replace(/\\/g, '/'),
+        replaceWindowsPath(`${ensureDir}/src/`),
         filePath.replace('.ts', '')
       );
       fromPath = path.normalize(fromPath);
       fromPath = fromPath.startsWith('.') ? fromPath : './' + fromPath;
       if (fromPath.indexOf('tsdk-types') < 0 && filePath.endsWith('.ts')) {
-        indexContentMap[file] = `export * from '${fromPath.replace(/\\/g, '/')}';\n`;
+        indexContentMap[file] = `export * from '${replaceWindowsPath(fromPath)}';\n`;
       }
-      return fsExtra.writeFile(filePath, content);
+      return fs.promises.writeFile(filePath, content);
     })
   );
-  const indexContent = files.map((file) => indexContentMap[file]).join('\n');
-  await fsExtra.writeFile(
+
+  const indexContent = Object.values(indexContentMap).join('');
+  await fs.promises.writeFile(
     path.join(ensureDir, `src`, `shared-refs.ts`),
     `${comment}${indexContent}`
   );
-
-  console.log(symbols.success, `sync shared files`);
 }

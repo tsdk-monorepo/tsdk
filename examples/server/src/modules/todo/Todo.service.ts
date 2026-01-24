@@ -1,4 +1,4 @@
-import { Like } from 'typeorm';
+import { DataSource, Like } from 'typeorm';
 import { buildPaginator } from 'typeorm-cursor-pagination';
 
 import { Todo } from './Todo.entity';
@@ -11,14 +11,13 @@ import { ReadonlyRequestInfo } from './types';
 
 import { appDataSource } from '@/src/db';
 
-export default class TodoService {
+export class TodoService {
   private static instance: TodoService;
 
-  static getInstance() {
-    if (!TodoService.instance) {
-      TodoService.instance = new TodoService();
-    }
-    return TodoService.instance;
+  db: DataSource;
+
+  constructor(dbSource: DataSource) {
+    this.db = dbSource;
   }
 
   get todoRepo() {
@@ -111,4 +110,4 @@ export default class TodoService {
   }
 }
 
-export const todoService = TodoService.getInstance();
+export const todoService = new TodoService(appDataSource);

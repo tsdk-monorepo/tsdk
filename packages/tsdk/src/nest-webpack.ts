@@ -5,7 +5,7 @@ import ts from 'typescript';
 import webpack from 'webpack';
 import nodeExternals from 'webpack-node-externals';
 
-import { getNpmCommand } from './get-pkg-manager';
+import { getNpmCommand } from './get-npm-command';
 
 export const tsdkConfigFilePath = path.join(process.cwd(), 'tsdk.config.js');
 
@@ -65,13 +65,13 @@ async function run() {
               console.log(
                 `[${command} ${name}] Success: \`${npmCMDs.runCmd} nest ${command} ${name}\` and start webpack build`
               );
-            } catch (e) {
+            } catch (error) {
               console.log(
                 `[${command} ${name}] Run: \`${npmCMDs.runCmd} nest ${command} ${name}\` error: `,
-                e
+                (error as any).stdout || (error as any).stderr
               );
               console.log('\n');
-              reject(e);
+              reject(error);
               return;
             }
             const nestProjectConfig = projects[name];

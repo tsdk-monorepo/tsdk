@@ -3,59 +3,76 @@
     "scope": "typescript",
     "prefix": "apii",
     "body": [
-      "import * as z from 'zod';",
-      "import { transformPath, APIConfig, ObjectLiteral } from '@/src/shared/tsdk-helper';"
+      "import { transformPath, type APIConfig } from '@/src/tsdk-shared/helpers';"
     ],
-    "description": "api config import snippet"
+    "description": "API config import snippet"
   },
   "apiconf": {
     "scope": "typescript",
     "prefix": "apic",
     "body": [
-      "",
       "/**",
-      " * ${1:description} ({@link APIConfig})",
-      " * @category ${3:Category}",
+      " * ${1:Description} ({@link APIConfig})",
+      " * @category ${2:Category}",
       " */",
-      "export const ${2:ApiName}Config: APIConfig = {",
+      "export const ${3:ApiName}Config: APIConfig = {",
       "  type: '${4:user}',",
-      "  method: '${5|get,post,delete,put,patch,head,options|}',",
-      "  path: transformPath('${2:ApiName}'),",
-      "  description: '${1:description}',",
-      "  category: '${3:Category}'",
+      "  method: '${5|GET,POST,DELETE,PUT,PATCH,HEAD,OPTIONS|}',",
+      "  path: transformPath('${3:ApiName}'),",
       "};",
       "/**",
-      " *",
-      " * @category ${3:Category}",
+      " * @category ${2:Category}",
       " */",
-      "export type ${2:ApiName}Req = ${8:{\\}};",
-      "",
+      "export type ${3:ApiName}Req = {${6:}};",
       "/**",
-      " *",
-      " * @category ${3:Category}",
+      " * @category ${2:Category}",
       " */",
-      "export type ${2:ApiName}Res = ${9:{\\}};",
-      "// --------- ${2:ApiName} END ---------",
-      ""
+      "export type ${3:ApiName}Res = {${7:}};",
+      "// --------- ${3:ApiName} END ---------"
     ],
-    "description": "apic onfig snippet"
+    "description": "API config snippet"
+  },
+  "simple apiconf": {
+    "scope": "typescript",
+    "prefix": "sapic",
+    "body": [
+      "/**",
+      " * ${1:Description} ({@link APIConfig})",
+      " * @category ${2:Category}",
+      " */",
+      "export const ${3:ApiName}Config: APIConfig = {",
+      "  // type: 'user',",
+      "  method: '${4|get,post,delete,put,patch,head,options|}',",
+      "  path: transformPath('${3:ApiName}'),",
+      "};",
+      "/**",
+      " * @category ${2:Category}",
+      " */",
+      "export type ${3:ApiName}Req = {${5}};",
+      "/**",
+      " * @category ${2:Category}",
+      " */",
+      "export type ${3:ApiName}Res = {${6}};",
+      "// --------- ${3:ApiName} END ---------"
+    ],
+    "description": "Simple API config snippet"
   },
   "importApiConf": {
-    "scope": "typescript",
+    "scope": "typescript,typescriptreact",
     "prefix": "apin",
     "body": [
-      "${1:name}Config,",
-      "${1:name}Req,",
-      "${1:name}Res,",
+      "${1:ApiName}Config,",
+      "${1:ApiName}Req,",
+      "${1:ApiName}Res,"
     ],
-    "description": "apic onfig name snippet"
+    "description": "API config import names"
   },
   "genRoute": {
     "scope": "typescript",
     "prefix": "genr",
     "body": [
-      "genRoute<${1:name}Req, ${1:name}Res>(${1:name}Config, async (data, reqInfo) => {",
-      "  return ${2://service}(data, reqInfo);",
+      "genRoute<${1:ApiName}Req, ${1:ApiName}Res>(${1:ApiName}Config, async (data, reqInfo) => {",
+      "  return ${2://serviceName}(data, reqInfo);",
       "});"
     ],
     "description": "genRoute<Req, Res>() snippet"
