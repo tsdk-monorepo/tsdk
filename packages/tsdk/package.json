@@ -25,6 +25,7 @@
     "bin/*",
     "lib/*",
     "fe-sdk-template/*",
+    "templates/*",
     "fe-sdk-template/.gitignore",
     "README.md"
   ],
@@ -56,7 +57,8 @@
     "@parcel/watcher": "^2.5.4",
     "typescript-json-schema": "^0.67.1",
     "typescript": "~5.5.4",
-    "@clack/prompts": "^0.11.0"
+    "@clack/prompts": "^0.11.0",
+    "tar": "^7.5.6"
   },
   "devDependencies": {
     "@types/js-yaml": "^4.0.9",

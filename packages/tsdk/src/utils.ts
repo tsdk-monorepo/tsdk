@@ -45,3 +45,36 @@ export const ignorePatterns = [
   '**/build/**',
   `**/${config.packageDir}/**`, // Ignore generated SDK
 ];
+
+type ParsedArgs = Record<string, string | boolean>;
+
+export function parseArgv(argv: string[]): ParsedArgs {
+  const result: ParsedArgs = {};
+
+  for (let i = 0; i < argv.length; i++) {
+    const arg = argv[i];
+
+    if (arg.startsWith('--')) {
+      const key = arg.slice(2);
+      const next = argv[i + 1];
+      // if next is missing or starts with -, treat as boolean flag
+      if (!next || next.startsWith('-')) {
+        result[key] = true;
+      } else {
+        result[key] = next;
+        i++;
+      }
+    } else if (arg.startsWith('-')) {
+      const key = arg.slice(1);
+      const next = argv[i + 1];
+      if (!next || next.startsWith('-')) {
+        result[key] = true;
+      } else {
+        result[key] = next;
+        i++;
+      }
+    }
+  }
+
+  return result;
+}

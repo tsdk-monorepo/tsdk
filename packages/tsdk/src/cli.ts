@@ -1,5 +1,7 @@
 import { buildSDK } from './compile-tsdk';
 import { tsconfigExists, parsePkg, config } from './config';
+import { addModule } from './create/add-module';
+import { createTemplate } from './create/create-template';
 import { getNpmCommand } from './get-npm-command';
 import { logger } from './log';
 import { runOpenapiToApiconfCommand, runApiconfToOpenapiCommand } from './openapi-command';
@@ -184,6 +186,7 @@ export async function run(): Promise<void> {
     // Normalize args using our compatibility layer
     const { command, args: commandArgs } = resolveCommand(rawArgs);
     await handleCommand(command, commandArgs);
+    if (['create', 'watch'].includes(command)) return;
     const totalTime = Date.now() - startTime;
     logger.log(`\n✅ Total execution time: ${(totalTime / 1000).toFixed(2)}s`);
   } catch (error) {
@@ -398,7 +401,8 @@ async function handleWatchCommand(noOverwrite: boolean, needBuild = false): Prom
  * Handles CLI commands
  * @param params Command line parameters
  */
-async function handleCommand(command: string, params: string[]): Promise<void> {
+async function handleCommand(command: string, commandArgs: string[]): Promise<void> {
+  const params = commandArgs;
   try {
     if (command === 'help') {
       logger.info(CLI_COMMANDS.help);
@@ -419,6 +423,13 @@ async function handleCommand(command: string, params: string[]): Promise<void> {
     }
 
     switch (command) {
+      case 'create':
+        createTemplate(commandArgs);
+        break;
+
+      case 'add':
+        addModule(commandArgs);
+        break;
       case 'init': {
         await copyTsdkConfig();
         const npmCommand = getNpmCommand(process.cwd());

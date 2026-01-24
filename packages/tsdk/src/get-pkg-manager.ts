@@ -12,8 +12,8 @@ export interface LockFileConfig {
 const LOCK_FILE_CONFIGS: LockFileConfig[] = [
   { lockFile: 'bun.lock', packageManager: 'bun' },
   { lockFile: 'bun.lockb', packageManager: 'bun' },
-  { lockFile: 'yarn.lock', packageManager: 'yarn' },
   { lockFile: 'pnpm-lock.yaml', packageManager: 'pnpm' },
+  { lockFile: 'yarn.lock', packageManager: 'yarn' },
   { lockFile: 'package-lock.json', packageManager: 'npm' },
 ];
 
