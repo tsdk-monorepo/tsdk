@@ -3,7 +3,7 @@ const fs = require('fs');
 
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: 'https://tsdk.dev',
+  siteUrl: 'https://v0.tsdk.dev',
   generateRobotsTxt: true,
   transform: async (config, path) => {
     let filePath = `pages${path}.md`;

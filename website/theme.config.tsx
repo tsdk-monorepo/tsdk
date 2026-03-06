@@ -17,11 +17,11 @@ const config: DocsThemeConfig = {
     const common = {
       description,
       openGraph: {
-        images: [{ url: 'https://tsdk.dev/og.jpg' }],
+        images: [{ url: 'https://v0.tsdk.dev/og.jpg' }],
       },
       twitter: {
         cardType: 'summary_large_image',
-        site: 'https://tsdk.dev',
+        site: 'https://v0.tsdk.dev',
       },
       additionalMetaTags: [{ content: 'tsdk', name: 'apple-mobile-web-app-title' }],
     };
