@@ -1,6 +1,4 @@
-import { ObjectLiteral } from './shared/tsdk-types';
-
-export function pathParams(path: string, data: ObjectLiteral, symbol: ':' | '{}'): string {
+export function pathParams(path: string, data: Record<string, any>, symbol: ':' | '{}'): string {
   let newPath = path;
 
   const params = symbol === ':' ? parseParams(path) : parseBracesParams(path);
@@ -35,11 +33,12 @@ export function parseParams(path: string) {
   return result;
 }
 
-/** parse /{a}/{b} -> [{name: 'a', symbol: '{'},{name: 'b', symbol: '{'},] */
+/** parse /{a}/{b} -> [{name: 'a', symbol: '{a}'},{name: 'b', symbol: '{b}'},] */
 export function parseBracesParams(path: string) {
   const result: { name: string; symbol: string }[] = [];
   const arr = path.match(/\{(.*?)\}/g);
-  arr &&
+
+  if (arr)
     arr.forEach((item) => {
       const key = item.slice(1, -1);
       result.push({

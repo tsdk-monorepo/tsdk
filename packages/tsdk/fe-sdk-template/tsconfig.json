@@ -1,5 +1,4 @@
 {
-  "extends": "@tsconfig/recommended/tsconfig.json",
   "compilerOptions": {
     "strict": true,
     "strictPropertyInitialization": false,
@@ -10,8 +9,9 @@
     "declaration": true,
     "noImplicitAny": true,
     "target": "ES5",
+    "module": "CommonJS",
     "outDir": "lib",
-    "lib": ["DOM", "ES2015", "ES5",  "dom.iterable"],
+    "lib": ["DOM", "ES2015", "ES2019", "ES5"],
     "incremental": true,
     "skipLibCheck": true,
     "resolveJsonModule": true

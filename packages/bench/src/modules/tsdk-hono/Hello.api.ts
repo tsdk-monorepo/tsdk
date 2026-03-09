@@ -1,6 +1,6 @@
 import { genRoute, type RequestInfo } from './gen-route';
 
-import { transformPath } from '@/src/shared/tsdk-helper';
+import { transformPath } from '@/src/tsdk-shared/helpers';
 
 export function setupHelloAPI() {
   const count = 2000;
@@ -14,10 +14,8 @@ export function setupHelloAPI() {
         type: 'user',
         method: 'get',
         path: transformPath(`Hello${_i}`),
-        description: `Hello${_i} api`,
-        category: 'hello',
       },
-      async (data, reqInfo: Readonly<RequestInfo>) => {
+      async (requestData, reqInfo: Readonly<RequestInfo>) => {
         const result = 'hi ' + Date.now() + ' ' + Math.random();
         return { result };
       }

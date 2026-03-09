@@ -34,7 +34,7 @@ export function socketIOAdapterFactory<ReqInfo>({
   return async function socketIOAdapter(socket: Socket) {
     const reqInfo = await getReqInfo(socket);
 
-    const onRequest = async (data: { _id: string; payload: any }) => {
+    const onRequest = async (data: { _id: string; payload: unknown }) => {
       if (!socket.connected) return;
 
       if (data && data._id) {
@@ -43,8 +43,7 @@ export function socketIOAdapterFactory<ReqInfo>({
         const [methodIdx, path] = data._id.split(':');
         const method = methodsMap[methodIdx] || methodIdx || 'get';
         const eventName = getRouteEventName({ protocol: 'socket.io', type, method, path });
-
-        if ((routeBus as ObjectLiteral)._events[eventName]) {
+        if (eventName in (routeBus as ObjectLiteral)._events) {
           routeBus.emit(eventName, reqInfo, socket, getData ? await getData(data) : data);
         }
       }

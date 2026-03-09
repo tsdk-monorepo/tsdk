@@ -60,12 +60,12 @@ import { Tabs } from 'nextra-theme-docs';
       import {
         GetHelloConfig, GetHelloReq, GetHelloRes
       } from './Hello.apiconf';
-      import { genRoute, type RequestInfo } from './gen-route';
+      import { genRoute } from './gen-route';
 
       export function setupHelloAPI() {
         genRoute<GetHelloReq, GetHelloRes>(
           GetHelloConfig,
-          async (data, reqInfo: Readonly<RequestInfo>) => {
+          async (data, reqInfo) => {
             return { result: `Hello ${data.world}` };
           }
         );
@@ -77,7 +77,7 @@ import { Tabs } from 'nextra-theme-docs';
       Define the API config:
 
       ```ts filename="Hello.apiconf.ts"
-      import * as z from 'zod';
+      import { z } from 'zod/v4';
       import { APIConfig, transformPath } from '@/src/shared/tsdk-helper';
 
       /**
@@ -88,8 +88,6 @@ import { Tabs } from 'nextra-theme-docs';
         type: 'user',
         method: 'get',
         path: transformPath('GetHello'),
-        description: 'Get hello',
-        category: 'hello',
         needAuth: false,
         schema: z.object({
           world: z.string().min(1).
