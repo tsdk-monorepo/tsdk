@@ -1,11 +1,12 @@
 export function generateSWRHook(name: string, apiConf: APIConfig) {
+  const funcName = name[0].toLowerCase() + name.slice(1);
   const { description = '', category = 'others', isGet, method, path } = apiConf;
   const isGetMethod = isGet ?? (!apiConf.method || apiConf.method.toLowerCase() === 'get');
   if (isGetMethod) {
     // Query hook
     return `
       /** 
-       * ${description || name}
+       * ${description || funcName}
        * ${method?.toUpperCase() ?? 'GET'} ${path}
        * @category ${category}
        */
@@ -16,7 +17,7 @@ export function generateSWRHook(name: string, apiConf: APIConfig) {
         customHandler?: Handler,
       ) {
         const key = useMemo(() => {
-          const {method='GET', path} = ${name}.config;
+          const {method='GET', path} = ${funcName}.config;
           if (payload !== null && typeof payload === 'object') return buildSortedURL(method+path, payload, stringify);
           return method+path+(payload || '')
         }, [payload]);
@@ -24,7 +25,7 @@ export function generateSWRHook(name: string, apiConf: APIConfig) {
           key,
           () => {
             if (!payload) return null as unknown as ${name}Res;
-            return ${name}(payload, requestConfig, customHandler);
+            return ${funcName}(payload, requestConfig, customHandler);
           },
           options
         );
@@ -33,7 +34,7 @@ export function generateSWRHook(name: string, apiConf: APIConfig) {
     // Mutation hook
     return `
       /** 
-       * ${description || name}
+       * ${description || funcName}
        * ${method?.toUpperCase() ?? 'GET'} ${path}
        * @category ${category}
        */
@@ -47,11 +48,11 @@ export function generateSWRHook(name: string, apiConf: APIConfig) {
         requestConfig?: AxiosRequestConfig<${name}Req | FormData>,
         customHandler?: Handler,
       ) {
-        const {method='GET', path} = ${name}.config;
+        const {method='GET', path} = ${funcName}.config;
         return useSWRMutation(
           method+path,
           (url, { arg }: { arg: ${name}Req | FormData }) => {
-            return ${name}(arg, requestConfig, customHandler);
+            return ${funcName}(arg, requestConfig, customHandler);
           },
           options
         );
@@ -60,6 +61,8 @@ export function generateSWRHook(name: string, apiConf: APIConfig) {
 }
 
 export function generateReactQueryHook(name: string, apiConf: APIConfig) {
+  const funcName = name[0].toLowerCase() + name.slice(1);
+
   const { description = '', category = 'others', isGet, method, path } = apiConf;
   const isGetMethod = isGet ?? (!apiConf.method || apiConf.method.toLowerCase() === 'get');
 
@@ -78,17 +81,17 @@ export function generateReactQueryHook(name: string, apiConf: APIConfig) {
         customHandler?: Handler,
       ) {
         const key = useMemo(() => {
-          const {method='GET', path} = ${name}.config;
+          const {method='GET', path} = ${funcName}.config;
           if (payload !== null && typeof payload === 'object') return buildSortedURL(method+path, payload, stringify);
           return method+path+(payload || '')
         }, [payload]);
         return useQuery(
           {
             ...(options ?? {}),
-            queryKey: key,
+            queryKey: [key],
             queryFn() {
               if (!payload) return null;
-              return ${name}(payload, requestConfig, customHandler);
+              return ${funcName}(payload, requestConfig, customHandler);
             },
           },
           queryClient || _queryClient
@@ -97,7 +100,7 @@ export function generateReactQueryHook(name: string, apiConf: APIConfig) {
   } else {
     return `
     /** 
-     * ${description || name}
+     * ${description || funcName}
      * ${method?.toUpperCase() ?? 'GET'} ${path}
      * @category ${category}
      */
@@ -116,7 +119,7 @@ export function generateReactQueryHook(name: string, apiConf: APIConfig) {
         {
           ...(options ?? {}),
           mutationFn(payload) {
-            return ${name}(payload, requestConfig, customHandler);
+            return ${funcName}(payload, requestConfig, customHandler);
           },
         },
         queryClient || _queryClient
@@ -126,13 +129,15 @@ export function generateReactQueryHook(name: string, apiConf: APIConfig) {
 }
 
 export function generateVueQueryHook(name: string, apiConf: APIConfig) {
+  const funcName = name[0].toLowerCase() + name.slice(1);
+
   const { description = '', category = 'others', isGet, method, path } = apiConf;
   const isGetMethod = isGet ?? (!apiConf.method || apiConf.method.toLowerCase() === 'get');
 
   if (isGetMethod) {
     return `
         /** 
-         * ${description || name}
+         * ${description || funcName}
          * ${method?.toUpperCase() ?? 'GET'} ${path}
          * @category ${category}
          */
@@ -149,13 +154,13 @@ export function generateVueQueryHook(name: string, apiConf: APIConfig) {
               // Disable query if payload is undefined
               enabled: !isUndefined,
               ...(options ?? {}),
-              queryKey: [${name}.config.path, payload],
+              queryKey: [${funcName}.config.path, payload],
               queryFn() {
                 if (isUndefined) {
                   // Return a resolved promise so queryFn always returns a Promise
                   return Promise.resolve(undefined);
                 }
-                return ${name}(payload, requestConfig, customHandler);
+                return ${funcName}(payload, requestConfig, customHandler);
               },
             },
             queryClient || _queryClient
@@ -164,7 +169,7 @@ export function generateVueQueryHook(name: string, apiConf: APIConfig) {
   } else {
     return `
       /** 
-       * ${description || name}
+       * ${description || funcName}
        * ${method?.toUpperCase() ?? 'GET'} ${path}
        * @category ${category}
        */
@@ -183,7 +188,7 @@ export function generateVueQueryHook(name: string, apiConf: APIConfig) {
           {
             ...(options ?? {}),
             mutationFn(payload: ${name}Req | FormData) {
-              return ${name}(payload, requestConfig, customHandler);
+              return ${funcName}(payload, requestConfig, customHandler);
             },
           },
           queryClient || _queryClient
@@ -193,13 +198,15 @@ export function generateVueQueryHook(name: string, apiConf: APIConfig) {
 }
 
 export function generateSolidQueryHook(name: string, apiConf: APIConfig) {
+  const funcName = name[0].toLowerCase() + name.slice(1);
+
   const { description = '', category = 'others', isGet, method, path } = apiConf;
   const isGetMethod = isGet ?? (!apiConf.method || apiConf.method.toLowerCase() === 'get');
 
   if (isGetMethod) {
     return `
         /** 
-         * ${description || name}
+         * ${description || funcName}
          * ${method?.toUpperCase() ?? 'GET'} ${path}
          * @category ${category}
          */
@@ -215,10 +222,10 @@ export function generateSolidQueryHook(name: string, apiConf: APIConfig) {
           return useQuery(() => (
             {
               ...(options ?? {}),
-              queryKey: [${name}.config.path, payload],
+              queryKey: [${funcName}.config.path, payload],
               queryFn() {
                 if (typeof payload === 'undefined') return undefined;
-                return ${name}(payload, requestConfig, customHandler);
+                return ${funcName}(payload, requestConfig, customHandler);
               },
             }),
             queryClient || _queryClient
@@ -227,7 +234,7 @@ export function generateSolidQueryHook(name: string, apiConf: APIConfig) {
   } else {
     return `
       /** 
-       * ${description || name}
+       * ${description || funcName}
        * ${method?.toUpperCase() ?? 'GET'} ${path}
        * @category ${category}
        */
@@ -245,7 +252,7 @@ export function generateSolidQueryHook(name: string, apiConf: APIConfig) {
           {
             ...(options ?? {}),
             mutationFn(payload) {
-              return ${name}(payload, requestConfig, customHandler);
+              return ${funcName}(payload, requestConfig, customHandler);
             },
           }),
           queryClient || _queryClient
@@ -255,13 +262,14 @@ export function generateSolidQueryHook(name: string, apiConf: APIConfig) {
 }
 
 export function generateSvelteQueryHook(name: string, apiConf: APIConfig) {
+  const funcName = name[0].toLowerCase() + name.slice(1);
   const { description = '', category = 'others', isGet, method, path } = apiConf;
   const isGetMethod = isGet ?? (!apiConf.method || apiConf.method.toLowerCase() === 'get');
 
   if (isGetMethod) {
     return `
         /** 
-         * ${description || name}
+         * ${description || funcName}
          * ${method?.toUpperCase() ?? 'GET'} ${path}
          * @category ${category}
          */
@@ -275,10 +283,10 @@ export function generateSvelteQueryHook(name: string, apiConf: APIConfig) {
           return createQuery(() => (
             {
               ...(options ?? {}),
-              queryKey: [${name}.config.path, payload],
+              queryKey: [${funcName}.config.path, payload],
               queryFn() {
                 if (typeof payload === 'undefined') return undefined;
-                return ${name}(payload, requestConfig, customHandler);
+                return ${funcName}(payload, requestConfig, customHandler);
               },
   }),
   () => queryClient ?? _queryClient
@@ -306,7 +314,7 @@ export function generateSvelteQueryHook(name: string, apiConf: APIConfig) {
           {
             ...(options ?? {}),
             mutationFn(payload) {
-              return ${name}(payload, requestConfig, customHandler);
+              return ${funcName}(payload, requestConfig, customHandler);
             },
   }),
   () => queryClient ?? _queryClient

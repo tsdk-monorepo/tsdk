@@ -126,7 +126,7 @@ export async function syncAPI(
     // isSWR
     hooksContentMap['swr'].dataHookHeadStr = `import useSWR, { SWRConfiguration } from "swr";
       import useSWRMutation, { SWRMutationConfiguration } from "swr/mutation";
-      // @ts-expect-error install react
+      // @ts-ignore install react
       import {useMemo} from 'react';
       ${commonDataHookHeadStr}
     `;
@@ -139,7 +139,7 @@ export async function syncAPI(
         UndefinedInitialDataOptions,
         UseMutationOptions,
       } from "@tanstack/react-query";
-      // @ts-expect-error install react
+      // @ts-ignore install react
       import {useMemo} from 'react';
       ${commonDataHookHeadStr}
     `;
@@ -307,6 +307,7 @@ export async function syncAPI(
       _apiconfs.map((item) => {
         const { name: _name, path, description, method, type: _type, category = 'others' } = item;
         const name = _name;
+        const funcName = name[0].toLowerCase() + name.slice(1);
         const type = !_type ? 'user' : _type;
 
         const isGET = !method || method?.toLowerCase() === 'get' || item.isGet;
@@ -320,42 +321,49 @@ export async function syncAPI(
           apiConfigStr += `${name}Config,`;
           bodyStr += `
             /** 
+             * ${description || funcName}
+             * ${method?.toUpperCase() ?? 'GET'} ${path || ''}
+             * @category ${category}
+             */
+            export const ${funcName} = genApi<Expand<${name}Req>${
+              isGET ? '' : ' | FormData'
+            }, Expand<${name}Res>>(${name}ApiConfig);
+            /** 
+             * @Deprecated use \`${funcName}\` instead
              * ${description || name}
              * ${method?.toUpperCase() ?? 'GET'} ${path || ''}
              * @category ${category}
              */
-            export const ${name} = genApi<Expand<${name}Req>${
-              isGET ? '' : ' | FormData'
-            }, Expand<${name}Res>>(${name}ApiConfig);
+            export const ${name} = ${funcName};
           `;
 
           // SWR hook
           hooksContentMap['swr'].dataHookImportStr += `
-              ${name},
+              ${funcName},
             `;
           hooksContentMap['swr'].dataHookBodyStr += generateSWRHook(name, item);
 
           // ReactQuery hook
           hooksContentMap['reactquery'].dataHookImportStr += `
-              ${name},
+              ${funcName},
             `;
           hooksContentMap['reactquery'].dataHookBodyStr += generateReactQueryHook(name, item);
 
           // VueQuery hook
           hooksContentMap['vuequery'].dataHookImportStr += `
-              ${name},
+              ${funcName},
             `;
           hooksContentMap['vuequery'].dataHookBodyStr += generateVueQueryHook(name, item);
 
           // SolidQuery hook
           hooksContentMap['solidquery'].dataHookImportStr += `
-              ${name},
+              ${funcName},
             `;
           hooksContentMap['solidquery'].dataHookBodyStr += generateSolidQueryHook(name, item);
 
           // SvelteQuery hook
           hooksContentMap['sveltequery'].dataHookImportStr += `
-              ${name},
+              ${funcName},
             `;
           hooksContentMap['sveltequery'].dataHookBodyStr += generateSvelteQueryHook(name, item);
 
