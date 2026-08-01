@@ -24,7 +24,7 @@ export class Todo extends CreatedUpdatedAt {
   /** title */
   title: string;
 
-  @Column()
+  @Column({ type: 'text' })
   /** status */
   status: TodoStatus;
 

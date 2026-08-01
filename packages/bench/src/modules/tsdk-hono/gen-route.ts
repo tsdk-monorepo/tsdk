@@ -1,8 +1,7 @@
 import { genRouteFactory, Protocol } from 'tsdk-server-adapters';
-import { ZodError } from 'zod';
-
-import { ProtocolTypes } from '@/src/shared/tsdk-helper';
-import { APIConfig, APITypesKey } from '@/src/shared/tsdk-types';
+import { ProtocolTypes } from '@/src/tsdk-shared/helpers';
+import { APIConfig, APITypesKey } from '@/src/tsdk-shared/types';
+import type { StandardSchemaV1 } from '@standard-schema/spec';
 
 const middlewares = [authMiddleware];
 const genRouteObj = genRouteFactory<APIConfig, RequestInfo>(
@@ -50,12 +49,12 @@ function onErrorHandler(
   e: CustomError,
   { protocol, send, msgId }: Parameters<Parameters<typeof genRouteFactory>[0]>[1]
 ) {
-  if (e instanceof ZodError) {
+  if ((e as unknown as StandardSchemaV1.FailureResult)?.issues) {
     return send({
       _id: msgId,
       status: 400,
       result: {
-        msg: e.errors,
+        msg: (e as unknown as StandardSchemaV1.FailureResult).issues,
       },
     });
   }

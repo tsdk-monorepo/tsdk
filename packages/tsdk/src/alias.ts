@@ -1,85 +1,96 @@
 import path from 'path';
+import { replaceWindowsPath } from './utils';
 
 export interface AliasToRelativePathOptions {
   filePath: string;
   imports: string[];
-  config: { baseUrl?: string; paths?: { [key: string]: [] } };
+  config: {
+    baseUrl?: string;
+    paths?: Record<string, string[]>;
+  };
   cwd?: string;
 }
 
 export function aliasToRelativePath({
   filePath,
   imports,
-  config,
-  cwd,
-}: AliasToRelativePathOptions) {
-  if (!config) {
-    config = {};
-  }
-  if (!config.paths) {
-    config.paths = {};
-    // throw new Error(
-    //   "Unable to find the 'paths' property in the supplied configuration!"
-    // );
+  config: inputConfig,
+  cwd = process.cwd(),
+}: AliasToRelativePathOptions): string[] {
+  if (cwd === './') {
+    cwd = process.cwd();
   }
 
-  if (config.baseUrl === undefined || config.baseUrl === '.') {
-    config.baseUrl = './';
-  }
+  // Initialize config with defaults
+  const config = {
+    baseUrl: inputConfig?.baseUrl || './',
+    paths: inputConfig?.paths || {},
+  };
 
-  const { baseUrl, paths } = config;
-  const aliases: { [key: string]: string[] | undefined } = {};
+  // Create alias mapping with resolved paths
+  const aliasMap = Object.entries(config.paths).reduce<Record<string, string[]>>(
+    (acc, [alias, paths]) => {
+      // Store original alias patterns for matching
+      acc[alias] = paths.map((p) => p);
+      return acc;
+    },
+    {}
+  );
 
-  for (const alias in paths) {
-    /* istanbul ignore else  */
-    if (paths.hasOwnProperty(alias)) {
-      let resolved = alias;
+  // Process each import
+  return imports.map((importPath) => {
+    // Find matching alias - handle wildcard patterns correctly
+    const matchingAlias = Object.keys(aliasMap).find((alias) => {
       if (alias.endsWith('/*')) {
-        resolved = alias.replace('/*', '/');
+        const prefix = alias.slice(0, -2); // Remove the '/*'
+        return importPath === prefix || importPath.startsWith(prefix + '/');
+      }
+      return importPath === alias || importPath.startsWith(alias + '/');
+    });
+
+    if (!matchingAlias) {
+      return importPath;
+    }
+
+    const choices = aliasMap[matchingAlias];
+    if (!choices?.[0]) {
+      return importPath;
+    }
+
+    // Handle the replacement correctly for wildcards
+    let resolved;
+    if (matchingAlias.endsWith('/*')) {
+      const baseAlias = matchingAlias.slice(0, -2);
+      const restOfImport = importPath.slice(baseAlias.length);
+
+      let choice = choices[0];
+      if (choice.endsWith('/*')) {
+        choice = choice.slice(0, -2);
       }
 
-      aliases[resolved] = paths[alias];
-    }
-  }
-
-  const lines: string[] = [...imports];
-  let idx = -1;
-  for (const line of imports) {
-    idx++;
-    let resolved = '';
-    for (const alias in aliases) {
-      /* istanbul ignore else  */
-      if (aliases.hasOwnProperty(alias) && line.startsWith(alias)) {
-        const choices: string[] | undefined = aliases[alias];
-
-        if (choices !== undefined) {
-          resolved = choices[0];
-          if (resolved.endsWith('/*')) {
-            resolved = resolved.replace('/*', '/');
-          }
-
-          resolved = line.replace(alias, resolved);
-
-          break;
-        }
+      resolved = choice + restOfImport;
+    } else {
+      const restOfImport = importPath.slice(matchingAlias.length);
+      let choice = choices[0];
+      if (choice.endsWith('/*')) {
+        choice = choice.slice(0, -2);
       }
+
+      resolved = choice + restOfImport;
     }
 
-    if (resolved.length < 1) {
-      continue;
+    // Calculate relative path
+    const baseUrlPath = path.resolve(cwd, config.baseUrl);
+    const targetPath = path.resolve(baseUrlPath, resolved);
+    const currentDirPath = path.dirname(path.resolve(cwd, filePath));
+
+    let relativePath = replaceWindowsPath(path.relative(currentDirPath, targetPath));
+
+    // Ensure proper path format
+    if (!relativePath.startsWith('../') && !relativePath.startsWith('./')) {
+      relativePath = './' + relativePath;
     }
 
-    const base = path.join(cwd as string, path.relative(cwd as string, baseUrl || './'));
-
-    const current = path.relative(base, path.dirname(filePath));
-
-    const target = path.relative(base, resolved);
-    const relative = path.relative(current, target).replace(/\\/g, '/');
-    lines[idx] = line.replace(line, relative);
-    if (lines[idx].indexOf('/') < 0 || target.startsWith(current)) {
-      lines[idx] = './' + lines[idx];
-    }
-  }
-
-  return lines;
+    return relativePath;
+  });
 }

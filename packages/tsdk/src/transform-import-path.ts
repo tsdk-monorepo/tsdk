@@ -1,23 +1,23 @@
-import fsExtra from 'fs-extra';
+import fs from 'fs';
 import path from 'path';
 
 import { aliasToRelativePath } from './alias';
 import { config, ensureDir, getDeps, tsconfig } from './config';
 import symbols from './symbols';
 import { transformTypeormEntity } from './transform-typeorm-entity';
+import { logger } from './log';
 
 /** Handling import path */
 export function processImportPath(_importString: string, _filePath: string) {
   let importString = _importString;
 
-  const commentString = importString.slice(0, 2);
+  const commentString = importString.trim().slice(0, 2);
   const hasComment = commentString === '//' || commentString === '/*';
 
-  const arr = _filePath.split('/');
-  arr.pop();
-  const filePath = arr.join('/');
+  const filePath = path.dirname(_filePath);
   const isDoubleSemicolon = importString.indexOf('from "') > -1;
-  const matched = importString.match(isDoubleSemicolon ? /from "(.*)";/ : /from '(.*)';/);
+  const matched = importString.match(isDoubleSemicolon ? /from "(.*)";?/ : /from '(.*)';?/);
+
   if (matched) {
     // path alias check and replace path
     const fromPath = aliasToRelativePath({
@@ -27,17 +27,21 @@ export function processImportPath(_importString: string, _filePath: string) {
       filePath: _filePath,
     })[0];
 
-    importString = _importString.replace(matched[1], fromPath);
+    importString = importString.replace(matched[1], fromPath);
 
-    const firstLevelPath = fromPath.split('/')[0];
+    const arr = fromPath.split('/');
+    let firstLevelPath = arr[0];
 
     if (firstLevelPath[0] !== '.') {
+      if (firstLevelPath.startsWith('@')) {
+        firstLevelPath = arr.slice(0, 2).join('/');
+      }
       const isShareLib = !!getDeps()[firstLevelPath];
       if (isShareLib) {
         return importString;
       } else {
         if (!hasComment) {
-          console.warn(
+          logger.warn(
             symbols.space,
             symbols.warning,
             `Warn: '${firstLevelPath}' not support. If you confirm '${firstLevelPath}' will use in the both side, please add this lib to the '${ensureDir}/package.json' dependencies`
@@ -52,19 +56,16 @@ export function processImportPath(_importString: string, _filePath: string) {
       importString.indexOf(`.${config.apiconfExt}`) > -1 ||
       importString.indexOf(`.${config.shareExt}`) > -1;
 
-    // if (isEntityOrApiconf) {
-    //   console.log(_importString);
-    // }
-
     if (!hasComment) {
       const findDir =
         isEntityOrApiconf ||
-        config.sharedDirs.find((dir) => {
+        config.sharedDirs.some((dir) => {
           const currentShareDir = path.normalize(dir);
           return finalPath.indexOf(currentShareDir) === 0;
         });
+
       if (!findDir) {
-        console.log(
+        logger.error(
           symbols.space,
           symbols.error,
           `Error: Don't import file from outside of shared dirs: '${importString}'`,
@@ -73,14 +74,14 @@ export function processImportPath(_importString: string, _filePath: string) {
       }
     }
   } else {
-    console.warn(symbols.space, symbols.warning, `No match: ${importString}`);
+    logger.warn(symbols.space, symbols.warning, `No match: ${importString}`);
   }
   return importString;
 }
 
 /** parse import alias path and transform */
 export async function transformImportPath(filePath: string, isEntity?: boolean) {
-  let res = await fsExtra.readFile(filePath, 'utf-8');
+  let res = await fs.promises.readFile(filePath, 'utf-8');
 
   if (isEntity) {
     res = config.entityLibName?.includes('typeorm') ? transformTypeormEntity(res, 'typeorm') : res;
@@ -91,29 +92,67 @@ export async function transformImportPath(filePath: string, isEntity?: boolean) 
   const imports: string[] = [];
   const otherContent: string[] = [];
   let importArr: string[] = [];
-  result.forEach((i) => {
-    const inlineImport = i.indexOf("import '") > -1 || i.indexOf('import "') > -1;
-    const hasImport = i.indexOf('import ') > -1;
-    const hasFrom = i.indexOf(' from "') > -1 || i.indexOf(" from '") > -1;
+  let inMultilineComment = false;
 
-    if (inlineImport) {
-      imports.push(i);
-    } else if (hasImport && hasFrom) {
-      imports.push(processImportPath(i, filePath));
-    } else if (hasImport) {
-      importArr.push(i);
-    } else if (hasFrom) {
-      importArr.push(i);
-      imports.push(processImportPath(importArr.join(''), filePath));
+  result.forEach((line) => {
+    const trimmedLine = line.trim();
+
+    // Track multi-line comments
+    if (trimmedLine.startsWith('/*')) {
+      inMultilineComment = true;
+    }
+    if (inMultilineComment) {
+      otherContent.push(line);
+      if (trimmedLine.endsWith('*/') || line.indexOf('*/') > -1) {
+        inMultilineComment = false;
+      }
+      return;
+    }
+
+    // Skip single-line comments and empty lines when checking for imports
+    if (trimmedLine.startsWith('//') || trimmedLine.startsWith('*') || trimmedLine === '') {
+      if (importArr.length > 0) {
+        importArr.push(line);
+      } else {
+        otherContent.push(line);
+      }
+      return;
+    }
+
+    const inlineImport = line.indexOf("import '") > -1 || line.indexOf('import "') > -1;
+    const hasImport = line.indexOf('import ') > -1;
+    const hasFrom = line.indexOf(' from "') > -1 || line.indexOf(" from '") > -1;
+
+    // Only process as import if line actually starts with 'import' (after trimming)
+    const isActualImport = trimmedLine.startsWith('import ');
+
+    if (inlineImport && isActualImport) {
+      imports.push(line);
+    } else if (hasImport && hasFrom && isActualImport) {
+      imports.push(processImportPath(line, filePath));
+    } else if (hasImport && isActualImport) {
+      importArr.push(line);
+    } else if (hasFrom && importArr.length > 0) {
+      importArr.push(line);
+      imports.push(processImportPath(importArr.join('\n'), filePath));
       importArr = [];
     } else if (importArr.length > 0) {
-      importArr.push(i);
+      importArr.push(line);
     } else {
-      otherContent.push(i);
+      otherContent.push(line);
     }
   });
 
-  const fileContent = imports.join('\n') + otherContent.join('\n');
+  // Handle any remaining import statements that weren't processed
+  if (importArr.length > 0) {
+    imports.push(processImportPath(importArr.join('\n'), filePath));
+  }
+
+  // Ensure proper line breaks between imports and other content
+  const fileContent =
+    imports.length > 0 && otherContent.length > 0
+      ? imports.join('\n') + '\n' + otherContent.join('\n')
+      : imports.join('\n') + otherContent.join('\n');
 
   return fileContent;
 }

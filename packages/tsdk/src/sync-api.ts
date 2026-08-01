@@ -1,289 +1,378 @@
 import fsExtra from 'fs-extra';
+import fs from 'fs';
 import path from 'path';
 
 import { config, ensureDir, packageFolder } from './config';
 import symbols from './symbols';
+import {
+  generateSWRHook,
+  generateReactQueryHook,
+  generateVueQueryHook,
+  generateSolidQueryHook,
+  generateSvelteQueryHook,
+} from './hooks-generate';
+import { logger } from './log';
 
 export const baseDir = path.join(path.relative(path.dirname(__filename), process.cwd()), ensureDir);
 
 export function deleteSDKFolder() {
-  return fsExtra.remove(path.resolve(process.cwd(), config.packageDir, packageFolder));
+  const dir = path.resolve(process.cwd(), config.packageDir, packageFolder, config.baseDir);
+  logger.log(`    Deleting ${dir}`);
+  return fsExtra.remove(dir);
 }
 
-export async function syncAPI() {
-  console.log(symbols.bullet, 'generating APIs');
-  await replaceGenAPI();
-  const pkgJSON = require(path.join(baseDir, 'package.json'));
-  const apiconfs = require(path.join(baseDir, 'lib', `${config.apiconfExt}-refs`));
+export async function syncAPI(
+  _apiconfs: {
+    method: string;
+    path: string;
+    name: string;
+    type: string;
+    description: string;
+    category: string;
+    isGet?: boolean;
+  }[],
+  _types: string[]
+) {
+  logger.log(`   ${symbols.bullet}`, 'generating APIs');
+  await checkRepkaceAxiosWithXior();
+  const pkgJSON = JSON.parse(
+    await fs.promises.readFile(
+      path.resolve(process.cwd(), config.packageDir, packageFolder, 'package.json'),
+      'utf-8'
+    )
+  );
 
-  const keys = Object.keys(apiconfs);
-  keys.sort();
-
-  const types = [...new Set(keys.map((k) => apiconfs[k].type))].filter((i) => !!i);
+  const types = [..._types];
 
   if (!types.includes('common')) {
     types.push('common');
   }
 
   types.sort();
-  const isSWR = config.dataHookLib?.toLowerCase() === 'swr';
-  const isReactQuery = config.dataHookLib?.toLowerCase() === 'reactquery';
-  types.forEach((apiType) => {
-    const dataHookHeadStr = `
-    ${
-      !isSWR
-        ? ''
-        : `import useSWR, { SWRConfiguration } from "swr";
-      import useSWRMutation, { SWRMutationConfiguration } from "swr/mutation";
-      ${
-        config.httpLib !== 'xior'
-          ? `import type { AxiosRequestConfig } from "axios";`
-          : `import type { XiorRequestConfig as AxiosRequestConfig } from "xior";`
-      }
-    `
-    }
-    ${
-      !isReactQuery
-        ? ''
-        : `import {
-      useQuery,
-      useMutation,
-      QueryClient,
-      UndefinedInitialDataOptions,
-      UseMutationOptions,
-    } from "@tanstack/react-query";
-    ${
-      config.httpLib !== 'xior'
-        ? `import type { AxiosRequestConfig } from "axios";`
-        : `import type { XiorRequestConfig as AxiosRequestConfig } from "xior";`
-    }
-    `
-    }
-    import { Handler } from './gen-api';
-    `;
-    let dataHookImportStr = ``;
-    let dataHookBodyStr = isReactQuery
-      ? `
-    let _queryClient: QueryClient;
 
-    ${
-      apiType === 'common'
-        ? `
-    export function setQueryClientForCommon(queryClient: QueryClient) {
-      _queryClient = queryClient;
+  const _hookLibs = (
+    Array.isArray(config.dataHookLib) ? config.dataHookLib : [config.dataHookLib || 'SWR']
+  ).map((i) => (i as string).toLowerCase());
+
+  const hookLibs = Array.from(new Set(_hookLibs));
+
+  let commonApiConfigStr = ``;
+
+  _apiconfs.forEach((item) => {
+    if (item.type === 'common') {
+      commonApiConfigStr += `${item.name}Config,`;
     }
-    `
-        : `
-    
-    `
-    }
-    `
-      : ``;
+  });
+
+  // const isSWR = hookLibs?.includes('swr');
+  // const isReactQuery = hookLibs?.includes('reactquery');
+  // const isVueQuery = hookLibs?.includes('vuequery');
+
+  const hasCommon = _apiconfs.find((item) => {
+    return item.type === 'common';
+  });
+
+  for (const apiType of types) {
+    const hooksContentMap: Record<
+      'swr' | 'reactquery' | 'vuequery' | 'solidquery' | 'sveltequery',
+      {
+        dataHookHeadStr: string;
+        dataHookImportStr: string;
+        dataHookBodyStr: string;
+        dataHookExportStr: string;
+      }
+    > = {
+      swr: {
+        dataHookHeadStr: '',
+        dataHookImportStr: '',
+        dataHookBodyStr: '',
+        dataHookExportStr: '',
+      },
+      reactquery: {
+        dataHookHeadStr: '',
+        dataHookImportStr: '',
+        dataHookBodyStr: '',
+        dataHookExportStr: '',
+      },
+      vuequery: {
+        dataHookHeadStr: '',
+        dataHookImportStr: '',
+        dataHookBodyStr: '',
+        dataHookExportStr: '',
+      },
+      solidquery: {
+        dataHookHeadStr: '',
+        dataHookImportStr: '',
+        dataHookBodyStr: '',
+        dataHookExportStr: '',
+      },
+      sveltequery: {
+        dataHookHeadStr: '',
+        dataHookImportStr: '',
+        dataHookBodyStr: '',
+        dataHookExportStr: '',
+      },
+    };
+    const commonDataHookHeadStr = `
+         ${
+           config.httpLib !== 'xior'
+             ? `import type { AxiosRequestConfig } from "axios";`
+             : `import type { AxiosRequestConfig } from "xior";`
+         }
+         import {buildSortedURL, encodeParams as stringify} from 'xior';
+         import type { Handler } from './gen-api';
+    `;
+
+    // isSWR
+    hooksContentMap['swr'].dataHookHeadStr = `import useSWR, { SWRConfiguration } from "swr";
+      import useSWRMutation, { SWRMutationConfiguration } from "swr/mutation";
+      // @ts-ignore install react
+      import {useMemo} from 'react';
+      ${commonDataHookHeadStr}
+    `;
+    // isReactQuery
+    hooksContentMap['reactquery'].dataHookHeadStr = `
+      import {
+        useQuery,
+        useMutation,
+        QueryClient,
+        UndefinedInitialDataOptions,
+        UseMutationOptions,
+      } from "@tanstack/react-query";
+      // @ts-ignore install react
+      import {useMemo} from 'react';
+      ${commonDataHookHeadStr}
+    `;
+    // isVueQuery
+    hooksContentMap['vuequery'].dataHookHeadStr = `
+      import {
+        useQueryClient,
+        useQuery,
+        useMutation,
+        QueryClient,
+        UseQueryOptions,
+        UseMutationOptions,
+        UseQueryReturnType,
+      } from "@tanstack/vue-query";
+      ${commonDataHookHeadStr}
+    `;
+    // isSolidQuery
+    hooksContentMap['solidquery'].dataHookHeadStr = `
+      import {
+        useQueryClient,
+        useQuery,
+        useMutation,
+        QueryClient as _QueryClient,
+        SolidQueryOptions,
+        UseMutationOptions,
+      } from "@tanstack/solid-query";
+      ${commonDataHookHeadStr}
+    `;
+    // isSvelteQuery
+    hooksContentMap['sveltequery'].dataHookHeadStr = `
+     import {
+      useQueryClient,
+      createQuery,
+      createMutation,
+      type QueryClient,
+      UndefinedInitialDataOptions,
+      CreateMutationOptions,
+     } from "@tanstack/svelte-query";
+     ${commonDataHookHeadStr}
+   `;
+
+    // isReactQuery isVueQuery) {
+    hooksContentMap['reactquery'].dataHookBodyStr =
+      hooksContentMap['vuequery'].dataHookBodyStr =
+      hooksContentMap['sveltequery'].dataHookBodyStr =
+        `
+        let _queryClient: QueryClient;
+
+        ${
+          apiType === 'common'
+            ? `
+        export function setQueryClientForCommon(queryClient: QueryClient) {
+          _queryClient = queryClient;
+        }
+        `
+            : ``
+        }
+        `;
+    hooksContentMap['solidquery'].dataHookBodyStr = `
+        type QueryClient = Parameters<typeof useMutation>[1];
+        let _queryClient: QueryClient;
+
+        ${
+          apiType === 'common'
+            ? `
+        export function setQueryClientForCommon(queryClient: QueryClient) {
+          _queryClient = queryClient;
+        }
+        `
+            : ``
+        }
+        `;
+
+    hooksContentMap['swr'].dataHookExportStr =
+      apiType === 'common' || !hasCommon ? `` : `\nexport * from './common-api-swr';`;
+
+    hooksContentMap['reactquery'].dataHookExportStr =
+      apiType === 'common' || !hasCommon
+        ? `\nexport function setQueryClient(queryClient: QueryClient) {
+            _queryClient = queryClient;
+          }`
+        : `\nexport * from './common-api-reactquery';
+        import { setQueryClientForCommon } from './common-api-reactquery';
+        
+        export function setQueryClient(queryClient: QueryClient) {
+          _queryClient = queryClient;
+          setQueryClientForCommon(queryClient);
+        }
+      `;
+
+    hooksContentMap['vuequery'].dataHookExportStr =
+      apiType === 'common' || !hasCommon
+        ? `\nexport function setQueryClient(queryClient: QueryClient) {
+            _queryClient = queryClient;
+          }`
+        : `\nexport * from './common-api-vuequery';
+        import { setQueryClientForCommon } from './common-api-vuequery';
+        
+        export function setQueryClient(queryClient: QueryClient) {
+          _queryClient = queryClient;
+          setQueryClientForCommon(queryClient);
+        }
+      `;
+
+    hooksContentMap['solidquery'].dataHookExportStr =
+      apiType === 'common' || !hasCommon
+        ? `\nexport function setQueryClient(queryClient: QueryClient) {
+            _queryClient = queryClient;
+          }`
+        : `\nexport * from './common-api-solidquery';
+        import { setQueryClientForCommon } from './common-api-solidquery';
+        
+        export function setQueryClient(queryClient: QueryClient) {
+          _queryClient = queryClient;
+          setQueryClientForCommon(queryClient);
+        }
+      `;
+
+    hooksContentMap['sveltequery'].dataHookExportStr =
+      apiType === 'common' || !hasCommon
+        ? `\nexport function setQueryClient(queryClient: QueryClient) {
+          _queryClient = queryClient;
+        }`
+        : `\nexport * from './common-api-sveltequery';
+      import { setQueryClientForCommon } from './common-api-sveltequery';
+      
+      export function setQueryClient(queryClient: QueryClient) {
+        _queryClient = queryClient;
+        setQueryClientForCommon(queryClient);
+      }
+    `;
 
     const headStr = `
       /** 
        * 
-       * api-${apiType}.ts 
+       * ${apiType}-api.ts 
        * ${config.packageName}@${pkgJSON.version} 
        * 
        **/
 
       import genApi, { Expand } from './gen-api';
-     
-`;
+      `;
+    const workerSenderHeadStr = `
+      /** 
+       * 
+       * worker/${apiType}-api.ts 
+       * ${config.packageName}@${pkgJSON.version} 
+       * 
+       **/
+      import type { Expand } from '../gen-api';
+      import genApi, { setWorker } from './gen-worker-api';
 
-    let importStr = ``;
-    let bodyStr = ``;
+      export { setWorker };
+      `;
+    let importStr = ``,
+      bodyStr = ``;
 
-    const hasCommon = keys.find((k) => {
-      const item = apiconfs[k];
-      return (item.type === 'common' || !item.type) && item.path;
-    });
+    let apiConfigStr = ``;
 
     const exportStr = apiType === 'common' || !hasCommon ? `` : `\nexport * from './common-api';\n`;
 
-    const dataHookExportStr =
-      apiType === 'common' || !hasCommon
-        ? ``
-        : `\nexport * from './common-api-hooks';
-        ${
-          isReactQuery
-            ? `
-      import { setQueryClientForCommon } from './common-api-hooks';
-      export function setQueryClient(queryClient: QueryClient) {
-        _queryClient = queryClient;
-        setQueryClientForCommon(queryClient);
-      }
-        `
-            : `${
-                isReactQuery
-                  ? `
-            export function setQueryClient(queryClient: QueryClient) {
-              _queryClient = queryClient;
-            }
-            `
-                  : ``
-              }`
-        }
-      `;
+    let contentCount = 0;
 
-    let hasContentCount = 0;
-    keys.forEach((k, idx) => {
-      const {
-        name: _name,
-        path,
-        description,
-        method,
-        type: _type,
-        category = 'others',
-      } = apiconfs[k];
-      const name = _name || k.replace(/Config$/, '');
-      const type = _type === 'common' || !_type ? 'common' : _type;
+    await Promise.all(
+      _apiconfs.map((item) => {
+        const { name: _name, path, description, method, type: _type, category = 'others' } = item;
+        const name = _name;
+        const funcName = name[0].toLowerCase() + name.slice(1);
+        const type = !_type ? 'user' : _type;
 
-      const isGET = !method || method?.toLowerCase() === 'get';
-      const likeGET = apiconfs[k].isGet === false ? false : apiconfs[k].isGet === true || isGET;
+        const isGET = !method || method?.toLowerCase() === 'get' || item.isGet;
 
-      if (type === apiType && path) {
-        importStr += `
-          ${name}Config,
-          type ${name}Req,
-          type ${name}Res,
-        `;
-        bodyStr += `
-          /** 
-           * ${description}
-           * 
-           * @category ${category}
-           */
-          export const ${name} = genApi<Expand<${name}Req>${
-          isGET ? '' : ' | FormData'
-        }, Expand<${name}Res>>(${name}Config);
-        `;
-
-        dataHookImportStr += `
-          ${name},
-        `;
-        if (isSWR) {
-          dataHookBodyStr += `
-        ${
-          likeGET
-            ? `
-/** 
- * ${description}
- * 
- * @category ${category}
- */
-export function use${name}(
-payload?: ${name}Req,
-options?: SWRConfiguration<${name}Res | undefined>,
-requestConfig?: AxiosRequestConfig<${name}Req>,
-customHandler?: Handler,
-) {
-return useSWR(
-  () => ({ url: ${name}.config.path, arg: payload }),
-  ({ arg }) => {
-    if (typeof arg === 'undefined') return undefined;
-    return ${name}(arg, requestConfig, customHandler);
-  },
-  options
-);
-}
-        `
-            : `
+        if (type === apiType) {
+          importStr += `
+            ${name}Config as ${item.name}ApiConfig,
+            type ${name}Req,
+            type ${name}Res,
+          `;
+          apiConfigStr += `${name}Config,`;
+          bodyStr += `
             /** 
-             * ${description}
-             * 
+             * ${description || funcName}
+             * ${method?.toUpperCase() ?? 'GET'} ${path || ''}
              * @category ${category}
              */
-            export function use${name}(
-              options?: SWRMutationConfiguration<
-                ${name}Res,
-                Error,
-                string,
-                ${name}Req | FormData
-              >,
-              requestConfig?: AxiosRequestConfig<${name}Req | FormData>,
-              customHandler?: Handler,
-            ) {
-              return useSWRMutation(
-                ${name}.config.path,
-                (url, { arg }: { arg: ${name}Req | FormData }) => {
-                  return ${name}(arg, requestConfig, customHandler);
-                },
-                options
-              );
-            }`
-        }
-        
-        `;
-        } else if (isReactQuery) {
-          dataHookBodyStr += `
-          ${
-            likeGET
-              ? `
-          /** 
-           * ${description}
-           * 
-           * @category ${category}
-           */
-          export function use${name}(
-            payload?: ${name}Req,
-            options?: UndefinedInitialDataOptions<${name}Res | undefined, Error>,
-            queryClient?: QueryClient,
-            requestConfig?: AxiosRequestConfig<${name}Req>,
-            customHandler?: Handler,
-          ) {
-            return useQuery(
-              {
-                ...(options || {}),
-                queryKey: [${name}.config.path, payload],
-                queryFn() {
-                  if (typeof payload === 'undefined') {
-                    return undefined;
-                  }
-                  return ${name}(payload, requestConfig, customHandler);
-                },
-              },
-              queryClient || _queryClient
-            );
-          }`
-              : `
-              /** 
-               * ${description}
-               * 
-               * @category ${category}
-               */
-              export function use${name}(
-                options?: UseMutationOptions<
-                  ${name}Res,
-                  Error,
-                  ${name}Req | FormData,
-                  unknown
-                >,
-                queryClient?: QueryClient,
-                requestConfig?: AxiosRequestConfig<${name}Req | FormData>,
-                customHandler?: Handler,
-              ) {
-                return useMutation(
-                  {
-                    ...(options || {}),
-                    mutationFn(payload) {
-                      return ${name}(payload, requestConfig, customHandler);
-                    },
-                  },
-                  queryClient || _queryClient
-                );
-              }
-              `
-          }
+            export const ${funcName} = genApi<Expand<${name}Req>${
+              isGET ? '' : ' | FormData'
+            }, Expand<${name}Res>>(${name}ApiConfig);
+            /** 
+             * @Deprecated use \`${funcName}\` instead
+             * ${description || name}
+             * ${method?.toUpperCase() ?? 'GET'} ${path || ''}
+             * @category ${category}
+             */
+            export const ${name} = ${funcName};
           `;
+
+          // SWR hook
+          hooksContentMap['swr'].dataHookImportStr += `
+              ${funcName},
+            `;
+          hooksContentMap['swr'].dataHookBodyStr += generateSWRHook(name, item);
+
+          // ReactQuery hook
+          hooksContentMap['reactquery'].dataHookImportStr += `
+              ${funcName},
+            `;
+          hooksContentMap['reactquery'].dataHookBodyStr += generateReactQueryHook(name, item);
+
+          // VueQuery hook
+          hooksContentMap['vuequery'].dataHookImportStr += `
+              ${funcName},
+            `;
+          hooksContentMap['vuequery'].dataHookBodyStr += generateVueQueryHook(name, item);
+
+          // SolidQuery hook
+          hooksContentMap['solidquery'].dataHookImportStr += `
+              ${funcName},
+            `;
+          hooksContentMap['solidquery'].dataHookBodyStr += generateSolidQueryHook(name, item);
+
+          // SvelteQuery hook
+          hooksContentMap['sveltequery'].dataHookImportStr += `
+              ${funcName},
+            `;
+          hooksContentMap['sveltequery'].dataHookBodyStr += generateSvelteQueryHook(name, item);
+
+          contentCount++;
         }
+      })
+    );
 
-        hasContentCount++;
-      }
-    });
-
-    if (hasContentCount > 0) {
+    if (contentCount > 0) {
       const content = `
       ${headStr}
       ${
@@ -296,103 +385,214 @@ return useSWR(
       ${exportStr}
       ${bodyStr}
     `;
-
-      fsExtra.writeFileSync(path.join(ensureDir, `src`, `${apiType}-api.ts`), content);
-
-      const dataHookContent = `
-    ${dataHookHeadStr}
-    ${
-      importStr
-        ? `import {
-        ${importStr}
-      } from './${config.apiconfExt}-refs';`
-        : ''
-    }
-    ${
-      dataHookImportStr
-        ? `import {
-      ${dataHookImportStr}
-    } from './${apiType}-api';`
-        : ''
-    }
-    ${dataHookExportStr}
-    ${dataHookBodyStr}
+      const workerSenderContent = `
+      ${workerSenderHeadStr}
+      ${
+        importStr
+          ? `import {
+          ${importStr}
+        } from '../${config.apiconfExt}-refs';`
+          : ''
+      }
+      ${exportStr}
+      ${bodyStr}
     `;
 
-      fsExtra.writeFileSync(
-        path.join(ensureDir, `src`, `${apiType}-api-hooks.ts`),
-        dataHookContent
-      );
-    }
-  });
+      const workerContent = `
+    import genApi, { setHandler } from '../gen-api';
+    import { APIConfig, ProtocolTypes } from '../tsdk-shared/helpers';
+                ${
+                  apiConfigStr
+                    ? `import {
+                ${apiConfigStr}
+                ${commonApiConfigStr}
+              } from '../${config.apiconfExt}-refs';`
+                    : ''
+                }
+    export { setHandler };
 
-  console.log(symbols.success, 'generated APIs');
+    const APIS: APIConfig[] = [
+      ${apiConfigStr}
+      ${commonApiConfigStr}
+    ];
+
+    const API_MAP: Record<string, ReturnType<typeof genApi>> = {};
+    self.addEventListener('message', async (e: {
+      data: { id: string; type: string; apiConfig: APIConfig; payload: any; options?: any };
+    }) => {
+      if (e.data?.type !== ProtocolTypes.request) return;
+
+      const ID = \`\${e.data.apiConfig.method}:\${e.data.apiConfig.path}\`;
+
+      const api = API_MAP[ID]
+        ? API_MAP[ID]
+        : genApi(APIS.find((item) => \`\${item.method}:\${item.path}\` === ID) as APIConfig);
+      if (!API_MAP[ID]) API_MAP[ID] = api;
+
+      const msgId = e.data.id;
+      try {
+        const result = await api(e.data.payload, e.data.options);
+        postMessage({ type: ProtocolTypes.response, id: msgId, success: true, result });
+      } catch (error) {
+        postMessage({ type: ProtocolTypes.response, id: msgId, success: false, error });
+      }
+              });
+    postMessage({ type: ProtocolTypes.response, ready: true });
+    `;
+
+      await Promise.all([
+        fs.promises.writeFile(path.join(ensureDir, `src/${apiType}-api.ts`), content),
+        ...hookLibs.map((hook) => {
+          const { dataHookHeadStr, dataHookImportStr, dataHookExportStr, dataHookBodyStr } =
+            hooksContentMap[hook as 'vuequery'];
+          const dataHookContent = `
+          'use client';
+            ${dataHookHeadStr}
+            ${
+              importStr
+                ? `import {
+                ${importStr}
+              } from './${config.apiconfExt}-refs';`
+                : ''
+            }
+            ${
+              dataHookImportStr
+                ? `import {
+              ${dataHookImportStr}
+            } from './${apiType}-api';`
+                : ''
+            }
+            ${dataHookExportStr}
+            ${dataHookBodyStr}
+            `;
+          return fs.promises.writeFile(
+            path.join(ensureDir, `src/${apiType}-api-${hook}.ts`),
+            dataHookContent
+          );
+        }),
+        fs.promises.writeFile(
+          path.join(ensureDir, `src/${apiType}-api-hooks.ts`),
+          `export * from './${apiType}-api-${hookLibs[0]}';`
+        ),
+
+        ...(config.worker
+          ? [
+              ...hookLibs.map((hook) => {
+                const { dataHookHeadStr, dataHookImportStr, dataHookExportStr, dataHookBodyStr } =
+                  hooksContentMap[hook as 'vuequery'];
+                const dataHookContent = `
+                'use client';
+            ${dataHookHeadStr}
+            ${
+              importStr
+                ? `import {
+                ${importStr}
+              } from '../${config.apiconfExt}-refs';`
+                : ''
+            }
+            ${
+              dataHookImportStr
+                ? `import {
+              ${dataHookImportStr}
+            } from './${apiType}-api';`
+                : ''
+            }
+            ${dataHookExportStr}
+            ${dataHookBodyStr}
+            `;
+                return fs.promises.writeFile(
+                  path.join(ensureDir, `src/worker/${apiType}-api-${hook}.ts`),
+                  dataHookContent.replace("'./gen-api'", "'../gen-api'")
+                );
+              }),
+
+              apiType !== 'common'
+                ? fs.promises.writeFile(
+                    path.join(ensureDir, `src/worker/${apiType}-api-worker.ts`),
+                    workerContent
+                  )
+                : Promise.resolve(1), // onmessage src/worker/${apiType}-api-worker.ts
+              fs.promises.writeFile(
+                path.join(ensureDir, `src/worker/${apiType}-api.ts`),
+                workerSenderContent
+              ), // postMessage
+              fs.promises.writeFile(
+                path.join(ensureDir, `src/worker/${apiType}-api-hooks.ts`),
+                `export * from './${apiType}-api-${hookLibs[0]}';`
+              ), // current default hook
+            ]
+          : []),
+      ]);
+    }
+  }
+
+  logger.log(`   ${symbols.success}`, 'generated APIs');
 
   const exportPermissions: {
     [key: string]: any[];
   } = {};
 
-  keys.forEach((k) => {
-    const item = apiconfs[k];
-    if (typeof item !== 'object') return;
-    item.name = item.name || k.replace(/Config$/, '');
+  for (const k of _apiconfs) {
+    const item = k;
+    if (typeof item !== 'object') continue;
+
+    item.name = item.name || k.name;
+
     if (!exportPermissions[item.type]) {
       exportPermissions[item.type] = [];
     }
-    if (item.schema) {
-      item.schema = {};
-    }
-    exportPermissions[item.type].push(item);
-  });
 
-  await fsExtra.writeFile(
-    path.join(ensureDir, 'src', `permissions.json`),
+    exportPermissions[item.type].push(item);
+  }
+
+  await fs.promises.writeFile(
+    path.join(ensureDir, `src/permissions.json`),
     JSON.stringify(exportPermissions, null, 2)
   );
 
-  console.log(symbols.bullet, 'Docs config');
+  logger.log(`   ${symbols.bullet}`, 'Generating documentation');
   // sync APIs docs
   const links: string[] = [];
-  types.forEach((apiType) => {
-    if (apiType === 'common') return;
-    links.push(`- [${apiType} APIs](/modules/${apiType}_api)`);
-  });
+
+  for (const apiType of types) {
+    if (apiType === 'common') continue;
+    links.push(`- [${apiType} APIs](/modules/${apiType}-api)`);
+  }
 
   const projectName = `%PROJECT NAME%`;
   try {
-    let getStartedContent = await fsExtra.readFile(
+    let getStartedContent = await fs.promises.readFile(
       path.join(__dirname, '..', 'fe-sdk-template', 'README.md'),
       'utf-8'
     );
     getStartedContent = getStartedContent
       .replace(new RegExp(projectName, 'g'), config.packageName)
       .replace('%API_REFERENCE%', links.join('\n'));
-    await fsExtra.writeFile(path.join(ensureDir, 'README.md'), getStartedContent);
-    console.log(symbols.success, 'Docs config');
+    await fs.promises.writeFile(path.join(ensureDir, 'README.md'), getStartedContent);
+    logger.log(`   ${symbols.success}`, 'Documentation generated');
   } catch (e: unknown) {
     if (e instanceof Error) {
-      console.log(symbols.error, 'Docs config error', e.message);
+      logger.error(`   ${symbols.error}`, 'Documentation generation error:', e.message);
     }
   }
 }
 
-export function copyPermissionsJSON() {
+export async function copyPermissionsJSON() {
   const dist = path.join(ensureDir, `lib`, `permissions.json`);
-  console.log(symbols.info, `copy \`permission.json\` to \`${dist}\``);
-  return fsExtra.copy(path.join(ensureDir, `src`, `permissions.json`), dist, {
+  logger.log(`       ${symbols.info}`, `copying \`permissions.json\` to \`${dist}\``);
+  return fsExtra.copy(path.join(ensureDir, `src/permissions.json`), dist, {
     overwrite: true,
   });
 }
 
-export async function replaceGenAPI() {
-  if (config.httpLib === 'xior') {
-    const genAPIfile = path.join(ensureDir, 'src', 'gen-api.ts');
-    const res = await fsExtra.readFile(genAPIfile, 'utf-8');
-    return fsExtra.writeFile(
-      genAPIfile,
-      res
-        .replace('= AxiosRequestConfig<T>', '= XiorRequestConfig<T>')
-        .replace(`import type { RequestConfig as AxiosRequestConfig } from './axios';`, '')
-    );
-  }
+export async function checkRepkaceAxiosWithXior() {
+  if (config.httpLib !== 'xior') return;
+  const genAPIfile = path.join(ensureDir, 'src/gen-api.ts');
+  const res = await fs.promises.readFile(genAPIfile, 'utf-8');
+  return fs.promises.writeFile(
+    genAPIfile,
+    res
+      .replace('= AxiosRequestConfig<T>', '= XiorRequestConfig<T>')
+      .replace(`import type { AxiosRequestConfig } from './axios';`, '')
+  );
 }

@@ -1,0 +1,48 @@
+{
+  "name": "fe-sdk-demo",
+  "version": "1.0.0",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "require": "./lib/index.js",
+  "scripts": {
+    "tsc:build": "concurrently \"npm run tsc:build:cjs\"  \"npm run tsc:build:esm\"",
+    "tsc:build:cjs": "tsc --project tsconfig.json",
+    "tsc:build:esm": "tsc --project tsconfig.esm.json",
+    "doc:build": "typedoc --customJs popover.js src/**.ts",
+    "serve": "serve docs"
+  },
+  "dependencies": {
+    "axios": "^1.13.2",
+    "xior": "^0.8.3",
+    "kysely": "^0.28.9",
+    "zod": "^4",
+    "swr": "^2.3.8",
+    "@tanstack/react-query": "^5.90.19",
+    "@tanstack/vue-query": "^5.92.8",
+    "@tanstack/solid-query": "^5.90.22",
+    "@tanstack/svelte-query": "^6.0.17",
+    "i18next": "^23.10.1",
+    "intl-pluralrules": "^2.0.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "typedoc": "^0.28.16",
+    "concurrently": "^9.2.1",
+    "@standard-schema/spec": "^1.1.0"
+  },
+  "peerDependencies": {
+    "socket.io-client": "^4.8.3"
+  },
+  "peerDependenciesMeta": {
+    "socket.io-client": {
+      "optional": true
+    }
+  },
+  "files": [
+    "lib",
+    "esm",
+    "src",
+    "tsconfig.json",
+    "tsconfig.esm.json"
+  ]
+}

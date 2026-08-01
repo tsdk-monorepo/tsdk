@@ -2,7 +2,7 @@ import type { Todo } from '../Todo.entity';
 import { queryTodoByCursorSchema } from './TodoSchema.shared';
 
 import { Paging, PagingRes } from '@/src/shared/paging';
-import { APIConfig, transformPath } from '@/src/shared/tsdk-helper';
+import { APIConfig, transformPath } from '@/src/tsdk-shared/helpers';
 
 /**
  * query todo list by cursor ({@link APIConfig})
@@ -14,7 +14,6 @@ export const QueryTodoByCursorConfig: APIConfig = {
   method: 'get',
   path: transformPath('QueryTodoByCursor'),
   schema: queryTodoByCursorSchema,
-  description: 'query todo list by cursor',
 };
 /**
  *

@@ -4,7 +4,7 @@ export interface GeneralParams {
 }
 
 export interface RequestInfo extends GeneralParams {
-  /** user or admin? */
+  /** `user` or `admin` endpoints */
   type: string;
   username?: string;
   userId?: number;

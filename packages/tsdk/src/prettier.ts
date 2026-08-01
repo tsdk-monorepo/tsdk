@@ -11,15 +11,23 @@ export async function runPrettier() {
     // prettier 3.x
     execSync(`node ${rootDir}/node_modules/prettier/bin/prettier.cjs ${formatDir} --write`, {
       stdio: 'pipe',
+      encoding: 'utf-8',
     });
-  } catch (e) {
+    return true;
+  } catch (error) {
     try {
       // prettier 2.x
-      execSync(`node ${rootDir}/node_modules/prettier/bin-prettier ${formatDir} --write`, {
+      execSync(`node ${rootDir}/node_modules/prettier/bin-prettier.js ${formatDir} --write`, {
         stdio: 'pipe',
+        encoding: 'utf-8',
       });
-    } catch (e) {
-      //
+      return true;
+    } catch (error2) {
+      // console.error(
+      //   '  ❌ Failed to run Prettier',
+      //   (error2 as Error).message + '.\n' + (error as Error).message
+      // );
+      return false;
     }
   }
 }

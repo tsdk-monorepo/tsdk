@@ -10,6 +10,8 @@ Hono 适配器使用分别包扩后端使用和前端使用。
 import { Hono, HonoRequest } from 'hono';
 import { serve } from '@hono/node-server';
 import { honoAdapterFactory } from 'tsdk-server-adapters/lib/hono-adapter';
+// import { honoAdapterFactory } from 'tsdk-server-adapters/esm/hono-adapter';
+
 import { checkMethodHasBody, ProtocolTypes } from '@/src/shared/tsdk-helper';
 import { RequestInfo, routeBus } from './gen-route';
 

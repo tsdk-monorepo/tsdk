@@ -1,28 +1,42 @@
 import { genRouteFactory, getRouteEventName, Protocol } from 'tsdk-server-adapters';
 import { TypeORMError, EntityNotFoundError } from 'typeorm';
-import { ZodError } from 'zod';
+import type { StandardSchemaV1 } from '@standard-schema/spec';
 
 import { RequestInfo } from './types';
 
-import { ProtocolTypes } from '@/src/shared/tsdk-helper';
-import { APIConfig } from '@/src/shared/tsdk-types';
+import { ProtocolTypes } from '@/src/tsdk-shared/helpers';
+import { APIConfig } from '@/src/tsdk-shared/types';
+
+const middlewares = [langMiddleware, authMiddleware, rateLimitMiddleware];
+export const genRouteObj = genRouteFactory<APIConfig, RequestInfo>(
+  onErrorHandler,
+  ProtocolTypes,
+  middlewares
+);
+
+export const routeBus = genRouteObj.routeBus;
+
+const genRoute = genRouteObj.genRoute;
+
+export { getRouteEventName, genRoute };
+export default genRoute;
 
 function onErrorHandler(
   e: Error,
   { protocol, send, msgId }: Parameters<Parameters<typeof genRouteFactory>[0]>[1]
 ) {
-  if (e instanceof ZodError) {
+  if ((e as unknown as StandardSchemaV1.FailureResult)?.issues) {
     return send({
       _id: msgId,
       status: 400,
       result: {
-        msg: e.issues,
+        msg: (e as unknown as StandardSchemaV1.FailureResult).issues,
       },
     });
   }
 
-  let status = 500,
-    msg = e.message;
+  let status = 500;
+  const msg = e.message;
 
   if (e instanceof AuthError) {
     status = 401;
@@ -73,18 +87,3 @@ function rateLimitMiddleware(protocol: Protocol, apiConfig: APIConfig, reqInfo: 
   // @todo
   return Promise.resolve();
 }
-
-const middlewares = [langMiddleware, authMiddleware, rateLimitMiddleware];
-export const genRouteObj = genRouteFactory<APIConfig, RequestInfo>(
-  onErrorHandler,
-  ProtocolTypes,
-  middlewares
-);
-
-export const routeBus = genRouteObj.routeBus;
-
-const genRoute = genRouteObj.genRoute;
-
-export { getRouteEventName };
-
-export default genRoute;

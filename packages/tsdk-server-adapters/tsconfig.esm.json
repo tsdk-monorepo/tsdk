@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "downlevelIteration": true,
+    "esModuleInterop": true,
+    "declaration": true,
+    "noImplicitAny": true,
+    "module": "ES2015",
+    "target": "ES2015",
+    "outDir": "esm",
+    "lib": ["ES2015"],
+    "incremental": true,
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true
+  },
+  "include": ["./src"],
+  "exclude": ["node_modules"]
+}

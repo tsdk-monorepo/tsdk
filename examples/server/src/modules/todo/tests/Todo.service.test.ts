@@ -1,15 +1,14 @@
-import { expect } from 'chai';
+import { expect, it, describe, beforeAll, afterAll, beforeEach, afterEach } from 'vitest';
+import { appDataSource } from '../../../db';
 
 import { TodoStatus } from '../Todo.entity';
 import { todoService } from '../Todo.service';
 
-import { appDataSource } from '@/src/db';
-
-before(() => {
+beforeAll(() => {
   return appDataSource.initialize();
 });
 
-after(() => {
+afterAll(() => {
   return appDataSource.destroy();
 });
 
@@ -20,7 +19,8 @@ describe('appDataSource setup', () => {
 });
 
 describe('Todo.service test', () => {
-  before('create 100 todos', () => {
+  // 'create 100 todos'
+  beforeAll(() => {
     return Promise.all(
       Array(100)
         .fill('todo')
@@ -35,12 +35,11 @@ describe('Todo.service test', () => {
         )
     );
   });
-  after('delete todos', async () => {
+  // 'delete todos'
+  afterAll(async () => {
     const { data } = await todoService.queryTodo({}, { type: 'admin', ip: '', lang: '' });
     return Promise.all(
-      data.map((i) =>
-        todoService.deleteTodo({ id: i.id } as any, { type: 'admin', ip: '', lang: '' })
-      )
+      data.map((i) => todoService.deleteTodo({ id: i.id }, { type: 'admin', ip: '', lang: '' }))
     );
   });
 
@@ -52,14 +51,14 @@ describe('Todo.service test', () => {
     });
 
     it('todoService.deleteTodo with `id` param should success', async () => {
-      await todoService.deleteTodo({ id: 1 } as any, { type: 'admin', ip: '', lang: '' });
+      await todoService.deleteTodo({ id: 1 }, { type: 'admin', ip: '', lang: '' });
       expect(
         (await todoService.queryTodo({}, { type: 'admin', ip: '', lang: '' })).data.length
       ).to.equal(99);
     });
 
     it('todoService.deleteTodo with `IDs` param should success', async () => {
-      await todoService.deleteTodo({ IDs: [2, 3] } as any, { type: 'admin', ip: '', lang: '' });
+      await todoService.deleteTodo({ IDs: [2, 3] }, { type: 'admin', ip: '', lang: '' });
       expect(
         (await todoService.queryTodo({}, { type: 'admin', ip: '', lang: '' })).data.length
       ).to.equal(97);

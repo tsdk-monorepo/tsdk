@@ -9,3 +9,5 @@ build
 package-lock.json
 dist-*
 build-*
+tsdk-shared
+!fe-sdk-template/src/tsdk-shared

@@ -7,6 +7,8 @@ import http from 'http';
 import express, { Request } from 'express';
 import multer from 'multer';
 import { expressAdapterFactory } from 'tsdk-server-adapters/lib/express-adapter';
+// import { expressAdapterFactory } from 'tsdk-server-adapters/esm/express-adapter';
+
 import { checkMethodHasBody, ProtocolTypes } from '@/src/shared/tsdk-helper';
 import { RequestInfo, routeBus } from './gen-route';
 

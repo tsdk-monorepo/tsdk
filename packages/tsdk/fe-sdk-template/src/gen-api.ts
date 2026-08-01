@@ -1,14 +1,15 @@
-import type { RequestConfig as AxiosRequestConfig } from './axios';
+import type { AxiosRequestConfig } from './axios';
 import { NoHandlerError } from './error';
-import { APIConfig, ObjectLiteral } from './shared/tsdk-helper';
+import { APIConfig } from './tsdk-shared/helpers';
 import type { XiorRequestConfig } from './xior';
 
-type RequestConfig<T> = AxiosRequestConfig<T>;
+// Define a union type for all possible request configuration types
+export type RequestConfig<T> = AxiosRequestConfig<T> | XiorRequestConfig<T> | Record<string, any>;
 
 let handler = (
   apiConfig: APIConfig,
   requestData: any,
-  requestConfig?: any | RequestConfig<any> | ObjectLiteral | XiorRequestConfig<any>
+  requestConfig?: RequestConfig<any>
 ): Promise<any> => {
   return Promise.reject(new NoHandlerError(`Call \`setHandler\` first`));
 };
@@ -19,18 +20,18 @@ export type Handler = typeof handler;
  * @example
  * ```ts
  *  setAxiosInstance(axios.create())
-    setSocketIOInstance(io());
-
-    setHandler(axiosHandler);
-    setHandler(socketIOHandler);
+ *  setSocketIOInstance(io());
+ *
+ *  setHandler(axiosHandler);
+ *  setHandler(socketIOHandler);
  * ```
  * @param _handler
  */
-export function setHandler(_handler: typeof handler) {
+export function setHandler(_handler: Handler) {
   handler = _handler;
 }
 
-export function getHandler() {
+export function getHandler(): Handler {
   return handler;
 }
 
@@ -41,7 +42,7 @@ export function getHandler() {
  *
  * @example
  * ```ts
- * const apiDemo = genApi<ApiDemoReqPayload, ApiDemoResData>(ApiDemoConfig);
+ * const apiDemo = genAPICall<ApiDemoReqPayload, ApiDemoResData>(ApiDemoConfig);
  * ```
  */
 export default function genAPICall<ReqPayload, ResData>(
@@ -49,17 +50,17 @@ export default function genAPICall<ReqPayload, ResData>(
 ): {
   (
     data: ReqPayload,
-    requestConfig?: RequestConfig<ReqPayload> | ObjectLiteral,
-    customHandler?: typeof handler
+    requestConfig?: RequestConfig<ReqPayload> & { worker?: boolean },
+    customHandler?: Handler
   ): Promise<ResData>;
   config: APIConfig;
 } {
   function APICall(
     data: ReqPayload,
-    requestConfig?: RequestConfig<ReqPayload> | ObjectLiteral,
-    customHandler?: typeof handler
+    requestConfig?: RequestConfig<ReqPayload> & { worker?: boolean },
+    customHandler?: Handler
   ): Promise<ResData> {
-    return (customHandler ? customHandler : getHandler())(apiConfig, data, requestConfig);
+    return (customHandler || getHandler())(apiConfig, data, requestConfig);
   }
 
   // now you can access the config with api
@@ -72,13 +73,13 @@ export default function genAPICall<ReqPayload, ResData>(
 export type Expand<T> = T extends (...args: infer A) => infer R
   ? (...args: Expand<A>) => Expand<R>
   : T extends infer O
-  ? { [K in keyof O]: O[K] }
-  : never;
+    ? { [K in keyof O]: O[K] }
+    : never;
 
 export type ExpandRecursively<T> = T extends (...args: infer A) => infer R
   ? (...args: ExpandRecursively<A>) => ExpandRecursively<R>
   : T extends object
-  ? T extends infer O
-    ? { [K in keyof O]: ExpandRecursively<O[K]> }
-    : never
-  : T;
+    ? T extends infer O
+      ? { [K in keyof O]: ExpandRecursively<O[K]> }
+      : never
+    : T;
